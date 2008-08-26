@@ -1,0 +1,14 @@
+D:\sharpcms\DataModels\FileTree\bin\Release\FileTree.dll
+D:\sharpcms\DataModels\FileTree\bin\Release\FileTree.pdb
+D:\sharpcms\DataModels\FileTree\bin\Release\Library.dll
+D:\sharpcms\DataModels\FileTree\bin\Release\Library.pdb
+D:\sharpcms\DataModels\FileTree\obj\Release\ResolveAssemblyReference.cache
+D:\sharpcms\DataModels\FileTree\obj\Release\FileTree.dll
+D:\sharpcms\DataModels\FileTree\obj\Release\FileTree.pdb
+D:\sharpcms\DataModels\FileTree\bin\Debug\FileTree.dll
+D:\sharpcms\DataModels\FileTree\bin\Debug\FileTree.pdb
+D:\sharpcms\DataModels\FileTree\bin\Debug\Library.dll
+D:\sharpcms\DataModels\FileTree\bin\Debug\Library.pdb
+D:\sharpcms\DataModels\FileTree\obj\Debug\ResolveAssemblyReference.cache
+D:\sharpcms\DataModels\FileTree\obj\Debug\FileTree.dll
+D:\sharpcms\DataModels\FileTree\obj\Debug\FileTree.pdb

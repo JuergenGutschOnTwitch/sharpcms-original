@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page>
+  <attributes>
+    <pagename>About</pagename>
+    <name>about</name>
+    <menuname>About</menuname>
+    <pageidentifier>danish/about</pageidentifier>
+    <status>open</status>
+    <lastedited></lastedited>
+  </attributes>
+  <containers>
+    <container name="content">
+      <elements>
+        <element type="paragraph">
+          <header>Welcome</header>
+          <text>&lt;p&gt;Your website is running and you can now &lt;a href="default.aspx?process=login"&gt;login&lt;/a&gt; with username: admin and password: admin &lt;/p&gt;&lt;br /&gt;</text>
+          <link></link>
+          <picture></picture>
+          <headerstyle>Header1</headerstyle>
+          <picturepos>Left</picturepos>
+        </element>
+        <element type="paragraph">
+          <header></header>
+          <headerstyle>Header1</headerstyle>
+          <text></text>
+          <link></link>
+          <picture></picture>
+          <picturepos>Left</picturepos>
+        </element>
+        <element type="test">
+          <name>lskjfd</name>
+          <email>lkjdsf</email>
+          <role>lkjsfd</role>
+          <picture>lkj</picture>
+          <text>lkj</text>
+          <category>kj</category>
+        </element>
+        <element type="coworker">
+          <name></name>
+          <email></email>
+          <role></role>
+          <picture></picture>
+          <text></text>
+          <category></category>
+        </element>
+      </elements>
+    </container>
+    <container name="test">
+      <elements />
+    </container>
+  </containers>
+</page>

@@ -1,0 +1,7 @@
+D:\sharpcms\Cookies\bin\Debug\Cookies.dll
+D:\sharpcms\Cookies\bin\Debug\Cookies.pdb
+D:\sharpcms\Cookies\bin\Debug\Library.dll
+D:\sharpcms\Cookies\bin\Debug\Library.pdb
+D:\sharpcms\Cookies\obj\Debug\ResolveAssemblyReference.cache
+D:\sharpcms\Cookies\obj\Debug\Cookies.dll
+D:\sharpcms\Cookies\obj\Debug\Cookies.pdb

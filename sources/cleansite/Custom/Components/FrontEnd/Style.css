@@ -1,0 +1,176 @@
+				
+body
+{
+	padding-top:  20px;	
+	
+	
+}
+body,div,li,a,h1,h2,h3
+{
+	font: 11px "Trebuchet MS",Verdana,Arial,sans-serif;
+}
+a
+{
+	color:#5f859a;
+	text-decoration:none;
+
+}
+a:hover
+{
+	text-decoration:underline;
+}
+
+h1 
+{
+	font-size:120%;
+	font-weight:bold;
+}
+h2
+{
+	font-size:110%;
+	font-weight:bold;
+}
+
+div.content
+{
+	width:350px;
+}
+#topdiv
+{
+	position:relative;
+	margin: auto;
+	text-align: left;
+	width:779px;
+	padding-top:5px;
+	padding-bottom:5px;
+	background:white;
+	text-align:left;
+}
+#topmenu
+{
+	position:relative;
+	padding-left:0px;
+	height:26px;
+	width:779px;
+	background:#5f859a
+}
+
+#toppicture
+{
+	position:relative;
+	width:779px;
+}
+#submenu
+{
+	position:relative;
+	min-height:200px;
+	padding:10px;
+	float:left;
+	height:200px;
+	width:150px;
+	border-right:1px solid #e1e1e1;
+	
+}
+#contentcontainer
+{
+	position:relative;
+	padding:10px;
+	margin-left:190px;
+	width:350;
+	clear:right;
+	min-height:200px;
+}
+
+ul.topmenu 
+{ 
+	padding:0px;
+	margin:0px; 
+	float:left;   /* Flot'er hele menuen til venstre. Nødvendiggør clear */
+		
+	list-style:none;
+	
+}
+
+ul.topmenu li 
+{
+	
+display:block;
+margin-right:0px;
+	
+}
+
+* html ul.topmenu li {float:left;} /* Igen aht IE skal li også floates */
+
+ul.topmenu li a {
+	float:left;
+	color:white;
+	padding:5px 15px 5px 15px;
+		
+	font-weight:bold;
+	text-decoration:none;
+		
+}
+ul.topmenu li.current a.current {
+	float:left;
+	background:#a70e0e;
+	color:white;
+	padding:5px 15px 5px 15px;
+	font-weight:bold;
+	text-decoration:none;
+		
+}
+
+ul.topmenu li a:hover {
+	text-decoration:none;
+	background:#a70e0e;
+
+}
+
+
+	
+ul.submenu
+{
+padding:0px;
+margin-left:8px; 
+list-style:none;
+	
+}
+
+
+ul.submenu li 
+{
+	
+display:block;
+margin-right:0px;
+	
+}
+
+
+
+ul.submenu li a {
+	
+	
+	color:#5f859a;
+	
+	font-weight:bold;
+	text-decoration:none;
+		
+}
+ul.submenu li.current a.current {
+	
+	
+	color:#a70e0e;
+	
+	font-weight:bold;
+	text-decoration:none;
+		
+}
+
+
+ul.submenu li a:hover {
+	
+	text-decoration:none;
+	color:#a70e0e;
+	
+	
+}

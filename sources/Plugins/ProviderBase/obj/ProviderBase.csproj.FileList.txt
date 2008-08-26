@@ -1,0 +1,11 @@
+obj\Debug\ResolveAssemblyReference.cache
+bin\Debug\Providerbase.dll
+bin\Debug\Providerbase.pdb
+obj\Debug\Providerbase.dll
+obj\Debug\Providerbase.pdb
+bin\Debug\FileTree.dll
+bin\Debug\Library.dll
+bin\Debug\SiteTree.dll
+bin\Debug\FileTree.pdb
+bin\Debug\Library.pdb
+bin\Debug\SiteTree.pdb

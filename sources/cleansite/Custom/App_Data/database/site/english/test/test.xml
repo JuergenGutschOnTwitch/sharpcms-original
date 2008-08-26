@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page>
+  <attributes>
+    <pagename>test</pagename>
+    <name>test</name>
+    <menuname>test</menuname>
+    <pageidentifier>english/test/test</pageidentifier>
+    <status>open</status>
+  </attributes>
+  <containers>
+    <container name="content">
+      <elements />
+    </container>
+  </containers>
+</page>

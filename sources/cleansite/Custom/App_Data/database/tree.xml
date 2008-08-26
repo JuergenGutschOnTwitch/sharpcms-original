@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tree>
+  <english menuname="English" status="open">
+    <about menuname="About" pageidentifier="english/about" status="open">
+      <test menuname="test" pageidentifier="english/about/test" status="open" />
+    </about>
+    <test menuname="test" pageidentifier="english/test" status="open">
+      <test menuname="test" pageidentifier="english/test/test" status="open" />
+    </test>
+  </english>
+</tree>

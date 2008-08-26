@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+	<templates>
+		<show>~/Custom/Components/FrontEnd/Xsl/Show.xslt</show>
+
+
+	</templates>
+	<sitetree>
+		<containers>
+			<item>content</item>
+		</containers>
+
+		<stdpage>show/english/about</stdpage>
+		<elementlist>
+
+			<paragraph>
+				<item name="Header" attribute="header" type="text"/>
+				<item name="Header type" attribute="headerstyle" type="list">
+					<item>Header1</item>
+					<item>Header2</item>
+				</item>
+				<item name="Text" attribute="text" type="tinymce" height="300"/>
+				<item name="Link" attribute="link" type="choosepage"/>
+				<item name="Picture" attribute="picture" type="choosefile"/>
+				<item name="Picture pos." attribute="picturepos" type="list">
+					<item>Left</item>
+					<item>Right</item>
+				</item>
+			</paragraph>
+			<gallery>
+				<item name="Plugin" attribute="plugin" type="hidden" value="File" />
+				<item name="Action" attribute="action" type="hidden" value="folder" />
+				<item name="Folder" attribute="value" type="choosefolder" />
+			</gallery>
+
+			<coworker>
+				<item name="Name" attribute="name" type="text"/>
+				<item name="Email" attribute="email" type="text"/>
+				<item name="Role" attribute="role" type="text"/>
+				<item name="Picture" attribute="picture" type="choosefile"/>
+				<item name="Text" attribute="text" type="textarea"/>
+				<item name="Category" attribute="category" type="text"/>
+			</coworker>
+			<test>
+				<item name="Name" attribute="name" type="text"/>
+				<item name="Email" attribute="email" type="text"/>
+				<item name="Role" attribute="role" type="text"/>
+				<item name="Picture" attribute="picture" type="choosefile"/>
+				<item name="Text" attribute="text" type="textarea"/>
+				<item name="Category" attribute="category" type="text"/>
+			</test>
+		</elementlist>
+	</sitetree>
+	<general>
+		<stdprocess>show/english/about</stdprocess>
+	</general>
+</settings>

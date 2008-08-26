@@ -1,0 +1,14 @@
+D:\sharpcms\Plugins\ProviderErrorLog\bin\Debug\ProviderErrorLog.dll
+D:\sharpcms\Plugins\ProviderErrorLog\bin\Debug\ProviderErrorLog.pdb
+D:\sharpcms\Plugins\ProviderErrorLog\bin\Debug\Library.dll
+D:\sharpcms\Plugins\ProviderErrorLog\bin\Debug\Library.pdb
+D:\sharpcms\Plugins\ProviderErrorLog\obj\Debug\ResolveAssemblyReference.cache
+D:\sharpcms\Plugins\ProviderErrorLog\obj\Debug\ProviderErrorLog.dll
+D:\sharpcms\Plugins\ProviderErrorLog\obj\Debug\ProviderErrorLog.pdb
+D:\codeplex\sharpcms\sources\Plugins\ProviderErrorLog\bin\Debug\ProviderErrorLog.dll
+D:\codeplex\sharpcms\sources\Plugins\ProviderErrorLog\bin\Debug\ProviderErrorLog.pdb
+D:\codeplex\sharpcms\sources\Plugins\ProviderErrorLog\bin\Debug\Library.dll
+D:\codeplex\sharpcms\sources\Plugins\ProviderErrorLog\bin\Debug\Library.pdb
+D:\codeplex\sharpcms\sources\Plugins\ProviderErrorLog\obj\Debug\ResolveAssemblyReference.cache
+D:\codeplex\sharpcms\sources\Plugins\ProviderErrorLog\obj\Debug\ProviderErrorLog.dll
+D:\codeplex\sharpcms\sources\Plugins\ProviderErrorLog\obj\Debug\ProviderErrorLog.pdb

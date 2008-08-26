@@ -1,0 +1,10 @@
+D:\sharpcms\System\Library\bin\Release\Library.dll
+D:\sharpcms\System\Library\bin\Release\Library.pdb
+D:\sharpcms\System\Library\obj\Release\ResolveAssemblyReference.cache
+D:\sharpcms\System\Library\obj\Release\Library.dll
+D:\sharpcms\System\Library\obj\Release\Library.pdb
+D:\sharpcms\System\Library\bin\Debug\Library.dll
+D:\sharpcms\System\Library\bin\Debug\Library.pdb
+D:\sharpcms\System\Library\obj\Debug\ResolveAssemblyReference.cache
+D:\sharpcms\System\Library\obj\Debug\Library.dll
+D:\sharpcms\System\Library\obj\Debug\Library.pdb
