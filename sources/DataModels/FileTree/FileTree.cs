@@ -134,13 +134,13 @@ namespace InventIt.SiteSystem.Data.FileTree
 
                     int height = 0;
                     int.TryParse(m_Process.QueryOther["height"], out height);
-
+                    bool isFixed = m_Process.QueryOther["fixed"] == "true";
                     if (width > 0 || height > 0)
                     {
                         System.Drawing.Bitmap bitmap = null;
 
-                        string newFilename = string.Format("{0}_{1}x{2}.jpg",
-                            fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height);
+                        string newFilename = string.Format("{0}_{1}x{2}_{3}.jpg",
+                            fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height, isFixed);
 
                         thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs", newFilename);
 
@@ -171,7 +171,7 @@ namespace InventIt.SiteSystem.Data.FileTree
                                 bitmap = realBitmap;
                             }
 
-                            bitmap = ResizeOrCropImage(bitmap, width, height);
+                            bitmap = ResizeOrCropImage(bitmap, width, height, isFixed);
                         }
                         else
                         {
@@ -216,9 +216,9 @@ namespace InventIt.SiteSystem.Data.FileTree
             }
         }
 
-        public Bitmap ResizeOrCropImage(Bitmap bitmap, int width, int height)
+        public Bitmap ResizeOrCropImage(Bitmap bitmap, int width, int height, bool isFixed)
         {
-            if (width >= bitmap.Width && height >= bitmap.Height)
+            if (width >= bitmap.Width && height >= bitmap.Height && !isFixed)
             {
                 return null;
             }
@@ -227,7 +227,14 @@ namespace InventIt.SiteSystem.Data.FileTree
             // Crop
             if (width > 0 && height > 0)
             {
-                tmpImage = InventIt.SiteSystem.Library.ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
+                if (isFixed)
+                {
+                    tmpImage = InventIt.SiteSystem.Library.ImageResize.FixedSize(tmpImage, width, height, Color.White);
+                }
+                else
+                {
+                    tmpImage = InventIt.SiteSystem.Library.ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
+                }
             }
 
             // Resize

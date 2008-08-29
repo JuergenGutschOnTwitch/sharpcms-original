@@ -49,22 +49,22 @@ namespace InventIt.SiteSystem.Providers
 
         public void HandleSubmitForm()
         {
-                        StringBuilder reply = new StringBuilder();
+			StringBuilder reply = new StringBuilder();
             for (int i = 0; i < m_Process.QueryData.Count; i++)
             {
                 Query current = m_Process.QueryData[i];
                 if (current.Name.StartsWith("form"))
                 {
-                                        string fieldName = current.Name.Replace("form_", string.Empty).Replace("_", " ").Trim();
-                                        reply.AppendFormat("{0}: {1}\n", fieldName, current.Value);
+					string fieldName = current.Name.Replace("form_", string.Empty).Replace("_", " ").Trim();
+					reply.AppendFormat("{0}: {1}\n", fieldName, current.Value);
                 }
             }
 
-                        MailMessage message = new MailMessage();
-                        message.From = new MailAddress(m_Process.Settings["mail/servermail"]);
-                        message.To.Add(m_Process.Settings["mail/user"]);
-                        message.Subject = m_Process.Settings["mail/subject"];
-                        message.Body = reply.ToString();
+			MailMessage message = new MailMessage();
+			message.From = new MailAddress(m_Process.Settings["mail/servermail"]);
+			message.To.Add(m_Process.Settings["mail/user"]);
+			message.Subject = m_Process.Settings["mail/subject"];
+			message.Body = reply.ToString();
 
             SmtpClient smtpClient = new SmtpClient(m_Process.Settings["mail/smtp"]);
             if (m_Process.Settings["mail/smtpuser"] != string.Empty)

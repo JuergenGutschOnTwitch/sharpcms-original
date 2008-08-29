@@ -61,6 +61,12 @@
 				<option value="ThrowEvent('pagemovedown','{attributes/pageidentifier}')">
 					&#160;&#160;Move down
 				</option>
+        <option value="ThrowEvent('pagemovetop','{attributes/pageidentifier}')">
+          &#160;&#160;Move Top
+        </option>
+        <option value="ThrowEvent('pagemovebottom','{attributes/pageidentifier}')">
+          &#160;&#160;Move Bottom
+        </option>
         <option value="ModalDialogShow('{/data/basepath}/admin/choose/page.aspx', 'movePage()');">&#160;&#160;Move To</option>
         <option value="ModalDialogShow('{/data/basepath}/admin/choose/page.aspx', 'copyPage()');">&#160;&#160;Copy To</option>
         <option disabled="disabled"></option>
@@ -244,6 +250,35 @@
               <xsl:attribute name="selected">selected</xsl:attribute>
             </xsl:if>
             <xsl:value-of select="."/>
+          </option>
+        </xsl:for-each>
+      </select>
+    </div>
+  </xsl:template>
+
+
+  <xsl:template mode="formelement" match="item[@type='listtemplate']">
+    <xsl:param name="currentelement"/>
+    <xsl:param name="id"/>
+    <xsl:variable select="@attribute" name="attribute"/>
+    <div class="item-type">
+      <xsl:variable name="status" select="$currentelement/*[name()=$attribute]"/>
+      <xsl:value-of select="@name"/>
+      <br/>
+      <select>
+        <xsl:attribute name="name">
+          <xsl:value-of select="$id"/>_<xsl:value-of select="@attribute"/>
+        </xsl:attribute>
+        <option value="">Default</option>
+        <xsl:for-each select="/data/templates/*">
+          <option >
+            <xsl:attribute name="value">
+              <xsl:value-of select="name()"/>
+            </xsl:attribute>
+            <xsl:if test="$status=name()">
+              <xsl:attribute name="selected">selected</xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="name()"/>
           </option>
         </xsl:for-each>
       </select>

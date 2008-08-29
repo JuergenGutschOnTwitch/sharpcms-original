@@ -27,8 +27,6 @@ namespace InventIt.SiteSystem
         public XmlItemList QueryEvents;
         public XmlItemList QueryOther;
 
-        public XmlItemList CookieData;
-
         public bool OutputHandledByModule = false;
         public string mainTemplate; //TODO: this should be more logical 
 
@@ -39,6 +37,7 @@ namespace InventIt.SiteSystem
         private string m_BasePath;
 
         private string m_currentProcess = string.Empty;
+        private string m_redirectUrl = null;
 
         public Dictionary<string, string> Variables
         {
@@ -49,6 +48,18 @@ namespace InventIt.SiteSystem
                     m_Variables = new Dictionary<string, string>();
                 }
                 return m_Variables;
+            }
+        }
+
+        public string RedirectUrl
+        {
+            get
+            {
+                return m_redirectUrl;
+            }
+            set
+            {
+                m_redirectUrl = value;
             }
         }
 
@@ -435,11 +446,11 @@ namespace InventIt.SiteSystem
 
         private void UpdateCookieTimeout()
         {
-            /*    if (HttpPage.Response.Cookies["login_cookie"] != null)
-                {
-                    HttpPage.Request.Cookies["login_cookie"].Value = HttpPage.Request.Cookies["login_cookie"].Value;
-                    HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(1);
-                }*/
+        /*    if (HttpPage.Response.Cookies["login_cookie"] != null)
+            {
+                HttpPage.Request.Cookies["login_cookie"].Value = HttpPage.Request.Cookies["login_cookie"].Value;
+                HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(1);
+            }*/
         }
 
         public string CurrentUser

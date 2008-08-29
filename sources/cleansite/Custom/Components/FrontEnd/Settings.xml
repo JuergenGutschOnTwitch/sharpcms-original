@@ -6,11 +6,10 @@
 
 	</templates>
 	<sitetree>
-		<containers>
-			<item>content</item>
-		</containers>
-
-		<stdpage>show/english/about</stdpage>
+    <containers>
+      <item>content</item>
+    </containers>
+		<stdpage>english/about</stdpage>
 		<elementlist>
 
 			<paragraph>
@@ -52,6 +51,6 @@
 		</elementlist>
 	</sitetree>
 	<general>
-		<stdprocess>show/english/about</stdprocess>
+		<stdprocess>show</stdprocess>
 	</general>
 </settings>

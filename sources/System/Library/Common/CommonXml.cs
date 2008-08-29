@@ -11,25 +11,25 @@ using System.IO;
 
 namespace InventIt.SiteSystem.Library
 {
-    public static class CommonXml
-    {
-        public static string TransformXsl(string xsl, XmlDocument document, Cache cache)
-        {
-            XslCompiledTransform transform = GetTransform(xsl, cache);
+	public static class CommonXml
+	{
+		public static string TransformXsl(string xsl, XmlDocument document,Cache cache)
+		{
+			XslCompiledTransform transform = GetTransform(xsl, cache);
 
-            //MemoryStream memoryStream = new MemoryStream();
+			MemoryStream memoryStream = new MemoryStream();
 
-            //XmlWriterSettings ws = new XmlWriterSettings();
-            //ws.Encoding = Encoding.Unicode;
-            //ws.OmitXmlDeclaration = true;
-
-            //ws.Indent = true;
+			XmlWriterSettings ws = new XmlWriterSettings();
+			ws.Encoding = Encoding.Unicode;
+            ws.OmitXmlDeclaration = true;
+            
+			ws.Indent = true;
 
             TextWriter test = new StringWriter();
 
-            transform.Transform(document, null, test);
+            transform.Transform(document,null,test);
             return test.ToString();
-        }
+		}
 
         public static List<string> GetXslIncludes(string xsl)
         {
@@ -72,7 +72,7 @@ namespace InventIt.SiteSystem.Library
             {
                 if (xmlNode.Name != "#text")
                 {
-                    EmptyNodeHandling emptyNode;
+                    EmptyNodeHandling emptyNode; 
                     if (Common.StringArrayContains(uniqueIdentifiers, xmlNode.Name))
                     {
                         emptyNode = EmptyNodeHandling.ForceCreateNew;
@@ -108,13 +108,13 @@ namespace InventIt.SiteSystem.Library
         }
 
         public static XslCompiledTransform GetTransform(string xsl, Cache cache)
-        {
-            string cacheKey = "transform_" + Common.CleanToSafeString(xsl);
-            FileInfo fileDependency = new FileInfo(xsl);
+		{
+			string cacheKey = "transform_" + Common.CleanToSafeString(xsl);
+			FileInfo fileDependency = new FileInfo(xsl);
 
             object cacheTransform = cache[cacheKey, fileDependency];
-            if (cacheTransform != null)
-            {
+			if (cacheTransform != null)
+			{
                 bool useCache = true;
 
                 // Check included files
@@ -131,12 +131,12 @@ namespace InventIt.SiteSystem.Library
                 {
                     return cacheTransform as XslCompiledTransform;
                 }
-            }
-
-            // The file has changed or is not in memory
-            XslCompiledTransform transform = new XslCompiledTransform(true);
-
-            XsltSettings xsltSettings = new XsltSettings(true, true);
+			}
+             
+			// The file has changed or is not in memory
+			XslCompiledTransform transform = new XslCompiledTransform(true);
+            
+            XsltSettings  xsltSettings = new XsltSettings(true, true);
             transform.Load(xsl, xsltSettings, new XmlUrlResolver());
 
             cache[cacheKey, fileDependency] = transform;
@@ -408,6 +408,18 @@ namespace InventIt.SiteSystem.Library
 
             //node.ParentNode.RemoveChild(node);
             node.ParentNode.InsertBefore(node, firsChild);
+        }
+
+        public static void MoveBottom(XmlNode node)
+        {
+            XmlNode lastChild = node.ParentNode.LastChild;
+            if (lastChild == null || lastChild == node)
+            {
+                return;
+            }
+
+            //node.ParentNode.RemoveChild(node);
+            node.ParentNode.InsertAfter(node, lastChild);
         }
 
         public static void MoveDown(XmlNode node)

@@ -190,8 +190,13 @@ namespace InventIt.SiteSystem.Library
 
 			string filename = new FileInfo(sourceAbsolutePath).Name;
 			string newFilename = CombinePaths(newContainingDirectoryAbsolutePath, filename);
+            if (File.Exists(newFilename))
+            {
+                File.Delete(newFilename);
+            }
+            File.Move(sourceAbsolutePath, newFilename);
 
-            try { File.Move(sourceAbsolutePath, newFilename); }
+            try { }
             catch { /* Ignore */ }
 			
             return true;
@@ -212,15 +217,16 @@ namespace InventIt.SiteSystem.Library
 				return false;
 			}
 
+            
 			string directoryName = new DirectoryInfo(sourceAbsolutePath).Name;
 			string newDirectoryName = CombinePaths(newContainingDirectoryAbsolutePath, directoryName);
-            try
+            if (Directory.Exists(newDirectoryName))
             {
-                Directory.Move(path, newDirectoryName);
+                Directory.Delete(newDirectoryName);
             }
-            catch
-            { }// todo:this catch is not pretty handles the case when the folder
 
+            Directory.Move(path, newDirectoryName);
+            
 			return true;
 		}
 

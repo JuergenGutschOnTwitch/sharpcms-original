@@ -89,47 +89,47 @@ namespace InventIt.SiteSystem.Library
             return bmPhoto;
         }
 
-        public static Image FixedSize(Image imgPhoto, int Width, int Height)
+        public static Image FixedSize(Image imgPhoto, int Width, int Height, Color color)
         {
             int sourceWidth = imgPhoto.Width;
             int sourceHeight = imgPhoto.Height;
             int sourceX = 0;
             int sourceY = 0;
-            int destX = -1;
-            int destY = -1;
+            int destX = 0;
+            int destY = 0;
 
-            double nPercent = 0;
-            double nPercentW = 0;
-            double nPercentH = 0;
+            decimal nPercent = 0;
+            decimal nPercentW = 0;
+            decimal nPercentH = 0;
 
-            nPercentW = ((double)Width / (double)sourceWidth);
-            nPercentH = ((double)Height / (double)sourceHeight);
+            nPercentW = ((decimal)Width / (decimal)sourceWidth);
+            nPercentH = ((decimal)Height / (decimal)sourceHeight);
 
             //if we have to pad the height pad both the top and the bottom
             //with the difference between the scaled height and the desired height
             if (nPercentH < nPercentW)
             {
                 nPercent = nPercentH;
-                destX = (int)((Width - (sourceWidth * nPercent)) / 2);
+                destX = (int) Math.Round(((decimal)Width - ((decimal)sourceWidth * nPercent)) / 2, 0);
             }
             else
             {
                 nPercent = nPercentW;
-                destY = (int)((Height - (sourceHeight * nPercent)) / 2);
+                destY = (int) Math.Round(((decimal)Height - ((decimal)sourceHeight * nPercent)) / 2, 0);
             }
 
-            int destWidth = (int)(sourceWidth * nPercent);
-            int destHeight = (int)(sourceHeight * nPercent);
+            int destWidth = (int)Math.Round((decimal)sourceWidth * nPercent);
+            int destHeight = (int)Math.Round((decimal)sourceHeight * nPercent);
 
             Bitmap bmPhoto = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
             Graphics grPhoto = Graphics.FromImage(bmPhoto);
-            grPhoto.Clear(Color.Red);
+            grPhoto.Clear(color);
             grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
             grPhoto.DrawImage(imgPhoto,
-                new Rectangle(destX, destY, destWidth+2, destHeight+2),
+                new Rectangle(destX, destY, destWidth, destHeight),
                 new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
                 GraphicsUnit.Pixel);
 

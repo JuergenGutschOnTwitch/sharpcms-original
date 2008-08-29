@@ -367,6 +367,28 @@ namespace InventIt.SiteSystem.Data.SiteTree
 			CommonXml.MoveDown(page.TreeNode);
 			Save();
 		}
+        public void MoveTop(Page page)
+        {
+            CommonXml.MoveTop(page.TreeNode);
+            Save();
+        }
+        public void MoveTop(string path)
+        {
+            Page page = GetPage(path);
+            MoveTop(page);
+        }
+
+        public void MoveBottom(Page page)
+        {
+            CommonXml.MoveBottom(page.TreeNode);
+            Save();
+        }
+        public void MoveBottom(string path)
+        {
+            Page page = GetPage(path);
+            MoveBottom(page);
+        }
+       
 		#endregion
 
 		#region Move
@@ -379,37 +401,44 @@ namespace InventIt.SiteSystem.Data.SiteTree
 
 		public void Move(Page page, Page newParent)
 		{
-            string sourcePath = page.PageIdentifier;
-            string newParentPath = newParent.PageIdentifier;
-            
-            CommonXml.Move(page.TreeNode, newParent.TreeNode);
-            Save();
-
-            string newContainerDirectory = GetDocumentDirectory(newParentPath.Replace("/", @"\"));
-
-            string sourceDirectory = GetDocumentDirectory(sourcePath.Replace("/", @"\"));
-            string sourceFile = GetDocumentFilename(sourcePath.Replace("/", @"\"));
-
-            // Ensure that the container directory exists
-            Directory.CreateDirectory(newContainerDirectory);
-
-			// Move file
-            Common.MoveFile(sourceFile, newContainerDirectory);
-
-            // Copy directory
-            if (Directory.Exists(sourceDirectory))
+            if (page.Node != newParent.Node && !newParent.PageIdentifier.StartsWith(page.PageIdentifier))
             {
-                Common.CopyDirectory(sourceDirectory, Path.Combine(newContainerDirectory, page.Name), true);
-            }
+                string sourcePath = page.PageIdentifier;
+                string newParentPath = newParent.PageIdentifier;
 
-            // (Try to) Remove original directory
-            try
+                CommonXml.Move(page.TreeNode, newParent.TreeNode);
+                Save();
+
+                string newContainerDirectory = GetDocumentDirectory(newParentPath.Replace("/", @"\"));
+
+                string sourceDirectory = GetDocumentDirectory(sourcePath.Replace("/", @"\"));
+                string sourceFile = GetDocumentFilename(sourcePath.Replace("/", @"\"));
+
+                // Ensure that the container directory exists
+                Directory.CreateDirectory(newContainerDirectory);
+
+                // Move file
+                Common.MoveFile(sourceFile, newContainerDirectory);
+
+                // Copy directory
+                if (Directory.Exists(sourceDirectory))
+                {
+                    Common.CopyDirectory(sourceDirectory, Path.Combine(newContainerDirectory, page.Name), true);
+                }
+
+                // (Try to) Remove original directory
+                try
+                {
+                    Common.DeleteDirectory(sourceDirectory);
+                }
+                catch { /* Ignore errors */ }
+
+                Save();
+            }
+            else
             {
-                Common.DeleteDirectory(sourceDirectory);
+                throw new Exception("Cannot move page to child");
             }
-            catch { /* Ignore errors */ }
-
-            Save();
 		}
 		#endregion
 

@@ -28,16 +28,16 @@ namespace InventIt.SiteSystem.Providers
         }
 
         public new string Name
-        {
-            get
-            {
-                return "Page";
-            }
-        }
+		{
+			get
+			{
+				return "Page";
+			}
+		}
 
-        public ProviderPage()
-        {
-        }
+		public ProviderPage()
+		{
+		}
 
         public ProviderPage(Process process)
         {
@@ -88,6 +88,12 @@ namespace InventIt.SiteSystem.Providers
                 case "pagemoveup":
                     HandlePageMoveUp();
                     break;
+                case "pagemovebottom":
+                    HandlePageMoveBottom();
+                    break;
+                case "pagemovetop":
+                    HandlePageMoveTop();
+                    break;
                 case "pagemovedown":
                     HandlePageMoveDown();
                     break;
@@ -126,7 +132,7 @@ namespace InventIt.SiteSystem.Providers
             CurrentPage.Containers.Remove(int.Parse(query) - 1);
             CurrentPage.Save();
         }
-
+   
         private void HandlePageCreateContainer()
         {
             Page CurrentPage = new SiteTree(m_Process).GetPage(m_Process.QueryData["pageidentifier"]);
@@ -145,6 +151,15 @@ namespace InventIt.SiteSystem.Providers
         private void HandlePageMoveDown()
         {
             new SiteTree(m_Process).MoveDown(m_Process.QueryData["pageidentifier"]);
+        }
+
+        private void HandlePageMoveTop()
+        {
+            new SiteTree(m_Process).MoveTop(m_Process.QueryData["pageidentifier"]);
+        }
+        private void HandlePageMoveBottom()
+        {
+            new SiteTree(m_Process).MoveBottom(m_Process.QueryData["pageidentifier"]);
         }
 
 
@@ -212,7 +227,7 @@ namespace InventIt.SiteSystem.Providers
                         case "element":
                             if (queryParts[3].EndsWith("-list"))
                             {
-                                XmlNode xmlNode = CommonXml.GetNode(CurrentPage.Containers[int.Parse(queryParts[1]) - 1].Elements[int.Parse(queryParts[2]) - 1].Node, queryParts[3]);
+                                XmlNode xmlNode = CommonXml.GetNode(CurrentPage.Containers[int.Parse(queryParts[1]) - 1].Elements[int.Parse(queryParts[2]) - 1].Node,queryParts[3]);
                                 xmlNode.InnerText = "";
                                 foreach (string tmpstring in query.Value.Split('\n'))
                                 {
@@ -262,7 +277,7 @@ namespace InventIt.SiteSystem.Providers
             CurrentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.MoveTop(int.Parse(elementParts[2]) - 1);
             CurrentPage.Save();
         }
-
+        
         private void HandleMoveUp()
         {
             Page CurrentPage = new SiteTree(m_Process).GetPage(m_Process.QueryData["pageidentifier"]);
@@ -304,7 +319,7 @@ namespace InventIt.SiteSystem.Providers
         {
             control["elementlist"] = m_Process.Settings.GetAsNode("sitetree/elementlist");
         }
-
+        
         private void LoadPageStatus(ControlList control)
         {
             XmlNode xmlNode = m_Process.Settings.GetAsNode("sitetree/pagestatus");
@@ -324,7 +339,12 @@ namespace InventIt.SiteSystem.Providers
                 m_Process.Attributes["pageroot"] = pagePath.Split('/')[0];
                 Plugins(page);
                 control["page"] = page.Node;
-            }
+                m_Process.Content["templates"] = m_Process.Settings.GetAsNode("templates");
+                if (page["template"] != "" && m_Process.CurrentProcess.Split('/')[0].ToLower() != "admin")
+                {
+                    m_Process.mainTemplate = m_Process.Settings["templates/" + page["template"]];
+                }
+            }         
         }
 
         private string GetFullPath(string value, string pathTrail)
@@ -358,7 +378,7 @@ namespace InventIt.SiteSystem.Providers
             {
                 for (int b = 0; b < page.Containers[i].Elements.Count; b++)
                 {
-                    //  m_Process.Settings["sitetree/elementlist/
+                  //  m_Process.Settings["sitetree/elementlist/
 
                     XmlNode XmlElementNode = page.Containers[i].Elements[b].Node;
                     string plugin = CommonXml.GetNode(XmlElementNode, "plugin").InnerText;
@@ -367,7 +387,7 @@ namespace InventIt.SiteSystem.Providers
                     {
                         string pathTrail = CommonXml.GetNode(XmlElementNode, "value").InnerText;
                         InventIt.SiteSystem.Plugin.Types.AvailablePlugin availablePlugin = m_Process.Plugins.AvailablePlugins.Find(plugin);
-                        if (availablePlugin != null)
+                        if(availablePlugin != null)
                         {
                             IPlugin2 plugin2 = availablePlugin.Instance as IPlugin2;
                             if (plugin2 != null)
@@ -417,7 +437,7 @@ namespace InventIt.SiteSystem.Providers
             }
             return pagePath;
         }
-
+        
         private void SetCurrentPage(XmlNode xmlNode, string[] path)
         {
             try
@@ -490,5 +510,5 @@ namespace InventIt.SiteSystem.Providers
         {
             return value.Substring(value.LastIndexOf("/") + 1);
         }
-    }
+	}
 }

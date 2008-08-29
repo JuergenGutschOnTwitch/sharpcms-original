@@ -57,7 +57,7 @@
           theme : "advanced",
           content_css : "<xsl:value-of select="/data/basepath"/><xsl:text>/</xsl:text>System/Components/Admin/XSl/tinystyle.css",
 
-          valid_elements : "img[src|width|height],font[color],a[href|target],strong/b,div[align],br,h1,h2,h3,p[align],ul,li,ol,i,italic,em,b",
+          valid_elements : "blockquote,img[src|width|height],font[color],a[href|target],strong/b,div[align],br,h1,h2,h3,p[align],ul,li,ol,i,italic,em,b",
 
 
           theme_advanced_buttons1 : "formatselect,cleanup,forecolor,bold,italic,underline,strikethrough,justifyleft,justifycenter,image,bullist,numlist,undo,redo,link,unlink",

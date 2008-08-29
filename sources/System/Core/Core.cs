@@ -23,13 +23,18 @@ namespace InventIt.SiteSystem
             ProcessHandler processHandler = new ProcessHandler();
             Process process = processHandler.Run(httpPage);
 
-            if (!process.OutputHandledByModule)
+            if (!process.OutputHandledByModule && process.RedirectUrl == null )
             {
                 Parse(httpPage, process);
 
                 // counter.Stop();
 
                 //  httpPage.Response.Write(string.Format("<!-- {0} ms -->", counter.Milliseconds));
+            }
+
+            if (process.RedirectUrl != null)
+            {
+                httpPage.Response.Redirect(process.RedirectUrl);
             }
         }
 
