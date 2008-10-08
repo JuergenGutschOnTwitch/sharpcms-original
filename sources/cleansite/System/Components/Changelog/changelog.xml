@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <log>
+    <date>12.23.2005</date>
+    <category>Feature</category>
+    <text>
+      New layout has been implemented.
+    </text>
+  </log>
+  <log>
+    <date>12.10.2005</date>
+    <category>Feature</category>
+    <text>
+      Nice url (urlrewrite) has been implemented.
+    </text>
+  </log>
+  <log>
+    <date>12.01.2005</date>
+    <category>Bug / feature</category>
+    <text>
+      Small bug in tabpane script. Add Element made easy.
+    </text>
+  </log>
+  <log>
+    <date>12.01.2005</date>
+    <category>Changelog feature</category>
+    <text>
+      Changelog has been added to the system this is to provide users with information about new updates.
+    </text>
+  </log>
+</root>
