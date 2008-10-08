@@ -1,0 +1,11 @@
+D:\sharpcms\Plugins\ProviderSearch\bin\Debug\ProviderSearch.dll
+D:\sharpcms\Plugins\ProviderSearch\bin\Debug\ProviderSearch.pdb
+D:\sharpcms\Plugins\ProviderSearch\bin\Debug\Library.dll
+D:\sharpcms\Plugins\ProviderSearch\bin\Debug\SiteTree.dll
+D:\sharpcms\Plugins\ProviderSearch\bin\Debug\Library.pdb
+D:\sharpcms\Plugins\ProviderSearch\bin\Debug\SiteTree.pdb
+D:\sharpcms\Plugins\ProviderSearch\bin\Debug\Highlighter.Net.pdb
+D:\sharpcms\Plugins\ProviderSearch\bin\Debug\Highlighter.Net.xml
+D:\sharpcms\Plugins\ProviderSearch\obj\Debug\ResolveAssemblyReference.cache
+D:\sharpcms\Plugins\ProviderSearch\obj\Debug\ProviderSearch.dll
+D:\sharpcms\Plugins\ProviderSearch\obj\Debug\ProviderSearch.pdb
