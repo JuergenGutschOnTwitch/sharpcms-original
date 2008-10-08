@@ -1,8 +1,0 @@
-obj\Debug\ResolveAssemblyReference.cache
-bin\Debug\ProviderSearch.dll
-bin\Debug\ProviderSearch.pdb
-bin\Debug\Library.dll
-bin\Debug\Library.pdb
-obj\Debug\ProviderSearch.dll
-obj\Debug\ProviderSearch.pdb
-bin\Debug\Lucene.Net.dll

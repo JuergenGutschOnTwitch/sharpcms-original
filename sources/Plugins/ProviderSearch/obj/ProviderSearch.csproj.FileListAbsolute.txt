@@ -1,8 +1,0 @@
-D:\sharpcms\Plugins\ProviderSearch\bin\Release\ProviderSearch.dll
-D:\sharpcms\Plugins\ProviderSearch\bin\Release\ProviderSearch.pdb
-D:\sharpcms\Plugins\ProviderSearch\bin\Release\Library.dll
-D:\sharpcms\Plugins\ProviderSearch\bin\Release\Lucene.Net.dll
-D:\sharpcms\Plugins\ProviderSearch\bin\Release\Library.pdb
-D:\sharpcms\Plugins\ProviderSearch\obj\Release\ResolveAssemblyReference.cache
-D:\sharpcms\Plugins\ProviderSearch\obj\Release\ProviderSearch.dll
-D:\sharpcms\Plugins\ProviderSearch\obj\Release\ProviderSearch.pdb
