@@ -9,3 +9,14 @@ D:\sharpcms\Plugins\ProviderSearch\bin\Debug\Highlighter.Net.xml
 D:\sharpcms\Plugins\ProviderSearch\obj\Debug\ResolveAssemblyReference.cache
 D:\sharpcms\Plugins\ProviderSearch\obj\Debug\ProviderSearch.dll
 D:\sharpcms\Plugins\ProviderSearch\obj\Debug\ProviderSearch.pdb
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\bin\Debug\ProviderSearch.dll
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\bin\Debug\ProviderSearch.pdb
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\bin\Debug\Library.dll
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\bin\Debug\SiteTree.dll
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\bin\Debug\Library.pdb
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\bin\Debug\SiteTree.pdb
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\bin\Debug\Highlighter.Net.pdb
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\bin\Debug\Highlighter.Net.xml
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\obj\Debug\ResolveAssemblyReference.cache
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\obj\Debug\ProviderSearch.dll
+D:\codeplex\sharpcms\sources\Plugins\ProviderSearch\obj\Debug\ProviderSearch.pdb

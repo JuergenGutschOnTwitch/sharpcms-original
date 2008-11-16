@@ -44,44 +44,27 @@ namespace InventIt.SiteSystem
             get
             {
                 if (m_Variables == null)
-                {
                     m_Variables = new Dictionary<string, string>();
-                }
                 return m_Variables;
             }
         }
 
         public string RedirectUrl
         {
-            get
-            {
-                return m_redirectUrl;
-            }
-            set
-            {
-                m_redirectUrl = value;
-            }
+            get { return m_redirectUrl; }
+            set { m_redirectUrl = value; }
         }
 
 
         public bool DebugEnabled
         {
-            get
-            {
-                return (HttpPage.Session["enabledebug"] != null && HttpPage.Session["enabledebug"].ToString() == "true");
-            }
-            set
-            {
-                HttpPage.Session["enabledebug"] = value ? "true" : "false";
-            }
+            get { return (HttpPage.Session["enabledebug"] != null && HttpPage.Session["enabledebug"].ToString() == "true"); }
+            set { HttpPage.Session["enabledebug"] = value ? "true" : "false"; }
         }
 
         public string BasePath
         {
-            get
-            {
-                return m_BasePath;
-            }
+            get { return m_BasePath; }
         }
 
         public Cache Cache
@@ -89,23 +72,15 @@ namespace InventIt.SiteSystem
             get
             {
                 if (m_Cache == null)
-                {
                     m_Cache = new Cache(HttpPage.Application);
-                }
                 return m_Cache;
             }
         }
 
         public XmlDocument XmlData
         {
-            get
-            {
-                return m_XmlData;
-            }
-            set
-            {
-                m_XmlData = value;
-            }
+            get { return m_XmlData; }
+            set { m_XmlData = value; }
         }
 
         public string CurrentProcess
@@ -116,28 +91,18 @@ namespace InventIt.SiteSystem
                 {
                     string tmpProcess = QueryOther["process"];
                     if (tmpProcess != string.Empty)
-                    {
                         m_currentProcess = tmpProcess;
-                    }
                     else
-                    {
                         m_currentProcess = Settings["general/stdprocess"];
-                    }
                 }
                 return m_currentProcess;
             }
-            set
-            {
-                m_currentProcess = value;
-            }
+            set { m_currentProcess = value; }
         }
 
         public string Root
         {
-            get
-            {
-                return HttpPage.Server.MapPath(".");
-            }
+            get { return HttpPage.Server.MapPath("."); }
         }
 
         public Settings Settings
@@ -145,12 +110,18 @@ namespace InventIt.SiteSystem
             get
             {
                 if (m_Settings == null)
-                {
                     m_Settings = new Settings(this, Root);
-                }
                 return m_Settings;
             }
         }
+
+        // >>>>> Search Mod by Kiho Chang 2008-10-05
+        public object SearchContext
+        {
+            get { return HttpPage.Session["SearchContext"]; }
+            set { HttpPage.Session["SearchContext"] = value; }
+        }
+        // <<<<< Search Mod by Kiho Chang 2008-10-05
 
         public void AddMessage(string message, MessageType messageType, string type)
         {
@@ -190,9 +161,7 @@ namespace InventIt.SiteSystem
         public void DebugMessage(string message)
         {
             if (DebugEnabled)
-            {
                 AddMessage(message, MessageType.Debug);
-            }
         }
 
         public Process(System.Web.UI.Page httpPage, PluginServices pluginServices)
@@ -209,13 +178,10 @@ namespace InventIt.SiteSystem
             Content = new ControlList(xmlNode);
 
             if (httpPage.Request.ServerVariables["SERVER_PORT"] == "80")
-            {
                 m_BasePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" + httpPage.Request.ServerVariables["SERVER_NAME"] + httpPage.Request.ApplicationPath.TrimEnd('/') + "";
-            }
             else
-            {
                 m_BasePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" + httpPage.Request.ServerVariables["SERVER_NAME"] + ":" + httpPage.Request.ServerVariables["SERVER_PORT"] + httpPage.Request.ApplicationPath.TrimEnd('/') + "";
-            }
+
             Content["basepath"].InnerText = m_BasePath;
             Content["referrer"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_REFERER"]);
             Content["domain"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["SERVER_NAME"]);
@@ -237,22 +203,16 @@ namespace InventIt.SiteSystem
                 if (!Login(QueryData["login"], QueryData["password"]))
                 {
                     if (m_Settings["messages/loginerror"] != string.Empty)
-                    {
                         httpPage.Response.Redirect(BasePath + "/login.aspx?error=" + httpPage.Server.UrlEncode(m_Settings["messages/loginerror"]) + "&redirect=" + QueryOther["process"]);
-                    }
                     else
-                    {
                         httpPage.Response.Redirect(BasePath + "/login.aspx?" + "redirect=" + QueryOther["process"]);
-                    }
                 }
             }
             else if (this.QueryEvents["main"] == "logout")
             {
                 Logout();
                 if (this.QueryEvents["mainValue"] != string.Empty)
-                {
                     HttpPage.Response.Redirect(this.QueryEvents["mainValue"]);
-                }
             }
             UpdateCookieTimeout();
 
@@ -269,9 +229,7 @@ namespace InventIt.SiteSystem
             List<string> userGroups = new List<string>(Common.FlattenToStrings(this, resultsGroups));
 
             foreach (string group in userGroups)
-            {
                 CommonXml.GetNode(groupNode, "group", EmptyNodeHandling.ForceCreateNew).InnerText = group;
-            }
 
             ControlList baseData = this.Content.GetSubControl("basedata");
 
@@ -290,13 +248,11 @@ namespace InventIt.SiteSystem
             if (HttpPage.Request.ServerVariables["REMOTE_ADDR"] == "127.0.0.1")
             {
                 if (HttpPage.Session["enabledebug"] == null)
-                {
                     DebugEnabled = true;
-                }
+
                 if (QueryOther["enabledebug"] == "true" || QueryOther["enabledebug"] == "false")
-                {
                     DebugEnabled = (QueryOther["enabledebug"] == "true");
-                }
+
             }
         }
 
@@ -304,14 +260,10 @@ namespace InventIt.SiteSystem
         {
             List<string> keys = new List<string>();
             foreach (string key in HttpPage.Request.Form)
-            {
                 keys.Add(key);
-            }
 
             foreach (string key in HttpPage.Request.QueryString)
-            {
                 keys.Add(key);
-            }
 
             foreach (string key in keys)
             {
@@ -349,13 +301,9 @@ namespace InventIt.SiteSystem
             List<string> history = null;
 
             if (HttpPage.Session["history"] != null)
-            {
                 history = (List<string>)HttpPage.Session["history"];
-            }
             else
-            {
                 history = new List<string>();
-            }
 
             history.Add(CurrentProcess);
 
@@ -372,13 +320,10 @@ namespace InventIt.SiteSystem
             {
                 pageViewCounts = (Dictionary<string, int>)HttpPage.Session["pageviews"];
                 if (pageViewCounts.ContainsKey(CurrentProcess))
-                {
                     pageViewCounts[CurrentProcess] += 1;
-                }
                 else
-                {
                     pageViewCounts[CurrentProcess] = 1;
-                }
+
             }
             else
             {
@@ -399,12 +344,8 @@ namespace InventIt.SiteSystem
             {
                 bool verified = false;
                 foreach (object result in results)
-                {
                     if ((bool)result)
-                    {
                         verified = true;
-                    }
-                }
 
                 if (verified)
                 {
@@ -426,15 +367,12 @@ namespace InventIt.SiteSystem
                 {
                     string value = HttpPage.Request.Cookies["login_cookie"].Value;
                     if (value == null || !value.Contains(COOKIE_SEPARATOR))
-                    {
                         return false;
-                    }
+
                     string[] valueParts = Common.SplitByString(value, COOKIE_SEPARATOR);
 
                     if (Login(valueParts[0], valueParts[1]))
-                    {
                         return true;
-                    }
                 }
             }
             else
@@ -446,11 +384,11 @@ namespace InventIt.SiteSystem
 
         private void UpdateCookieTimeout()
         {
-        /*    if (HttpPage.Response.Cookies["login_cookie"] != null)
-            {
-                HttpPage.Request.Cookies["login_cookie"].Value = HttpPage.Request.Cookies["login_cookie"].Value;
-                HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(1);
-            }*/
+            /*    if (HttpPage.Response.Cookies["login_cookie"] != null)
+                {
+                    HttpPage.Request.Cookies["login_cookie"].Value = HttpPage.Request.Cookies["login_cookie"].Value;
+                    HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(1);
+                }*/
         }
 
         public string CurrentUser
@@ -458,16 +396,11 @@ namespace InventIt.SiteSystem
             get
             {
                 if (HttpPage.Session["current_username"] == null)
-                {
                     Logout();
-                }
 
                 return HttpPage.Session["current_username"].ToString();
             }
-            set
-            {
-                HttpPage.Session["current_username"] = value;
-            }
+            set { HttpPage.Session["current_username"] = value; }
         }
 
         public bool CheckGroups(string groups)
@@ -479,12 +412,8 @@ namespace InventIt.SiteSystem
             {
                 string[] groupList = groups.Split(',');
                 foreach (string checkRight in groupList)
-                {
                     if (userGroups.Contains(checkRight))
-                    {
                         return true;
-                    }
-                }
             }
             else
             {
@@ -519,22 +448,14 @@ namespace InventIt.SiteSystem
 
         public XmlNode this[string name]
         {
-            get
-            {
-                return GetControlNode(name);
-            }
-            set
-            {
-                GetControlNode(name).InnerXml = value.InnerXml;
-            }
+            get { return GetControlNode(name); }
+            set { GetControlNode(name).InnerXml = value.InnerXml; }
         }
 
         public ControlList GetSubControl(string name)
         {
             if (name != "")
-            {
                 return new ControlList(GetControlNode(name));
-            }
             return null;
         }
 
@@ -567,9 +488,7 @@ namespace InventIt.SiteSystem
                 string xPath = string.Format("*[{0}]", index + 1);
                 XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.Ignore);
                 if (xmlNode == null)
-                {
                     return;
-                }
                 xmlNode.InnerText = value.Value;
             }
         }
