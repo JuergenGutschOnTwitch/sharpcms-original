@@ -1,7 +1,0 @@
-obj\Debug\ResolveAssemblyReference.cache
-bin\Debug\ProviderErrorLog.dll
-bin\Debug\ProviderErrorLog.pdb
-obj\Debug\ProviderErrorLog.dll
-obj\Debug\ProviderErrorLog.pdb
-bin\Debug\Library.dll
-bin\Debug\Library.pdb
