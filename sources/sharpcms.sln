@@ -13,8 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderBase", "Plugins\Pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderErrorLog", "Plugins\ProviderErrorLog\ProviderErrorLog.csproj", "{334CF88B-303C-4904-B841-147822607BAD}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "cleansite", "cleansite\", "{9DDBB54A-232D-47E4-8172-36BFCAF92BA5}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "cleansite", "cleansite", "{9DDBB54A-232D-47E4-8172-36BFCAF92BA5}"
 	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
 		TargetFramework = "2.0"
 		Debug.AspNetCompiler.VirtualPath = "/cleansite"
 		Debug.AspNetCompiler.PhysicalPath = "cleansite\"
@@ -36,6 +40,38 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderSearch", "Plugins\ProviderSearch\ProviderSearch.csproj", "{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}"
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 9
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs01.codeplex.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = System\\Core\\Core.csproj
+		SccProjectName1 = System/Core
+		SccLocalPath1 = System\\Core
+		SccProjectUniqueName2 = DataModels\\SiteTree\\SiteTree.csproj
+		SccProjectName2 = DataModels/SiteTree
+		SccLocalPath2 = DataModels\\SiteTree
+		SccProjectUniqueName3 = System\\Library\\Library.csproj
+		SccProjectName3 = System/Library
+		SccLocalPath3 = System\\Library
+		SccProjectUniqueName4 = DataModels\\FileTree\\FileTree.csproj
+		SccProjectName4 = DataModels/FileTree
+		SccLocalPath4 = DataModels\\FileTree
+		SccProjectUniqueName5 = Plugins\\ProviderBase\\ProviderBase.csproj
+		SccProjectName5 = Plugins/ProviderBase
+		SccLocalPath5 = Plugins\\ProviderBase
+		SccProjectUniqueName6 = Plugins\\ProviderErrorLog\\ProviderErrorLog.csproj
+		SccProjectName6 = Plugins/ProviderErrorLog
+		SccLocalPath6 = Plugins\\ProviderErrorLog
+		SccWebProject7 = true
+		SccProjectUniqueName7 = cleansite
+		SccProjectName7 = cleansite
+		SccLocalPath7 = cleansite
+		SccProjectEnlistmentChoice7 = 2
+		SccProjectUniqueName8 = Plugins\\ProviderSearch\\ProviderSearch.csproj
+		SccProjectName8 = Plugins/ProviderSearch
+		SccLocalPath8 = Plugins\\ProviderSearch
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
