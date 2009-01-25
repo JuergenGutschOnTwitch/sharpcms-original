@@ -4,12 +4,12 @@
 		<show>~/Custom/Components/FrontEnd/Xsl/Show.xslt</show>
 	</templates>
 	<mail>
-		<smtp>mail.sharpcms.org</smtp>
-		<smtpuser>info@sharpcms.org</smtpuser>
-		<smtppass>jigwedia</smtppass>
-		<user>info@sharpcms.org</user>
-		<subject>Email von www.sharpcms.org Kontaktformular</subject>
-		<servermail>info@sharpcms.org</servermail>
+		<smtp>mail.contoso.org</smtp>
+		<smtpuser>info@contoso.org</smtpuser>
+		<smtppass>topsecret</smtppass>
+		<user>info@contoso.org</user>
+		<subject>Email von www.contoso.org Kontaktformular</subject>
+		<servermail>info@contoso.org</servermail>
 	</mail>
 	<sitetree>
 		<containers>

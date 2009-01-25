@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6" />
+  <TestList name="List" id="c6dbf8e7-6a7a-4244-ac12-96bf0548f843" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <TestLinks>
+      <TestLink id="38356339-6636-3463-6362-333166633137" name="Login" storage="tests\uitests\bin\debug\uitests.dll" type="Gallio.VisualStudio.Tip.GallioTestElement, Gallio.VisualStudio.Tip90.Proxy,   PublicKeyToken=eb9cfa67ee6ab36e" />
+      <TestLink id="36613135-6639-3066-3033-616235396137" name="Logout" storage="tests\uitests\bin\debug\uitests.dll" type="Gallio.VisualStudio.Tip.GallioTestElement, Gallio.VisualStudio.Tip90.Proxy,   PublicKeyToken=eb9cfa67ee6ab36e" />
+    </TestLinks>
+  </TestList>
+</TestLists>

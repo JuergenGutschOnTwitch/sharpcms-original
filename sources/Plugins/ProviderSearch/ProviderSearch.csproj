@@ -54,11 +54,11 @@
   <ItemGroup>
     <Reference Include="Highlighter.Net, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Highlighter.Net.dll</HintPath>
+      <HintPath>..\..\resources\Highlighter.Net.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net, Version=1.9.1.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Lucene.Net.dll</HintPath>
+      <HintPath>..\..\resources\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -120,8 +120,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)cleansite\System\Components\Base\Plugins" /y
-copy "$(TargetDir)" "$(SolutionDir)cleansite\Bin" /y
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
