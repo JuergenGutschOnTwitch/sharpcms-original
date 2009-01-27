@@ -7,7 +7,6 @@
   <admin>
     <menu>
       <right>
-        <item path="admin/changelog" weight="22">Changelog</item>
       </right>
 
     </menu>

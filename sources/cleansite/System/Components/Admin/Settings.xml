@@ -9,7 +9,6 @@
       <menu>
         <right>
           <item event="logout" weight="999">Log out</item>
-          <item event="update" weight="998">Update system</item>
         </right>
       </menu>
 	</admin>

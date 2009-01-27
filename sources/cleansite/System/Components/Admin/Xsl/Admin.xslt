@@ -134,10 +134,8 @@
 						<div class="content-left">
 							<xsl:apply-templates select="data/contentone/*" mode="edit"/>
 						</div>
-
 						<div class="content-right">
 							<xsl:if test="/data/messages">
-
 								<div class="adminmenu" style="background-color:#ffffe1">
 									<ul>
 										<xsl:for-each select="/data/messages/item">
@@ -148,8 +146,10 @@
 									</ul>
 								</div>
 							</xsl:if>
-
 							<xsl:apply-templates select="data/contenttwo/*" mode="edit"/>
+						</div>
+						<div class="clear">
+							<xsl:text> </xsl:text>
 						</div>
 					</div>
 
