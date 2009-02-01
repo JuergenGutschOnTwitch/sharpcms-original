@@ -5,7 +5,7 @@
     void Application_BeginRequest(object sender, EventArgs e)
     {
         System.Web.HttpContext httpContext = HttpContext.Current;
-        String currentURL = System.Web.HttpContext.Current.Request.Path.ToLower();
+        string currentURL = System.Web.HttpContext.Current.Request.Path.ToLower();
 
         string processpath = currentURL.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').ToLower();
        
