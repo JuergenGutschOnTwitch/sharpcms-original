@@ -1,7 +1,6 @@
 <%@ Application Language="C#" %>
 
 <script runat="server">
-
     void Application_BeginRequest(object sender, EventArgs e)
     {
         System.Web.HttpContext httpContext = HttpContext.Current;
@@ -14,7 +13,6 @@
     }
     void Application_Start(object sender, EventArgs e) 
     {
-        
         // Code that runs on application startup
 
     }
@@ -45,7 +43,4 @@
         // or SQLServer, the event is not raised.
 
     }
-       
 </script>
-
-
