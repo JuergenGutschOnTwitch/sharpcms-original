@@ -5,7 +5,6 @@
     {
         System.Web.HttpContext httpContext = HttpContext.Current;
         string currentURL = System.Web.HttpContext.Current.Request.Path.ToLower();
-
         string processpath = currentURL.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').ToLower();
        
         if (!System.IO.File.Exists(httpContext.Server.MapPath(currentURL.Substring(currentURL.LastIndexOf("/") + 1))))
