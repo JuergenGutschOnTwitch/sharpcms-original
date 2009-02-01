@@ -134,13 +134,26 @@ namespace InventIt.SiteSystem.Data.FileTree
 
                     int height = 0;
                     int.TryParse(m_Process.QueryOther["height"], out height);
+
+                    int radius = 0;
+                    int.TryParse(m_Process.QueryOther["radius"], out radius);
+
+                    int borderwidth = 0;
+                    int.TryParse(m_Process.QueryOther["borderwidth"], out borderwidth);
+
+                    string bordercolor = ("#" + m_Process.QueryOther["bordercolor"]);
+
                     bool isFixed = m_Process.QueryOther["fixed"] == "true";
-                    if (width > 0 || height > 0)
+                    if (width > 0 || height > 0 || radius >= 0)
                     {
                         System.Drawing.Bitmap bitmap = null;
 
-                        string newFilename = string.Format("{0}_{1}x{2}_{3}.jpg",
-                            fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height, isFixed);
+                        string newFilename = string.Format("{0}_{1}x{2}r{3}", fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height, radius);
+
+                        if (borderwidth > 0 && System.Text.RegularExpressions.Regex.IsMatch(bordercolor, @"[#]([0-9]|[a-f]|[A-F]){6}\b"))
+                            newFilename += ("bw" + borderwidth + "bc" + bordercolor);
+
+                        newFilename += ("_" + isFixed + ".png");
 
                         thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs", newFilename);
 
@@ -172,6 +185,7 @@ namespace InventIt.SiteSystem.Data.FileTree
                             }
 
                             bitmap = ResizeOrCropImage(bitmap, width, height, isFixed);
+                            bitmap = RoundImageVertex(bitmap, radius, borderwidth, bordercolor);
                         }
                         else
                         {
@@ -187,7 +201,7 @@ namespace InventIt.SiteSystem.Data.FileTree
 
                             EncoderParameters eps = new EncoderParameters(1);
                             eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 95L);
-                            ImageCodecInfo ici = GetEncoderInfo("image/jpeg");
+                            ImageCodecInfo ici = GetEncoderInfo("image/png");
                             bitmap.Save(thumbnailFile, ici, eps);
                             bitmap.Dispose();
                             currentFile = thumbnailFile;
@@ -224,6 +238,7 @@ namespace InventIt.SiteSystem.Data.FileTree
             }
 
             Image tmpImage = (Image)bitmap;
+
             // Crop
             if (width > 0 && height > 0)
             {
@@ -247,6 +262,22 @@ namespace InventIt.SiteSystem.Data.FileTree
             {
                 tmpImage =InventIt.SiteSystem.Library.ImageResize.ConstrainProportions(tmpImage, height, ImageResize.Dimensions.Height);
             }
+
+            return (Bitmap)tmpImage;
+        }
+
+        public Bitmap RoundImageVertex(Bitmap bitmap, int radius, int borderWidth, string borderColor)
+        {
+            if (radius <= 0 || (radius * 2) > bitmap.Height || (radius * 2) > bitmap.Width)
+                return bitmap;
+
+            Image tmpImage = (Image)bitmap;
+            
+            if (!System.Text.RegularExpressions.Regex.IsMatch(borderColor, @"[#]([0-9]|[a-f]|[A-F]){6}\b") || borderWidth < 1)
+                tmpImage = InventIt.SiteSystem.Library.ImageVertexRounding.RoundedRectangle(tmpImage, radius);
+            else
+                tmpImage = InventIt.SiteSystem.Library.ImageVertexRounding.RoundedRectangle(tmpImage, radius, borderWidth, borderColor);
+
             return (Bitmap)tmpImage;
         }
 

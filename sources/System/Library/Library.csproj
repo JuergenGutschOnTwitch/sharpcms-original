@@ -53,6 +53,7 @@
     <Compile Include="DataElementList.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="ImageResize.cs" />
+    <Compile Include="ImageVertexRoundig.cs" />
     <Compile Include="Plugin\BasePlugin.cs" />
     <Compile Include="Plugin\PluginInterface.cs" />
     <Compile Include="Plugin\PluginServices.cs" />
