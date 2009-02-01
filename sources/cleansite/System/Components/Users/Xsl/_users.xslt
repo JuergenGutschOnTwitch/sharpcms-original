@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<xsl:stylesheet version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template mode="edit" match="users">
-		<div class="adminmenu">
+		<div class="menu userdata_menu">
 			<a class="button" href="javascript:ThrowEventNew('adduser','','Type the name of the new user')">Add user</a>
 			<a class="button" href="javascript:ThrowEventNew('addgroup','','Type the name of the new group')">Add group</a>
 		</div>
@@ -12,26 +10,28 @@
 			<b>Users</b>
 			<ul>
 				<xsl:for-each select="user">
-					<li><a>
-						<xsl:attribute name="href">
-							<xsl:text>default.aspx?process=admin/user/</xsl:text><xsl:value-of select="login"/>
-						</xsl:attribute>
-						<xsl:value-of select="login"/>
-					</a>
+					<li>
+            <a>
+						  <xsl:attribute name="href">
+							  <xsl:text>default.aspx?process=admin/user/</xsl:text><xsl:value-of select="login" />
+						  </xsl:attribute>
+						  <xsl:value-of select="login" />
+					  </a>
 					</li>
 				</xsl:for-each>
 			</ul>
 		</div>
 	</xsl:template>
-	<xsl:template mode="edit" match="groups">
-		<br/><div class="tree">
+
+  <xsl:template mode="edit" match="groups">
+		<div class="tree">
 			<b>Groups</b>
 			<ul>
 				<xsl:for-each select="group">
 					<li>
-						<xsl:value-of select="@name"/><a>
+						<xsl:value-of select="@name" /><a>
 							<xsl:attribute name="href">
-								<xsl:text>javascript:ThrowEventConfirm('deletegroup','</xsl:text><xsl:value-of select="@name"/><xsl:text>','Are you sure you wnat to delete the group?')</xsl:text>
+								<xsl:text>javascript:ThrowEventConfirm('deletegroup','</xsl:text><xsl:value-of select="@name" /><xsl:text>','Are you sure you wnat to delete the group?')</xsl:text>
 							</xsl:attribute>
 						<xsl:text> Delete</xsl:text>
 					</a>
@@ -42,21 +42,27 @@
 	</xsl:template>
 	
 	<xsl:template mode="edit" match="user">
-		<div class="adminmenu">
+		<div class="menu userdata_menu">
 			<a class="button">
 				<xsl:attribute name="href">
-					<xsl:text>javascript:ThrowEvent('saveuser','</xsl:text><xsl:value-of select="login"/><xsl:text>')</xsl:text>
+					<xsl:text>javascript:ThrowEvent('saveuser','</xsl:text><xsl:value-of select="login" /><xsl:text>')</xsl:text>
 				</xsl:attribute>
 				Save
 			</a>
 			<a class="button">
 				<xsl:attribute name="href">
-					<xsl:text>javascript:ThrowEventConfirm('deleteuser','</xsl:text><xsl:value-of select="login"/><xsl:text>','Are you sure you wnat to delete the user?')</xsl:text>
+					<xsl:text>javascript:ThrowEventConfirm('deleteuser','</xsl:text><xsl:value-of select="login" /><xsl:text>','Are you sure you wnat to delete the user?')</xsl:text>
 				</xsl:attribute>
 				Delete user
 			</a>
 		</div>
-		<div class="adminmenu">
+    <div class="userdata_header">
+      <div class="title">User data</div>
+      <div class="viewstate">
+        <a id="usda_vs" href="javascript:collapseexpand('usda_body', 'usda_vs');">˅</a>
+      </div>
+    </div>
+    <div class="userdata_body" id="usda_body">
 			<table>
 				<tr>
 					<td>
@@ -64,7 +70,7 @@
 					</td>
 					<td>
 						<input name="data_user_login" type="text">
-							<xsl:attribute name="value"><xsl:value-of select="login"/></xsl:attribute>
+							<xsl:attribute name="value"><xsl:value-of select="login" /></xsl:attribute>
 						</input>
 					</td>
 				</tr>
@@ -73,40 +79,33 @@
 						Password
 					</td>
 					<td>
-						<input name="data_user_password" type="password" value="emptystring"/>
-							
-						
+						<input name="data_user_password" type="password" value="emptystring" />
 					</td>
 				</tr>
 			</table>
-			
-		<div class="tree">
-			<b>Groups</b>
-			<ul>
-				<xsl:variable select="groups" name="groups"/>
-				<xsl:for-each select="//data/contentone/groups/group">
-					<xsl:variable select="@name" name="name"/>
-					<li>
-						<xsl:value-of select="@name"/>
-						<input style="width:30px;margin:0px;padding:2px;border:none;" type="checkbox" name="data_user_groups">
-							<xsl:attribute name="value">
-								<xsl:value-of select="@name"/>
-							</xsl:attribute>
-							<xsl:if test="$groups/group[@name=$name]">
-								<xsl:attribute name="checked">
-								checked
-								</xsl:attribute>
-							</xsl:if>
-							
-						</input>
-			
-					</li>
-				</xsl:for-each>
-			</ul>
+		  <div class="tree">
+			  <b>Groups</b>
+			  <ul>
+				  <xsl:variable select="groups" name="groups" />
+				  <xsl:for-each select="//data/contentone/groups/group">
+					  <xsl:variable select="@name" name="name" />
+					  <li>
+						  <xsl:value-of select="@name" />
+						  <input class="checkbox" type="checkbox" name="data_user_groups">
+							  <xsl:attribute name="value">
+								  <xsl:value-of select="@name" />
+							  </xsl:attribute>
+							  <xsl:if test="$groups/group[@name=$name]">
+								  <xsl:attribute name="checked">
+								  checked
+								  </xsl:attribute>
+							  </xsl:if>
+						  </input>
+					  </li>
+				  </xsl:for-each>
+			  </ul>
+		  </div>
 		</div>
-		</div>
-		
 	</xsl:template>
-
 </xsl:stylesheet> 
 

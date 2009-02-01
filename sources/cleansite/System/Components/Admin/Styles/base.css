@@ -1,0 +1,723 @@
+﻿/*************************************************************************/
+/* Colors:
+/*
+/* #628498      mainmenu background
+/* #486c82      a
+/*              .pagedata_header color 
+/* #cfb000      a:hover
+/* #96a1a9      .adminmenu a.button:hover
+/* #7697ab      .adminmenu border
+/*      		.pagedata_header border
+/*              .pagedata_body background
+/* #e8eef1		.pagedata_header background
+/* #8da6b5      .element_header div.title color
+/*
+/*************************************************************************/
+
+
+/*************************************************************************/
+/*                                                                   Basic
+/*************************************************************************/
+* {
+    border: 0;
+    color: black;
+    font: Menu;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    text-decoration: none;
+}
+
+html {
+    font-size: 100.1%;
+}
+
+body {
+    background-color: white;
+    font-size: 62.5%;
+}
+
+a {
+    
+}
+
+img {
+    
+}
+
+label {
+    color: #486c82;
+}
+
+
+/*************************************************************************/
+/*                                                            Menu Default
+/*************************************************************************/
+.menu {
+    background-color: white;
+    border: 1px solid #7697ab;
+    padding: 6px;
+    float: left;
+}
+
+.menu a,
+.menu select {
+    float: left;
+}
+
+.menu ul {
+    margin: 6px;
+}
+
+.menu li {
+    margin: 4px;
+}
+
+
+/*************************************************************************/
+/*                                                                 Special
+/*************************************************************************/
+a.anchor {
+    float: left;
+}
+
+div.error {
+    color: red;
+}
+
+a.button {
+    background-color: white;
+    border: 1px solid #aeb8bf;
+    padding: 1px 4px;
+    margin-right: 6px;
+    text-align: center;
+}
+
+a.button:hover {
+    background-color: #96a1a9;
+    text-decoration: none;
+}
+
+
+/*************************************************************************/
+/*                                                                    Page
+/*************************************************************************/
+.page {
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+
+
+/*************************************************************************/
+/*                                                                  Header
+/*************************************************************************/
+.header {
+    background: #628498 url('../images/topbg.gif') top left repeat-x;
+    color: white;
+    float: left;
+    height: 39px;
+    width: 100%;
+}
+
+.header a {
+    
+}
+
+.header a img {
+    height: 39px;
+    width: 121px;
+}
+
+
+/*************************************************************************/
+/*                                                                 TopNavi
+/*************************************************************************/
+.mainnavi {
+    background: white url('../images/subbg.gif') top left repeat-x;
+    float: left;
+    height: 26px;
+    min-width: 300px;
+    width: 100%;
+}
+
+.mainnavi ul {
+    list-style-type: none;
+    min-width: 140px;
+    padding-top: 5px;
+}
+
+.mainnavi ul li {
+    float: left;
+}
+
+.mainnavi ul li a {
+    color: #486c82;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.mainnavi ul li a:hover {
+    color: #cfb000;
+    text-decoration: none;
+}
+
+.mainnavi ul.left {
+    float: left;
+    padding-left: 10px;
+}
+
+.mainnavi ul.left li {
+    padding-right: 10px;
+}
+
+.mainnavi ul.right {
+    float: right;
+    padding-right: 10px;
+}
+
+.mainnavi ul.right li {
+    padding-left: 10px;
+}
+
+
+/*************************************************************************/
+/*                                                                 Content
+/*************************************************************************/
+.content {
+    float: left;
+    width: 900px;
+}
+
+.content div.left,
+.content div.right {
+    margin: 10px 0 10px 10px;
+}
+
+.content div.left {
+    float: left;
+    width: 220px;
+}
+
+.content div.right {
+    float: left;
+    width: 650px;
+}
+
+
+/*************************************************************************/
+/*                                                                    Tree
+/*************************************************************************/
+.tree {
+    background-color: white;
+    border: 1px solid #bec7cd;
+    float: left;
+    margin-bottom: 10px;
+    min-height: 220px;
+    padding: 10px;
+    width: 200px;
+}
+
+.tree b {
+	font-weight: bold;
+}
+
+.tree ul {
+	padding-left: 20px;
+}
+
+.tree ul li {
+	padding-top: 5px;
+}
+
+
+/*************************************************************************/
+/*                                                              Admin Menu
+/*************************************************************************/
+.admin_menu {
+    width: 636px;
+}
+
+
+/*************************************************************************/
+/*                                                         PageData Header
+/*************************************************************************/
+.pagedata_header {
+    background-color: #e8eef1;
+    border: 1px solid #7697ab;
+    color: #486c82;
+    float: left;
+    font-weight: bold;
+    height: 16px;
+    width: 636px;
+    margin-top: 10px;
+    padding: 6px 4px 4px 8px;
+}
+
+.pagedata_header div.title {
+    color: #486C82;
+    float: left; 
+    font-weight: bold;
+}
+
+.pagedata_header div.viewstate {
+    float: right;
+}
+
+.pagedata_header div.viewstate a {
+    color: #486C82; 
+    font-weight: bold;
+}
+
+.pagedata_header div.viewstate a:hover {
+    color: black; 
+    font-weight: bold;
+}
+
+
+/*************************************************************************/
+/*															 PageData Body
+/*************************************************************************/
+.pagedata_body {
+    background-color: white;
+    border: 1px solid #7697ab;
+    border-top: none;
+    float: left;
+    padding: 6px 6px 0 6px;
+    width: 636px;
+}
+
+
+/*************************************************************************/
+/*                                                                    Item
+/*************************************************************************/
+.item {
+    padding-bottom: 10px;
+}
+
+.item input {
+    margin-right: 6px;
+}
+
+.item input.date_day,
+.item input.date_month {
+    width: 2em;
+}
+
+.item input.date_year {
+	width: 4em;
+}
+
+.item select {
+    
+}
+
+.item textarea {
+	height: 150px;
+	width: 614px;
+}
+
+.item textarea.mceeditor {
+	height: 200px;
+	width: 614px;
+}
+
+.item .button {
+    
+}
+
+
+/*************************************************************************/
+/*                                                                    Tabs
+/*************************************************************************/
+.tab-row {
+    float: left;
+}
+
+.tab-pane {
+    float: left;
+    margin-top: 10px;
+    width: 617px;
+}
+
+.tab-page {
+    float: left;
+    margin-top: -21px;  /* bad :-( */
+    margin-bottom: 29px;  /* bad :-( */
+    width: 632px;
+}
+
+
+/*************************************************************************/
+/*                                                            Element Menu
+/*************************************************************************/
+.element_menu {
+    width: 618px;
+}
+
+
+/*************************************************************************/
+/*                                                          Element Header
+/*************************************************************************/
+.element_header {
+    background-color: white;
+    float: left;
+    height: 22px;
+    margin-top: 10px;
+    padding: 6px 0 2px 0;
+    width: 630px;
+}
+
+.element_header div.buttons {
+    float: right;
+    text-align: right;
+    width: 182px;
+}
+
+.element_header div.title {
+    color: #8da6b5;
+    float: left;
+    font-weight: bold;
+    height: 19px;
+    line-height: 19px;
+    padding: 0 0 0 6px;
+    text-transform: capitalize;
+    width: 442px;
+}
+
+
+/*************************************************************************/
+/*                                                            Element Body
+/*************************************************************************/
+.element_body {
+    background-color: white;
+    border: 1px solid #7697ab;
+    margin-top: -1px;
+    padding: 6px 6px 0 6px;
+    float: left;
+    width: 618px;
+}
+
+
+/*************************************************************************/
+/*															 UserData Menu
+/*************************************************************************/
+.left .userdata_menu {
+    width: 208px;
+    margin-bottom: 10px;
+}
+
+.right .userdata_menu {
+    width: 636px;
+}
+
+
+/*************************************************************************/
+/*                                                         UserData Header
+/*************************************************************************/
+.userdata_header {
+    background-color: #e8eef1;
+    border: 1px solid #7697ab;
+    color: #486c82;
+    float: left;
+    font-weight: bold;
+    height: 16px;
+    width: 636px;
+    margin-top: 10px;
+    padding: 6px 4px 4px 8px;
+}
+
+.userdata_header div.title {
+    color: #486C82;
+    float: left; 
+    font-weight: bold;
+}
+
+.userdata_header div.viewstate {
+    float: right;
+}
+
+.userdata_header div.viewstate a {
+    color: #486C82; 
+    font-weight: bold;
+}
+
+.userdata_header div.viewstate a:hover {
+    color: black; 
+    font-weight: bold;
+}
+
+
+/*************************************************************************/
+/*                                                           UserData Body
+/*************************************************************************/
+.userdata_body {
+    background-color: white;
+    border: 1px solid #7697ab;
+    border-top: none;
+    float: left;
+    padding: 6px 6px 0 6px;
+    width: 636px;
+}
+
+.userdata_body table tr td {
+	padding: 6px;
+}
+
+.userdata_body div.tree {
+	width: 614px
+}
+
+
+/*************************************************************************/
+/*															 FileData Menu
+/*************************************************************************/
+.left .filedata_menu {
+    width: 208px;
+    margin-bottom: 10px;
+}
+
+.right .filedata_menu {
+    border-top: none;
+    width: 636px;
+}
+
+.left .folderdata_menu {
+    width: 208px;
+    margin-bottom: 10px;
+}
+
+
+/*************************************************************************/
+/*                                                         FileData Header
+/*************************************************************************/
+.filedata_header {
+    background-color: #e8eef1;
+    border: 1px solid #7697ab;
+    color: #486c82;
+    float: left;
+    font-weight: bold;
+    height: 16px;
+    width: 636px;
+    padding: 6px 4px 4px 8px;
+}
+
+.filedata_header div.title {
+    color: #486C82;
+    float: left; 
+    font-weight: bold;
+}
+
+.filedata_header div.viewstate {
+    float: right;
+}
+
+.filedata_header div.viewstate a {
+    color: #486C82; 
+    font-weight: bold;
+}
+
+.filedata_header div.viewstate a:hover {
+    color: black; 
+    font-weight: bold;
+}
+
+
+/*************************************************************************/
+/*                                                           FileData Body
+/*************************************************************************/
+.filedata_body {
+    background-color: white;
+    border: 1px solid #7697ab;
+    border-top: none;
+    float: left;
+    padding: 6px;
+    width: 636px;
+}
+
+.filedata_body table {
+	border: 1px solid black;
+	margin-top: 6px;
+	width: 636px;
+}
+
+.filedata_body table tr td {
+	background-color: #e8eef1;
+    color: #486c82;
+	padding: 6px;
+}
+
+.filedata_body table tr td.field {
+	width: 130px;
+}
+
+.filedata_body table tr td input {
+	margin: 0 5px 0 10px;
+	width: 40px;
+}
+
+
+/*************************************************************************/
+/*														   FolderData Menu
+/*************************************************************************/
+.left .folderdata_menu {
+    width: 208px;
+    margin-bottom: 10px;
+}
+
+.right .folderdata_menu {
+    border-top: none;
+    width: 636px;
+}
+
+
+/*************************************************************************/
+/*                                                       FolderData Header
+/*************************************************************************/
+.folderdata_header {
+    background-color: #e8eef1;
+    border: 1px solid #7697ab;
+    color: #486c82;
+    float: left;
+    font-weight: bold;
+    height: 16px;
+    width: 636px;
+    padding: 6px 4px 4px 8px;
+}
+
+.folderdata_header div.title {
+    color: #486C82;
+    float: left; 
+    font-weight: bold;
+}
+
+.folderdata_header div.viewstate {
+    float: right;
+}
+
+.folderdata_header div.viewstate a {
+    color: #486C82; 
+    font-weight: bold;
+}
+
+.folderdata_header div.viewstate a:hover {
+    color: black; 
+    font-weight: bold;
+}
+
+
+/*************************************************************************/
+/*                                                         FolderData Body
+/*************************************************************************/
+.folderdata_body {
+    background-color: white;
+    border: 1px solid #7697ab;
+    border-top: none;
+    float: left;
+    padding: 6px;
+    width: 636px;
+}
+
+.folderdata_body table {
+	border: 1px solid black;
+	width: 636px;
+}
+
+.folderdata_body table tr td {
+	background-color: #e8eef1;
+    color: #486c82;
+	padding: 6px;
+}
+
+.folderdata_body table tr td.field {
+	width: 130px;
+}
+
+.folderdata_body table tr td input {
+	margin: 0 5px 0 10px;
+	width: 40px;
+}
+
+
+/*************************************************************************/
+/*                                                                   Login
+/*************************************************************************/
+.login {
+	float: left;
+	padding-top: 30px;
+	width: 100%;
+}
+
+.login table {
+	background: white;
+	border: 1px solid black;
+}
+
+.login table thead {
+	height: 39px;
+}
+
+.login table thead tr td {
+	background: #628498 url('../Images/topbg.gif') top left repeat-x;
+}
+
+.login table tbody tr td {
+	padding: 6px;
+}
+
+.login table tbody tr td input {
+	height: 1.5em;
+}
+
+.login table tbody tr td input.submit {
+	background-color: white;
+	height: 2em;
+	padding: 2px;
+	text-align: center;
+	width: 80px;
+}
+
+.login table tfoot {
+	height: 50px;
+}
+
+
+/*************************************************************************/
+/*                                                                    Form
+/*************************************************************************/
+input {
+    width: 200px;
+}
+
+select {
+    width: 206px;
+}
+
+input, 
+textarea, 
+select {
+    border: 1px solid #bec7cd;
+    background-color: white;
+}
+
+input {
+    height: 15px;
+    padding: 2px;
+}
+
+select {
+    font: menu;
+}
+
+input.upload {
+    width: 375px;
+}
+
+input.checkbox {
+	width: 30px;
+	margin: 0;
+	padding:2px;
+	border: none;
+}

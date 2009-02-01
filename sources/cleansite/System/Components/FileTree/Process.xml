@@ -1,28 +1,29 @@
-<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?>
+
 <process>
 	<admin>
 		<file>
 			<handle provider="File" />
-			<load provider="File" place="contentone" action="tree"/>
+			<load provider="File" place="contentone" action="tree" />
 			<edit notnull="true">
 				<file>
-					<load provider="File" place="contenttwo" action="file"/>
+					<load provider="File" place="contenttwo" action="file" />
 				</file>
 				<folder>
-					<load provider="File" place="contenttwo" action="folder"/>
+					<load provider="File" place="contenttwo" action="folder" />
 				</folder>
 			</edit>
 		</file>
 		<choose>
 			<file>
-				<load provider="File" place="contentone" action="tree"/>
+				<load provider="File" place="contentone" action="tree" />
 			</file>
 			<folder>
-				<load provider="File" place="contentone" action="tree"/>
+				<load provider="File" place="contentone" action="tree" />
 			</folder>
 		</choose>
 	</admin>
 	<download notnull="true">
-		<load provider="File" action="download"/>
+		<load provider="File" action="download" />
 	</download>
 </process>

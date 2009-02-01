@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<settings>
 
+<settings>
   <loadxml>
     <changelog>~/System/Components/Changelog/changelog.xml</changelog>
   </loadxml>
   <admin>
     <menu>
-      <right>
-      </right>
-
+      <right />
     </menu>
   </admin>
 </settings>

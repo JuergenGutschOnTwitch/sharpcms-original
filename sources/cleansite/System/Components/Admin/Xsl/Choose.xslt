@@ -4,14 +4,13 @@
 		version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns="http://www.w3.org/1999/xhtml">
-	
-	<xsl:include href="..\..\..\..\Custom\Components\Snippets.xslt"/>
+	<xsl:include href="..\..\..\..\Custom\Components\Snippets.xslt" />
 	<xsl:template match="/">
 		<html>
 			<head>
         <base>
           <xsl:attribute name="href">
-            <xsl:value-of select="/data/basepath"/>
+            <xsl:value-of select="/data/basepath" />
             <xsl:text>/</xsl:text>
           </xsl:attribute>
         </base>
@@ -23,7 +22,7 @@
 			</head>
 			<body>
 				<div class="top" style="height:30px;font-size:18px;padding:6px;">Choose</div>
-				<div class="choosecontent"><xsl:apply-templates select="data/contentone/*" mode="choose"/></div>
+				<div class="choosecontent"><xsl:apply-templates select="data/contentone/*" mode="choose" /></div>
 			</body>
 		</html>
 	</xsl:template>

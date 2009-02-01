@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <settings>
   <general>
 	  <customrootcomponents>~/Custom/Components</customrootcomponents>
@@ -35,7 +36,6 @@
       <m4b>audio/x-m4b</m4b>
       <m4v>video/x-m4v</m4v>
       <mp4>video/mp4</mp4>
-    
     </mimetypes>
   </common>
   <site>
