@@ -9,18 +9,8 @@
 
         string processpath = currentURL.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').ToLower();
        
-        if (System.IO.File.Exists(httpContext.Server.MapPath(currentURL.Substring(currentURL.LastIndexOf("/") + 1))))
-        {
-            
-        }
-        else
-        {
-
+        if (!System.IO.File.Exists(httpContext.Server.MapPath(currentURL.Substring(currentURL.LastIndexOf("/") + 1))))
             httpContext.RewritePath("~/default.aspx?process=" + processpath.Replace(".aspx", "") + "&" + httpContext.Request.ServerVariables["QUERY_STRING"]);
-        }
-  
-        
-        
     }
     void Application_Start(object sender, EventArgs e) 
     {
