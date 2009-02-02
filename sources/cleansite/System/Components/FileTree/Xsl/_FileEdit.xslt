@@ -4,12 +4,14 @@
 	<xsl:output method="html" />
 
 	<xsl:template mode="edit" match="file">
-    <div class="filedata_header">
+    <div class="head filedata_head">
       <div class="title">
         <xsl:value-of select="@path" />
       </div>
       <div class="viewstate">
-        <a id="fida_vs" href="javascript:collapseexpand('fida_body', 'fida_vs');">˅</a>
+        <xsl:if test="@mainmimetype='image'">
+          <p id="fida_vs">˅</p>
+        </xsl:if>
       </div>
     </div>
     <div class="menu filedata_menu">
@@ -47,7 +49,7 @@
       </script>
     </div>
     <xsl:if test="@mainmimetype='image'">
-      <div class="filedata_body" id="fida_body">
+      <div class="body filedata_body" id="fida_body">
         <img>
           <xsl:attribute name="src">
             ?process=download/<xsl:value-of select="@path" />

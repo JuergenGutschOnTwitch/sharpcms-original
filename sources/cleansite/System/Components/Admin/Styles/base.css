@@ -3,14 +3,14 @@
 /*
 /* #628498      mainmenu background
 /* #486c82      a
-/*              .pagedata_header color 
+/*              .pagedata_headcolor 
 /* #cfb000      a:hover
 /* #96a1a9      .adminmenu a.button:hover
 /* #7697ab      .adminmenu border
-/*      		.pagedata_header border
+/*      		.pagedata_headborder
 /*              .pagedata_body background
-/* #e8eef1		.pagedata_header background
-/* #8da6b5      .element_header div.title color
+/* #e8eef1		.pagedata_headbackground
+/* #8da6b5      .element_headdiv.title color
 /*
 /*************************************************************************/
 
@@ -39,21 +39,40 @@ body {
     font-size: 62.5%;
 }
 
-a {
-    
-}
-
-img {
-    
-}
-
 label {
     color: #486c82;
 }
 
 
 /*************************************************************************/
-/*                                                            Menu Default
+/*                                                             Tree (base)
+/*************************************************************************/
+.tree {
+    background-color: white;
+    border: 1px solid #bec7cd;
+    border-top: none;
+    float: left;
+    margin-bottom: 10px;
+    min-height: 220px;
+    padding: 10px;
+    width: 200px;
+}
+
+.tree b {
+	font-weight: bold;
+}
+
+.tree ul {
+	padding-left: 20px;
+}
+
+.tree ul li {
+	padding-top: 5px;
+}
+
+
+/*************************************************************************/
+/*                                                             Menu (base)
 /*************************************************************************/
 .menu {
     background-color: white;
@@ -73,6 +92,77 @@ label {
 
 .menu li {
     margin: 4px;
+}
+
+.top {
+	border-top: none;
+}
+
+.bottom {
+		
+}
+
+
+/*************************************************************************/
+/*															   Head (base)
+/*************************************************************************/
+.head {
+    background-color: #e8eef1;
+    border: 1px solid #7697ab;
+    color: #486c82;
+    float: left;
+    font-weight: bold;
+    height: 16px;
+    padding: 6px 4px 4px 8px;
+}
+
+.head div.title {
+    color: #486C82;
+    float: left; 
+    font-weight: bold;
+}
+
+.head div.viewstate {
+    float: right;
+}
+
+.head div.viewstate p {
+    color: #486C82; 
+	cursor: pointer;
+    font-weight: bold;
+}
+
+
+/*************************************************************************/
+/*															   Body (base)
+/*************************************************************************/
+.body {
+    background-color: white;
+    border: 1px solid #7697ab;
+    border-top: none;
+    float: left;
+    padding: 6px 6px 0 6px;
+}
+
+.body table {
+	border: 1px solid black;
+	margin-top: 6px;
+	width: 636px;
+}
+
+.body table tr td {
+	background-color: #e8eef1;
+    color: #486c82;
+	padding: 6px;
+}
+
+.body table tr td.field {
+	width: 130px;
+}
+
+.body table tr td input {
+	margin: 0 5px 0 10px;
+	width: 40px;
 }
 
 
@@ -120,10 +210,6 @@ a.button:hover {
     float: left;
     height: 39px;
     width: 100%;
-}
-
-.header a {
-    
 }
 
 .header a img {
@@ -208,72 +294,18 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*                                                                    Tree
+/*                                                           PageData Head
 /*************************************************************************/
-.tree {
-    background-color: white;
-    border: 1px solid #bec7cd;
-    float: left;
-    margin-bottom: 10px;
-    min-height: 220px;
-    padding: 10px;
-    width: 200px;
-}
-
-.tree b {
-	font-weight: bold;
-}
-
-.tree ul {
-	padding-left: 20px;
-}
-
-.tree ul li {
-	padding-top: 5px;
+.pagedata_head{
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                              Admin Menu
 /*************************************************************************/
-.admin_menu {
+.pagedata_menu {
     width: 636px;
-}
-
-
-/*************************************************************************/
-/*                                                         PageData Header
-/*************************************************************************/
-.pagedata_header {
-    background-color: #e8eef1;
-    border: 1px solid #7697ab;
-    color: #486c82;
-    float: left;
-    font-weight: bold;
-    height: 16px;
-    width: 636px;
-    margin-top: 10px;
-    padding: 6px 4px 4px 8px;
-}
-
-.pagedata_header div.title {
-    color: #486C82;
-    float: left; 
-    font-weight: bold;
-}
-
-.pagedata_header div.viewstate {
-    float: right;
-}
-
-.pagedata_header div.viewstate a {
-    color: #486C82; 
-    font-weight: bold;
-}
-
-.pagedata_header div.viewstate a:hover {
-    color: black; 
-    font-weight: bold;
 }
 
 
@@ -281,11 +313,6 @@ a.button:hover {
 /*															 PageData Body
 /*************************************************************************/
 .pagedata_body {
-    background-color: white;
-    border: 1px solid #7697ab;
-    border-top: none;
-    float: left;
-    padding: 6px 6px 0 6px;
     width: 636px;
 }
 
@@ -310,10 +337,6 @@ a.button:hover {
 	width: 4em;
 }
 
-.item select {
-    
-}
-
 .item textarea {
 	height: 150px;
 	width: 614px;
@@ -321,11 +344,6 @@ a.button:hover {
 
 .item textarea.mceeditor {
 	height: 200px;
-	width: 614px;
-}
-
-.item .button {
-    
 }
 
 
@@ -359,9 +377,9 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*                                                          Element Header
+/*                                                            Element Head
 /*************************************************************************/
-.element_header {
+.element_head {
     background-color: white;
     float: left;
     height: 22px;
@@ -370,13 +388,13 @@ a.button:hover {
     width: 630px;
 }
 
-.element_header div.buttons {
+.element_head div.buttons {
     float: right;
     text-align: right;
     width: 182px;
 }
 
-.element_header div.title {
+.element_head div.title {
     color: #8da6b5;
     float: left;
     font-weight: bold;
@@ -402,51 +420,19 @@ a.button:hover {
 
 
 /*************************************************************************/
+/*															 UserData Head
+/*************************************************************************/
+.userdata_head{
+    width: 636px;
+}
+
+
+/*************************************************************************/
 /*															 UserData Menu
 /*************************************************************************/
-.left .userdata_menu {
-    width: 208px;
-    margin-bottom: 10px;
-}
-
 .right .userdata_menu {
+	border-top: none;
     width: 636px;
-}
-
-
-/*************************************************************************/
-/*                                                         UserData Header
-/*************************************************************************/
-.userdata_header {
-    background-color: #e8eef1;
-    border: 1px solid #7697ab;
-    color: #486c82;
-    float: left;
-    font-weight: bold;
-    height: 16px;
-    width: 636px;
-    margin-top: 10px;
-    padding: 6px 4px 4px 8px;
-}
-
-.userdata_header div.title {
-    color: #486C82;
-    float: left; 
-    font-weight: bold;
-}
-
-.userdata_header div.viewstate {
-    float: right;
-}
-
-.userdata_header div.viewstate a {
-    color: #486C82; 
-    font-weight: bold;
-}
-
-.userdata_header div.viewstate a:hover {
-    color: black; 
-    font-weight: bold;
 }
 
 
@@ -454,11 +440,6 @@ a.button:hover {
 /*                                                           UserData Body
 /*************************************************************************/
 .userdata_body {
-    background-color: white;
-    border: 1px solid #7697ab;
-    border-top: none;
-    float: left;
-    padding: 6px 6px 0 6px;
     width: 636px;
 }
 
@@ -472,56 +453,44 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*															 FileData Menu
+/*															     Tree Head
 /*************************************************************************/
-.left .filedata_menu {
+.tree_head{
     width: 208px;
-    margin-bottom: 10px;
 }
 
+
+/*************************************************************************/
+/*																 Tree Menu
+/*************************************************************************/
+.left .tree_menu {
+    border-top: none;
+    width: 208px;
+}
+
+
+/*************************************************************************/
+/*																 Tree Body
+/*************************************************************************/
+.tree_body {
+	
+}
+
+
+/*************************************************************************/
+/*															 FileData Menu
+/*************************************************************************/
 .right .filedata_menu {
     border-top: none;
     width: 636px;
-}
-
-.left .folderdata_menu {
-    width: 208px;
-    margin-bottom: 10px;
 }
 
 
 /*************************************************************************/
 /*                                                         FileData Header
 /*************************************************************************/
-.filedata_header {
-    background-color: #e8eef1;
-    border: 1px solid #7697ab;
-    color: #486c82;
-    float: left;
-    font-weight: bold;
-    height: 16px;
+.filedata_head{
     width: 636px;
-    padding: 6px 4px 4px 8px;
-}
-
-.filedata_header div.title {
-    color: #486C82;
-    float: left; 
-    font-weight: bold;
-}
-
-.filedata_header div.viewstate {
-    float: right;
-}
-
-.filedata_header div.viewstate a {
-    color: #486C82; 
-    font-weight: bold;
-}
-
-.filedata_header div.viewstate a:hover {
-    color: black; 
-    font-weight: bold;
 }
 
 
@@ -529,44 +498,14 @@ a.button:hover {
 /*                                                           FileData Body
 /*************************************************************************/
 .filedata_body {
-    background-color: white;
-    border: 1px solid #7697ab;
-    border-top: none;
-    float: left;
     padding: 6px;
     width: 636px;
-}
-
-.filedata_body table {
-	border: 1px solid black;
-	margin-top: 6px;
-	width: 636px;
-}
-
-.filedata_body table tr td {
-	background-color: #e8eef1;
-    color: #486c82;
-	padding: 6px;
-}
-
-.filedata_body table tr td.field {
-	width: 130px;
-}
-
-.filedata_body table tr td input {
-	margin: 0 5px 0 10px;
-	width: 40px;
 }
 
 
 /*************************************************************************/
 /*														   FolderData Menu
 /*************************************************************************/
-.left .folderdata_menu {
-    width: 208px;
-    margin-bottom: 10px;
-}
-
 .right .folderdata_menu {
     border-top: none;
     width: 636px;
@@ -576,35 +515,8 @@ a.button:hover {
 /*************************************************************************/
 /*                                                       FolderData Header
 /*************************************************************************/
-.folderdata_header {
-    background-color: #e8eef1;
-    border: 1px solid #7697ab;
-    color: #486c82;
-    float: left;
-    font-weight: bold;
-    height: 16px;
+.folderdata_head{
     width: 636px;
-    padding: 6px 4px 4px 8px;
-}
-
-.folderdata_header div.title {
-    color: #486C82;
-    float: left; 
-    font-weight: bold;
-}
-
-.folderdata_header div.viewstate {
-    float: right;
-}
-
-.folderdata_header div.viewstate a {
-    color: #486C82; 
-    font-weight: bold;
-}
-
-.folderdata_header div.viewstate a:hover {
-    color: black; 
-    font-weight: bold;
 }
 
 
@@ -612,32 +524,8 @@ a.button:hover {
 /*                                                         FolderData Body
 /*************************************************************************/
 .folderdata_body {
-    background-color: white;
-    border: 1px solid #7697ab;
-    border-top: none;
-    float: left;
     padding: 6px;
     width: 636px;
-}
-
-.folderdata_body table {
-	border: 1px solid black;
-	width: 636px;
-}
-
-.folderdata_body table tr td {
-	background-color: #e8eef1;
-    color: #486c82;
-	padding: 6px;
-}
-
-.folderdata_body table tr td.field {
-	width: 130px;
-}
-
-.folderdata_body table tr td input {
-	margin: 0 5px 0 10px;
-	width: 40px;
 }
 
 

@@ -4,7 +4,15 @@
 	<xsl:output method="html" />
   
 	<xsl:template  mode="edit" match="filetree">
-	  <div class="tree">
+    <div class="head tree_head">
+      <div class="title">
+        Directory
+      </div>
+      <div class="viewstate">
+        
+      </div>
+    </div>
+    <div class="tree tree_body">
 		  <script type="text/javascript">
 			  filetree = new dTree('filetree',true);
 			  <xsl:apply-templates mode="filetree" select="folder/*">

@@ -33,28 +33,36 @@
 				<xsl:value-of select="attributes/pageidentifier" />
 			</xsl:attribute>
 		</input>
-		<div class="menu admin_menu">
-			<a class="button" href="javascript:ThrowEvent('save','')">Save</a>
-			<a class="button" href="javascript:ThrowEvent('save','openwindow')">Save and show</a>
-			<select name="adminmoreactions" id="adminmoreactions" onChange="eval(adminmoreactions.options[adminmoreactions.selectedIndex].value);">
-				<option>More actions...</option>
-				<option value="ThrowEventConfirm('removepage', '{attributes/pageidentifier}', 'Do you want to delete the page?')">
-					&#160;&#160;Delete page
-				</option>
-				<option value="ThrowEventNew('addpage','{attributes/pageidentifier}','Type the name of the new page:')">
-					&#160;&#160;Add subpage
-				</option>
-				<option value="ThrowEventNew('pagecreatcontainer','','Type the name of the new container:')">
-					&#160;&#160;Add container
-				</option>
+    <div class="head pagedata_head">
+      <div class="title">
+        Page data
+      </div>
+      <div class="viewstate">
+        <p id="pada_vs">˅</p>
+      </div>
+    </div>
+    <div class="menu pagedata_menu top">
+      <a class="button" href="javascript:ThrowEvent('save','')">Save</a>
+      <a class="button" href="javascript:ThrowEvent('save','openwindow')">Save and show</a>
+      <select name="adminmoreactions" id="adminmoreactions" onChange="eval(adminmoreactions.options[adminmoreactions.selectedIndex].value);">
+        <option>More actions...</option>
+        <option value="ThrowEventConfirm('removepage', '{attributes/pageidentifier}', 'Do you want to delete the page?')">
+          &#160;&#160;Delete page
+        </option>
+        <option value="ThrowEventNew('addpage','{attributes/pageidentifier}','Type the name of the new page:')">
+          &#160;&#160;Add subpage
+        </option>
+        <option value="ThrowEventNew('pagecreatcontainer','','Type the name of the new container:')">
+          &#160;&#160;Add container
+        </option>
         <option disabled="disabled"></option>
-				<option disabled="disabled">Move</option>
-				<option value="ThrowEvent('pagemoveup','{attributes/pageidentifier}')">
-					&#160;&#160;Move up
-				</option>
-				<option value="ThrowEvent('pagemovedown','{attributes/pageidentifier}')">
-					&#160;&#160;Move down
-				</option>
+        <option disabled="disabled">Move</option>
+        <option value="ThrowEvent('pagemoveup','{attributes/pageidentifier}')">
+          &#160;&#160;Move up
+        </option>
+        <option value="ThrowEvent('pagemovedown','{attributes/pageidentifier}')">
+          &#160;&#160;Move down
+        </option>
         <option value="ThrowEvent('pagemovetop','{attributes/pageidentifier}')">
           &#160;&#160;Move Top
         </option>
@@ -66,14 +74,8 @@
         <option disabled="disabled"></option>
         <option value="ThrowEvent('setstandardpage', '')">Set as default page</option>
       </select>
-		</div>
-    <div class="pagedata_header">
-      <div class="title">Page data</div>
-      <div class="viewstate">
-        <a id="pada_vs" href="javascript:collapseexpand('pada_body', 'pada_vs');">˅</a>
-      </div>
-		</div>
-    <div class="pagedata_body" id="pada_body">
+    </div>
+    <div class="body pagedata_body" id="pada_body">
       <xsl:call-template name="topelements" />
 		</div>
     <div id="tabpagecontent" class="tab-pane">
@@ -85,7 +87,7 @@
 		<script type="text/javascript">
 			//setupAllTabs();
 		</script>
-    <div class="menu admin_menu">
+    <div class="menu pagedata_menu bottom">
 			<a class="button" href="javascript:ThrowEvent('save','')">Save</a>
       <a class="button" href="javascript:ThrowEvent('save','openwindow')">
         Save and show
@@ -439,7 +441,7 @@
 	</xsl:template>
 
   <xsl:template name="elementtop">
-		<div class="menu element_header">
+		<div class="menu element_head">
       <div class="title">
         <xsl:value-of select="@type" />
       </div>

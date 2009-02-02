@@ -12,7 +12,15 @@
   <xsl:output method="html" />
   
 	<xsl:template mode="edit" match="sitetree">
-		<div class="tree">
+    <div class="head tree_head">
+      <div class="title">
+        Sites
+      </div>
+      <div class="viewstate">
+
+      </div>
+    </div>
+    <div class="tree tree_body">
 			<script type="text/javascript">
 				sitetree = new dTree('sitetree', false);
 				<xsl:for-each select="*">

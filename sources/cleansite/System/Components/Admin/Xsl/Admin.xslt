@@ -31,9 +31,10 @@
 					</xsl:if>
 				</title>
         <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
+        <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tree/jQuery.css" />
         <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tree/dtree.css" />
         <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tab/tab.css" />
-        <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery.js">
+        <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jQuery-1.3.min.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="System/Components/Admin/Scripts/tab/tabpane.js">

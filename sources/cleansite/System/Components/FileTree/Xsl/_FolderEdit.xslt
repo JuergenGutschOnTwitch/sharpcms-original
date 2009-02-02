@@ -4,12 +4,12 @@
 	<xsl:output method="html" />
   
 	<xsl:template mode="edit" match="folder">
-    <div class="folderdata_header">
+    <div class="head folderdata_head">
       <div class="title">
         <xsl:value-of select="@path" />
       </div>
       <div class="viewstate">
-        <a id="foda_vs" href="javascript:collapseexpand('foda_body', 'foda_vs');">˅</a>
+        <p id="foda_vs">˅</p>
       </div>
     </div>
     <div class="menu folderdata_menu">
@@ -42,7 +42,7 @@
         }
       </script>
     </div>
-      <div class="folderdata_body" id="foda_body">
+    <div class="body folderdata_body" id="foda_body">
       <xsl:call-template name="upload" />
     </div>
 	</xsl:template>
