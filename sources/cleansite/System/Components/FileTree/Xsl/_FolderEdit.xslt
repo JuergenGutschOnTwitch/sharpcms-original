@@ -13,18 +13,18 @@
       </div>
     </div>
     <div class="menu folderdata_menu">
-      <a class="button" href="javascript:ThrowEventConfirm('removefolder','{@path}','Do you want to delete the folder?')">
+      <a class="button" href="javascript:ThrowEventConfirm('removefolder','{@path}','Do you want to delete the folder?');">
         Delete folder
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ThrowEventNew('renamefolder','<xsl:value-of select="@path" />','Write the new name')
+          javascript:ThrowEventNew('renamefolder','<xsl:value-of select="@path" />','Write the new name');
         </xsl:attribute>
         Rename folder
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ThrowEventNew('addfolder','<xsl:value-of select="@path" />','Type the name of the new folder')
+          javascript:ThrowEventNew('addfolder','<xsl:value-of select="@path" />','Type the name of the new folder');
         </xsl:attribute>
         Add subfolder
       </a>
@@ -55,7 +55,7 @@
         <xsl:with-param name="currentlevel">1</xsl:with-param>
         <xsl:with-param name="maxlevel">10</xsl:with-param>
       </xsl:call-template>
-			<a class="button" href="javascript:ThrowEvent('uploadfile', '{@path}', 'Type the name of the new folder:')">
+			<a class="button" href="javascript:ThrowEvent('uploadfile', '{@path}', 'Type the name of the new folder:');">
 				Upload
 			</a>
 		</div> 

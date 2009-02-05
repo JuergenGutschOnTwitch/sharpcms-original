@@ -17,7 +17,7 @@
 		<html xmlns="http://www.w3.org/1999/xhtml">
 			<head>
 				<base href="{/data/basepath}/" />
-				<script>
+        <script type="text/javascript">
 					<xsl:text>var basePath = '</xsl:text>
 					<xsl:value-of select="/data/basepath" />
 					<xsl:text>';</xsl:text>
@@ -31,7 +31,6 @@
 					</xsl:if>
 				</title>
         <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tree/jQuery.css" />
         <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tree/dtree.css" />
         <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tab/tab.css" />
         <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jQuery-1.3.min.js">
@@ -40,10 +39,10 @@
         <script type="text/javascript" src="System/Components/Admin/Scripts/tab/tabpane.js">
 					<xsl:text> </xsl:text>
 				</script>
-				<script type="text/javascript" src="System/Components/Admin/Scripts/tree/dtree.js">
+        <script type="text/javascript" src="System/Components/Admin/Scripts/tree/dtree.js">
 					<xsl:text> </xsl:text>
 				</script>
-				<script type="text/javascript" src="System/Components/Admin/Scripts/modal.js">
+        <script type="text/javascript" src="System/Components/Admin/Scripts/modal.js">
 					<xsl:text> </xsl:text>
 				</script>
         <script type="text/javascript" src="System/Components/Admin/Scripts/sessvars.js">
@@ -55,7 +54,7 @@
         <script type="text/javascript" src="System/Components/Admin/Scripts/collapseexpand.js">
           <xsl:text> </xsl:text>
         </script>
-				<script type="text/javascript" src="System/Components/Admin/Scripts/tinymce/tiny_mce.js">
+        <script type="text/javascript" src="System/Components/Admin/Scripts/tinymce/tiny_mce.js">
 					<xsl:text> </xsl:text>
 				</script>
 				<script type="text/javascript">
@@ -161,7 +160,7 @@
 					<xsl:if test="@event">
 						<xsl:text>javascript:ThrowEvent('</xsl:text>
 						<xsl:value-of select="@event" />
-						<xsl:text>', '')</xsl:text>
+						<xsl:text>', '');</xsl:text>
 					</xsl:if>
 				</xsl:attribute>
 				<!--<xsl:if test="position()-last()=-3"><xsl:attribute name="style"><xsl:text>padding-left:50px;</xsl:text></xsl:attribute></xsl:if>-->

@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="menu tree_menu">
-      <a class="button" href="javascript:ThrowEventNew('adduser','','Type the name of the new user')">Add user</a>
+      <a class="button" href="javascript:ThrowEventNew('adduser','','Type the name of the new user');">Add user</a>
     </div>
     <div class="tree tree_body">
 			<ul>
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="menu tree_menu">
-      <a class="button" href="javascript:ThrowEventNew('addgroup','','Type the name of the new group')">Add group</a>
+      <a class="button" href="javascript:ThrowEventNew('addgroup','','Type the name of the new group');">Add group</a>
     </div>
     <div class="tree tree_body">
 			<ul>
@@ -43,7 +43,7 @@
 					<li>
 						<xsl:value-of select="@name" /><a>
 							<xsl:attribute name="href">
-								<xsl:text>javascript:ThrowEventConfirm('deletegroup','</xsl:text><xsl:value-of select="@name" /><xsl:text>','Are you sure you wnat to delete the group?')</xsl:text>
+								<xsl:text>javascript:ThrowEventConfirm('deletegroup','</xsl:text><xsl:value-of select="@name" /><xsl:text>','Are you sure you wnat to delete the group?');</xsl:text>
 							</xsl:attribute>
 						<xsl:text> Delete</xsl:text>
 					</a>
@@ -67,7 +67,7 @@
         <xsl:attribute name="href">
           <xsl:text>javascript:ThrowEvent('saveuser','</xsl:text>
           <xsl:value-of select="login" />
-          <xsl:text>')</xsl:text>
+          <xsl:text>');</xsl:text>
         </xsl:attribute>
         Save
       </a>
@@ -75,7 +75,7 @@
         <xsl:attribute name="href">
           <xsl:text>javascript:ThrowEventConfirm('deleteuser','</xsl:text>
           <xsl:value-of select="login" />
-          <xsl:text>','Are you sure you wnat to delete the user?')</xsl:text>
+          <xsl:text>','Are you sure you wnat to delete the user?');</xsl:text>
         </xsl:attribute>
         Delete user
       </a>

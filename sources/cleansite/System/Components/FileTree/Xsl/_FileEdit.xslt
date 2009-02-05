@@ -17,13 +17,13 @@
     <div class="menu filedata_menu">
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ThrowEventConfirm('removefile','<xsl:value-of select="@path" />','Do you want to delete the file?')
+          javascript:ThrowEventConfirm('removefile','<xsl:value-of select="@path" />','Do you want to delete the file?');
         </xsl:attribute>
         Delete file
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ThrowEventNew('renamefile','<xsl:value-of select="@path" />','Write the new name')
+          javascript:ThrowEventNew('renamefile','<xsl:value-of select="@path" />','Write the new name');
         </xsl:attribute>
         Rename file
       </a>
