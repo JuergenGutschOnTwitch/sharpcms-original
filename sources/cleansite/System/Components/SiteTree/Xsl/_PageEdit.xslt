@@ -20,7 +20,7 @@
       <xsl:if test="/data/query/events/mainvalue='openwindow'">
         <xsl:text>open_window ('show/</xsl:text>
         <xsl:value-of select="attributes/pageidentifier" />
-        <xsl:text>.aspx', 'showwebsite')</xsl:text>
+        <xsl:text>.aspx', 'showwebsite');</xsl:text>
       </xsl:if>
     </script>
 		<input type="hidden" name="data_pageidentifier">
@@ -42,37 +42,37 @@
       </div>
     </div>
     <div class="menu pagedata_menu top">
-      <a class="button" href="javascript:ThrowEvent('save','')">Save</a>
-      <a class="button" href="javascript:ThrowEvent('save','openwindow')">Save and show</a>
+      <a class="button" href="javascript:ThrowEvent('save','');">Save</a>
+      <a class="button" href="javascript:ThrowEvent('save','openwindow');">Save and show</a>
       <select name="adminmoreactions" id="adminmoreactions" onChange="eval(adminmoreactions.options[adminmoreactions.selectedIndex].value);">
-        <option>More actions...</option>
-        <option value="ThrowEventConfirm('removepage', '{attributes/pageidentifier}', 'Do you want to delete the page?')">
+        <option value="">More actions...</option>
+        <option value="ThrowEventConfirm('removepage', '{attributes/pageidentifier}', 'Do you want to delete the page?');">
           &#160;&#160;Delete page
         </option>
-        <option value="ThrowEventNew('addpage','{attributes/pageidentifier}','Type the name of the new page:')">
+        <option value="ThrowEventNew('addpage','{attributes/pageidentifier}','Type the name of the new page:');">
           &#160;&#160;Add subpage
         </option>
-        <option value="ThrowEventNew('pagecreatcontainer','','Type the name of the new container:')">
+        <option value="ThrowEventNew('pagecreatcontainer','','Type the name of the new container:');">
           &#160;&#160;Add container
         </option>
-        <option disabled="disabled"></option>
+        <option disabled="disabled" />
         <option disabled="disabled">Move</option>
-        <option value="ThrowEvent('pagemoveup','{attributes/pageidentifier}')">
+        <option value="ThrowEvent('pagemoveup','{attributes/pageidentifier}');">
           &#160;&#160;Move up
         </option>
-        <option value="ThrowEvent('pagemovedown','{attributes/pageidentifier}')">
+        <option value="ThrowEvent('pagemovedown','{attributes/pageidentifier}');">
           &#160;&#160;Move down
         </option>
-        <option value="ThrowEvent('pagemovetop','{attributes/pageidentifier}')">
+        <option value="ThrowEvent('pagemovetop','{attributes/pageidentifier}');">
           &#160;&#160;Move Top
         </option>
-        <option value="ThrowEvent('pagemovebottom','{attributes/pageidentifier}')">
+        <option value="ThrowEvent('pagemovebottom','{attributes/pageidentifier}');">
           &#160;&#160;Move Bottom
         </option>
         <option value="ModalDialogShow('{/data/basepath}/admin/choose/page.aspx', 'movePage()');">&#160;&#160;Move To</option>
         <option value="ModalDialogShow('{/data/basepath}/admin/choose/page.aspx', 'copyPage()');">&#160;&#160;Copy To</option>
-        <option disabled="disabled"></option>
-        <option value="ThrowEvent('setstandardpage', '')">Set as default page</option>
+        <option disabled="disabled" />
+        <option value="ThrowEvent('setstandardpage', '');">Set as default page</option>
       </select>
     </div>
     <div class="body pagedata_body" id="pada_body">
@@ -85,11 +85,11 @@
 			<xsl:apply-templates mode="form" select="containers/container" />
 		</div>
 		<script type="text/javascript">
-			//setupAllTabs();
+			// setupAllTabs();
 		</script>
     <div class="menu pagedata_menu bottom">
-			<a class="button" href="javascript:ThrowEvent('save','')">Save</a>
-      <a class="button" href="javascript:ThrowEvent('save','openwindow')">
+			<a class="button" href="javascript:ThrowEvent('save','');">Save</a>
+      <a class="button" href="javascript:ThrowEvent('save','openwindow');">
         Save and show
       </a>
     </div>
@@ -114,7 +114,7 @@
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEventConfirm('pageremovecontainer','</xsl:text>
             <xsl:number count="container" />
-            <xsl:text>','This will remove the container.\n\nAre you sure?')</xsl:text>
+            <xsl:text>','This will remove the container.\n\nAre you sure?');</xsl:text>
           </xsl:attribute>
           X
         </a>
@@ -122,7 +122,7 @@
           <xsl:attribute name="onChange">
             <xsl:text>ThrowEvent('addelement','text_</xsl:text>
             <xsl:number count="container" />
-            <xsl:text>')</xsl:text>
+            <xsl:text>');</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="name">
             <xsl:text>data_container_</xsl:text>
@@ -450,7 +450,7 @@
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEventConfirm('remove','element-</xsl:text>
             <xsl:number count="container" />-<xsl:number count="element" />
-            <xsl:text>','Are you sure you want to delete this element?')</xsl:text>
+            <xsl:text>','Are you sure you want to delete this element?');</xsl:text>
           </xsl:attribute>
           X
         </a>
@@ -458,7 +458,7 @@
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEvent('copy','element-</xsl:text>
             <xsl:number count="container" />-<xsl:number count="element" />
-            <xsl:text>')</xsl:text>
+            <xsl:text>');</xsl:text>
           </xsl:attribute>
           Copy
         </a>
@@ -466,7 +466,7 @@
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEvent('moveup','element-</xsl:text>
             <xsl:number count="container" />-<xsl:number count="element" />
-            <xsl:text>')</xsl:text>
+            <xsl:text>');</xsl:text>
           </xsl:attribute>
           Up
         </a>
@@ -474,14 +474,14 @@
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEvent('movedown','element-</xsl:text>
             <xsl:number count="container" />-<xsl:number count="element" />
-            <xsl:text>')</xsl:text>
+            <xsl:text>');</xsl:text>
           </xsl:attribute>
           Down
         </a>
         <a class="button">
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEvent('movetop','element-</xsl:text><xsl:number count="container" />-<xsl:number count="element" />
-            <xsl:text>')</xsl:text>
+            <xsl:text>');</xsl:text>
           </xsl:attribute>
           Top
         </a>
