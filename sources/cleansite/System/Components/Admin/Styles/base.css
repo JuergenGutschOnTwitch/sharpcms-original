@@ -99,7 +99,7 @@ label {
 }
 
 .bottom {
-		
+	
 }
 
 
@@ -162,7 +162,6 @@ label {
 
 .body table tr td input {
 	margin: 0 5px 0 10px;
-	width: 40px;
 }
 
 
@@ -391,7 +390,12 @@ a.button:hover {
 .element_head div.buttons {
     float: right;
     text-align: right;
-    width: 182px;
+    width: 200px;
+}
+
+.element_head div.buttons a {
+    float: right;
+    text-align: right;
 }
 
 .element_head div.title {
@@ -402,7 +406,7 @@ a.button:hover {
     line-height: 19px;
     padding: 0 0 0 6px;
     text-transform: capitalize;
-    width: 442px;
+    width: 420px;
 }
 
 
@@ -416,6 +420,14 @@ a.button:hover {
     padding: 6px 6px 0 6px;
     float: left;
     width: 618px;
+}
+
+.element_body .button {
+    background-color: white;
+    border: 1px solid #aeb8bf;
+    display: inline-block;
+    padding: 1px 4px;
+    text-align: center;
 }
 
 
@@ -443,12 +455,30 @@ a.button:hover {
     width: 636px;
 }
 
-.userdata_body table tr td {
-	padding: 6px;
+.userdata_body table {
+	margin-bottom: 7px;
 }
 
-.userdata_body div.tree {
-	width: 614px
+.userdata_body .checkbox {
+	background-color: transparent;
+	float: left;
+	margin: 0 0 5px 9px;
+	width: auto;
+}
+
+.userdata_body label {
+	display: block;
+	cursor: pointer;
+	float: left;
+	height: 20px;
+	line-height: 1em;
+	margin: 0 0 5px 1px;
+	padding-left: 5px;
+	width: 510px;
+}
+
+.userdata_body table tr td {
+	padding: 6px;
 }
 
 
@@ -502,6 +532,10 @@ a.button:hover {
     width: 636px;
 }
 
+.filedata_body input {
+	width: 40px;
+}
+
 
 /*************************************************************************/
 /*														   FolderData Menu
@@ -541,6 +575,7 @@ a.button:hover {
 .login table {
 	background: white;
 	border: 1px solid black;
+	margin: 0 auto;
 }
 
 .login table thead {
@@ -562,7 +597,7 @@ a.button:hover {
 .login table tbody tr td input.submit {
 	background-color: white;
 	height: 2em;
-	padding: 2px;
+	padding: 0 2px;
 	text-align: center;
 	width: 80px;
 }
@@ -573,16 +608,28 @@ a.button:hover {
 
 
 /*************************************************************************/
+/*                                                                  Choose
+/*************************************************************************/
+.choose .header {
+	background: #628498 url('../images/topbg.gif') top left repeat-x;
+    color: white;
+    float: left;
+    font-size: 18px;
+    height: 39px;
+    line-height: 39px;
+	padding-left: 10px;
+    width: 100%;
+}
+
+.choose .content {
+	padding: 10px;
+	width: 100%;
+}
+
+
+/*************************************************************************/
 /*                                                                    Form
 /*************************************************************************/
-input {
-    width: 200px;
-}
-
-select {
-    width: 206px;
-}
-
 input, 
 textarea, 
 select {
@@ -591,8 +638,13 @@ select {
 }
 
 input {
-    height: 15px;
+	height: 15px;
     padding: 2px;
+    width: 200px;
+}
+
+select {
+    width: 206px;
 }
 
 select {
@@ -606,6 +658,6 @@ input.upload {
 input.checkbox {
 	width: 30px;
 	margin: 0;
-	padding:2px;
+	padding: 2px;
 	border: none;
 }

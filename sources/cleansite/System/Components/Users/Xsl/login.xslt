@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:template match="/">
@@ -11,24 +11,13 @@
           </xsl:attribute>
         </base>
         <title>Admin - Sharpcms.net</title>
+        <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
+        <link type="text/css" rel="stylesheet" href="System/Components/Admin/niftycorners/niftyCorners.css" />
         <script type="text/javascript" src="System/Components/Admin/Scripts/eventhandler.js">
           <xsl:text> </xsl:text>
         </script>
-        <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="stylesheet" href="System/Components/Admin/niftycorners/niftyCorners.css" />
         <script type="text/javascript" src="System/Components/Admin/niftycorners/nifty.js">
           <xsl:text> </xsl:text>
-        </script>
-        <script type="text/javascript">
-          <![CDATA[
-				    window.onload=function(){
-				      if(!NiftyCheck())
-					      return;
-
-					    Rounded("div#topdiv","top","#393439","#ffffff","smooth");
-					    Rounded("div#topdiv","bottom","#393439","#ffffff","smooth");
-				    }
-				  ]]>
         </script>
       </head>
       <body>

@@ -78,7 +78,7 @@
     <div class="body pagedata_body" id="pada_body">
       <xsl:call-template name="topelements" />
 		</div>
-    <div id="tabpagecontent" class="tab-pane">
+    <div id="tabpagecontent" class="tab-pane" style="float: left;">
       <script type="text/javascript">
         tp1 = new WebFXTabPane(document.getElementById("tabpagecontent"), true, <xsl:value-of select="count(containers/container)" />);
       </script>
@@ -448,27 +448,10 @@
       <div class="buttons">
         <a class="button">
           <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEventConfirm('remove','element-</xsl:text>
-            <xsl:number count="container" />-<xsl:number count="element" />
-            <xsl:text>','Are you sure you want to delete this element?');</xsl:text>
-          </xsl:attribute>
-          X
-        </a>
-        <a class="button">
-          <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEvent('copy','element-</xsl:text>
-            <xsl:number count="container" />-<xsl:number count="element" />
+            <xsl:text>javascript:ThrowEvent('movetop','element-</xsl:text><xsl:number count="container" />-<xsl:number count="element" />
             <xsl:text>');</xsl:text>
           </xsl:attribute>
-          Copy
-        </a>
-        <a class="button">
-          <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEvent('moveup','element-</xsl:text>
-            <xsl:number count="container" />-<xsl:number count="element" />
-            <xsl:text>');</xsl:text>
-          </xsl:attribute>
-          Up
+          Top
         </a>
         <a class="button">
           <xsl:attribute name="href">
@@ -480,10 +463,27 @@
         </a>
         <a class="button">
           <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEvent('movetop','element-</xsl:text><xsl:number count="container" />-<xsl:number count="element" />
+            <xsl:text>javascript:ThrowEvent('moveup','element-</xsl:text>
+            <xsl:number count="container" />-<xsl:number count="element" />
             <xsl:text>');</xsl:text>
           </xsl:attribute>
-          Top
+          Up
+        </a>
+        <a class="button">
+          <xsl:attribute name="href">
+            <xsl:text>javascript:ThrowEvent('copy','element-</xsl:text>
+            <xsl:number count="container" />-<xsl:number count="element" />
+            <xsl:text>');</xsl:text>
+          </xsl:attribute>
+          Copy
+        </a>
+        <a class="button">
+          <xsl:attribute name="href">
+            <xsl:text>javascript:ThrowEventConfirm('remove','element-</xsl:text>
+            <xsl:number count="container" />-<xsl:number count="element" />
+            <xsl:text>','Are you sure you want to delete this element?');</xsl:text>
+          </xsl:attribute>
+          X
         </a>
       </div>
     </div>

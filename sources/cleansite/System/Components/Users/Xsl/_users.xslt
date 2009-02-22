@@ -100,29 +100,38 @@
 						<input name="data_user_password" type="password" value="emptystring" />
 					</td>
 				</tr>
+        <tr>
+          <td>Groups</td>
+          <td>
+            <xsl:variable select="groups" name="groups" />
+            <xsl:for-each select="//data/contentone/groups/group">
+              <xsl:variable select="@name" name="name" />
+              
+              <input class="checkbox" type="checkbox" name="data_user_groups">
+                <xsl:attribute name="id">
+                  <xsl:text>data_user_groups_</xsl:text>
+                  <xsl:value-of select="@name" />
+                </xsl:attribute>
+                <xsl:attribute name="value">
+                  <xsl:value-of select="@name" />
+                </xsl:attribute>
+                <xsl:if test="$groups/group[@name=$name]">
+                  <xsl:attribute name="checked">
+                    checked
+                  </xsl:attribute>
+                </xsl:if>
+              </input>
+              <label>
+                <xsl:attribute name="for">
+                  <xsl:text>data_user_groups_</xsl:text>
+                  <xsl:value-of select="@name" />
+                </xsl:attribute>
+                <xsl:value-of select="@name" />
+              </label>
+            </xsl:for-each>
+          </td>
+        </tr>
 			</table>
-		  <div class="tree">
-			  <b>Groups</b>
-			  <ul>
-				  <xsl:variable select="groups" name="groups" />
-				  <xsl:for-each select="//data/contentone/groups/group">
-					  <xsl:variable select="@name" name="name" />
-					  <li>
-						  <xsl:value-of select="@name" />
-						  <input class="checkbox" type="checkbox" name="data_user_groups">
-							  <xsl:attribute name="value">
-								  <xsl:value-of select="@name" />
-							  </xsl:attribute>
-							  <xsl:if test="$groups/group[@name=$name]">
-								  <xsl:attribute name="checked">
-								  checked
-								  </xsl:attribute>
-							  </xsl:if>
-						  </input>
-					  </li>
-				  </xsl:for-each>
-			  </ul>
-		  </div>
 		</div>
 	</xsl:template>
 </xsl:stylesheet> 
