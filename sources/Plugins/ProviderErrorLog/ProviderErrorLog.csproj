@@ -55,7 +55,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)cleansite\System\Components\ErrorLog\Plugins" /y
+copy "$(TargetDir)" "$(SolutionDir)cleansite\Bin" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

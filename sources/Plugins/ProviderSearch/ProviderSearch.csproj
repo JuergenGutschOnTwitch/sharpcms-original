@@ -118,7 +118,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)cleansite\Components\Base\Plugins" /y
+copy "$(TargetDir)" "$(SolutionDir)cleansite\Bin" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>
