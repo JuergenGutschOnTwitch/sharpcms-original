@@ -257,7 +257,7 @@ namespace InventIt.SiteSystem.Providers
             string element = _process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('_');
             string elementType = _process.QueryData["container_" + elementParts[1]];
-            currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Create(elementType, String.Empty, true);
+            currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Create(elementType, String.Empty, false);
             currentPage.Save();
         }
 

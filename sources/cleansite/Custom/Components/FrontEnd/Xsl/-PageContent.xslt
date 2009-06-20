@@ -494,7 +494,15 @@
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template mode="show" match="element[@type='rssfeed']">
+  <xsl:template mode="show" match="element[@type='publishsample']">
+    <xsl:if test="@publish = '' or @publish = 'true'">
+      <xsl:if test="not(text = '') and text">
+        <xsl:value-of disable-output-escaping="yes" select="text" />
+      </xsl:if>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template mode="show" match="element[@type='rssfeed']">
 		<xsl:if test="not(url = '') and url">
 			<xsl:if test="document(url)">
 				<xsl:for-each select="document(url)/rss">
