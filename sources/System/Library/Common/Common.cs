@@ -70,6 +70,12 @@ namespace InventIt.SiteSystem.Library
             dirtyString = dirtyString.Replace("æ", "ae").Replace("ø", "oe").Replace("å", "aa");
             dirtyString = dirtyString.Replace("Æ", "Ae").Replace("Ø", "Oe").Replace("Å", "Aa");
 
+            // ToDo: quick hack to handle Ohter unsupported characters (T.Huber / 20.06.2009)
+            dirtyString = dirtyString.Replace("è", "e").Replace("é", "e").Replace("à", "a");
+            dirtyString = dirtyString.Replace("È", "E").Replace("É", "E").Replace("À", "A");
+            dirtyString = dirtyString.Replace("ä", "ae").Replace("ö", "oe").Replace("ü", "ue");
+            dirtyString = dirtyString.Replace("Ä", "Ae").Replace("Ö", "Oe").Replace("Ü", "Ue");
+
             // Trim .'s
             dirtyString = dirtyString.Trim('.').Trim(' ').Trim('.');
             dirtyString = dirtyString.Replace("..", ".");
@@ -77,13 +83,11 @@ namespace InventIt.SiteSystem.Library
             string cleanChars = Settings.DefaultInstance["common/cleanChars/anywhere"];
             char[] loweredDirtyChars = dirtyString.ToLower().ToCharArray();
             char[] originalChars = dirtyString.ToCharArray();
-
-            bool allowed;
-            char currentChar;
+            
             for (int index = 0; index < dirtyString.Length; index++)
             {
-                allowed = false;
-                currentChar = loweredDirtyChars[index];
+                bool allowed = false;
+                char currentChar = loweredDirtyChars[index];
 
                 if (index > 0)
                     if (semiCleanChars.IndexOf(currentChar) > -1)
@@ -100,10 +104,9 @@ namespace InventIt.SiteSystem.Library
 
             // Remove double underscores
             bool doubleUnderscoresRemoved = true;
-            string beforeRemoval;
             while (doubleUnderscoresRemoved)
             {
-                beforeRemoval = cleanString;
+                string beforeRemoval = cleanString;
                 cleanString = cleanString.Replace("__", "_");
                 if (cleanString == beforeRemoval)
                     doubleUnderscoresRemoved = false;

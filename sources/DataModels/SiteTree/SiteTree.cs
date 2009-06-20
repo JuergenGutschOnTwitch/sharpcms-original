@@ -15,6 +15,10 @@ namespace InventIt.SiteSystem.Data.SiteTree
         private readonly XmlDocument _treeDocument;
         private readonly string _treeFilename;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SiteTree"/> class.
+        /// </summary>
+        /// <param name="process">The process.</param>
         public SiteTree(Process process)
         {
             _process = process;
@@ -25,17 +29,31 @@ namespace InventIt.SiteSystem.Data.SiteTree
             _treeDocument.Load(_treeFilename);
         }
 
+        /// <summary>
+        /// Gets the tree document.
+        /// </summary>
+        /// <value>The tree document.</value>
         public XmlDocument TreeDocument
         {
             get { return _treeDocument; }
         }
 
+        /// <summary>
+        /// Gets the page.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
         public Page GetPage(string path)
         {
             XmlNode pageNode = GetPageNode(path);
             return GetPage(pageNode);
         }
 
+        /// <summary>
+        /// Gets the page.
+        /// </summary>
+        /// <param name="pageNode">The page node.</param>
+        /// <returns></returns>
         private Page GetPage(XmlNode pageNode)
         {
             if (pageNode == null)
@@ -58,6 +76,11 @@ namespace InventIt.SiteSystem.Data.SiteTree
             return page;
         }
 
+        /// <summary>
+        /// Gets the page node.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
         private XmlNode GetPageNode(string path)
         {
             //string xPath = NormalizePath(path);
@@ -65,6 +88,11 @@ namespace InventIt.SiteSystem.Data.SiteTree
             return pageNode;
         }
 
+        /// <summary>
+        /// Existses the specified path.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
         public bool Exists(string path)
         {
             XmlNode pageNode = GetPageNode(path);
@@ -80,6 +108,11 @@ namespace InventIt.SiteSystem.Data.SiteTree
             SavePage(page, true);
         }
 
+        /// <summary>
+        /// Saves the page.
+        /// </summary>
+        /// <param name="page">The page.</param>
+        /// <param name="saveTree">if set to <c>true</c> [save tree].</param>
         private void SavePage(Page page, bool saveTree)
         {
             if (page == null) return;
@@ -100,6 +133,9 @@ namespace InventIt.SiteSystem.Data.SiteTree
             CommonXml.SaveXmlDocument(_treeFilename, _treeDocument);
         }
 
+        /// <summary>
+        /// Rebuilds this instance.
+        /// </summary>
         private void Rebuild()
         {
             XmlNodeList xmlNodeList = TreeDocument.SelectNodes("//*[@pageidentifier and not(@pageidentifier = '')]");
@@ -150,6 +186,13 @@ namespace InventIt.SiteSystem.Data.SiteTree
 
         #region Create Page
 
+        /// <summary>
+        /// Creates the specified path.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="menuName">Name of the menu.</param>
+        /// <returns></returns>
         public Page Create(string path, string name, string menuName)
         {
             name = Common.CleanToSafeString(name);
@@ -178,6 +221,12 @@ namespace InventIt.SiteSystem.Data.SiteTree
             return page;
         }
 
+        /// <summary>
+        /// Creates the file.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="menuName">Name of the menu.</param>
         private void CreateFile(string path, string name, string menuName)
         {
             string fileDirectory = GetDocumentDirectory(path);
@@ -189,10 +238,16 @@ namespace InventIt.SiteSystem.Data.SiteTree
             CommonXml.SaveXmlDocument(filename, document);
         }
 
+        /// <summary>
+        /// Creates the in tree.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="menuName">Name of the menu.</param>
+        /// <returns></returns>
         private XmlNode CreateInTree(string path, string name, string menuName)
         {
             XmlNode parentNode = GetPageNode(path);
-
             XmlNode pageNode = _treeDocument.CreateElement(name);
             parentNode.AppendChild(pageNode);
 
@@ -200,6 +255,10 @@ namespace InventIt.SiteSystem.Data.SiteTree
             return pageNode;
         }
 
+        /// <summary>
+        /// Initializes the created page.
+        /// </summary>
+        /// <param name="page">The page.</param>
         private void InitializeCreatedPage(Page page)
         {
             XmlNode xmlNodeContainer = _process.Settings.GetAsNode("sitetree/containers");
@@ -211,7 +270,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
                 }
             else
             {
-                Container container = page.Containers["content"]; 
+                Container container = page.Containers["content"];
                 // ToDo: secures older websites - goes obsoletet (old)
             }
 
@@ -486,6 +545,11 @@ namespace InventIt.SiteSystem.Data.SiteTree
 
         #endregion
 
+        ///// <summary>
+        ///// Normalizes the path.
+        ///// </summary>
+        ///// <param name="path">The path.</param>
+        ///// <returns></returns>
         //private static string NormalizePath(string path)
         //{
         //    if (path.StartsWith("/"))

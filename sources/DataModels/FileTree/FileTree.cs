@@ -114,7 +114,7 @@ namespace InventIt.SiteSystem.Data.FileTree
                 {
                     response.Clear();
                     string currentFile = fileInfo.FullName;
-                    
+
                     int width;
                     int.TryParse(_process.QueryOther["width"], out width);
 
@@ -144,7 +144,8 @@ namespace InventIt.SiteSystem.Data.FileTree
 
                         if (fileInfo.Directory != null)
                         {
-                            string thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs", newFilename);
+                            string thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs",
+                                                                       newFilename);
 
                             // We changed the cropping and resizing code on April 28 2006
                             // - rerender all thumbnails before that
@@ -221,7 +222,9 @@ namespace InventIt.SiteSystem.Data.FileTree
 
             // Crop
             if (width > 0 && height > 0)
-                tmpImage = isFixed ? ImageResize.FixedSize(tmpImage, width, height, Color.White) : ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
+                tmpImage = isFixed
+                               ? ImageResize.FixedSize(tmpImage, width, height, Color.White)
+                               : ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
 
             // Resize
             if (width > 0 && width < bitmap.Width)
@@ -356,7 +359,6 @@ namespace InventIt.SiteSystem.Data.FileTree
             }
             catch
             {
-
             }
             finally
             {
