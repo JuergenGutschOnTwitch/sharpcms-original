@@ -9,19 +9,33 @@ using InventIt.SiteSystem.Plugin.Types;
 
 namespace InventIt.SiteSystem.Providers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ProviderPage : BasePlugin2, IPlugin2
     {
         private SiteTree _siteTree;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProviderPage"/> class.
+        /// </summary>
         public ProviderPage()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProviderPage"/> class.
+        /// </summary>
+        /// <param name="process">The process.</param>
         public ProviderPage(Process process)
         {
             _process = process;
         }
 
+        /// <summary>
+        /// Gets the tree.
+        /// </summary>
+        /// <value>The tree.</value>
         private SiteTree Tree
         {
             get
@@ -33,7 +47,10 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
-
+        /// <summary>
+        /// Gets the current page.
+        /// </summary>
+        /// <value>The current page.</value>
         public string CurrentPage //ToDo: Is a unused Property (T.Huber 18.06.2009)
         {
             get
@@ -46,11 +63,19 @@ namespace InventIt.SiteSystem.Providers
 
         #region IPlugin2 Members
 
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
         public new string Name
         {
             get { return "Page"; }
         }
 
+        /// <summary>
+        /// Handles the specified main event.
+        /// </summary>
+        /// <param name="mainEvent">The main event.</param>
         public new void Handle(string mainEvent)
         {
             switch (mainEvent)
@@ -112,6 +137,13 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Loads the specified control.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="pathTrail">The path trail.</param>
         public new void Load(ControlList control, string action, string value, string pathTrail)
         {
             switch (action)
@@ -133,6 +165,9 @@ namespace InventIt.SiteSystem.Providers
 
         #endregion
 
+        /// <summary>
+        /// Handles the set standard page.
+        /// </summary>
         private void HandleSetStandardPage()
         {
             string newDefault = _process.QueryData["pageidentifier"].Trim();
@@ -140,6 +175,9 @@ namespace InventIt.SiteSystem.Providers
                 _process.Settings["sitetree/stdpage"] = newDefault;
         }
 
+        /// <summary>
+        /// Handles the page remove container.
+        /// </summary>
         private void HandlePageRemoveContainer()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
@@ -149,6 +187,9 @@ namespace InventIt.SiteSystem.Providers
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Handles the page create container.
+        /// </summary>
         private void HandlePageCreateContainer()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
@@ -159,47 +200,70 @@ namespace InventIt.SiteSystem.Providers
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Handles the page move up.
+        /// </summary>
         private void HandlePageMoveUp()
         {
             new SiteTree(_process).MoveUp(_process.QueryData["pageidentifier"]);
         }
 
+        /// <summary>
+        /// Handles the page move down.
+        /// </summary>
         private void HandlePageMoveDown()
         {
             new SiteTree(_process).MoveDown(_process.QueryData["pageidentifier"]);
         }
 
+        /// <summary>
+        /// Handles the page move top.
+        /// </summary>
         private void HandlePageMoveTop()
         {
             new SiteTree(_process).MoveTop(_process.QueryData["pageidentifier"]);
         }
 
+        /// <summary>
+        /// Handles the page move bottom.
+        /// </summary>
         private void HandlePageMoveBottom()
         {
             new SiteTree(_process).MoveBottom(_process.QueryData["pageidentifier"]);
         }
 
-
+        /// <summary>
+        /// Handles the page copy.
+        /// </summary>
         private void HandlePageCopy()
         {
             new SiteTree(_process).CopyTo(_process.QueryEvents["mainvalue"]);
         }
 
+        /// <summary>
+        /// Handles the page move.
+        /// </summary>
         private void HandlePageMove()
         {
             new SiteTree(_process).Move(_process.QueryData["pageidentifier"], _process.QueryEvents["mainvalue"]);
         }
 
+        /// <summary>
+        /// Handles the add element.
+        /// </summary>
         private void HandleAddElement()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
             string element = _process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('_');
-            string elementname = _process.QueryData["container_" + elementParts[1]];
-            currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Create(elementname);
+            string elementType = _process.QueryData["container_" + elementParts[1]];
+            currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Create(elementType, String.Empty, true);
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Handles the add page.
+        /// </summary>
         private void HandleAddPage()
         {
             string path = _process.QueryEvents["mainvalue"];
@@ -207,15 +271,23 @@ namespace InventIt.SiteSystem.Providers
             new SiteTree(_process).Create(pathSplit[0], pathSplit[1], pathSplit[1]);
         }
 
+        /// <summary>
+        /// Handles the remove page.
+        /// </summary>
         private void HandleRemovePage()
         {
             string path = _process.QueryEvents["mainvalue"];
             new SiteTree(_process).Delete(path);
         }
 
+        /// <summary>
+        /// Handles the save.
+        /// </summary>
         private void HandleSave()
         {
+            bool isPublishReset = false;
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
+
             for (int i = 0; i < _process.QueryData.Count; i++)
             {
                 Query query = _process.QueryData[i];
@@ -244,10 +316,10 @@ namespace InventIt.SiteSystem.Providers
                                     CommonXml.GetNode(
                                         currentPage.Containers[int.Parse(queryParts[1]) - 1].Elements[
                                             int.Parse(queryParts[2]) - 1].Node, queryParts[3]);
-                                xmlNode.InnerText = "";
+                                xmlNode.InnerText = String.Empty;
                                 foreach (string tmpstring in query.Value.Split('\n'))
                                 {
-                                    if (tmpstring != "")
+                                    if (tmpstring != String.Empty)
                                     {
                                         XmlNode tmpNode = CommonXml.GetNode(xmlNode, "item",
                                                                             EmptyNodeHandling.ForceCreateNew);
@@ -258,16 +330,38 @@ namespace InventIt.SiteSystem.Providers
                             }
                             else
                             {
-                                currentPage.Containers[int.Parse(queryParts[1]) - 1].Elements[
-                                    int.Parse(queryParts[2]) - 1][queryParts[3]] = query.Value;
+                                Container container = currentPage.Containers[int.Parse(queryParts[1]) - 1];
+
+                                if (!isPublishReset)
+                                {
+                                    container.Elements[int.Parse(queryParts[2]) - 1].Publish =
+                                        false.ToString().ToLower();
+                                    isPublishReset = true;
+                                }
+
+                                if (query.Name.EndsWith("elementtitle"))
+                                    container.Elements[int.Parse(queryParts[2]) - 1].Name = query.Value;
+                                else if (query.Name.EndsWith("elementpublish"))
+                                    container.Elements[int.Parse(queryParts[2]) - 1].Publish = query.Value.ToLower() ==
+                                                                                               "publish"
+                                                                                                   ? true.ToString().
+                                                                                                         ToLower()
+                                                                                                   : false.ToString().
+                                                                                                         ToLower();
+                                else
+                                    container.Elements[int.Parse(queryParts[2]) - 1][queryParts[3]] = query.Value;
                             }
                             break;
                     }
                 }
             }
+
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Handles the remove.
+        /// </summary>
         private void HandleRemove()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
@@ -278,6 +372,9 @@ namespace InventIt.SiteSystem.Providers
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Handles the copy.
+        /// </summary>
         private void HandleCopy()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
@@ -287,6 +384,9 @@ namespace InventIt.SiteSystem.Providers
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Handles the move top.
+        /// </summary>
         private void HandleMoveTop()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
@@ -296,6 +396,9 @@ namespace InventIt.SiteSystem.Providers
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Handles the move up.
+        /// </summary>
         private void HandleMoveUp()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
@@ -305,6 +408,9 @@ namespace InventIt.SiteSystem.Providers
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Handles the move down.
+        /// </summary>
         private void HandleMoveDown()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
@@ -314,17 +420,31 @@ namespace InventIt.SiteSystem.Providers
             currentPage.Save();
         }
 
+        /// <summary>
+        /// Loads the element list.
+        /// </summary>
+        /// <param name="control">The control.</param>
         private void LoadElementList(ControlList control)
         {
             control["elementlist"] = _process.Settings.GetAsNode("sitetree/elementlist");
         }
 
+        /// <summary>
+        /// Loads the page status.
+        /// </summary>
+        /// <param name="control">The control.</param>
         private void LoadPageStatus(ControlList control)
         {
             XmlNode xmlNode = _process.Settings.GetAsNode("sitetree/pagestatus");
             control["pagestatus"] = xmlNode;
         }
 
+        /// <summary>
+        /// Loads the page.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="pathTrail">The path trail.</param>
         private void LoadPage(ControlList control, string value, string pathTrail)
         {
             LoadDay(_process.Content.GetSubControl("basedata")); //ToDo: quick hack not nice (old)
@@ -343,6 +463,12 @@ namespace InventIt.SiteSystem.Providers
                 _process.MainTemplate = _process.Settings["templates/" + page["template"]];
         }
 
+        /// <summary>
+        /// Gets the full path.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="pathTrail">The path trail.</param>
+        /// <returns></returns>
         private static string GetFullPath(string value, string pathTrail)
         {
             string fullPath;
@@ -363,6 +489,10 @@ namespace InventIt.SiteSystem.Providers
             return fullPath;
         }
 
+        /// <summary>
+        /// Pluginses the specified page.
+        /// </summary>
+        /// <param name="page">The page.</param>
         private void Plugins(Page page)
         {
             for (int i = 0; i < page.Containers.Count; i++)
@@ -384,7 +514,7 @@ namespace InventIt.SiteSystem.Providers
                             if (plugin2 != null)
                             {
                                 var iPlugin = availablePlugin.Instance as IPlugin2;
-                                //m_Process.AddMessage("IPlugin 2");
+                                //_process.AddMessage("IPlugin 2");
                                 if (iPlugin != null)
                                     iPlugin.Load(new ControlList(xmlElementNode), action, string.Empty, pathTrail);
                             }
@@ -399,6 +529,10 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Loads the day.
+        /// </summary>
+        /// <param name="control">The control.</param>
         private static void LoadDay(ControlList control)
         {
             control["now/day"].InnerText = DateTime.Now.Day.ToString();
@@ -406,6 +540,11 @@ namespace InventIt.SiteSystem.Providers
             control["now/year"].InnerText = DateTime.Now.Year.ToString();
         }
 
+        /// <summary>
+        /// Gets the current page.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         private string GetCurrentPage(string value)
         {
             string pagePath = string.IsNullOrEmpty(value) ? _process.Settings["sitetree/stdpage"] : value;
@@ -420,6 +559,11 @@ namespace InventIt.SiteSystem.Providers
             return pagePath;
         }
 
+        /// <summary>
+        /// Sets the current page.
+        /// </summary>
+        /// <param name="xmlNode">The XML node.</param>
+        /// <param name="path">The path.</param>
         private static void SetCurrentPage(XmlNode xmlNode, string[] path)
         {
             try
@@ -440,6 +584,12 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Loads the tree.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="pathTrail">The path trail.</param>
         private void LoadTree(ControlList control, string value, string pathTrail)
         {
             XmlNode xmlNode = Tree.TreeDocument.DocumentElement;
@@ -456,6 +606,12 @@ namespace InventIt.SiteSystem.Providers
                 SetCurrentPage(control["sitetree"], pagePath.Split('/'));
         }
 
+        /// <summary>
+        /// Handles the different root.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="xmlNode">The XML node.</param>
         private static void HandleDifferentRoot(ControlList control, ref string value, XmlNode xmlNode)
         {
             string realName;
@@ -481,6 +637,11 @@ namespace InventIt.SiteSystem.Providers
             control["sitetree"].AppendChild(treeNode);
         }
 
+        /// <summary>
+        /// Gets the name of the tree root.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         private static string GetTreeRootName(string value)
         {
             return value.Substring(value.LastIndexOf("/") + 1);

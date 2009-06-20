@@ -83,7 +83,7 @@ namespace InventIt.SiteSystem.Library
             string cleanChars = Settings.DefaultInstance["common/cleanChars/anywhere"];
             char[] loweredDirtyChars = dirtyString.ToLower().ToCharArray();
             char[] originalChars = dirtyString.ToCharArray();
-            
+
             for (int index = 0; index < dirtyString.Length; index++)
             {
                 bool allowed = false;

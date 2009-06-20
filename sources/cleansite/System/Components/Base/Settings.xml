@@ -2,9 +2,9 @@
 
 <settings>
   <general>
-	  <customrootcomponents>~/Custom/Components</customrootcomponents>
-	  <systemrootcomponents>~/System/Components</systemrootcomponents>
-	  <sitedataroot>~/Custom/App_Data</sitedataroot>
+    <customrootcomponents>~/Custom/Components</customrootcomponents>
+    <systemrootcomponents>~/System/Components</systemrootcomponents>
+    <sitedataroot>~/Custom/App_Data</sitedataroot>
   </general>
   <common>
     <cleanChars>

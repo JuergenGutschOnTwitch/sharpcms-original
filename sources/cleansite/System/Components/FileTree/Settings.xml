@@ -4,11 +4,11 @@
   <filetree>
     <filesPath>~/Custom/App_Data/Files</filesPath>
   </filetree>
-	<admin>
-		<menu>
+  <admin>
+    <menu>
       <left>
         <item path="admin/file" weight="10">Files</item>
       </left>
-		</menu>
-	</admin>
+    </menu>
+  </admin>
 </settings>

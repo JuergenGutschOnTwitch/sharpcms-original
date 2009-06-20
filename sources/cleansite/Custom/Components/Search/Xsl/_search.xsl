@@ -84,7 +84,7 @@
 			</a>
 			<br />
 			<span class="sample">
-				<xsl:value-of select="sample" disable-output-escaping="yes"/>
+				<xsl:value-of select="sample" disable-output-escaping="yes" />
 			</span>
 			<br />
 			<a class="link">

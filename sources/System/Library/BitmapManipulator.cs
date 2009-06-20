@@ -383,7 +383,7 @@ namespace InventIt.SiteSystem.Library
 
             if (compression == TiffCompressionEnum.Unspecified)
                 return ConvertBitmap(inputBmp, ImageFormat.Tiff);
-                    //None of the params are chaning; use the general purpose converter
+            //None of the params are chaning; use the general purpose converter
 
             //Create an in-memory stream which will be used to save
             //the converted image

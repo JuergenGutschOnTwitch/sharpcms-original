@@ -169,7 +169,7 @@
 							<div id="col2">
 								<div id="col2_content" class="clearfix">
 									<xsl:call-template name="SubMenu" />
-									<xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='news']"/>
+									<xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='news']" />
 									<xsl:text> </xsl:text>
 								</div>
 							</div>
@@ -187,7 +187,7 @@
 												</ul>
 											</div>
 										</xsl:if>
-										<xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='content']"/>
+										<xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='content']" />
 										<xsl:text> </xsl:text>
 									</div>
 								</div>

@@ -78,7 +78,7 @@ function ReturnMethodChooseFile()
 }
 function ReturnMethodChoosePicture()
 {
-    var html = "<img src=\"" + basePath + "/download/" + ModalDialog.value + ".aspx?\"/>";
+    var html = "<img src=\"" + basePath + "/download/" + ModalDialog.value + ".aspx?\" />";
     tinyMCE.execCommand('mceInsertContent', false, html);
     tinyMCEPopup.close();
     ModalDialogRemoveWatch();

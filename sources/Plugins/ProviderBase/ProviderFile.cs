@@ -12,15 +12,26 @@ namespace InventIt.SiteSystem.Providers
     {
         private FileTree _siteTree;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProviderFile"/> class.
+        /// </summary>
         public ProviderFile()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProviderFile"/> class.
+        /// </summary>
+        /// <param name="process">The process.</param>
         public ProviderFile(Process process)
         {
             _process = process;
         }
 
+        /// <summary>
+        /// Gets the tree.
+        /// </summary>
+        /// <value>The tree.</value>
         private FileTree Tree
         {
             get
@@ -34,11 +45,19 @@ namespace InventIt.SiteSystem.Providers
 
         #region IPlugin2 Members
 
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
         public new string Name
         {
             get { return "File"; }
         }
 
+        /// <summary>
+        /// Handles the specified main event.
+        /// </summary>
+        /// <param name="mainEvent">The main event.</param>
         public new void Handle(string mainEvent)
         {
             switch (mainEvent)
@@ -70,6 +89,13 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Loads the specified control.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="pathTrail">The path trail.</param>
         public new void Load(ControlList control, string action, string value, string pathTrail)
         {
             switch (action)
@@ -91,6 +117,10 @@ namespace InventIt.SiteSystem.Providers
 
         #endregion
 
+        /// <summary>
+        /// Loads the download.
+        /// </summary>
+        /// <param name="value">The value.</param>
         private void LoadDownload(string value)
         {
             if (!string.IsNullOrEmpty(value))
@@ -100,6 +130,9 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Handles the move folder.
+        /// </summary>
         private void HandleMoveFolder()
         {
             string[] par = _process.QueryEvents["mainvalue"].Split('*');
@@ -110,6 +143,9 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Handles the move file.
+        /// </summary>
         private void HandleMoveFile()
         {
             string[] par = _process.QueryEvents["mainvalue"].Split('*');
@@ -120,6 +156,9 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Handles the rename folder.
+        /// </summary>
         private void HandleRenameFolder()
         {
             string[] par = _process.QueryEvents["mainvalue"].Split('*');
@@ -130,6 +169,9 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Handles the rename file.
+        /// </summary>
         private void HandleRenameFile()
         {
             string[] par = _process.QueryEvents["mainvalue"].Split('*');
@@ -140,6 +182,9 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Handles the remove folder.
+        /// </summary>
         private void HandleRemoveFolder()
         {
             string path = _process.QueryEvents["mainvalue"];
@@ -148,6 +193,9 @@ namespace InventIt.SiteSystem.Providers
             filetree.DeleteFolder(path);
         }
 
+        /// <summary>
+        /// Handles the remove file.
+        /// </summary>
         private void HandleRemoveFile()
         {
             string path = _process.QueryEvents["mainvalue"];
@@ -156,6 +204,9 @@ namespace InventIt.SiteSystem.Providers
             filetree.DeleteFile(path);
         }
 
+        /// <summary>
+        /// Handles the add folder.
+        /// </summary>
         private void HandleAddFolder()
         {
             string query = _process.QueryEvents["mainvalue"];
@@ -164,6 +215,9 @@ namespace InventIt.SiteSystem.Providers
             filetree.CreateFolder(list[0], list[1]);
         }
 
+        /// <summary>
+        /// Handles the upload.
+        /// </summary>
         private void HandleUpload()
         {
             string query = _process.QueryEvents["mainvalue"];
@@ -171,6 +225,11 @@ namespace InventIt.SiteSystem.Providers
             string[] files = fileTree.SaveUploadedFiles(query); //ToDo: ??? (T.Huber 18.06.2009)
         }
 
+        /// <summary>
+        /// Loads the file.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="control">The control.</param>
         private void LoadFile(string value, ControlList control)
         {
             if (!string.IsNullOrEmpty(value))
@@ -191,6 +250,11 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Loads the folder.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="control">The control.</param>
         private void LoadFolder(string value, ControlList control)
         {
             if (!string.IsNullOrEmpty(value))
@@ -206,6 +270,10 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
+        /// <summary>
+        /// Loads the tree.
+        /// </summary>
+        /// <param name="control">The control.</param>
         private void LoadTree(ControlList control)
         {
             Tree.RootFolder.GetXml(control["filetree"], SubFolder.IncludeSubfolders);

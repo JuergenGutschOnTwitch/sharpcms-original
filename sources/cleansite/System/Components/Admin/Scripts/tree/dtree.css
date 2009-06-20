@@ -10,14 +10,17 @@
 	color: #666;
 	white-space: nowrap;
 }
+
 .dtree img {
 	border: 0px;
 	vertical-align: middle;
 }
+
 .dtree a {
 	color: #2F5878;
 	text-decoration: none;
 }
+
 .dtree a.node, .dtree a.nodeSel {
 	white-space: nowrap;
 	padding: 1px 2px 1px 2px;
@@ -28,9 +31,11 @@
 	font-weight: normal;
 	text-decoration:underline;
 }
+
 .dtree a.nodeSel {
 	color: #B1000D;
 }
+
 .dtree .clip {
 	overflow: hidden;
 }

@@ -41,9 +41,9 @@
 				<ul>
 					<xsl:apply-templates mode="submenu" select="*[@status='open']">
 						<xsl:with-param name="path">
-							<xsl:value-of select="name(..)"/>
+							<xsl:value-of select="name(..)" />
 							<xsl:text>/</xsl:text>
-							<xsl:value-of select="name()"/>
+							<xsl:value-of select="name()" />
 						</xsl:with-param>
 					</xsl:apply-templates>
 				</ul>
@@ -52,7 +52,7 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="submenu">
-		<xsl:param name="path"/>
+		<xsl:param name="path" />
 		<li style="margin-bottom:5px;">
 			<a>
 				<xsl:attribute name="class">
@@ -62,12 +62,12 @@
 				</xsl:attribute>
 				<xsl:attribute name="href">
 					<xsl:text>show/</xsl:text>
-					<xsl:value-of select="$path"/>
+					<xsl:value-of select="$path" />
 					<xsl:text>/</xsl:text>
-					<xsl:value-of select="name()"/>
+					<xsl:value-of select="name()" />
 					<xsl:text>.aspx</xsl:text>
 				</xsl:attribute>
-				<xsl:value-of select="@menuname"/>
+				<xsl:value-of select="@menuname" />
 			</a>
 			<span class="hide"> | </span>
 		</li>

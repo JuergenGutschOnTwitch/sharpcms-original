@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sharpcms="urn:my-scripts">
-	<xsl:template mode="edit" match="page">
+  <xsl:template mode="edit" match="page">
     <script type="text/javascript">
       function copyPage() {
-        if (ModalDialog.value != undefined &amp;&amp; ModalDialog.value != "") {
-          ThrowEvent('pagecopyto', '<xsl:value-of select="attributes/pageidentifier" />¤' + ModalDialog.value + '¤' + prompt('Page name:', '<xsl:value-of select="sharpcms:Escape(/data/contenttwo/page/attributes/pagename)" />'));
-        }
-        ModelDialogRemoveWatch();
+      if (ModalDialog.value != undefined &amp;&amp; ModalDialog.value != "") {
+      ThrowEvent('pagecopyto', '<xsl:value-of select="attributes/pageidentifier" />¤' + ModalDialog.value + '¤' + prompt('Page name:', '<xsl:value-of select="sharpcms:Escape(/data/contenttwo/page/attributes/pagename)" />'));
       }
-      
+      ModelDialogRemoveWatch();
+      }
+
       function movePage() {
-        if (ModalDialog.value != undefined &amp;&amp; ModalDialog.value != "") {
-          ThrowEvent('pagemove', ModalDialog.value);
-        }
-        ModelDialogRemoveWatch();
+      if (ModalDialog.value != undefined &amp;&amp; ModalDialog.value != "") {
+      ThrowEvent('pagemove', ModalDialog.value);
+      }
+      ModelDialogRemoveWatch();
       }
 
       <xsl:if test="/data/query/events/mainvalue='openwindow'">
@@ -23,19 +23,20 @@
         <xsl:text>.aspx', 'showwebsite');</xsl:text>
       </xsl:if>
     </script>
-		<input type="hidden" name="data_pageidentifier">
-			<xsl:attribute name="value">
-				<xsl:value-of select="attributes/pageidentifier" />
-			</xsl:attribute>
-		</input>
-		<input type="hidden" name="page">
-			<xsl:attribute name="value">
-				<xsl:value-of select="attributes/pageidentifier" />
-			</xsl:attribute>
-		</input>
+    <input type="hidden" name="data_pageidentifier">
+      <xsl:attribute name="value">
+        <xsl:value-of select="attributes/pageidentifier" />
+      </xsl:attribute>
+    </input>
+    <input type="hidden" name="page">
+      <xsl:attribute name="value">
+        <xsl:value-of select="attributes/pageidentifier" />
+      </xsl:attribute>
+    </input>
     <div class="head pagedata_head">
       <div class="title">
-        Page data
+        <xsl:text>Page data - </xsl:text>
+        <xsl:value-of select="attributes/menuname" />
       </div>
       <div class="viewstate">
         <p id="pada_vs">˅</p>
@@ -77,39 +78,40 @@
     </div>
     <div class="body pagedata_body" id="pada_body">
       <xsl:call-template name="topelements" />
-		</div>
+    </div>
     <div id="tabpagecontent" class="tab-pane" style="float: left;">
       <script type="text/javascript">
         tp1 = new WebFXTabPane(document.getElementById("tabpagecontent"), true, <xsl:value-of select="count(containers/container)" />);
       </script>
-			<xsl:apply-templates mode="form" select="containers/container" />
-		</div>
-		<script type="text/javascript">
-			// setupAllTabs();
-		</script>
+      <xsl:apply-templates mode="form" select="containers/container" />
+    </div>
+    <script type="text/javascript">
+      // setupAllTabs();
+    </script>
     <div class="menu pagedata_menu bottom">
-			<a class="button" href="javascript:ThrowEvent('save','');">Save</a>
+      <a class="button" href="javascript:ThrowEvent('save','');">Save</a>
       <a class="button" href="javascript:ThrowEvent('save','openwindow');">
         Save and show
       </a>
     </div>
-	</xsl:template>
+  </xsl:template>
 
-	<xsl:template mode="form" match="container">
-		<div class="tab-page">
-			<xsl:attribute name="id">
-				<xsl:text>tab</xsl:text><xsl:value-of select="@name" />
-			</xsl:attribute>
-			<h2 class="tab">
-				<xsl:value-of select="@name" />
-			</h2>
+  <xsl:template mode="form" match="container">
+    <div class="tab-page">
+      <xsl:attribute name="id">
+        <xsl:text>tab</xsl:text>
+        <xsl:value-of select="@name" />
+      </xsl:attribute>
+      <h2 class="tab">
+        <xsl:value-of select="@name" />
+      </h2>
       <script type="text/javascript">
         <xsl:text>tp1.addTabPage(document.getElementById("tab</xsl:text>
         <xsl:value-of select="@name" />
         <xsl:text>"));</xsl:text>
       </script>
 
-      <div class="menu element_menu">
+      <div class="menu container_menu">
         <a class="button">
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEventConfirm('pageremovecontainer','</xsl:text>
@@ -133,50 +135,59 @@
           <xsl:for-each select="//data/basedata/elementlist/*[not(name()='top') and (@name=@filter or not(@filter)) ]">
             <option>
               <xsl:attribute name="value">
-								<xsl:value-of select="name()" />
-							</xsl:attribute>
+                <xsl:value-of select="name()" />
+              </xsl:attribute>
               &#160;&#160;<xsl:value-of select="name()" />
-						</option>
-					</xsl:for-each>
-				</select>
-			</div>
+            </option>
+          </xsl:for-each>
+        </select>
+      </div>
 
       <xsl:apply-templates mode="form" select="elements/element" />
-		</div>
-	</xsl:template>
-  
-	<xsl:template mode="form" match="*">
-		<xsl:call-template name="elementtop" />
-		<div class="element_body">
-			<xsl:variable name="currentelement" select="." />
-			<xsl:variable name="type" select="@type" />
-			<xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/*[name()=$type]/*">
-				<xsl:with-param name="currentelement" select="$currentelement" />
-				<xsl:with-param name="id">
-					<xsl:text>data_element_</xsl:text>
-					<xsl:number count="container" />_<xsl:number count="element" />
-				</xsl:with-param>
-			</xsl:apply-templates>
-		</div>
-	</xsl:template>
-  
-  <xsl:template name="topelements">
+    </div>
+  </xsl:template>
+
+  <xsl:template mode="form" match="*">
+    <xsl:call-template name="elementtop" />
+    <xsl:call-template name="elementmenu" />
+    <div class="element_body">
+      <xsl:attribute name="class">
+        <xsl:text>element_body</xsl:text>
+      </xsl:attribute>
+      <xsl:attribute name="id">
+        <xsl:text>element_</xsl:text>
+        <xsl:number count="container" />_<xsl:number count="element" />
+        <xsl:text>_body</xsl:text>
+      </xsl:attribute>
       <xsl:variable name="currentelement" select="." />
       <xsl:variable name="type" select="@type" />
-      <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/top/*[name(//*[@currentpage='true']/..)=@filter or not(@filter) ]">
-        <xsl:with-param name="currentelement" select="//data/contenttwo/page/attributes" />
+      <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/*[name()=$type]/*">
+        <xsl:with-param name="currentelement" select="$currentelement" />
         <xsl:with-param name="id">
-          <xsl:text>data_attribute</xsl:text>
+          <xsl:text>data_element_</xsl:text>
+          <xsl:number count="container" />_<xsl:number count="element" />
         </xsl:with-param>
       </xsl:apply-templates>
+    </div>
   </xsl:template>
-  
-	<xsl:template mode="formelement" match="item[@type='tinymce']">
-		<xsl:param name="currentelement" />
-		<xsl:param name="id" />
-		<xsl:variable select="@attribute" name="attribute" />
+
+  <xsl:template name="topelements">
+    <xsl:variable name="currentelement" select="." />
+    <xsl:variable name="type" select="@type" />
+    <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/top/*[name(//*[@currentpage='true']/..)=@filter or not(@filter) ]">
+      <xsl:with-param name="currentelement" select="//data/contenttwo/page/attributes" />
+      <xsl:with-param name="id">
+        <xsl:text>data_attribute</xsl:text>
+      </xsl:with-param>
+    </xsl:apply-templates>
+  </xsl:template>
+
+  <xsl:template mode="formelement" match="item[@type='tinymce']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
     <label>
-      <xsl:value-of select="@name" />
+      <xsl:value-of  select="@name" />
     </label>
     <div class="item">
       <textarea class="mceeditor" name="{$id}_{@attribute}">
@@ -189,34 +200,34 @@
         </xsl:if>
         <xsl:value-of select="$currentelement/*[name()=$attribute]" />
       </textarea>
-		</div>
-	</xsl:template>
+    </div>
+  </xsl:template>
 
-	<xsl:template mode="formelement" match="item[@type='textarea']">
-		<xsl:param name="currentelement" />
-		<xsl:param name="id" />
-		<xsl:variable select="@attribute" name="attribute" />
+  <xsl:template mode="formelement" match="item[@type='textarea']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
+    <label>
+      <xsl:value-of  select="@name" />
+    </label>
+    <div class="item">
+      <textarea name="{$id}_{@attribute}">
+        <xsl:value-of select="$currentelement/*[name()=$attribute]" />
+      </textarea>
+    </div>
+  </xsl:template>
+
+  <xsl:template mode="formelement" match="item[@type='text']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
     <label>
       <xsl:value-of select="@name" />
     </label>
     <div class="item">
-			<textarea name="{$id}_{@attribute}">
-				<xsl:value-of select="$currentelement/*[name()=$attribute]" />
-			</textarea>
-		</div>
-	</xsl:template>
-
-	<xsl:template mode="formelement" match="item[@type='text']">
-		<xsl:param name="currentelement" />
-		<xsl:param name="id" />
-		<xsl:variable select="@attribute" name="attribute" />
-    <label>
-      <xsl:value-of select="@name" />
-    </label>
-    <div class="item">
-			<input type="text" name="{$id}_{@attribute}" value="{$currentelement/*[name()=$attribute]}" />
-		</div>
-	</xsl:template>
+      <input type="text" name="{$id}_{@attribute}" value="{$currentelement/*[name()=$attribute]}" />
+    </div>
+  </xsl:template>
 
   <xsl:template mode="formelement" match="item[@type='statuslist']">
     <xsl:param name="currentelement" />
@@ -275,115 +286,115 @@
     </div>
   </xsl:template>
 
-	<xsl:template mode="formelement" match="item[@type='hidden']">
-		<xsl:param name="currentelement" />
-		<xsl:param name="id" />
-		<xsl:variable select="@attribute" name="attribute" />
-		<input type="hidden">
-			<xsl:attribute name="name">
-				<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
-			</xsl:attribute>
-			<xsl:attribute name="value">
-				<xsl:value-of select="@value" />
-			</xsl:attribute>
-		</input>
-	</xsl:template>
+  <xsl:template mode="formelement" match="item[@type='hidden']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
+    <input type="hidden">
+      <xsl:attribute name="name">
+        <xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
+      </xsl:attribute>
+      <xsl:attribute name="value">
+        <xsl:value-of select="@value" />
+      </xsl:attribute>
+    </input>
+  </xsl:template>
 
-	<xsl:template mode="formelement" match="item[@type='date']">
-		<xsl:param name="currentelement" />
-		<xsl:param name="id" />
-		<xsl:variable select="@attribute" name="attribute" />
+  <xsl:template mode="formelement" match="item[@type='date']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
     <label>
       <xsl:value-of select="@name" />
     </label>
     <div class="item">
-			<input class="date_day" type="text" size="2">
-				<xsl:attribute name="name">
-					<xsl:value-of select="$id" />_<xsl:value-of select="concat(@attribute, 'day')" />
-				</xsl:attribute>
-				<xsl:attribute name="value">
-					<xsl:value-of select="$currentelement/*[name() = concat($attribute, 'day')]" />
-				</xsl:attribute>
-			</input>
-			<xsl:text>. </xsl:text>
+      <input class="date_day" type="text" size="2">
+        <xsl:attribute name="name">
+          <xsl:value-of select="$id" />_<xsl:value-of select="concat(@attribute, 'day')" />
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:value-of select="$currentelement/*[name() = concat($attribute, 'day')]" />
+        </xsl:attribute>
+      </input>
+      <xsl:text>. </xsl:text>
       <input class="date_month" type="text" size="2">
-				<xsl:attribute name="name">
-					<xsl:value-of select="$id" />_<xsl:value-of select="concat(@attribute, 'month')" />
-				</xsl:attribute>
-				<xsl:attribute name="value">
-					<xsl:value-of select="$currentelement/*[name() = concat($attribute, 'month')]" />
-				</xsl:attribute>
-			</input>
-			<xsl:text> </xsl:text>
+        <xsl:attribute name="name">
+          <xsl:value-of select="$id" />_<xsl:value-of select="concat(@attribute, 'month')" />
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:value-of select="$currentelement/*[name() = concat($attribute, 'month')]" />
+        </xsl:attribute>
+      </input>
+      <xsl:text> </xsl:text>
       <input class="date_year" type="text" size="4">
-				<xsl:attribute name="name">
-					<xsl:value-of select="$id" />_<xsl:value-of select="concat(@attribute, 'year')" />
-				</xsl:attribute>
-				<xsl:attribute name="value">
-					<xsl:value-of select="$currentelement/*[name() = concat($attribute, 'year')]" />
-				</xsl:attribute>
-			</input>
-		</div>
-	</xsl:template>
+        <xsl:attribute name="name">
+          <xsl:value-of select="$id" />_<xsl:value-of select="concat(@attribute, 'year')" />
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:value-of select="$currentelement/*[name() = concat($attribute, 'year')]" />
+        </xsl:attribute>
+      </input>
+    </div>
+  </xsl:template>
 
-	<xsl:template mode="formelement" match="item[@type='choosepage']">
-		<xsl:param name="currentelement" />
-		<xsl:param name="id" />
-		<xsl:variable select="@attribute" name="attribute" />
+  <xsl:template mode="formelement" match="item[@type='choosepage']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
     <script type="text/javascript">
-			function ReturnMethod<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />() {
-			  document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
-			  ModalDialogRemoveWatch();
-			}
-		</script>
+      function ReturnMethod<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />() {
+      document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
+      ModalDialogRemoveWatch();
+      }
+    </script>
     <label>
       <xsl:value-of select="@name" />
     </label>
     <div class="item">
-			<input type="text">
-				<xsl:attribute name="name">
-					<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
-				</xsl:attribute>
-				<xsl:attribute name="value">
-					<xsl:value-of select="$currentelement/*[name()=$attribute]" />
-				</xsl:attribute>
-			</input>
-			<a class="button">
-				<xsl:attribute name="href">
+      <input type="text">
+        <xsl:attribute name="name">
+          <xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:value-of select="$currentelement/*[name()=$attribute]" />
+        </xsl:attribute>
+      </input>
+      <a class="button">
+        <xsl:attribute name="href">
           <xsl:text>javascript:ModalDialogShow('</xsl:text><xsl:value-of select="/data/basepath" /><xsl:text>/default.aspx?process=admin/choose/page','ReturnMethod</xsl:text>
-					<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
-					<xsl:text>()');</xsl:text>
-				</xsl:attribute>
-				Choose
-			</a>
-		</div>
-	</xsl:template>
+          <xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
+          <xsl:text>()');</xsl:text>
+        </xsl:attribute>
+        Choose
+      </a>
+    </div>
+  </xsl:template>
 
-	<xsl:template mode="formelement" match="item[@type='choosefile']">
-		<xsl:param name="currentelement" />
-		<xsl:param name="id" />
-		<xsl:variable select="@attribute" name="attribute" />
-		<script type="text/javascript">
-			function ReturnMethod<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />() {
-			  document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
-			  ModalDialogRemoveWatch();
+  <xsl:template mode="formelement" match="item[@type='choosefile']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
+    <script type="text/javascript">
+      function ReturnMethod<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />() {
+      document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
+      ModalDialogRemoveWatch();
       }
-		</script>
+    </script>
     <label>
       <xsl:value-of select="@name" />
     </label>
-		<div class="item">
-			<input type="text">
-				<xsl:attribute name="name">
-					<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
-				</xsl:attribute>
-				<xsl:attribute name="value">
-					<xsl:value-of select="$currentelement/*[name()=$attribute]" />
-				</xsl:attribute>
-			</input>
-			<a class="button">
-				<xsl:attribute name="href">
-					<xsl:text>javascript:ModalDialogShow('</xsl:text><xsl:value-of select="/data/basepath" /><xsl:text>/default.aspx?process=admin/choose/file','ReturnMethod</xsl:text>
+    <div class="item">
+      <input type="text">
+        <xsl:attribute name="name">
+          <xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:value-of select="$currentelement/*[name()=$attribute]" />
+        </xsl:attribute>
+      </input>
+      <a class="button">
+        <xsl:attribute name="href">
+          <xsl:text>javascript:ModalDialogShow('</xsl:text><xsl:value-of select="/data/basepath" /><xsl:text>/default.aspx?process=admin/choose/file','ReturnMethod</xsl:text>
           <xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
           <xsl:text>()');</xsl:text>
         </xsl:attribute>
@@ -398,8 +409,8 @@
     <xsl:variable select="@attribute" name="attribute" />
     <script type="text/javascript">
       function ReturnMethod<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />() {
-        document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
-        ModalDialogRemoveWatch();
+      document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
+      ModalDialogRemoveWatch();
       }
     </script>
     <label>
@@ -408,84 +419,197 @@
     <div class="item">
       <input type="text" name="{$id}_{@attribute}" value="{$currentelement/*[name()=$attribute]}" />
       <a class="button" href="javascript:ModalDialogShow('{/data/basepath}/default.aspx?process=admin/choose/folder','ReturnMethod{$id}_{@attribute}()');">
-				Choose
-			</a>
-		</div>
-	</xsl:template>
+        Choose
+      </a>
+    </div>
+  </xsl:template>
 
-	<xsl:template mode="formelement" match="item[@type='list']">
-		<xsl:param name="currentelement" />
-		<xsl:param name="id" />
-		<xsl:variable select="@attribute" name="attribute" />
+  <xsl:template mode="formelement" match="item[@type='list']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
     <label>
       <xsl:value-of select="@name" />
     </label>
     <div class="item">
-			<select>
-				<xsl:attribute name="name">
-					<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
-				</xsl:attribute>
-				<xsl:for-each select="*">
-					<option>
-						<xsl:if test="($currentelement/*[name()=$attribute]) = .">
-							<xsl:attribute name="selected">selected</xsl:attribute>
-						</xsl:if>
-						<xsl:attribute name="value">
-							<xsl:value-of select="." />
-						</xsl:attribute>
-						<xsl:value-of select="." />
-					</option>
-				</xsl:for-each>
-			</select>
-		</div>
-	</xsl:template>
+      <select>
+        <xsl:attribute name="name">
+          <xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />
+        </xsl:attribute>
+        <xsl:for-each select="*">
+          <option>
+            <xsl:if test="($currentelement/*[name()=$attribute]) = .">
+              <xsl:attribute name="selected">selected</xsl:attribute>
+            </xsl:if>
+            <xsl:attribute name="value">
+              <xsl:value-of select="." />
+            </xsl:attribute>
+            <xsl:value-of select="." />
+          </option>
+        </xsl:for-each>
+      </select>
+    </div>
+  </xsl:template>
 
   <xsl:template name="elementtop">
-		<div class="menu element_head">
-      <div class="title">
+    <div>
+      <xsl:attribute name="class">
+        <xsl:text>menu element_head</xsl:text>
+      </xsl:attribute>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>title</xsl:text>
+        </xsl:attribute>
         <xsl:value-of select="@type" />
+        <xsl:if test="@name and not(@name='')">
+          <xsl:text> - </xsl:text>
+          <xsl:value-of select="@name" />
+        </xsl:if>
       </div>
-      <div class="buttons">
-        <a class="button">
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>buttons</xsl:text>
+        </xsl:attribute>
+        <a>
+          <xsl:attribute name="class">
+            <xsl:text>button</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="id">
+            <xsl:text>element_</xsl:text>
+            <xsl:number count="container" />
+            <xsl:text>_</xsl:text>
+            <xsl:number count="element" />
+          </xsl:attribute>
+          <xsl:attribute name="title">
+            <xsl:text>expand</xsl:text>
+          </xsl:attribute>
+          <xsl:text>˅</xsl:text>
+        </a>
+        <a>
+          <xsl:attribute name="class">
+            <xsl:text>button</xsl:text>
+          </xsl:attribute>
           <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEvent('movetop','element-</xsl:text><xsl:number count="container" />-<xsl:number count="element" />
+            <xsl:text>javascript:ThrowEvent('movetop','element-</xsl:text>
+            <xsl:number count="container" />-<xsl:number count="element" />
             <xsl:text>');</xsl:text>
           </xsl:attribute>
-          Top
+          <xsl:text>Top</xsl:text>
         </a>
-        <a class="button">
+        <a>
+          <xsl:attribute name="class">
+            <xsl:text>button</xsl:text>
+          </xsl:attribute>
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEvent('movedown','element-</xsl:text>
             <xsl:number count="container" />-<xsl:number count="element" />
             <xsl:text>');</xsl:text>
           </xsl:attribute>
-          Down
+          <xsl:text>Down</xsl:text>
         </a>
-        <a class="button">
+        <a>
+          <xsl:attribute name="class">
+            <xsl:text>button</xsl:text>
+          </xsl:attribute>
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEvent('moveup','element-</xsl:text>
             <xsl:number count="container" />-<xsl:number count="element" />
             <xsl:text>');</xsl:text>
           </xsl:attribute>
-          Up
+          <xsl:text>Up</xsl:text>
         </a>
-        <a class="button">
+        <a>
+          <xsl:attribute name="class">
+            <xsl:text>button</xsl:text>
+          </xsl:attribute>
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEvent('copy','element-</xsl:text>
             <xsl:number count="container" />-<xsl:number count="element" />
             <xsl:text>');</xsl:text>
           </xsl:attribute>
-          Copy
+          <xsl:text>Copy</xsl:text>
         </a>
-        <a class="button">
+        <a>
+          <xsl:attribute name="class">
+            <xsl:text>button</xsl:text>
+          </xsl:attribute>
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEventConfirm('remove','element-</xsl:text>
             <xsl:number count="container" />-<xsl:number count="element" />
             <xsl:text>','Are you sure you want to delete this element?');</xsl:text>
           </xsl:attribute>
-          X
+          <xsl:text>X</xsl:text>
         </a>
       </div>
     </div>
-	</xsl:template>
+  </xsl:template>
+
+  <xsl:template name="elementmenu">
+    <xsl:param name="id" />
+    <div>
+      <xsl:attribute name="class">
+        <xsl:text>menu element_menu</xsl:text>
+      </xsl:attribute>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>name</xsl:text>
+        </xsl:attribute>
+        <label>
+          <xsl:attribute name="for">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />_<xsl:number count="element" />
+            <xsl:text>_elementtitle</xsl:text>
+          </xsl:attribute>
+          <xsl:text>Name</xsl:text>
+        </label>
+        <input>
+          <xsl:attribute name="type">
+            <xsl:text>text</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="name">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />_<xsl:number count="element" />
+            <xsl:text>_elementtitle</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="value">
+            <xsl:value-of select="@name" />
+          </xsl:attribute>
+        </input>
+      </div>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>publish</xsl:text>
+        </xsl:attribute>
+        <label>
+          <xsl:attribute name="for">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />_<xsl:number count="element" />
+            <xsl:text>_elementpublish</xsl:text>
+          </xsl:attribute>
+          <xsl:text>Publish</xsl:text>
+        </label>
+        <input>
+          <xsl:attribute name="class">
+            <xsl:text>checkbox</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="type">
+            <xsl:text>checkbox</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="name">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />_<xsl:number count="element" />
+            <xsl:text>_elementpublish</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="value">
+            <xsl:text>Publish</xsl:text>
+          </xsl:attribute>
+          <xsl:if test="@publish='true'">
+            <xsl:attribute name="checked">
+              <xsl:text>true</xsl:text>
+            </xsl:attribute>
+          </xsl:if>
+        </input>
+      </div>
+    </div>
+  </xsl:template>
 </xsl:stylesheet>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:output method="html" />
+  <xsl:output method="html" />
 
-	<xsl:template mode="edit" match="file">
+  <xsl:template mode="edit" match="file">
     <div class="head filedata_head">
       <div class="title">
         <xsl:value-of select="@path" />
@@ -90,5 +90,5 @@
         </table>
       </div>
     </xsl:if>
-	</xsl:template>
+  </xsl:template>
 </xsl:stylesheet>

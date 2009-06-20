@@ -28,11 +28,47 @@ namespace InventIt.SiteSystem.Data.SiteTree
             }
         }
 
+        /// <summary>
+        /// Creates the specified type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
         public Element Create(string type)
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);
             var element = new Element(node) {Type = type};
+
+            return element;
+        }
+
+        /// <summary>
+        /// Creates the specified type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public Element Create(string type, string name)
+        {
+            XmlNode node = Document.CreateElement("element");
+            ParentNode.AppendChild(node);
+            var element = new Element(node) {Type = type, Name = name, Publish = true.ToString()};
+
+            return element;
+        }
+
+        /// <summary>
+        /// Creates the specified type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="publish">if set to <c>true</c> [publish].</param>
+        /// <returns></returns>
+        public Element Create(string type, string name, bool publish)
+        {
+            XmlNode node = Document.CreateElement("element");
+            ParentNode.AppendChild(node);
+            var element = new Element(node) {Type = type, Name = name, Publish = publish.ToString().ToLower()};
 
             return element;
         }

@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?>
 
 <process>
-	<admin>
-		<user>
-			<handle provider="User" />
-			<load provider="User" place="contentone" action="users" />
-			<load provider="User" place="contentone" action="groups" />
-			<load provider="User" place="contenttwo" action="user" />
-		</user>
-	</admin>
-	<login>
-		<template name="login" />
-	</login>
+  <admin>
+    <user>
+      <handle provider="User" />
+      <load provider="User" place="contentone" action="users" />
+      <load provider="User" place="contentone" action="groups" />
+      <load provider="User" place="contenttwo" action="user" />
+    </user>
+  </admin>
+  <login>
+    <template name="login" />
+  </login>
   <frontpage>
     <load provider="User" place="basedata" action="frontpage" />
   </frontpage>

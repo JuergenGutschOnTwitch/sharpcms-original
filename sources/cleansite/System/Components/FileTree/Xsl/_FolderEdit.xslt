@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:output method="html" />
-  
-	<xsl:template mode="edit" match="folder">
+  <xsl:output method="html" />
+
+  <xsl:template mode="edit" match="folder">
     <div class="head folderdata_head">
       <div class="title">
         <xsl:value-of select="@path" />
@@ -45,21 +45,21 @@
     <div class="body folderdata_body" id="foda_body">
       <xsl:call-template name="upload" />
     </div>
-	</xsl:template>
-	
-	<xsl:template name="upload">
-		<div class="adminmenu">
-			Upload new file in directory
+  </xsl:template>
+
+  <xsl:template name="upload">
+    <div class="adminmenu">
+      Upload new file in directory
       <br />
       <xsl:call-template name="uploadfield">
         <xsl:with-param name="currentlevel">1</xsl:with-param>
         <xsl:with-param name="maxlevel">10</xsl:with-param>
       </xsl:call-template>
-			<a class="button" href="javascript:ThrowEvent('uploadfile', '{@path}', 'Type the name of the new folder:');">
-				Upload
-			</a>
-		</div> 
-	</xsl:template>
+      <a class="button" href="javascript:ThrowEvent('uploadfile', '{@path}', 'Type the name of the new folder:');">
+        Upload
+      </a>
+    </div>
+  </xsl:template>
 
   <xsl:template name="uploadfield">
     <xsl:param name="currentlevel" />
