@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+
 using System.Xml;
 using InventIt.SiteSystem.Library;
 
@@ -8,116 +7,96 @@ namespace InventIt.SiteSystem.Data.SiteTree
 {
     public class Page : DataElement
     {
-		private ContainerList m_Containers;
-		private SiteTree m_SiteTree;
-		private XmlNode m_TreeNode;
-             
-		public ContainerList Containers
-		{
-			get
-			{
-				return m_Containers;
-			}
-		}
+        private readonly ContainerList _containers;
+        private readonly SiteTree _siteTree;
+        private readonly XmlNode _treeNode;
 
-		public XmlNode TreeNode
-		{
-			get
-			{
-				return m_TreeNode;
-			}
-		}
+        public Page(XmlNode pageNode, XmlNode treeNode, SiteTree siteTree)
+            : base(pageNode)
+        {
+            _treeNode = treeNode;
+            _siteTree = siteTree;
 
-		public string Name
-		{
-			get
-			{
-				return this["name"];
-			}
-			set
-			{
-				this["name"] = value;
-			}
-		}
+            CopyInfoFromTree();
 
-		public string MenuName
-		{
-			get
-			{
-				return this["menuname"];
-			}
-			set
-			{
-				this["menuname"] = value;
-			}
-		}
+            _containers = new ContainerList(CommonXml.GetNode(Node, "containers"));
+        }
 
-		public string PageIdentifier
-		{
-			get
-			{
-				return CommonXml.GetXPath(this.m_TreeNode);
-			}
-		}
-		
-		public string this[string name]
+        public ContainerList Containers
+        {
+            get { return _containers; }
+        }
+
+        public XmlNode TreeNode
+        {
+            get { return _treeNode; }
+        }
+
+        public string Name
+        {
+            get { return this["name"]; }
+        }
+
+/*
+        public string MenuName
+        {
+            get { return this["menuname"]; }
+            set { this["menuname"] = value; }
+        }
+*/
+
+        public string PageIdentifier
+        {
+            get { return CommonXml.GetXPath(_treeNode); }
+        }
+
+        public string this[string name]
         {
             get
             {
                 string xPath = string.Format("attributes/{0}", name);
-				return GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText;
+                return GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText;
             }
             set
             {
                 string xPath = string.Format("attributes/{0}", name);
-				GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText = value;
-				HandleAttributeChange(name, value);
+                GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText = value;
+                HandleAttributeChange(name, value);
             }
         }
-        public XmlNode getAttribute(string name)
+
+        public XmlNode GetAttribute(string name)
         {
             string xPath = string.Format("attributes/{0}", name);
             return GetNode(xPath, EmptyNodeHandling.CreateNew);
         }
 
-		public Page(XmlNode pageNode, XmlNode treeNode, SiteTree siteTree)
-			: base(pageNode)
-		{
-			m_TreeNode = treeNode;
-			m_SiteTree = siteTree;
+        private void CopyInfoFromTree()
+        {
+            this["name"] = _treeNode.Name;
+            this["menuname"] = CommonXml.GetAttributeValue(_treeNode, "menuname");
+            this["pageidentifier"] = CommonXml.GetXPath(_treeNode);
+            this["status"] = CommonXml.GetAttributeValue(_treeNode, "status");
+        }
 
-			CopyInfoFromTree();
-
-			m_Containers = new ContainerList(CommonXml.GetNode(Node,"containers"));
-		}
-
-		private void CopyInfoFromTree()
-		{
-			this["name"] = m_TreeNode.Name;
-			this["menuname"] = CommonXml.GetAttributeValue(m_TreeNode, "menuname");
-			this["pageidentifier"] = CommonXml.GetXPath(m_TreeNode);
-            this["status"] = CommonXml.GetAttributeValue(m_TreeNode, "status");
-		}
-
-		private void HandleAttributeChange(string name, string value)
-		{
-			switch (name)
-			{
+        private void HandleAttributeChange(string name, string value)
+        {
+            switch (name)
+            {
                 case "name":
-                    m_SiteTree.Rename(this, value);
+                    _siteTree.Rename(this, value);
                     break;
                 default:
-                     CommonXml.SetAttributeValue(m_TreeNode, name, value);
-                     break;
-
-			}
+                    CommonXml.SetAttributeValue(_treeNode, name, value);
+                    break;
+            }
             //m_SiteTree.Save();
-		}
+        }
 
-		public void Save() 
-		{
-            m_SiteTree.Save();
-			m_SiteTree.SavePage(this);
-		}
+        public void Save()
+        {
+            _siteTree.Save();
+            _siteTree.SavePage(this);
+        }
     }
 }

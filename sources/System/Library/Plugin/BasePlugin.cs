@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using InventIt.SiteSystem;
-using InventIt.SiteSystem.Plugin;
-using InventIt.SiteSystem.Library;
+//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
 
 namespace InventIt.SiteSystem.Plugin
 {
@@ -13,28 +8,22 @@ namespace InventIt.SiteSystem.Plugin
     /// </summary>
     public class BasePlugin : IPlugin
     {
-        protected Process m_Process;
-        protected IPluginHost m_Host;
+        protected Process _process;
+
+        #region IPlugin Members
 
         public string Name
         {
-            get
-            {
-                return "BasePlugin";
-            }
+            get { return "BasePlugin"; }
         }
 
         public Process Process
         {
-            get { return m_Process; }
-            set { m_Process = value; }
+            get { return _process; }
+            set { _process = value; }
         }
 
-        public IPluginHost Host
-        {
-            get { return m_Host; }
-            set { m_Host = value; }
-        }
+        public IPluginHost Host { get; set; }
 
         public void Initialize()
         {
@@ -55,16 +44,17 @@ namespace InventIt.SiteSystem.Plugin
         {
             // Do nothing
         }
+
+        #endregion
     }
 
     public class BasePlugin2 : BasePlugin, IPlugin2
     {
+        #region IPlugin2 Members
+
         public string[] Implements
         {
-            get
-            {
-                return null;
-            }
+            get { return null; }
         }
 
         public object Invoke(string api, string action, params object[] args)
@@ -76,5 +66,7 @@ namespace InventIt.SiteSystem.Plugin
         {
             Load(control, action, null, pathTrail);
         }
+
+        #endregion
     }
 }

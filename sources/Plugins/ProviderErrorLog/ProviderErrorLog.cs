@@ -1,31 +1,29 @@
+//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+
 using System;
-using System.Collections.Generic;
-using System.Text;
-using InventIt.SiteSystem;
-using InventIt.SiteSystem.Plugin;
-using InventIt.SiteSystem.Library;
-using System.Xml;
 using System.IO;
+using System.Xml;
+using InventIt.SiteSystem.Library;
+using InventIt.SiteSystem.Plugin;
 
 namespace InventIt.SiteSystem.Providers
 {
     public class ProviderErrorLog : BasePlugin2, IPlugin2
     {
-        public new string Name
-        {
-            get
-            {
-                return "ErrorLog";
-            }
-        }
-
         public ProviderErrorLog()
         {
         }
 
         public ProviderErrorLog(Process process)
         {
-            m_Process = process;
+            _process = process;
+        }
+
+        #region IPlugin2 Members
+
+        public new string Name
+        {
+            get { return "ErrorLog"; }
         }
 
         public new void Handle(string mainEvent)
@@ -38,44 +36,41 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
-        public void HandleLog()
-        {
-            XmlNode messagesNode = CommonXml.GetNode(m_Process.XmlData, "messages", EmptyNodeHandling.Ignore);
-            if (messagesNode == null) 
-            {
-                return;
-            }
+        #endregion
 
-            string logFileName = m_Process.Settings["errorlog/logpath"];
+        private void HandleLog()
+        {
+            XmlNode messagesNode = CommonXml.GetNode(_process.XmlData, "messages", EmptyNodeHandling.Ignore);
+            if (messagesNode == null) return;
+
+            string logFileName = _process.Settings["errorlog/logpath"];
 
             XmlNodeList items = messagesNode.SelectNodes("item");
-            foreach (XmlNode item in items)
-            {
-                bool writtenToLogFile = false;
-                try 
+            if (items != null)
+                foreach (XmlNode item in items)
                 {
-                    if (CommonXml.GetAttributeValue(item, "writtenToLogFile") == "true")
+                    bool writtenToLogFile = false;
+                    try
                     {
-                        writtenToLogFile = true;
+                        if (CommonXml.GetAttributeValue(item, "writtenToLogFile") == "true")
+                            writtenToLogFile = true;
                     }
-                }
-                catch
-                {
-                    // Ignore
-                }
-
-                if (!writtenToLogFile)
-                {
-                    if (CommonXml.GetAttributeValue(item, "messagetype") == "Error")
+                    catch
                     {
-                        string errorType = CommonXml.GetAttributeValue(item, "type");
-                        string message = item.InnerText;
-
-                        File.AppendAllText(logFileName, string.Format("{0};{1};{2}\r\n", DateTime.Now.ToUniversalTime(), errorType, message));
-                        CommonXml.SetAttributeValue(item, "writtenToLogFile", "true");
+                        // Ignore
                     }
+
+                    if (writtenToLogFile) continue;
+
+                    if (CommonXml.GetAttributeValue(item, "messagetype") != "Error") continue;
+
+                    string errorType = CommonXml.GetAttributeValue(item, "type");
+                    string message = item.InnerText;
+                    File.AppendAllText(logFileName,
+                                       string.Format("{0};{1};{2}\r\n", DateTime.Now.ToUniversalTime(), errorType,
+                                                     message));
+                    CommonXml.SetAttributeValue(item, "writtenToLogFile", "true");
                 }
-            }
         }
     }
 }

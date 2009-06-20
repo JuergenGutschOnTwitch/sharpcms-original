@@ -1,30 +1,22 @@
 //Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using System.Xml;
 
 namespace InventIt.SiteSystem.Library
 {
-	public class AttributeList
-	{
-		private XmlNode m_XmlNode;
+    public class AttributeList
+    {
+        private readonly XmlNode _xmlNode;
 
-		public AttributeList(XmlNode xmlNode)
-		{
-			m_XmlNode = xmlNode;
-		}
+        public AttributeList(XmlNode xmlNode)
+        {
+            _xmlNode = xmlNode;
+        }
 
-		public string this[string name]
-		{
-			get
-			{
-				return CommonXml.GetAttributeValue(m_XmlNode, name);
-			}
-			set
-			{
-				CommonXml.SetAttributeValue(m_XmlNode, name, value);
-			}
-		}
-	}
+        public string this[string name]
+        {
+            get { return CommonXml.GetAttributeValue(_xmlNode, name); }
+            set { CommonXml.SetAttributeValue(_xmlNode, name, value); }
+        }
+    }
 }

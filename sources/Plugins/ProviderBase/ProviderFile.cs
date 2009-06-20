@@ -1,57 +1,42 @@
 //Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+
 using System.IO;
+using System.Xml;
 using InventIt.SiteSystem.Data.FileTree;
-using InventIt.SiteSystem;
 using InventIt.SiteSystem.Library;
 using InventIt.SiteSystem.Plugin;
-
 
 namespace InventIt.SiteSystem.Providers
 {
     public class ProviderFile : BasePlugin2, IPlugin2
     {
-        private FileTree m_SiteTree;
+        private FileTree _siteTree;
 
-        public FileTree Tree
+        public ProviderFile()
         {
-            get
-            {
-                if (m_SiteTree == null)
-                {
-                    m_SiteTree = new FileTree(m_Process);
-                }
-                return m_SiteTree;
-            }
         }
-
-        public new string Name
-		{
-			get
-			{
-				return "File";
-			}
-		}
-
-        private void LoadDownload(string value,ControlList control)
-        {
-            if (value != null && value.Length > 0)
-            {
-                m_Process.OutputHandledByModule = true;
-                Tree.SendToBrowser(value);
-            }
-        }
-
-		public ProviderFile()
-		{
-		}
 
         public ProviderFile(Process process)
         {
-            m_Process = process;
+            _process = process;
+        }
+
+        private FileTree Tree
+        {
+            get
+            {
+                if (_siteTree == null)
+                    _siteTree = new FileTree(_process);
+
+                return _siteTree;
+            }
+        }
+
+        #region IPlugin2 Members
+
+        public new string Name
+        {
+            get { return "File"; }
         }
 
         public new void Handle(string mainEvent)
@@ -85,83 +70,12 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
-        private void HandleMoveFolder()
-        {
-            string[] par = m_Process.QueryEvents["mainvalue"].Split('*');
-            if (par.Length == 2 && par[1].Length >0 && par[0].Length >0)
-            {
-                FileTree filetree = new FileTree(m_Process);
-                filetree.MoveFolder(par[0], par[1]);
-            }
-        }
-
-        private void HandleMoveFile()
-        {
-            string[] par = m_Process.QueryEvents["mainvalue"].Split('*');
-            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
-            {
-                FileTree filetree = new FileTree(m_Process);
-                filetree.MoveFile(par[0], par[1]);
-            }
-        }
-
-        private void HandleRenameFolder()
-        {
-            string[] par = m_Process.QueryEvents["mainvalue"].Split('*');
-            if (par.Length == 2 && par[1].Length >0 && par[0].Length >0)
-            {
-                FileTree filetree = new FileTree(m_Process);
-                filetree.RenameFolder(par[0], par[1]);            
-            }
-        }
-
-        private void HandleRenameFile()
-        {
-            string[] par = m_Process.QueryEvents["mainvalue"].Split('*');
-            if (par.Length == 2 && par[1].Length >0 && par[0].Length >0)
-            {
-                FileTree filetree = new FileTree(m_Process);
-                filetree.RenameFile(par[0], par[1]);            
-            }
-        }
-
-        private void HandleRemoveFolder()
-        {
-            string path = m_Process.QueryEvents["mainvalue"];
-
-            FileTree filetree = new FileTree(m_Process);
-            filetree.DeleteFolder(path);
-        }
-
-        private void HandleRemoveFile()
-        {
-            string path = m_Process.QueryEvents["mainvalue"];
-
-            FileTree filetree = new FileTree(m_Process);
-            filetree.DeleteFile(path);
-        }
-
-        private void HandleAddFolder()
-        {
-            string query = m_Process.QueryEvents["mainvalue"];
-            string[] a_list = query.Split('*');
-            FileTree filetree = new FileTree(m_Process);
-            filetree.CreateFolder(a_list[0], a_list[1]);
-        }
- 
-        private void HandleUpload()
-        {
-            string query = m_Process.QueryEvents["mainvalue"];
-            FileTree fileTree = new FileTree(m_Process);
-            string[] files = fileTree.SaveUploadedFiles(query);
-        }
-
         public new void Load(ControlList control, string action, string value, string pathTrail)
         {
             switch (action)
             {
                 case "tree":
-                    LoadTree(pathTrail, control);
+                    LoadTree(control);
                     break;
                 case "folder":
                     LoadFolder(pathTrail, control);
@@ -170,14 +84,96 @@ namespace InventIt.SiteSystem.Providers
                     LoadFile(pathTrail, control);
                     break;
                 case "download":
-                    LoadDownload(pathTrail, control);
+                    LoadDownload(pathTrail);
                     break;
             }
         }
 
-        private void LoadFile(string value,ControlList control)
+        #endregion
+
+        private void LoadDownload(string value)
         {
-            if (value != null && value != "")
+            if (!string.IsNullOrEmpty(value))
+            {
+                _process.OutputHandledByModule = true;
+                Tree.SendToBrowser(value);
+            }
+        }
+
+        private void HandleMoveFolder()
+        {
+            string[] par = _process.QueryEvents["mainvalue"].Split('*');
+            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
+            {
+                var filetree = new FileTree(_process);
+                filetree.MoveFolder(par[0], par[1]);
+            }
+        }
+
+        private void HandleMoveFile()
+        {
+            string[] par = _process.QueryEvents["mainvalue"].Split('*');
+            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
+            {
+                var filetree = new FileTree(_process);
+                filetree.MoveFile(par[0], par[1]);
+            }
+        }
+
+        private void HandleRenameFolder()
+        {
+            string[] par = _process.QueryEvents["mainvalue"].Split('*');
+            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
+            {
+                var filetree = new FileTree(_process);
+                filetree.RenameFolder(par[0], par[1]);
+            }
+        }
+
+        private void HandleRenameFile()
+        {
+            string[] par = _process.QueryEvents["mainvalue"].Split('*');
+            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
+            {
+                var filetree = new FileTree(_process);
+                filetree.RenameFile(par[0], par[1]);
+            }
+        }
+
+        private void HandleRemoveFolder()
+        {
+            string path = _process.QueryEvents["mainvalue"];
+
+            var filetree = new FileTree(_process);
+            filetree.DeleteFolder(path);
+        }
+
+        private void HandleRemoveFile()
+        {
+            string path = _process.QueryEvents["mainvalue"];
+
+            var filetree = new FileTree(_process);
+            filetree.DeleteFile(path);
+        }
+
+        private void HandleAddFolder()
+        {
+            string query = _process.QueryEvents["mainvalue"];
+            string[] list = query.Split('*');
+            var filetree = new FileTree(_process);
+            filetree.CreateFolder(list[0], list[1]);
+        }
+
+        private void HandleUpload()
+        {
+            string query = _process.QueryEvents["mainvalue"];
+            var fileTree = new FileTree(_process);
+            string[] files = fileTree.SaveUploadedFiles(query); //ToDo: ??? (T.Huber 18.06.2009)
+        }
+
+        private void LoadFile(string value, ControlList control)
+        {
+            if (!string.IsNullOrEmpty(value))
             {
                 string path = value;
                 if (Tree.FileExists(path))
@@ -197,7 +193,7 @@ namespace InventIt.SiteSystem.Providers
 
         private void LoadFolder(string value, ControlList control)
         {
-            if (value != null && value != "")
+            if (!string.IsNullOrEmpty(value))
             {
                 string path = value;
                 if (Tree.FolderExists(path))
@@ -207,14 +203,12 @@ namespace InventIt.SiteSystem.Providers
                     folderElement.GetXml(xmlNode, SubFolder.OnlyThisFolder);
                     CommonXml.SetAttributeValue(xmlNode, "path", path);
                 }
-             }
+            }
         }
 
-        private void LoadTree(string pathTrail, ControlList control)
+        private void LoadTree(ControlList control)
         {
             Tree.RootFolder.GetXml(control["filetree"], SubFolder.IncludeSubfolders);
         }
-
     }
-
 }

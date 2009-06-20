@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <xsl:stylesheet
 		version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -17,13 +18,13 @@
 							</xsl:attribute>
 							<xsl:attribute name="href">
 								<xsl:text>show/</xsl:text>
-								<xsl:value-of select="//data/attributes/pageroot"/>
+								<xsl:value-of select="//data/attributes/pageroot" />
 								<xsl:text>/</xsl:text>
-								<xsl:value-of select="name()"/>
+								<xsl:value-of select="name()" />
 								<xsl:text>.aspx</xsl:text>
 							</xsl:attribute>
 							<span>
-								<xsl:value-of select="@menuname"/>
+								<xsl:value-of select="@menuname" />
 							</span>
 							<span class="hide"> | </span>
 						</a>

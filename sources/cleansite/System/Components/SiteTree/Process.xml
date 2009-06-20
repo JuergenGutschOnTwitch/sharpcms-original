@@ -4,7 +4,7 @@
 	<admin>
 		<page>
 			<handle provider="Page" />
-			<load provider="Page"  place="contentone" action="tree" />
+			<load provider="Page" place="contentone" action="tree" />
 			<edit notnull="true">
 				<load provider="Page" place="contenttwo" action="page" />
 				<load provider="Page" place="basedata" action="elementlist" />

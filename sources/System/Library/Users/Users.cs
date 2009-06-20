@@ -1,48 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+
 using System.Xml;
 using InventIt.SiteSystem.Library;
 
 namespace InventIt.SiteSystem.Data.Users
 {
-    public class Users 
+    public class Users
     {
-        private XmlDocument m_UserDocument;
-        private string m_UserFileName;
-        private Process m_Process;
-        private UserList m_UserList;
-        private GroupList m_GroupList;
-
-        public UserList UserList
-        {
-            get
-            {
-                return m_UserList;
-            }
-        }
-        
-        public GroupList GroupList
-        {
-            get
-            {
-                return m_GroupList;
-            }
-        }
+        private readonly GroupList _groupList;
+        private readonly XmlDocument _userDocument;
+        private readonly string _userFileName;
+        private readonly UserList _userList;
 
         public Users(Process process)
         {
-            m_Process = process;
-            m_UserFileName = process.Settings["users/filename"];
-            m_UserDocument = new XmlDocument();
-            m_UserDocument.Load(m_UserFileName);
-            m_UserList = new UserList(CommonXml.GetNode(m_UserDocument.DocumentElement, "users"));
-            m_GroupList = new GroupList(CommonXml.GetNode(m_UserDocument.DocumentElement, "groups"));
+            _userFileName = process.Settings["users/filename"];
+            _userDocument = new XmlDocument();
+            _userDocument.Load(_userFileName);
+            _userList = new UserList(CommonXml.GetNode(_userDocument.DocumentElement, "users"));
+            _groupList = new GroupList(CommonXml.GetNode(_userDocument.DocumentElement, "groups"));
+        }
+
+        public UserList UserList
+        {
+            get { return _userList; }
+        }
+
+        public GroupList GroupList
+        {
+            get { return _groupList; }
         }
 
         public void Save()
         {
-            m_UserDocument.Save(m_UserFileName);
+            _userDocument.Save(_userFileName);
         }
     }
 }

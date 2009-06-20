@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <settings>
 	<templates>
 		<show>~/Custom/Components/FrontEnd/Xsl/Show.xslt</show>
@@ -18,9 +19,9 @@
 		<stdpage>english/about</stdpage>
 		<elementlist>
 			<paragraph>
-				<item name="Text" attribute="text" type="tinymce" height="200"/>
-				<item name="Link" attribute="link" type="choosepage"/>
-				<item name="Picture" attribute="picture" type="choosefile"/>
+				<item name="Text" attribute="text" type="tinymce" height="200" />
+				<item name="Link" attribute="link" type="choosepage" />
+				<item name="Picture" attribute="picture" type="choosefile" />
 				<item name="Picture pos." attribute="picturepos" type="list">
 					<item>Left</item>
 					<item>Right</item>
@@ -40,7 +41,7 @@
 				</item>
 			</header>
 			<picture>
-				<item name="Picture" attribute="picture" type="choosefile"/>
+				<item name="Picture" attribute="picture" type="choosefile" />
 				<item name="Alttext" attribute="alttext" type="text" />
 				<item name="Text" attribute="text" type="text" />
 			</picture>

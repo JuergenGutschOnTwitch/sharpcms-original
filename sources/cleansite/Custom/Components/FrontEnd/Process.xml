@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <process>
 	<admin>
 
 	</admin>
-
 	<show>
-		<load provider="LoadXml" place="contenttwo" action="changelog"/>
-		<template name="show"/>
-		<load provider="Page"  place="contentone" action="tree"/>
-		<load provider="Page"  place="contenttwo" action="page"/>
+		<load provider="LoadXml" place="contenttwo" action="changelog" />
+		<template name="show" />
+		<load provider="Page" place="contentone" action="tree" />
+		<load provider="Page" place="contenttwo" action="page" />
 		<handle provider="Form" />
 		<handle provider="Search" />
-		<load provider="Search" place="search" action="search"/>
+		<load provider="Search" place="search" action="search" />
 		<handle provider="Cookies" />
-		<load provider="Cookies" place="cookies" action="cookie"/>
+		<load provider="Cookies" place="cookies" action="cookie" />
 	</show>
 </process>

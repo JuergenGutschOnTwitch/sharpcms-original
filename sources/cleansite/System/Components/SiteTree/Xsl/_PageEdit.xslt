@@ -176,7 +176,7 @@
 		<xsl:param name="id" />
 		<xsl:variable select="@attribute" name="attribute" />
     <label>
-      <xsl:value-of  select="@name" />
+      <xsl:value-of select="@name" />
     </label>
     <div class="item">
       <textarea class="mceeditor" name="{$id}_{@attribute}">
@@ -197,7 +197,7 @@
 		<xsl:param name="id" />
 		<xsl:variable select="@attribute" name="attribute" />
     <label>
-      <xsl:value-of  select="@name" />
+      <xsl:value-of select="@name" />
     </label>
     <div class="item">
 			<textarea name="{$id}_{@attribute}">

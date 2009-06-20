@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <xsl:stylesheet
 		version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -9,22 +10,20 @@
 		  doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 		  doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 		  omit-xml-declaration="yes"
-		  indent="yes"
-	/>
+		  indent="yes" />
 
-	<xsl:include href="-PageContent.xslt"/>
-	<xsl:include href="-SiteTree.xslt"/>
-	<xsl:include href="-RssFeed.xslt"/>
-	<xsl:include href="..\..\Search\Xsl\_search.xsl"/>
-	<xsl:include href="..\..\Snippets.xslt"/>
+	<xsl:include href="-PageContent.xslt" />
+	<xsl:include href="-SiteTree.xslt" />
+	<xsl:include href="-RssFeed.xslt" />
+	<xsl:include href="..\..\Search\Xsl\_search.xsl" />
+	<xsl:include href="..\..\Snippets.xslt" />
 
 	<xsl:template match="/" xmlns="http://www.w3.org/1999/xhtml">
-
-		<html xml:lang="de" lang="de"  xmlns="http://www.w3.org/1999/xhtml">
+		<html xml:lang="de" lang="de" xmlns="http://www.w3.org/1999/xhtml">
 			<head>
 				<base>
 					<xsl:attribute name="href">
-						<xsl:value-of select="/data/basepath"/>
+						<xsl:value-of select="/data/basepath" />
 						<xsl:text>/</xsl:text>
 					</xsl:attribute>
 				</base>
@@ -32,33 +31,31 @@
 				<meta http-equiv="Page-Exit" content="blendTrans(Duration=0.1)" />
 				<title>
 					<xsl:text>sharpcms - </xsl:text>
-					<xsl:value-of select="/data/contenttwo/page/attributes/pagename"/>
+					<xsl:value-of select="/data/contenttwo/page/attributes/pagename" />
 				</title>
 				<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 				<meta name="keywords">
 					<xsl:attribute name="content">
-						<xsl:value-of select="/data/contenttwo/page/attributes/metakeywords"/>
+						<xsl:value-of select="/data/contenttwo/page/attributes/metakeywords" />
 					</xsl:attribute>
 				</meta>
 				<meta name="description">
 					<xsl:attribute name="content">
-						<xsl:value-of select="/data/contenttwo/page/attributes/metadescription"/>
+						<xsl:value-of select="/data/contenttwo/page/attributes/metadescription" />
 					</xsl:attribute>
 				</meta>
 				<meta name="author" content="Jürgen I. Gutsch (www.gutsch-online.de)" />
 				<meta name="generator" content="sharpcms" />
 				<meta name="revisit-after" content="7 days" />
 				<meta name="robots" content="index,follow" />
-
 				<link id="styleLink" rel="stylesheet" type="text/css">
 					<xsl:attribute name="href">
 						<xsl:text>Custom/Components/FrontEnd/css/central.css</xsl:text>
 					</xsl:attribute>
 				</link>
 				<xsl:text disable-output-escaping="yes">
-    <![CDATA[<!--[if lte IE 7]>
-    <link href="Custom/Components/FrontEnd/css/patch_layout_draft.css" rel="stylesheet" type="text/css" />
-    <![endif]-->]]></xsl:text>
+          <![CDATA[<!--[if lte IE 7]><link href="Custom/Components/FrontEnd/css/patch_layout_draft.css" rel="stylesheet" type="text/css" /><![endif]-->]]>
+        </xsl:text>
 				<script type="text/javascript" src="System/Components/Admin/Scripts/eventhandler.js">
 					<xsl:text> </xsl:text>
 				</script>
@@ -69,11 +66,7 @@
 					<xsl:text> </xsl:text>
 				</script>
 				<script type="text/javascript">
-					<xsl:text disable-output-escaping="yes">
-    <![CDATA[<!--
-    _uacct = "UA-390207-5";
-    urchinTracker();
-    //-->]]></xsl:text>
+					<xsl:text disable-output-escaping="yes"><![CDATA[<!-- _uacct = "UA-390207-5"; urchinTracker(); //-->]]></xsl:text>
 				</script>
 			</head>
 			<body>
@@ -188,7 +181,7 @@
 												<ul>
 													<xsl:for-each select="/data/messages/item">
 														<li>
-															<xsl:value-of select="."/>
+															<xsl:value-of select="." />
 														</li>
 													</xsl:for-each>
 												</ul>
@@ -203,7 +196,6 @@
 								</div>
 							</div>
 						</div>
-
 						<div id="footer">
 							<div id="fo2">
 								<p>

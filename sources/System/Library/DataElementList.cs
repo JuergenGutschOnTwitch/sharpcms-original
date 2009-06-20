@@ -1,66 +1,43 @@
 //Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using System.Xml;
 
 namespace InventIt.SiteSystem.Library
 {
-	public class DataElementList
-	{
-		private XmlNode m_ParentNode;
+    public class DataElementList
+    {
+        private readonly XmlNode _parentNode;
 
-		public XmlNode ParentNode
-		{
-			get
-			{
-				return m_ParentNode;
-			}
-		}
+        protected DataElementList(XmlNode parentNode)
+        {
+            _parentNode = parentNode;
+        }
 
-		protected XmlDocument Document
-		{
-			get
-			{
-				if (m_ParentNode != null)
-				{
-					return m_ParentNode.OwnerDocument;
-				}
-				return null;
-			}
-		}
+        public XmlNode ParentNode
+        {
+            get { return _parentNode; }
+        }
 
-		public DataElementList(XmlNode parentNode)
-		{
-			m_ParentNode = parentNode;
-		}
+        protected XmlDocument Document
+        {
+            get { return _parentNode != null ? _parentNode.OwnerDocument : null; }
+        }
+
+        public int Count
+        {
+            get
+            {
+                if (_parentNode == null)
+                    return 0;
+
+                XmlNodeList xmlNodeList = _parentNode.SelectNodes("*");
+                return xmlNodeList == null ? 0 : xmlNodeList.Count;
+            }
+        }
 
         protected XmlNode GetNode(string cleanPath, EmptyNodeHandling emptyNode)
         {
-			return CommonXml.GetNode(m_ParentNode, cleanPath, emptyNode);
+            return CommonXml.GetNode(_parentNode, cleanPath, emptyNode);
         }
-
-		public int Count
-		{
-			get
-			{
-				if (m_ParentNode == null)
-				{
-					return 0;
-				}
-				else
-				{
-					XmlNodeList xmlNodeList = m_ParentNode.SelectNodes("*");
-					if (xmlNodeList == null)
-					{
-						return 0;
-					}
-					else
-					{
-						return xmlNodeList.Count;
-					}
-				}
-			}
-		}
-	}
+    }
 }

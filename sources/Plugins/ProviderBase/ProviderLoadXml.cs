@@ -1,33 +1,26 @@
 //Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
-using System;
-using System.Collections.Generic;
-using System.Text;
-using InventIt.SiteSystem;
-using InventIt.SiteSystem.Plugin;
-using InventIt.SiteSystem.Library;
+
 using System.Xml;
-using System.Net.Mail;
+using InventIt.SiteSystem.Plugin;
 
 namespace InventIt.SiteSystem.Providers
 {
     public class ProviderLoadXml : BasePlugin2, IPlugin2
     {
-        public new string Name
-        {
-            get
-            {
-                return "LoadXml";
-            }
-        }
-
         public ProviderLoadXml()
         {
-
         }
 
         public ProviderLoadXml(Process process)
         {
-            m_Process = process;
+            _process = process;
+        }
+
+        #region IPlugin2 Members
+
+        public new string Name
+        {
+            get { return "LoadXml"; }
         }
 
         public new void Handle(string mainEvent)
@@ -35,22 +28,24 @@ namespace InventIt.SiteSystem.Providers
             switch (mainEvent)
             {
                 case "submitform":
-                    
+
                     break;
             }
         }
 
-        public void HandleSubmitForm()
-        {
-		
-        }
-
         public new void Load(ControlList control, string action, string value, string pathTrail)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(m_Process.Settings["loadxml/" + action]);
+            var doc = new XmlDocument();
+            doc.Load(_process.Settings["loadxml/" + action]);
 
-            control[action].InnerXml = doc.DocumentElement.InnerXml;
+            if (doc.DocumentElement != null) control[action].InnerXml = doc.DocumentElement.InnerXml;
+        }
+
+        #endregion
+
+        //ToDo: Is a unused method (T.Huber 18.06.2009)
+        public void HandleSubmitForm()
+        {
         }
     }
 }

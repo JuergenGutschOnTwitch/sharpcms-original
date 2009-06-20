@@ -44,8 +44,8 @@
 /// </summary>
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 
@@ -58,20 +58,8 @@ namespace InventIt.SiteSystem.Library
     public class BitmapManipulator
     {
         //MIME types for the various image formats
-        private const String MIME_JPEG = "image/jpeg";
-        private const String MIME_PJPEG = "image/pjpeg";
-        private const String MIME_GIF = "image/gif";
-        private const String MIME_BMP = "image/bmp";
-        private const String MIME_TIFF = "image/tiff";
-        private const String MIME_PNG = "image/x-png";
 
-        public class BitmapManipException : Exception
-        {
-            public BitmapManipException(String msg, Exception innerException)
-                : base(msg, innerException)
-            {
-            }
-        }
+        #region ImageCornerEnum enum
 
         public enum ImageCornerEnum
         {
@@ -80,7 +68,11 @@ namespace InventIt.SiteSystem.Library
             BottomRight,
             BottomLeft,
             Center
-        };
+        } ;
+
+        #endregion
+
+        #region TiffCompressionEnum enum
 
         public enum TiffCompressionEnum
         {
@@ -90,16 +82,26 @@ namespace InventIt.SiteSystem.Library
             RLE,
             None,
             Unspecified
-        };
+        } ;
 
-        public static String[] supportedMimeTypes = new String[] {                                                              
-			MIME_GIF,                                                                  
-				MIME_JPEG,
-				MIME_PJPEG,
-				MIME_TIFF,
-				MIME_PNG,
-				MIME_BMP
-		};
+        #endregion
+
+        private const String MIMEBmp = "image/bmp";
+        private const String MIMEGif = "image/gif";
+        private const String MIMEJpeg = "image/jpeg";
+        private const String MIMEPjpeg = "image/pjpeg";
+        private const String MIMEPng = "image/x-png";
+        private const String MIMETiff = "image/tiff";
+
+        private static readonly String[] SupportedMimeTypes = new[]
+                                                                  {
+                                                                      MIMEGif,
+                                                                      MIMEJpeg,
+                                                                      MIMEPjpeg,
+                                                                      MIMETiff,
+                                                                      MIMEPng,
+                                                                      MIMEBmp
+                                                                  };
 
         /// <summary>Attempts to download a bitmap from a given URI, then loads the bitmap into
         /// a <code>Bitmap</code> object and returns.
@@ -120,7 +122,7 @@ namespace InventIt.SiteSystem.Library
             //Convert String to URI
             try
             {
-                Uri uriObj = new Uri(uri);
+                var uriObj = new Uri(uri);
 
                 return GetBitmapFromUri(uriObj);
             }
@@ -134,6 +136,7 @@ namespace InventIt.SiteSystem.Library
                                                ex);
             }
         }
+
         /// <summary>Attempts to download a bitmap from a given URI, then loads the bitmap into
         /// a <code>Bitmap</code> object and returns.
         /// 
@@ -148,9 +151,9 @@ namespace InventIt.SiteSystem.Library
         /// 
         /// <returns>Bitmap object from URI.  Shouldn't ever be null, as any error will be reported
         ///     in an exception.</returns>
-        public static Bitmap GetBitmapFromUri(Uri uri)
+        private static Bitmap GetBitmapFromUri(Uri uri)
         {
-            return GetBitmapFromUri(uri, 10 * 1000);
+            return GetBitmapFromUri(uri, 10*1000);
         }
 
         /// <summary>Attempts to download a bitmap from a given URI, then loads the bitmap into
@@ -172,7 +175,7 @@ namespace InventIt.SiteSystem.Library
             //Convert String to URI
             try
             {
-                Uri uriObj = new Uri(uri);
+                var uriObj = new Uri(uri);
 
                 return GetBitmapFromUri(uriObj, timeoutMs);
             }
@@ -203,7 +206,7 @@ namespace InventIt.SiteSystem.Library
         ///     in an exception.</returns>
         public static Bitmap GetBitmapFromUri(Uri uri, int timeoutMs)
         {
-            Bitmap downloadedImage = null;
+            Bitmap downloadedImage;
 
             //Create a web request object for the URI, retrieve the contents,
             //then feed the results into a new Bitmap object.  Note that we 
@@ -219,14 +222,17 @@ namespace InventIt.SiteSystem.Library
 
                 //Check the content type of the response to make sure it is
                 //one of the formats we support
-                if (Array.IndexOf(BitmapManipulator.supportedMimeTypes,
+                if (Array.IndexOf(SupportedMimeTypes,
                                   resp.ContentType) == -1)
                 {
                     String contentType = resp.ContentType;
                     resp.Close();
-                    throw new BitmapManipException(String.Format("The image at the URL you provided is in an unsupported format ({0}).  Uploaded images must be in either JPEG, GIF, BMP, TIFF, PNG, or WMF formats.",
-                                                                 contentType),
-                                                   new NotSupportedException(String.Format("MIME type '{0}' is not a recognized image type", contentType)));
+                    throw new BitmapManipException(
+                        String.Format(
+                            "The image at the URL you provided is in an unsupported format ({0}).  Uploaded images must be in either JPEG, GIF, BMP, TIFF, PNG, or WMF formats.",
+                            contentType),
+                        new NotSupportedException(String.Format("MIME type '{0}' is not a recognized image type",
+                                                                contentType)));
                 }
 
                 //Otherwise, looks fine
@@ -238,69 +244,68 @@ namespace InventIt.SiteSystem.Library
             }
             catch (UriFormatException exp)
             {
-                throw new BitmapManipException("The URL you entered is not valid.  Please enter a valid URL, of the form http://servername.com/folder/image.gif",
-                                               exp);
+                throw new BitmapManipException(
+                    "The URL you entered is not valid.  Please enter a valid URL, of the form http://servername.com/folder/image.gif",
+                    exp);
             }
             catch (WebException exp)
             {
                 //Some sort of problem w/ the web request
                 String errorDescription;
 
-                if (exp.Status == WebExceptionStatus.ConnectFailure)
+                switch (exp.Status)
                 {
-                    errorDescription = "Connect failure";
-                }
-                else if (exp.Status == WebExceptionStatus.ConnectionClosed)
-                {
-                    errorDescription = "Connection closed prematurely";
-                }
-                else if (exp.Status == WebExceptionStatus.KeepAliveFailure)
-                {
-                    errorDescription = "Connection closed in spite of keep-alives";
-                }
-                else if (exp.Status == WebExceptionStatus.NameResolutionFailure)
-                {
-                    errorDescription = "Unable to resolve server name.  Double-check the URL for errors";
-                }
-                else if (exp.Status == WebExceptionStatus.ProtocolError)
-                {
-                    errorDescription = "Protocol-level error.  The server may have reported an error like 404 (file not found) or 403 (access denied), or some other similar error";
-                }
-                else if (exp.Status == WebExceptionStatus.ReceiveFailure)
-                {
-                    errorDescription = "The server did not send a complete response";
-                }
-                else if (exp.Status == WebExceptionStatus.SendFailure)
-                {
-                    errorDescription = "The complete request could not be sent to the server";
-                }
-                else if (exp.Status == WebExceptionStatus.ServerProtocolViolation)
-                {
-                    errorDescription = "The server response was not a valid HTTP response";
-                }
-                else if (exp.Status == WebExceptionStatus.Timeout)
-                {
-                    errorDescription = "The server did not respond quickly enough.  The server may be down or overloaded.  Try again later";
-                }
-                else
-                {
-                    errorDescription = exp.Status.ToString();
+                    case WebExceptionStatus.ConnectFailure:
+                        errorDescription = "Connect failure";
+                        break;
+                    case WebExceptionStatus.ConnectionClosed:
+                        errorDescription = "Connection closed prematurely";
+                        break;
+                    case WebExceptionStatus.KeepAliveFailure:
+                        errorDescription = "Connection closed in spite of keep-alives";
+                        break;
+                    case WebExceptionStatus.NameResolutionFailure:
+                        errorDescription = "Unable to resolve server name.  Double-check the URL for errors";
+                        break;
+                    case WebExceptionStatus.ProtocolError:
+                        errorDescription =
+                            "Protocol-level error.  The server may have reported an error like 404 (file not found) or 403 (access denied), or some other similar error";
+                        break;
+                    case WebExceptionStatus.ReceiveFailure:
+                        errorDescription = "The server did not send a complete response";
+                        break;
+                    case WebExceptionStatus.SendFailure:
+                        errorDescription = "The complete request could not be sent to the server";
+                        break;
+                    case WebExceptionStatus.ServerProtocolViolation:
+                        errorDescription = "The server response was not a valid HTTP response";
+                        break;
+                    case WebExceptionStatus.Timeout:
+                        errorDescription =
+                            "The server did not respond quickly enough.  The server may be down or overloaded.  Try again later";
+                        break;
+                    default:
+                        errorDescription = exp.Status.ToString();
+                        break;
                 }
 
-                throw new BitmapManipException(String.Format("An error occurred while communicating with the server at the URL you provided.  {0}.",
-                                                             errorDescription),
-                                               exp);
+                throw new BitmapManipException(
+                    String.Format(
+                        "An error occurred while communicating with the server at the URL you provided.  {0}.",
+                        errorDescription),
+                    exp);
             }
-            catch (BitmapManipException exp)
+            catch (BitmapManipException)
             {
                 //Don't modify this one; pass it along
-                throw exp;
+                throw;
             }
             catch (Exception exp)
             {
-                throw new BitmapManipException(String.Format("An error ocurred while retrieving the image from the URL you provided: {0}",
-                                                             exp.Message),
-                                               exp);
+                throw new BitmapManipException(
+                    String.Format("An error ocurred while retrieving the image from the URL you provided: {0}",
+                                  exp.Message),
+                    exp);
             }
         }
 
@@ -317,13 +322,11 @@ namespace InventIt.SiteSystem.Library
         {
             //If the dest format matches the source format and quality not changing, just clone
             if (inputBmp.RawFormat.Equals(ImageFormat.Jpeg) && quality == -1)
-            {
-                return (Bitmap)inputBmp.Clone();
-            }
+                return (Bitmap) inputBmp.Clone();
 
             //Create an in-memory stream which will be used to save
             //the converted image
-            System.IO.Stream imgStream = new System.IO.MemoryStream();
+            Stream imgStream = new MemoryStream();
 
             //Get the ImageCodecInfo for the desired target format
             ImageCodecInfo destCodec = FindCodecForType(MimeTypeFromImageFormat(ImageFormat.Jpeg));
@@ -331,18 +334,17 @@ namespace InventIt.SiteSystem.Library
             if (destCodec == null)
             {
                 //No codec available for that format
-                throw new ArgumentException("The requested format " +
-                                            MimeTypeFromImageFormat(ImageFormat.Jpeg) +
-                                            " does not have an available codec installed",
-                                            "destFormat");
+                throw new ArgumentException(
+                    "The requested format " + MimeTypeFromImageFormat(ImageFormat.Jpeg) +
+                    " does not have an available codec installed", "destFormat");
             }
 
             //Create an EncoderParameters collection to contain the
             //parameters that control the dest format's encoder
-            EncoderParameters destEncParams = new EncoderParameters(1);
+            var destEncParams = new EncoderParameters(1);
 
             //Use quality parameter
-            EncoderParameter qualityParam = new EncoderParameter(Encoder.Quality, quality);
+            var qualityParam = new EncoderParameter(Encoder.Quality, quality);
             destEncParams.Param[0] = qualityParam;
 
             //Save w/ the selected codec and encoder parameters
@@ -351,7 +353,7 @@ namespace InventIt.SiteSystem.Library
             //At this point, imgStream contains the binary form of the
             //bitmap in the target format.  All that remains is to load it
             //into a new bitmap object
-            Bitmap destBitmap = new Bitmap(imgStream);
+            var destBitmap = new Bitmap(imgStream);
 
             //Free the stream
             //imgStream.Close();
@@ -377,36 +379,29 @@ namespace InventIt.SiteSystem.Library
         {
             //If the dest format matches the source format and quality/bpp not changing, just clone
             if (inputBmp.RawFormat.Equals(ImageFormat.Tiff) && compression == TiffCompressionEnum.Unspecified)
-            {
-                return (Bitmap)inputBmp.Clone();
-            }
+                return (Bitmap) inputBmp.Clone();
 
             if (compression == TiffCompressionEnum.Unspecified)
-            {
-                //None of the params are chaning; use the general purpose converter
                 return ConvertBitmap(inputBmp, ImageFormat.Tiff);
-            }
+                    //None of the params are chaning; use the general purpose converter
 
             //Create an in-memory stream which will be used to save
             //the converted image
-            System.IO.Stream imgStream = new System.IO.MemoryStream();
+            Stream imgStream = new MemoryStream();
 
             //Get the ImageCodecInfo for the desired target format
             ImageCodecInfo destCodec = FindCodecForType(MimeTypeFromImageFormat(ImageFormat.Tiff));
 
             if (destCodec == null)
-            {
                 //No codec available for that format
                 throw new ArgumentException("The requested format " +
                                             MimeTypeFromImageFormat(ImageFormat.Tiff) +
                                             " does not have an available codec installed",
                                             "destFormat");
-            }
-
 
             //Create an EncoderParameters collection to contain the
             //parameters that control the dest format's encoder
-            EncoderParameters destEncParams = new EncoderParameters(1);
+            var destEncParams = new EncoderParameters(1);
 
             //set the compression parameter
             EncoderValue compressionValue;
@@ -433,7 +428,7 @@ namespace InventIt.SiteSystem.Library
                     compressionValue = EncoderValue.CompressionNone;
                     break;
             }
-            EncoderParameter compressionParam = new EncoderParameter(Encoder.Compression, (long)compressionValue);
+            var compressionParam = new EncoderParameter(Encoder.Compression, (long) compressionValue);
 
             destEncParams.Param[0] = compressionParam;
 
@@ -443,7 +438,7 @@ namespace InventIt.SiteSystem.Library
             //At this point, imgStream contains the binary form of the
             //bitmap in the target format.  All that remains is to load it
             //into a new bitmap object
-            Bitmap destBitmap = new Bitmap(imgStream);
+            var destBitmap = new Bitmap(imgStream);
 
             //Free the stream
             //imgStream.Close();
@@ -479,17 +474,15 @@ namespace InventIt.SiteSystem.Library
         /// <returns>A new bitmap object containing the input bitmap converted.
         ///     If the destination format and the target format are the same, returns
         ///     a clone of the destination bitmap.</returns>
-        public static Bitmap ConvertBitmap(Bitmap inputBmp, System.Drawing.Imaging.ImageFormat destFormat)
+        private static Bitmap ConvertBitmap(Image inputBmp, ImageFormat destFormat)
         {
             //If the dest format matches the source format and quality/bpp not changing, just clone
             if (inputBmp.RawFormat.Equals(destFormat))
-            {
-                return (Bitmap)inputBmp.Clone();
-            }
+                return (Bitmap) inputBmp.Clone();
 
             //Create an in-memory stream which will be used to save
             //the converted image
-            System.IO.Stream imgStream = new System.IO.MemoryStream();
+            Stream imgStream = new MemoryStream();
 
             //Save the bitmap out to the memory stream, using the format indicated by the caller
             inputBmp.Save(imgStream, destFormat);
@@ -497,7 +490,7 @@ namespace InventIt.SiteSystem.Library
             //At this point, imgStream contains the binary form of the
             //bitmap in the target format.  All that remains is to load it
             //into a new bitmap object
-            Bitmap destBitmap = new Bitmap(imgStream);
+            var destBitmap = new Bitmap(imgStream);
 
             //Free the stream
             //imgStream.Close();
@@ -515,25 +508,28 @@ namespace InventIt.SiteSystem.Library
         /// <param name="inputBmp">Bitmap to scale</param>
         /// <param name="scaleFactor">Factor by which to scale</param>
         /// <returns>New bitmap containing image from inputBmp, scaled by the scale factor</returns>
-        public static Bitmap ScaleBitmap(Bitmap inputBmp, double scaleFactor)
+        private static Bitmap ScaleBitmap(Image inputBmp, double scaleFactor)
         {
             return ScaleBitmap(inputBmp, scaleFactor, scaleFactor);
         }
 
         /// <summary>
-        /// Scales a bitmap by a scale factor, growing or shrinking both axes independently, 
+        /// Scales a bitmap by a scale factor, growing or shrinking both axes independently,
         /// possibly changing the aspect ration
         /// </summary>
         /// <param name="inputBmp">Bitmap to scale</param>
-        /// <param name="scaleFactor">Factor by which to scale</param>
-        /// <returns>New bitmap containing image from inputBmp, scaled by the scale factor</returns>
-        public static Bitmap ScaleBitmap(Bitmap inputBmp, double xScaleFactor, double yScaleFactor)
+        /// <param name="xScaleFactor">The x scale factor.</param>
+        /// <param name="yScaleFactor">The y scale factor.</param>
+        /// <returns>
+        /// New bitmap containing image from inputBmp, scaled by the scale factor
+        /// </returns>
+        private static Bitmap ScaleBitmap(Image inputBmp, double xScaleFactor, double yScaleFactor)
         {
             //Create a new bitmap object based on the input
-            Bitmap newBmp = new Bitmap(
-                                      (int)(inputBmp.Size.Width * xScaleFactor),
-                                      (int)(inputBmp.Size.Height * yScaleFactor),
-                                      PixelFormat.Format24bppRgb);//Graphics.FromImage doesn't like Indexed pixel format
+            var newBmp = new Bitmap(
+                (int) (inputBmp.Size.Width*xScaleFactor),
+                (int) (inputBmp.Size.Height*yScaleFactor),
+                PixelFormat.Format24bppRgb); //Graphics.FromImage doesn't like Indexed pixel format
 
             //Create a graphics object attached to the new bitmap
             Graphics newBmpGraphics = Graphics.FromImage(newBmp);
@@ -542,14 +538,14 @@ namespace InventIt.SiteSystem.Library
             //interpolation, to maximize the quality of the scaled image
             newBmpGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-            newBmpGraphics.ScaleTransform((float)xScaleFactor, (float)yScaleFactor);
+            newBmpGraphics.ScaleTransform((float) xScaleFactor, (float) yScaleFactor);
 
             //Draw the bitmap in the graphics object, which will apply
             //the scale transform
             //Note that pixel units must be specified to ensure the framework doesn't attempt
             //to compensate for varying horizontal resolutions in images by resizing; in this case,
             //that's the opposite of what we want.
-            Rectangle drawRect = new Rectangle(0, 0, inputBmp.Size.Width, inputBmp.Size.Height);
+            var drawRect = new Rectangle(0, 0, inputBmp.Size.Width, inputBmp.Size.Height);
             newBmpGraphics.DrawImage(inputBmp, drawRect, drawRect, GraphicsUnit.Pixel);
 
             //Return the bitmap, as the operations on the graphics object
@@ -574,8 +570,8 @@ namespace InventIt.SiteSystem.Library
         {
             //Simply compute scale factors that result in the desired size, then call ScaleBitmap
             return ScaleBitmap(inputBmp,
-                               (float)imgWidth / (float)inputBmp.Size.Width,
-                               (float)imgHeight / (float)inputBmp.Size.Height);
+                               imgWidth/(float) inputBmp.Size.Width,
+                               imgHeight/(float) inputBmp.Size.Height);
         }
 
         /// <summary>
@@ -597,8 +593,8 @@ namespace InventIt.SiteSystem.Library
             //Apply the lower of the two, then if the other dimension is still
             //outside the caller-defined limits, compute the scaling factor
             //which will bring that dimension within the limits.
-            double widthScaleFactor = (double)maxWidth / (double)inputBmp.Size.Width;
-            double heightScaleFactor = (double)maxHeight / (double)inputBmp.Size.Height;
+            double widthScaleFactor = maxWidth/(double) inputBmp.Size.Width;
+            double heightScaleFactor = maxHeight/(double) inputBmp.Size.Height;
             double finalScaleFactor = 0;
 
             //Now pick the smaller scale factor
@@ -608,12 +604,12 @@ namespace InventIt.SiteSystem.Library
                 //within the required maximum, combine this width
                 //scale factor with an additional scaling factor
                 //to take the height the rest of the way down
-                if ((double)inputBmp.Size.Height * widthScaleFactor > maxHeight)
+                if (inputBmp.Size.Height*widthScaleFactor > maxHeight)
                 {
                     //Need to scale height further
-                    heightScaleFactor = (double)(maxHeight * widthScaleFactor) / (double)inputBmp.Size.Height;
+                    heightScaleFactor = (maxHeight*widthScaleFactor)/inputBmp.Size.Height;
 
-                    finalScaleFactor = widthScaleFactor * heightScaleFactor;
+                    finalScaleFactor = widthScaleFactor*heightScaleFactor;
                 }
                 else
                 {
@@ -626,12 +622,12 @@ namespace InventIt.SiteSystem.Library
                 //Else, height scale factor is smaller than width.
                 //Apply the same logic as above, but with the roles of the width
                 //and height scale factors reversed
-                if ((double)inputBmp.Size.Width * heightScaleFactor > maxWidth)
+                if (inputBmp.Size.Width*heightScaleFactor > maxWidth)
                 {
                     //Need to scale height further
-                    widthScaleFactor = (double)(maxWidth * heightScaleFactor) / (double)inputBmp.Size.Width;
+                    widthScaleFactor = (maxWidth*heightScaleFactor)/inputBmp.Size.Width;
 
-                    finalScaleFactor = widthScaleFactor * heightScaleFactor;
+                    finalScaleFactor = widthScaleFactor*heightScaleFactor;
                 }
                 else
                 {
@@ -646,7 +642,7 @@ namespace InventIt.SiteSystem.Library
         public static Bitmap RotateBitmapRight90(Bitmap inputBmp)
         {
             //Copy bitmap
-            Bitmap newBmp = (Bitmap)inputBmp.Clone();
+            var newBmp = (Bitmap) inputBmp.Clone();
 
             newBmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
 
@@ -658,10 +654,9 @@ namespace InventIt.SiteSystem.Library
         public static Bitmap RotateBitmapRight180(Bitmap inputBmp)
         {
             //Copy bitmap
-            Bitmap newBmp = (Bitmap)inputBmp.Clone();
+            var newBmp = (Bitmap) inputBmp.Clone();
 
             newBmp.RotateFlip(RotateFlipType.Rotate180FlipNone);
-
 
             //The RotateFlip transformation converts bitmaps to memoryBmp,
             //which is uncool.  Convert back now
@@ -671,10 +666,9 @@ namespace InventIt.SiteSystem.Library
         public static Bitmap RotateBitmapRight270(Bitmap inputBmp)
         {
             //Copy bitmap
-            Bitmap newBmp = (Bitmap)inputBmp.Clone();
+            var newBmp = (Bitmap) inputBmp.Clone();
 
             newBmp.RotateFlip(RotateFlipType.Rotate270FlipNone);
-
 
             //The RotateFlip transformation converts bitmaps to memoryBmp,
             //which is uncool.  Convert back now
@@ -691,11 +685,10 @@ namespace InventIt.SiteSystem.Library
         public static Bitmap ReverseBitmap(Bitmap inputBmp)
         {
             //Copy the bitmap to a new bitmap object
-            Bitmap newBmp = (Bitmap)inputBmp.Clone();
+            var newBmp = (Bitmap) inputBmp.Clone();
 
             //Flip the bitmap
             newBmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
-
 
             //The RotateFlip transformation converts bitmaps to memoryBmp,
             //which is uncool.  Convert back now
@@ -711,11 +704,10 @@ namespace InventIt.SiteSystem.Library
         public static Bitmap FlipBitmap(Bitmap inputBmp)
         {
             //Copy the bitmap to a new bitmap object
-            Bitmap newBmp = (Bitmap)inputBmp.Clone();
+            var newBmp = (Bitmap) inputBmp.Clone();
 
             //Flip the bitmap
             newBmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
 
             //The RotateFlip transformation converts bitmaps to memoryBmp,
             //which is uncool.  Convert back now
@@ -731,16 +723,16 @@ namespace InventIt.SiteSystem.Library
         /// <param name="overlayAlpha">Alpha value fo overlay bitmap.  0 = fully transparent, 100 = fully opaque</param>
         /// <param name="overlayPoint">Location in destination bitmap where overlay image will be placed</param>
         /// <returns></returns>
-        public static Bitmap OverlayBitmap(Bitmap destBmp, Bitmap bmpToOverlay, int overlayAlpha, Point overlayPoint)
+        private static Bitmap OverlayBitmap(Image destBmp, Image bmpToOverlay, int overlayAlpha, Point overlayPoint)
         {
             //Convert alpha to a 0..1 scale
-            float overlayAlphaFloat = (float)overlayAlpha / 100.0f;
+            float overlayAlphaFloat = overlayAlpha/100.0f;
 
             //Copy the destination bitmap
             //NOTE: Can't clone here, because if destBmp is indexed instead of just RGB, 
             //Graphics.FromImage will fail
-            Bitmap newBmp = new Bitmap(destBmp.Size.Width,
-                                       destBmp.Size.Height);
+            var newBmp = new Bitmap(destBmp.Size.Width,
+                                    destBmp.Size.Height);
 
             //Create a graphics object attached to the bitmap
             Graphics newBmpGraphics = Graphics.FromImage(newBmp);
@@ -754,7 +746,7 @@ namespace InventIt.SiteSystem.Library
                                      GraphicsUnit.Pixel);
 
             //Create a new bitmap object the same size as the overlay bitmap
-            Bitmap overlayBmp = new Bitmap(bmpToOverlay.Size.Width, bmpToOverlay.Size.Height);
+            var overlayBmp = new Bitmap(bmpToOverlay.Size.Width, bmpToOverlay.Size.Height);
 
             //Make overlayBmp transparent
             overlayBmp.MakeTransparent(overlayBmp.GetPixel(0, 0));
@@ -765,22 +757,22 @@ namespace InventIt.SiteSystem.Library
             //Create a color matrix which will be applied to the overlay bitmap
             //to modify the alpha of the entire image
             float[][] colorMatrixItems = {
-				new float[] {1, 0, 0, 0, 0},
-					new float[] {0, 1, 0, 0, 0},
-					new float[] {0, 0, 1, 0, 0},
-					new float[] {0, 0, 0, overlayAlphaFloat, 0}, 
-					new float[] {0, 0, 0, 0, 1}
-			};
+                                             new float[] {1, 0, 0, 0, 0},
+                                             new float[] {0, 1, 0, 0, 0},
+                                             new float[] {0, 0, 1, 0, 0},
+                                             new[] {0, 0, 0, overlayAlphaFloat, 0},
+                                             new float[] {0, 0, 0, 0, 1}
+                                         };
 
-            ColorMatrix colorMatrix = new ColorMatrix(colorMatrixItems);
+            var colorMatrix = new ColorMatrix(colorMatrixItems);
 
             //Create an ImageAttributes class to contain a color matrix attribute
-            ImageAttributes imageAttrs = new ImageAttributes();
+            var imageAttrs = new ImageAttributes();
             imageAttrs.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
             //Draw the overlay bitmap into the graphics object, applying the image attributes
             //which includes the reduced alpha
-            Rectangle drawRect = new Rectangle(0, 0, bmpToOverlay.Size.Width, bmpToOverlay.Size.Height);
+            var drawRect = new Rectangle(0, 0, bmpToOverlay.Size.Width, bmpToOverlay.Size.Height);
             overlayBmpGraphics.DrawImage(bmpToOverlay,
                                          drawRect,
                                          0, 0, bmpToOverlay.Size.Width, bmpToOverlay.Size.Height,
@@ -794,7 +786,8 @@ namespace InventIt.SiteSystem.Library
             //to compensate for varying horizontal resolutions in images by resizing; in this case,
             //that's the opposite of what we want.
             newBmpGraphics.DrawImage(overlayBmp,
-                                     new Rectangle(overlayPoint.X, overlayPoint.Y, bmpToOverlay.Width, bmpToOverlay.Height),
+                                     new Rectangle(overlayPoint.X, overlayPoint.Y, bmpToOverlay.Width,
+                                                   bmpToOverlay.Height),
                                      drawRect,
                                      GraphicsUnit.Pixel);
 
@@ -802,7 +795,7 @@ namespace InventIt.SiteSystem.Library
 
             //Recall that newBmp was created as a memory bitmap; convert it to the format
             //of the input bitmap
-            return ConvertBitmap(newBmp, destBmp.RawFormat); ;
+            return ConvertBitmap(newBmp, destBmp.RawFormat);
         }
 
         /// <summary>
@@ -814,34 +807,23 @@ namespace InventIt.SiteSystem.Library
         /// <param name="overlayAlpha">Alpha value fo overlay bitmap.  0 = fully transparent, 100 = fully opaque</param>
         /// <param name="corner">Corner of destination bitmap to place overlay bitmap</param>
         /// <returns></returns>
-        public static Bitmap OverlayBitmap(Bitmap destBmp, Bitmap bmpToOverlay, int overlayAlpha, ImageCornerEnum corner)
+        private static Bitmap OverlayBitmap(Image destBmp, Image bmpToOverlay, int overlayAlpha, ImageCornerEnum corner)
         {
             //Translate corner to rectangle and pass through to other impl
             Point overlayPoint;
 
             if (corner.Equals(ImageCornerEnum.TopLeft))
-            {
                 overlayPoint = new Point(0, 0);
-            }
             else if (corner.Equals(ImageCornerEnum.TopRight))
-            {
                 overlayPoint = new Point(destBmp.Size.Width - bmpToOverlay.Size.Width, 0);
-            }
             else if (corner.Equals(ImageCornerEnum.BottomRight))
-            {
                 overlayPoint = new Point(destBmp.Size.Width - bmpToOverlay.Size.Width,
                                          destBmp.Size.Height - bmpToOverlay.Size.Height);
-            }
             else if (corner.Equals(ImageCornerEnum.Center))
-            {
-                overlayPoint = new Point(destBmp.Size.Width / 2 - bmpToOverlay.Size.Width / 2,
-                                         destBmp.Size.Height / 2 - bmpToOverlay.Size.Height / 2);
-            }
+                overlayPoint = new Point(destBmp.Size.Width/2 - bmpToOverlay.Size.Width/2,
+                                         destBmp.Size.Height/2 - bmpToOverlay.Size.Height/2);
             else
-            {
-                overlayPoint = new Point(0,
-                                         destBmp.Size.Height - bmpToOverlay.Size.Height);
-            }
+                overlayPoint = new Point(0, destBmp.Size.Height - bmpToOverlay.Size.Height);
 
             return OverlayBitmap(destBmp, bmpToOverlay, overlayAlpha, overlayPoint);
         }
@@ -850,6 +832,7 @@ namespace InventIt.SiteSystem.Library
         {
             return OverlayBitmap(destBmp, bmpToOverlay, 0, overlayPoint);
         }
+
         public static Bitmap OverlayBitmap(Bitmap destBmp, Bitmap bmpToOverlay, ImageCornerEnum corner)
         {
             return OverlayBitmap(destBmp, bmpToOverlay, 0, corner);
@@ -866,9 +849,9 @@ namespace InventIt.SiteSystem.Library
         public static Bitmap CropBitmap(Bitmap inputBmp, Rectangle cropRectangle)
         {
             //Create a new bitmap object based on the input
-            Bitmap newBmp = new Bitmap(cropRectangle.Width,
-                                       cropRectangle.Height,
-                                       PixelFormat.Format24bppRgb);//Graphics.FromImage doesn't like Indexed pixel format
+            var newBmp = new Bitmap(cropRectangle.Width,
+                                    cropRectangle.Height,
+                                    PixelFormat.Format24bppRgb); //Graphics.FromImage doesn't like Indexed pixel format
 
             //Create a graphics object and attach it to the bitmap
             Graphics newBmpGraphics = Graphics.FromImage(newBmp);
@@ -890,54 +873,41 @@ namespace InventIt.SiteSystem.Library
             return ConvertBitmap(newBmp, inputBmp.RawFormat);
         }
 
-        public static String MimeTypeFromImageFormat(ImageFormat format)
+        private static String MimeTypeFromImageFormat(ImageFormat format)
         {
             if (format.Equals(ImageFormat.Jpeg))
-            {
-                return MIME_JPEG;
-            }
-            else if (format.Equals(ImageFormat.Gif))
-            {
-                return MIME_GIF;
-            }
-            else if (format.Equals(ImageFormat.Bmp))
-            {
-                return MIME_BMP;
-            }
-            else if (format.Equals(ImageFormat.Tiff))
-            {
-                return MIME_TIFF;
-            }
-            else if (format.Equals(ImageFormat.Png))
-            {
-                return MIME_PNG;
-            }
-            else
-            {
-                throw new ArgumentException("Unsupported  image format '" + format + "'", "format");
-            }
+                return MIMEJpeg;
+
+            if (format.Equals(ImageFormat.Gif))
+                return MIMEGif;
+
+            if (format.Equals(ImageFormat.Bmp))
+                return MIMEBmp;
+
+            if (format.Equals(ImageFormat.Tiff))
+                return MIMETiff;
+
+            if (format.Equals(ImageFormat.Png))
+                return MIMEPng;
+
+            throw new ArgumentException("Unsupported  image format '" + format + "'", "format");
         }
 
-        public static ImageFormat ImageFormatFromMimeType(String mimeType)
+        private static ImageFormat ImageFormatFromMimeType(String mimeType)
         {
             switch (mimeType)
             {
-                case MIME_JPEG:
-                case MIME_PJPEG:
+                case MIMEJpeg:
+                case MIMEPjpeg:
                     return ImageFormat.Jpeg;
-
-                case MIME_GIF:
+                case MIMEGif:
                     return ImageFormat.Gif;
-
-                case MIME_BMP:
+                case MIMEBmp:
                     return ImageFormat.Bmp;
-
-                case MIME_TIFF:
+                case MIMETiff:
                     return ImageFormat.Tiff;
-
-                case MIME_PNG:
+                case MIMEPng:
                     return ImageFormat.Png;
-
                 default:
                     throw new ArgumentException("Unsupported  MIME type '" + mimeType + "'", "mimeType");
             }
@@ -948,17 +918,23 @@ namespace InventIt.SiteSystem.Library
             ImageCodecInfo[] imgEncoders = ImageCodecInfo.GetImageEncoders();
 
             for (int i = 0; i < imgEncoders.GetLength(0); i++)
-            {
                 if (imgEncoders[i].MimeType == mimeType)
-                {
-                    //Found it
-                    return imgEncoders[i];
-                }
-            }
+                    return imgEncoders[i]; //Found it
 
             //No encoders match
             return null;
         }
-    }
 
+        #region Nested type: BitmapManipException
+
+        private class BitmapManipException : Exception
+        {
+            public BitmapManipException(String msg, Exception innerException)
+                : base(msg, innerException)
+            {
+            }
+        }
+
+        #endregion
+    }
 }

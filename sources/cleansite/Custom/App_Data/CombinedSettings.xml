@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
 <settings>
   <templates>
     <show>~/Custom/Components/FrontEnd/Xsl/Show.xslt</show>
@@ -45,11 +47,10 @@
         <item name="Menu name" attribute="menuname" type="text" />
         <item name="Page name" attribute="pagename" type="text" />
         <item name="Last edited" attribute="lastedited" type="text" />
-		  <item name="Keywords" attribute="metakeywords" type="text" />
-		  <item name="Description" attribute="metadescription" type="text" />
-		  <item name="Status" attribute="status" type="statuslist" />          
-          statuslist
-        </top>
+		    <item name="Keywords" attribute="metakeywords" type="text" />
+		    <item name="Description" attribute="metadescription" type="text" />
+		    <item name="Status" attribute="status" type="statuslist" />
+      </top>
     </elementlist>
     <treeFilename>~/Custom/App_Data/database/tree.xml</treeFilename>
     <contentRoot>~/Custom/App_Data/database/site/</contentRoot>

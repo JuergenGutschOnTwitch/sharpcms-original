@@ -2,102 +2,142 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using System.Xml;
-using System.IO;
 using System.Web.UI;
+using System.Xml;
 using InventIt.SiteSystem.Library;
-using InventIt.SiteSystem.Data.Users;
 using InventIt.SiteSystem.Plugin;
 
 namespace InventIt.SiteSystem
 {
     public class Process
     {
-        public const string COOKIE_SEPARATOR = "cookieseparator";
+        private const string CookieSeparator = "cookieseparator";
+        private readonly string _basePath;
+        public readonly XmlItemList Attributes;
+        public readonly ControlList Content;
+        public readonly Page HttpPage;
+        public readonly PluginServices Plugins;
+        public readonly XmlItemList QueryData;
+        public readonly XmlItemList QueryEvents;
+        public readonly XmlItemList QueryOther;
+        private Cache _cache;
+        private string _currentProcess = string.Empty;
+        private Settings _settings;
+        private Dictionary<string, string> _variables;
+        public string MainTemplate; //ToDo: this should be more logical (old)
+        public bool OutputHandledByModule;
 
-        public System.Web.UI.Page HttpPage;
+        public Process(Page httpPage, PluginServices pluginServices)
+        {
+            Plugins = pluginServices;
+            HttpPage = httpPage;
+            XmlData = new XmlDocument();
 
-        //xml data
-        public PluginServices Plugins;
-        public ControlList Content;
-        public XmlItemList QueryData;
-        public XmlItemList Attributes;
-        public XmlItemList QueryEvents;
-        public XmlItemList QueryOther;
+            Plugins.FindPlugins(this, Common.CombinePaths(Root, "Bin"));
 
-        public bool OutputHandledByModule = false;
-        public string mainTemplate; //TODO: this should be more logical 
+            XmlNode xmlNode = XmlData.CreateElement("data");
+            XmlData.AppendChild(xmlNode);
 
-        private Dictionary<string, string> m_Variables;
-        private Cache m_Cache;
-        private XmlDocument m_XmlData;
-        private Settings m_Settings;
-        private string m_BasePath;
+            Content = new ControlList(xmlNode);
 
-        private string m_currentProcess = string.Empty;
-        private string m_redirectUrl = null;
+            if (httpPage.Request.ServerVariables["SERVER_PORT"] == "80")
+                _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
+                            httpPage.Request.ServerVariables["SERVER_NAME"] +
+                            httpPage.Request.ApplicationPath.TrimEnd('/') + "";
+            else
+                _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
+                            httpPage.Request.ServerVariables["SERVER_NAME"] + ":" +
+                            httpPage.Request.ServerVariables["SERVER_PORT"] +
+                            httpPage.Request.ApplicationPath.TrimEnd('/') + "";
+
+            Content["basepath"].InnerText = _basePath;
+            Content["referrer"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_REFERER"]);
+            Content["domain"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["SERVER_NAME"]);
+            Content["useragent"].InnerText =
+                httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_USER_AGENT"]);
+            Content["sessionid"].InnerText = httpPage.Server.UrlEncode(httpPage.Session.LCID.ToString());
+            Content["ip"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["REMOTE_ADDR"]);
+
+            QueryData = new XmlItemList(CommonXml.GetNode(xmlNode, "query/data", EmptyNodeHandling.CreateNew));
+            Attributes = new XmlItemList(CommonXml.GetNode(xmlNode, "attributes", EmptyNodeHandling.CreateNew));
+            QueryEvents = new XmlItemList(CommonXml.GetNode(xmlNode, "query/events", EmptyNodeHandling.CreateNew));
+            QueryOther = new XmlItemList(CommonXml.GetNode(xmlNode, "query/other", EmptyNodeHandling.CreateNew));
+
+            ProcessQueries();
+
+            ConfigureDebugging();
+            LoginByCookie();
+            if (QueryEvents["main"] == "login")
+            {
+                if (!Login(QueryData["login"], QueryData["password"]))
+                {
+                    if (_settings["messages/loginerror"] != string.Empty)
+                        httpPage.Response.Redirect(BasePath + "/login.aspx?error=" +
+                                                   httpPage.Server.UrlEncode(_settings["messages/loginerror"]) +
+                                                   "&redirect=" + QueryOther["process"]);
+                    else
+                        httpPage.Response.Redirect(BasePath + "/login.aspx?" + "redirect=" + QueryOther["process"]);
+                }
+            }
+            else if (QueryEvents["main"] == "logout")
+            {
+                Logout();
+                if (QueryEvents["mainValue"] != string.Empty)
+                    HttpPage.Response.Redirect(QueryEvents["mainValue"]);
+            }
+            UpdateCookieTimeout();
+
+            LoadBaseData();
+            // loads new user...
+        }
 
         public Dictionary<string, string> Variables
         {
             get
             {
-                if (m_Variables == null)
-                    m_Variables = new Dictionary<string, string>();
-                return m_Variables;
+                if (_variables == null)
+                    _variables = new Dictionary<string, string>();
+                return _variables;
             }
         }
 
-        public string RedirectUrl
-        {
-            get { return m_redirectUrl; }
-            set { m_redirectUrl = value; }
-        }
+        public string RedirectUrl { get; set; }
 
 
-        public bool DebugEnabled
+        private bool DebugEnabled
         {
             get { return (HttpPage.Session["enabledebug"] != null && HttpPage.Session["enabledebug"].ToString() == "true"); }
             set { HttpPage.Session["enabledebug"] = value ? "true" : "false"; }
         }
 
-        public string BasePath
+        private string BasePath
         {
-            get { return m_BasePath; }
+            get { return _basePath; }
         }
 
         public Cache Cache
         {
             get
             {
-                if (m_Cache == null)
-                    m_Cache = new Cache(HttpPage.Application);
-                return m_Cache;
+                if (_cache == null)
+                    _cache = new Cache(HttpPage.Application);
+                return _cache;
             }
         }
 
-        public XmlDocument XmlData
-        {
-            get { return m_XmlData; }
-            set { m_XmlData = value; }
-        }
+        public XmlDocument XmlData { get; set; }
 
         public string CurrentProcess
         {
             get
             {
-                if (m_currentProcess == string.Empty)
+                if (_currentProcess == string.Empty)
                 {
                     string tmpProcess = QueryOther["process"];
-                    if (tmpProcess != string.Empty)
-                        m_currentProcess = tmpProcess;
-                    else
-                        m_currentProcess = Settings["general/stdprocess"];
+                    _currentProcess = tmpProcess != string.Empty ? tmpProcess : Settings["general/stdprocess"];
                 }
-                return m_currentProcess;
+                return _currentProcess;
             }
-            set { m_currentProcess = value; }
         }
 
         public string Root
@@ -109,21 +149,32 @@ namespace InventIt.SiteSystem
         {
             get
             {
-                if (m_Settings == null)
-                    m_Settings = new Settings(this, Root);
-                return m_Settings;
+                if (_settings == null)
+                    _settings = new Settings(this, Root);
+                return _settings;
             }
         }
 
         // >>>>> Search Mod by Kiho Chang 2008-10-05
         public object SearchContext
         {
-            get { return HttpPage.Session["SearchContext"]; }
             set { HttpPage.Session["SearchContext"] = value; }
         }
+
+        public string CurrentUser
+        {
+            get
+            {
+                if (HttpPage.Session["current_username"] == null)
+                    Logout();
+
+                return HttpPage.Session["current_username"].ToString();
+            }
+        }
+
         // <<<<< Search Mod by Kiho Chang 2008-10-05
 
-        public void AddMessage(string message, MessageType messageType, string type)
+        private void AddMessage(string message, MessageType messageType, string type)
         {
             XmlNode xmlNode = CommonXml.GetNode(XmlData.DocumentElement, "messages", EmptyNodeHandling.CreateNew);
             xmlNode = CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew);
@@ -153,85 +204,29 @@ namespace InventIt.SiteSystem
             }
         }
 
-        public void DebugMessage(object message)
+        public void DebugMessage(object message) //ToDo: is a unused Method (T.Huber 18.06.2009)
         {
             DebugMessage(message.ToString());
         }
 
-        public void DebugMessage(string message)
+        private void DebugMessage(string message)
         {
             if (DebugEnabled)
                 AddMessage(message, MessageType.Debug);
         }
 
-        public Process(System.Web.UI.Page httpPage, PluginServices pluginServices)
-        {
-            Plugins = pluginServices;
-            HttpPage = httpPage;
-            XmlData = new XmlDocument();
-
-            Plugins.FindPlugins(this, Common.CombinePaths(Root, "Bin"));
-
-            XmlNode xmlNode = XmlData.CreateElement("data");
-            XmlData.AppendChild(xmlNode);
-
-            Content = new ControlList(xmlNode);
-
-            if (httpPage.Request.ServerVariables["SERVER_PORT"] == "80")
-                m_BasePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" + httpPage.Request.ServerVariables["SERVER_NAME"] + httpPage.Request.ApplicationPath.TrimEnd('/') + "";
-            else
-                m_BasePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" + httpPage.Request.ServerVariables["SERVER_NAME"] + ":" + httpPage.Request.ServerVariables["SERVER_PORT"] + httpPage.Request.ApplicationPath.TrimEnd('/') + "";
-
-            Content["basepath"].InnerText = m_BasePath;
-            Content["referrer"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_REFERER"]);
-            Content["domain"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["SERVER_NAME"]);
-            Content["useragent"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_USER_AGENT"]);
-            Content["sessionid"].InnerText = httpPage.Server.UrlEncode(httpPage.Session.LCID.ToString());
-            Content["ip"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["REMOTE_ADDR"]);
-
-            QueryData = new XmlItemList(CommonXml.GetNode(xmlNode, "query/data", EmptyNodeHandling.CreateNew));
-            Attributes = new XmlItemList(CommonXml.GetNode(xmlNode, "attributes", EmptyNodeHandling.CreateNew));
-            QueryEvents = new XmlItemList(CommonXml.GetNode(xmlNode, "query/events", EmptyNodeHandling.CreateNew));
-            QueryOther = new XmlItemList(CommonXml.GetNode(xmlNode, "query/other", EmptyNodeHandling.CreateNew));
-
-            processQueries();
-
-            ConfigureDebugging();
-            LoginByCookie();
-            if (this.QueryEvents["main"] == "login")
-            {
-                if (!Login(QueryData["login"], QueryData["password"]))
-                {
-                    if (m_Settings["messages/loginerror"] != string.Empty)
-                        httpPage.Response.Redirect(BasePath + "/login.aspx?error=" + httpPage.Server.UrlEncode(m_Settings["messages/loginerror"]) + "&redirect=" + QueryOther["process"]);
-                    else
-                        httpPage.Response.Redirect(BasePath + "/login.aspx?" + "redirect=" + QueryOther["process"]);
-                }
-            }
-            else if (this.QueryEvents["main"] == "logout")
-            {
-                Logout();
-                if (this.QueryEvents["mainValue"] != string.Empty)
-                    HttpPage.Response.Redirect(this.QueryEvents["mainValue"]);
-            }
-            UpdateCookieTimeout();
-
-            LoadBaseData();
-            // loads new user...
-        }
-
         private void LoadBaseData()
         {
-            XmlNode userNode = this.Content.GetSubControl("basedata")["currentuser"];
-            CommonXml.GetNode(userNode, "username").InnerText = this.CurrentUser;
+            XmlNode userNode = Content.GetSubControl("basedata")["currentuser"];
+            CommonXml.GetNode(userNode, "username").InnerText = CurrentUser;
             XmlNode groupNode = CommonXml.GetNode(userNode, "groups");
             object[] resultsGroups = Plugins.InvokeAll("users", "list_groups", CurrentUser);
-            List<string> userGroups = new List<string>(Common.FlattenToStrings(this, resultsGroups));
+            var userGroups = new List<string>(Common.FlattenToStrings(resultsGroups));
 
             foreach (string group in userGroups)
                 CommonXml.GetNode(groupNode, "group", EmptyNodeHandling.ForceCreateNew).InnerText = group;
 
-            ControlList baseData = this.Content.GetSubControl("basedata");
+            ControlList baseData = Content.GetSubControl("basedata");
 
             baseData["pageviewcount"].InnerText = PageViewCount().ToString();
 
@@ -252,13 +247,12 @@ namespace InventIt.SiteSystem
 
                 if (QueryOther["enabledebug"] == "true" || QueryOther["enabledebug"] == "false")
                     DebugEnabled = (QueryOther["enabledebug"] == "true");
-
             }
         }
 
-        private void processQueries()
+        private void ProcessQueries()
         {
-            List<string> keys = new List<string>();
+            var keys = new List<string>();
             foreach (string key in HttpPage.Request.Form)
                 keys.Add(key);
 
@@ -277,11 +271,9 @@ namespace InventIt.SiteSystem
                         case "data":
                             QueryData[string.Join("_", Common.RemoveOne(keyParts))] = value;
                             break;
-
                         case "event":
                             QueryEvents[string.Join("_", Common.RemoveOne(keyParts))] = value;
                             break;
-
                         default:
                             QueryOther[key] = value;
                             break;
@@ -296,12 +288,12 @@ namespace InventIt.SiteSystem
             return url;
         }
 
-        public List<string> History()
+        private List<string> History()
         {
-            List<string> history = null;
+            List<string> history;
 
             if (HttpPage.Session["history"] != null)
-                history = (List<string>)HttpPage.Session["history"];
+                history = (List<string>) HttpPage.Session["history"];
             else
                 history = new List<string>();
 
@@ -312,18 +304,17 @@ namespace InventIt.SiteSystem
             return history;
         }
 
-        public int PageViewCount()
+        private int PageViewCount()
         {
-            Dictionary<string, int> pageViewCounts = null;
+            Dictionary<string, int> pageViewCounts;
 
             if (HttpPage.Session["pageviews"] != null)
             {
-                pageViewCounts = (Dictionary<string, int>)HttpPage.Session["pageviews"];
+                pageViewCounts = (Dictionary<string, int>) HttpPage.Session["pageviews"];
                 if (pageViewCounts.ContainsKey(CurrentProcess))
                     pageViewCounts[CurrentProcess] += 1;
                 else
                     pageViewCounts[CurrentProcess] = 1;
-
             }
             else
             {
@@ -336,7 +327,7 @@ namespace InventIt.SiteSystem
         }
 
         // user login and rights part
-        public bool Login(string username, string password)
+        private bool Login(string username, string password)
         {
             Logout();
             object[] results = Plugins.InvokeAll("users", "verify", username, password);
@@ -344,14 +335,17 @@ namespace InventIt.SiteSystem
             {
                 bool verified = false;
                 foreach (object result in results)
-                    if ((bool)result)
+                    if ((bool) result)
                         verified = true;
 
                 if (verified)
                 {
-                    HttpPage.Response.Cookies["login_cookie"].Value = string.Format("{0}{1}{2}", username, COOKIE_SEPARATOR, password);
+                    HttpPage.Response.Cookies["login_cookie"].Value = string.Format("{0}{1}{2}", username,
+                                                                                    CookieSeparator, password);
+                    //ToDo: ??? (T.Huber / 18.06.2009)
                     HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(1);
-                    this.HttpPage.Session["current_username"] = username;
+                    //ToDo: ??? (T.Huber / 18.06.2009)
+                    HttpPage.Session["current_username"] = username;
 
                     return true;
                 }
@@ -359,26 +353,24 @@ namespace InventIt.SiteSystem
             return false;
         }
 
-        public bool LoginByCookie()
+        private bool LoginByCookie()
         {
             if (CurrentUser == "anonymous")
             {
                 if (HttpPage.Request.Cookies["login_cookie"] != null)
                 {
-                    string value = HttpPage.Request.Cookies["login_cookie"].Value;
-                    if (value == null || !value.Contains(COOKIE_SEPARATOR))
+                    string value = HttpPage.Request.Cookies["login_cookie"].Value; //ToDo: ??? (T.Huber / 18.06.2009)
+                    if (value == null || !value.Contains(CookieSeparator))
                         return false;
 
-                    string[] valueParts = Common.SplitByString(value, COOKIE_SEPARATOR);
-
+                    string[] valueParts = Common.SplitByString(value, CookieSeparator);
                     if (Login(valueParts[0], valueParts[1]))
                         return true;
                 }
             }
             else
-            {
                 return true;
-            }
+
             return false;
         }
 
@@ -391,22 +383,10 @@ namespace InventIt.SiteSystem
                 }*/
         }
 
-        public string CurrentUser
-        {
-            get
-            {
-                if (HttpPage.Session["current_username"] == null)
-                    Logout();
-
-                return HttpPage.Session["current_username"].ToString();
-            }
-            set { HttpPage.Session["current_username"] = value; }
-        }
-
         public bool CheckGroups(string groups)
         {
             object[] results = Plugins.InvokeAll("users", "list_groups", CurrentUser);
-            List<string> userGroups = new List<string>(Common.FlattenToStrings(this, results));
+            var userGroups = new List<string>(Common.FlattenToStrings(results));
 
             if (groups != "")
             {
@@ -416,21 +396,21 @@ namespace InventIt.SiteSystem
                         return true;
             }
             else
-            {
                 return true;
-            }
+
             return false;
         }
 
-        public void Logout()
+        private void Logout()
         {
             HttpPage.Session.Clear();
             HttpPage.Session["current_username"] = "anonymous";
             HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(-1);
+            //ToDo: ??? (T.Huber / 18.06.2009)
         }
     }
 
-    public class ControlList : InventIt.SiteSystem.Library.DataElementList
+    public class ControlList : DataElementList
     {
         public ControlList(XmlNode parentNode)
             : base(parentNode)
@@ -454,9 +434,7 @@ namespace InventIt.SiteSystem
 
         public ControlList GetSubControl(string name)
         {
-            if (name != "")
-                return new ControlList(GetControlNode(name));
-            return null;
+            return name != "" ? new ControlList(GetControlNode(name)) : null;
         }
 
         private XmlNode GetControlNode(string name)
@@ -510,8 +488,8 @@ namespace InventIt.SiteSystem
 
     public class Query
     {
-        public string Name;
-        public string Value;
+        public readonly string Name;
+        public readonly string Value;
 
         public Query(string name, string value)
         {
@@ -519,6 +497,7 @@ namespace InventIt.SiteSystem
             Value = value;
         }
     }
+
     public enum MessageType
     {
         Error,

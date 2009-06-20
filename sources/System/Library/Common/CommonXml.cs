@@ -1,152 +1,125 @@
 //Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
 
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
-using System.Reflection;
-using System.IO;
 
+//using System.Text; // ReSparper mean "is never used" (Part 1)
 
 namespace InventIt.SiteSystem.Library
 {
-	public static class CommonXml
-	{
-		public static string TransformXsl(string xsl, XmlDocument document,Cache cache)
-		{
-			XslCompiledTransform transform = GetTransform(xsl, cache);
+    public static class CommonXml
+    {
+        public static string TransformXsl(string xsl, XmlDocument document, Cache cache)
+        {
+            XslCompiledTransform transform = GetTransform(xsl, cache);
 
-			MemoryStream memoryStream = new MemoryStream();
+            // ReSparper mean "is never used" (Part 2)
+            //var memoryStream = new MemoryStream();
 
-			XmlWriterSettings ws = new XmlWriterSettings();
-			ws.Encoding = Encoding.Unicode;
-            ws.OmitXmlDeclaration = true;
-            
-			ws.Indent = true;
+            //var ws = new XmlWriterSettings {Encoding = Encoding.Unicode, OmitXmlDeclaration = true, Indent = true};
 
             TextWriter test = new StringWriter();
 
-            transform.Transform(document,null,test);
+            transform.Transform(document, null, test);
             return test.ToString();
-		}
+        }
 
-        public static List<string> GetXslIncludes(string xsl)
+        private static List<string> GetXslIncludes(string xsl)
         {
-            List<string> includes = new List<string>();
+            var includes = new List<string>();
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.Load(xsl);
 
-            XmlNamespaceManager manager = new XmlNamespaceManager(doc.NameTable);
+            var manager = new XmlNamespaceManager(doc.NameTable);
             manager.AddNamespace("xsl", "http://www.w3.org/1999/XSL/Transform");
             XmlNodeList nodeList = doc.SelectNodes("//xsl:include", manager);
-            foreach (XmlNode node in nodeList)
-            {
-                string filename = GetAttributeValue(node, "href");
-                string fullFilename = Common.CombinePaths(Path.GetDirectoryName(xsl), filename);
-                includes.Add(fullFilename);
-
-                List<string> additionalIncludes = GetXslIncludes(fullFilename);
-
-                if (additionalIncludes != null && additionalIncludes.Count > 0)
+            if (nodeList != null)
+                foreach (XmlNode node in nodeList)
                 {
-                    foreach (string file in additionalIncludes)
-                    {
-                        includes.Add(file);
-                    }
+                    string filename = GetAttributeValue(node, "href");
+                    string fullFilename = Common.CombinePaths(Path.GetDirectoryName(xsl), filename);
+                    includes.Add(fullFilename);
+
+                    List<string> additionalIncludes = GetXslIncludes(fullFilename);
+
+                    if (additionalIncludes != null && additionalIncludes.Count > 0)
+                        foreach (string file in additionalIncludes)
+                            includes.Add(file);
                 }
-            }
 
             return includes;
         }
 
         public static void MergeXml(XmlDocument baseDocument, XmlDocument xmlDocument, params string[] uniqueIdentifiers)
         {
-            doMergeXml(baseDocument.DocumentElement, xmlDocument.DocumentElement, uniqueIdentifiers);
+            DoMergeXml(baseDocument.DocumentElement, xmlDocument.DocumentElement, uniqueIdentifiers);
         }
 
-        private static void doMergeXml(XmlNode baseXmlNode, XmlNode mergeXmlNode, params string[] uniqueIdentifiers)
+        private static void DoMergeXml(XmlNode baseXmlNode, XmlNode mergeXmlNode, params string[] uniqueIdentifiers)
         {
             foreach (XmlNode xmlNode in mergeXmlNode)
             {
                 if (xmlNode.Name != "#text")
                 {
-                    EmptyNodeHandling emptyNode; 
-                    if (Common.StringArrayContains(uniqueIdentifiers, xmlNode.Name))
-                    {
-                        emptyNode = EmptyNodeHandling.ForceCreateNew;
-                    }
-                    else
-                    {
-                        emptyNode = EmptyNodeHandling.CreateNew;
-                    }
+                    EmptyNodeHandling emptyNode = Common.StringArrayContains(uniqueIdentifiers, xmlNode.Name)
+                                                      ? EmptyNodeHandling.ForceCreateNew
+                                                      : EmptyNodeHandling.CreateNew;
 
                     XmlNode currentBaseXmlnode = GetNode(baseXmlNode, xmlNode.Name, emptyNode);
                     foreach (XmlAttribute xmlAttribute in xmlNode.Attributes)
-                    {
-                        CommonXml.SetAttributeValue(currentBaseXmlnode, xmlAttribute.Name, xmlAttribute.Value);
-                    }
+                        SetAttributeValue(currentBaseXmlnode, xmlAttribute.Name, xmlAttribute.Value);
+
                     if (xmlNode.HasChildNodes)
-                    {
-                        doMergeXml(currentBaseXmlnode, xmlNode, uniqueIdentifiers);
-                    }
+                        DoMergeXml(currentBaseXmlnode, xmlNode, uniqueIdentifiers);
                 }
                 else
                 {
                     XmlNode textNode = baseXmlNode.SelectSingleNode("text()");
                     if (textNode != null)
-                    {
                         textNode.InnerText = xmlNode.Value;
-                    }
                     else
-                    {
                         baseXmlNode.AppendChild(baseXmlNode.OwnerDocument.CreateTextNode(xmlNode.Value));
-                    }
                 }
             }
         }
 
-        public static XslCompiledTransform GetTransform(string xsl, Cache cache)
-		{
-			string cacheKey = "transform_" + Common.CleanToSafeString(xsl);
-			FileInfo fileDependency = new FileInfo(xsl);
+        private static XslCompiledTransform GetTransform(string xsl, Cache cache)
+        {
+            string cacheKey = "transform_" + Common.CleanToSafeString(xsl);
+            var fileDependency = new FileInfo(xsl);
 
             object cacheTransform = cache[cacheKey, fileDependency];
-			if (cacheTransform != null)
-			{
+            if (cacheTransform != null)
+            {
                 bool useCache = true;
 
                 // Check included files
-                Dictionary<string, string> includedFiles = cache[cacheKey + "_includeFiles"] as Dictionary<string, string>;
-                foreach (string file in includedFiles.Keys)
-                {
-                    if (File.GetLastWriteTime(file).ToString() != includedFiles[file])
-                    {
-                        useCache = false;
-                    }
-                }
+                var includedFiles = cache[cacheKey + "_includeFiles"] as Dictionary<string, string>;
+                if (includedFiles != null)
+                    foreach (string file in includedFiles.Keys)
+                        if (File.GetLastWriteTime(file).ToString() != includedFiles[file])
+                            useCache = false;
 
                 if (useCache)
-                {
                     return cacheTransform as XslCompiledTransform;
-                }
-			}
-             
-			// The file has changed or is not in memory
-			XslCompiledTransform transform = new XslCompiledTransform(true);
-            
-            XsltSettings  xsltSettings = new XsltSettings(true, true);
+            }
+
+            // The file has changed or is not in memory
+            var transform = new XslCompiledTransform(true);
+
+            var xsltSettings = new XsltSettings(true, true);
             transform.Load(xsl, xsltSettings, new XmlUrlResolver());
 
             cache[cacheKey, fileDependency] = transform;
 
             List<string> includeFiles = GetXslIncludes(xsl);
-            Dictionary<string, string> includeDictionary = new Dictionary<string, string>();
+            var includeDictionary = new Dictionary<string, string>();
             foreach (string includeFile in includeFiles)
-            {
                 includeDictionary[includeFile] = File.GetLastWriteTime(includeFile).ToString();
-            }
+
             cache[cacheKey + "_includeFiles"] = includeDictionary;
 
             return transform;
@@ -155,22 +128,19 @@ namespace InventIt.SiteSystem.Library
         public static void SaveXmlDocument(string filename, XmlDocument document)
         {
             if (document == null)
-            {
                 return;
-            }
 
-            XmlWriterSettings writerSettings = new XmlWriterSettings();
-            writerSettings.Indent = true;
+            var writerSettings = new XmlWriterSettings {Indent = true};
             XmlWriter writer = XmlWriter.Create(filename, writerSettings);
 
             document.WriteContentTo(writer);
 
-            writer.Close();
+            if (writer != null) writer.Close();
         }
 
         public static string GetXPath(XmlNode node)
         {
-            List<string> xPath = new List<string>();
+            var xPath = new List<string>();
 
             XmlNode currentNode = node;
             while (currentNode != node.OwnerDocument.DocumentElement)
@@ -184,34 +154,26 @@ namespace InventIt.SiteSystem.Library
         }
 
         #region Attribute-handling
+
         public static string GetAttributeValue(XmlNode node, string name)
         {
             if (node == null)
-            {
                 return string.Empty;
-            }
 
             XmlAttribute attributeNode = node.Attributes[name];
             if (attributeNode == null)
-            {
                 return string.Empty;
-            }
 
             return attributeNode.Value;
         }
 
         public static void SetAttributeValue(XmlNode node, string name, string value)
         {
-            if (node == null)
-            {
-                return;
-            }
+            if (node == null) return;
 
             XmlAttribute attribute = node.Attributes[name];
             if (attribute != null)
-            {
                 attribute.Value = value;
-            }
             else
             {
                 attribute = node.OwnerDocument.CreateAttribute(name);
@@ -236,9 +198,11 @@ namespace InventIt.SiteSystem.Library
                 copyTo.Attributes.Append(toAttribute);
             }
         }
+
         #endregion
 
         #region Various GetNode's
+
         /// <summary>
         /// Returns the requested node and creates it if it does not exist.
         /// </summary>
@@ -246,6 +210,7 @@ namespace InventIt.SiteSystem.Library
         /// <param name="path">Path for the node.</param>
         /// <returns></returns>
         public static XmlNode GetNode(XmlDocument document, string path)
+            //ToDo: Is a unused Method (T.Huber / 18.06.2009)
         {
             return GetNode(document, path, EmptyNodeHandling.CreateNew);
         }
@@ -260,9 +225,7 @@ namespace InventIt.SiteSystem.Library
         public static XmlNode GetNode(XmlDocument document, string path, EmptyNodeHandling emptyNode)
         {
             if (document == null)
-            {
                 return null;
-            }
 
             // If document is empty, create the root node
             if (document.ChildNodes.Count == 0)
@@ -276,9 +239,7 @@ namespace InventIt.SiteSystem.Library
                     path = path.Substring(indexOfSlash + 1);
                 }
                 else
-                {
                     return null;
-                }
             }
 
             return GetNode(document.DocumentElement, path, emptyNode);
@@ -287,7 +248,7 @@ namespace InventIt.SiteSystem.Library
         /// <summary>
         /// Returns the requested node and creates it if it does not exist.
         /// </summary>
-        /// <param name="document">XmlNode to get the node from.</param>
+        /// <param name="fromXmlNode">From XML node.</param>
         /// <param name="path">Path for the node.</param>
         /// <returns></returns>
         public static XmlNode GetNode(XmlNode fromXmlNode, string path)
@@ -298,7 +259,7 @@ namespace InventIt.SiteSystem.Library
         /// <summary>
         /// Returns the requested node and optionally creates it if it does not exist.
         /// </summary>
-        /// <param name="document">XmlNode to get the node from.</param>
+        /// <param name="fromXmlNode">From XML node.</param>
         /// <param name="path">Path for the node.</param>
         /// <param name="emptyNode">Specifies whether to create a node if it does not exist.</param>
         /// <returns></returns>
@@ -310,9 +271,7 @@ namespace InventIt.SiteSystem.Library
             XmlNode xmlNode;
             XmlNode xmlOldNode;
             if (emptyNode != EmptyNodeHandling.ForceCreateNew)
-            {
                 xmlNode = fromXmlNode.SelectSingleNode(pathParts[0]);
-            }
             else
             {
                 xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]);
@@ -327,9 +286,7 @@ namespace InventIt.SiteSystem.Library
                     fromXmlNode.AppendChild(xmlNode);
                 }
                 else if (emptyNode == EmptyNodeHandling.Ignore)
-                {
                     return null;
-                }
             }
 
             for (int i = 1; i < pathParts.Length; i++)
@@ -341,26 +298,23 @@ namespace InventIt.SiteSystem.Library
                 {
                     xmlOldNode = xmlNode;
                     if (emptyNode != EmptyNodeHandling.ForceCreateNew)
-                    {
-                        xmlNode = xmlOldNode.SelectSingleNode(pathPart);
-                    }
-                    else
-                    {
-                        xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]);
-                        fromXmlNode.AppendChild(xmlNode);
-                    }
+                        if (xmlOldNode != null)
+                            xmlNode = xmlOldNode.SelectSingleNode(pathPart);
+                        else
+                        {
+                            xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]);
+                            fromXmlNode.AppendChild(xmlNode);
+                        }
 
                     if (xmlNode == null)
                     {
                         if (emptyNode == EmptyNodeHandling.CreateNew)
                         {
                             xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathPart);
-                            xmlOldNode.AppendChild(xmlNode);
+                            if (xmlOldNode != null) xmlOldNode.AppendChild(xmlNode);
                         }
                         else if (emptyNode == EmptyNodeHandling.Ignore)
-                        {
                             break;
-                        }
                     }
                 }
             }
@@ -370,26 +324,23 @@ namespace InventIt.SiteSystem.Library
         public static string RenameIntegerPath(string pathPart)
         {
             if (pathPart == string.Empty)
-            {
                 return pathPart;
-            }
 
             if (!char.IsDigit(pathPart[0]))
-            {
                 return pathPart;
-            }
 
             return "int_" + pathPart;
         }
+
         #endregion
+
         #region Move
+
         public static void MoveUp(XmlNode node)
         {
             XmlNode previousSibling = node.PreviousSibling;
             if (previousSibling == null)
-            {
                 return;
-            }
 
             XmlNode nodeCopy = node.CloneNode(true);
             XmlNode previousCopy = previousSibling.CloneNode(true);
@@ -402,9 +353,7 @@ namespace InventIt.SiteSystem.Library
         {
             XmlNode firsChild = node.ParentNode.FirstChild;
             if (firsChild == null || firsChild == node)
-            {
                 return;
-            }
 
             //node.ParentNode.RemoveChild(node);
             node.ParentNode.InsertBefore(node, firsChild);
@@ -414,9 +363,7 @@ namespace InventIt.SiteSystem.Library
         {
             XmlNode lastChild = node.ParentNode.LastChild;
             if (lastChild == null || lastChild == node)
-            {
                 return;
-            }
 
             //node.ParentNode.RemoveChild(node);
             node.ParentNode.InsertAfter(node, lastChild);
@@ -426,9 +373,7 @@ namespace InventIt.SiteSystem.Library
         {
             XmlNode nextSibling = node.NextSibling;
             if (nextSibling == null)
-            {
                 return;
-            }
 
             XmlNode nodeCopy = node.CloneNode(true);
             XmlNode nextCopy = nextSibling.CloneNode(true);
@@ -450,6 +395,7 @@ namespace InventIt.SiteSystem.Library
 
             newParent.AppendChild(nodeCopy);
         }
+
         #endregion
     }
 

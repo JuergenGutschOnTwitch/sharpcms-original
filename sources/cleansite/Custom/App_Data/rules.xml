@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <rules>
-	<!-- include a 'doctype' element for each document type the indexer
-	     will accept -->
+	<!-- include a 'doctype' element for each document type the indexer will accept -->
 
 	<doctype root="page" namespace="">
 
@@ -13,8 +14,7 @@
 		     the xpath is used to determine the value of the field.
 		     
 		     rule is: if you want to do free text searching over something,
-		     make it 'text'.     
-		-->
+		     make it 'text'. -->
 
 		<rule field="uristub" type="keyword" xpath="/page/attributes/pageidentifier/@value" />
 
@@ -28,11 +28,8 @@
 	         needed so reindexing/updates work.  if key is not defined, then
 	         the filename of the XML file will be used: obviously if there's
 	         more than one Lucene Document per XML file then you're going to
-	         have problems there. 
-		<document xpath="/page/link"
-			key="concat(/churn/relative-uri-stub/@value, concat('#', time/@value))">
-            
-            -->
+	         have problems there. -->
+    <!--<document xpath="/page/link" key="concat(/churn/relative-uri-stub/@value, concat('#', time/@value))">-->
 
 		<document xpath="/page" key="/page/attributes/pageidentifier">
 
@@ -52,9 +49,11 @@
 	</doctype>
 	<!--<doctype root="post" namespace="">
 		<rule field="uristub" type="keyword" xpath="/post/attributes/postidentifier/@value" />
-		<document xpath="/post" key="attributes/postidentifier">
-			--><!-- every rule here defines a field for the document --><!--
-			<rule field="title" type="text" xpath="containers/container/elements/element/header" />
+		<document xpath="/post" key="attributes/postidentifier">-->
+  
+  <!-- every rule here defines a field for the document -->
+  
+  <!--<rule field="title" type="text" xpath="containers/container/elements/element/header" />
 			<rule field="text" type="text" xpath="containers/container/elements/element/text" />
 			<rule field="text" type="text" xpath="containers/container/elements/element/question" />
 			<rule field="text" type="text" xpath="containers/container/elements/element/answer" />

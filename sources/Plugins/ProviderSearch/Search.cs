@@ -1,100 +1,125 @@
+//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using InventIt.SiteSystem.Data.SiteTree;
+using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Search.Highlight;
-using Lucene.Net.Analysis;
-
-using InventIt.SiteSystem.Data.SiteTree;
 
 namespace InventIt.SiteSystem.Providers
 {
     public class Search
     {
-        public Search(Process process)
-        {
-            m_Process = process;
-
-            string mainVal = m_Process.QueryData["mainvalue"];
-            if (string.IsNullOrEmpty(mainVal))
-            {
-                string startAt = m_Process.QueryData["start"];
-                _startAt = string.IsNullOrEmpty(startAt) ? 0 : int.Parse(startAt);
-            }
-            else
-                _startAt = int.Parse(mainVal);
-
-            _indexDir = m_Process.Settings["search/index"];
-
-            //jig: search only one section
-            string[] s = m_Process.CurrentProcess.Split('/');
-            if (s.Length >= 2)
-            {
-                _indexDir = Path.Combine(_indexDir, s[1]);
-            }
-
-            _searchPage = "show/";
-
-            string pageID = m_Process.QueryData["pageidentifier"];
-            m_CurrentPage = new SiteTree(m_Process).GetPage(pageID);
-            m_Page = _searchPage + pageID;
-        }
-
-        Page m_CurrentPage;
-        Process m_Process;
-        string m_Page;
-
         /// <summary>
-        /// First item on page (index format).
+        /// How many items can be showed on one page.
         /// </summary>
-        private int startAt;
+        private const int MaxResults = 5;
 
-        /// <summary>
-        /// First item on page (user format).
-        /// </summary>
-        private int fromItem;
-
-        /// <summary>
-        /// Last item on page (user format).
-        /// </summary>
-        private int toItem;
-
-        /// <summary>
-        /// Total items returned by search.
-        /// </summary>
-        private int total;
+        private readonly Page _currentPage;
+        private readonly string _indexDir;
+        private readonly Process _process;
+        private readonly string _searchPage;
 
         /// <summary>
         /// Time it took to make the search.
         /// </summary>
-        private TimeSpan duration;
+        private TimeSpan _duration;
 
         /// <summary>
-        /// How many items can be showed on one page.
+        /// First item on page (user format).
         /// </summary>
-        private readonly int maxResults = 5;
+        private int _fromItem;
 
-        private string _searchPage;
-        private string _indexDir;
         private string _query;
+
         private int _startAt;
+
+        /// <summary>
+        /// First item on page (index format).
+        /// </summary>
+        private int _startFirstAt;
+
+        /// <summary>
+        /// Last item on page (user format).
+        /// </summary>
+        private int _toItem;
+
+        /// <summary>
+        /// Total items returned by search.
+        /// </summary>
+        private int _total;
+
+        public Search(Process process)
+        {
+            _process = process;
+
+            string mainVal = _process.QueryData["mainvalue"];
+            if (string.IsNullOrEmpty(mainVal))
+            {
+                string mStartAt = _process.QueryData["start"];
+                _startAt = string.IsNullOrEmpty(mStartAt) ? 0 : int.Parse(mStartAt);
+            }
+            else
+                _startAt = int.Parse(mainVal);
+
+            _indexDir = _process.Settings["search/index"];
+
+            //jig: search only one section
+            string[] s = _process.CurrentProcess.Split('/');
+            if (s.Length >= 2)
+                _indexDir = Path.Combine(_indexDir, s[1]);
+
+            _searchPage = "show/";
+
+            string pageID = _process.QueryData["pageidentifier"];
+            _currentPage = new SiteTree(_process).GetPage(pageID);
+        }
 
         public int StartAt
         {
-            get { return _startAt; }
             set { _startAt = value; }
         }
 
-        public string Query
+        private string Query
         {
             get { return _query; }
-            set { _query = value; }
+        }
+
+        /// <summary>
+        /// Prepares the string with seach summary information.
+        /// </summary>
+        private string Summary
+        {
+            get
+            {
+                if (_total > 0)
+                    return "Results <b>" + _fromItem + " - " + _toItem + "</b> of <b>" + _total + "</b> for <b>" + Query +
+                           "</b>. (" + _duration.TotalMilliseconds + " mili seconds)";
+                return "No results found";
+            }
+        }
+
+        /// <summary>
+        /// How many pages are there in the results.
+        /// </summary>
+        private int PageCount
+        {
+            get { return (_total - 1)/MaxResults; } // floor 
+        }
+
+        /// <summary>
+        /// First item of the last page
+        /// </summary>
+        private int LastPageStartsAt
+        {
+            get { return PageCount*MaxResults; }
         }
 
         /// <summary>
@@ -107,29 +132,25 @@ namespace InventIt.SiteSystem.Providers
 
             // create the searcher
             // index is placed in "index" subdirectory
-            IndexSearcher searcher = new IndexSearcher(_indexDir);
+            var searcher = new IndexSearcher(_indexDir);
             Analyzer analyzer = new StandardAnalyzer();
 
             // parse the query, "text" is the default field to search
             Lucene.Net.Search.Query query = QueryParser.Parse(_query, "text", analyzer);
 
-            string containername = "content";
-            Container container = m_CurrentPage.Containers[containername];
-            string elementResult = "result";
-            string elementPaging = "paging";
-            string elementSummary = "summary";
-            string elementAll = elementResult + elementPaging + elementSummary;
+            const string containername = "content";
+            Container container = _currentPage.Containers[containername];
+            const string elementResult = "result";
+            const string elementPaging = "paging";
+            const string elementSummary = "summary";
+            const string elementAll = elementResult + elementPaging + elementSummary;
             int count = container.Elements.Count;
 
             // Remove previous search result
             for (int i = count; i > 0; --i)
-            {
                 if (container.Elements[i] != null)
-                {
                     if (elementAll.IndexOf(container.Elements[i].Type) > -1)
                         container.Elements.Remove(i);
-                }
-            }
 
             Element element = container.Elements[0];
             Element elSummary = container.Elements.Create(elementSummary);
@@ -138,18 +159,18 @@ namespace InventIt.SiteSystem.Providers
             // search
             Hits hits = searcher.Search(query);
 
-            this.total = hits.Length();
+            _total = hits.Length();
 
             // create highlighter
-            Highlighter highlighter = new Highlighter(new QueryScorer(query));
+            var highlighter = new Highlighter(new QueryScorer(query));
 
             // initialize startAt
-            this.startAt = initStartAt();
+            _startFirstAt = InitStartAt();
 
             // how many items we should show - less than defined at the end of the results
-            int resultsCount = smallerOf(total, this.maxResults + this.startAt);
+            int resultsCount = SmallerOf(_total, MaxResults + _startFirstAt);
 
-            for (int i = startAt; i < resultsCount; i++)
+            for (int i = _startFirstAt; i < resultsCount; i++)
             {
                 // get the document from index
                 Document doc = hits.Doc(i);
@@ -171,16 +192,16 @@ namespace InventIt.SiteSystem.Providers
 
             searcher.Close();
 
-            duration = DateTime.Now - start;
-            fromItem = startAt + 1;
-            toItem = smallerOf(startAt + maxResults, total);
+            _duration = DateTime.Now - start;
+            _fromItem = _startFirstAt + 1;
+            _toItem = SmallerOf(_startFirstAt + MaxResults, _total);
 
             // result information
-            elSummary.Node.InnerText = this.Summary;
+            elSummary.Node.InnerText = Summary;
             // paging link
             element = container.Elements.Create(elementPaging);
             element.Node.InnerText = SetPaging();
-            m_Process.SearchContext = m_CurrentPage;
+            _process.SearchContext = _currentPage;
         }
 
         /// <summary>
@@ -189,7 +210,7 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        private int smallerOf(int first, int second)
+        private static int SmallerOf(int first, int second)
         {
             return first < second ? first : second;
         }
@@ -197,66 +218,49 @@ namespace InventIt.SiteSystem.Providers
         /// <summary>
         /// Page links. DataTable might be overhead but there used to be more fields in previous version so I'm keeping it for now.
         /// </summary>
-        public string SetPaging()
+        private string SetPaging()
         {
             // pageNumber starts at 1
-            int pageNumber = (startAt + maxResults - 1) / maxResults;
+            int pageNumber = (_startFirstAt + MaxResults - 1)/MaxResults;
 
-            List<string> htmlList = new List<string>();
-            string html = pagingItemHtml(startAt, pageNumber + 1, false);
+            var htmlList = new List<string>();
+            string html = PagingItemHtml(pageNumber + 1, false);
             htmlList.Add(html);
 
-            int previousPagesCount = 4;
+            const int previousPagesCount = 4;
             for (int i = pageNumber - 1; i >= 0 && i >= pageNumber - previousPagesCount; i--)
             {
-                int step = i - pageNumber;
-                string htm = pagingItemHtml(startAt + (maxResults * step), i + 1, true);
+                string htm = PagingItemHtml(i + 1, true);
                 htmlList.Insert(0, htm);
             }
 
-            int nextPagesCount = 4;
-            for (int i = pageNumber + 1; i <= pageCount && i <= pageNumber + nextPagesCount; i++)
+            const int nextPagesCount = 4;
+            for (int i = pageNumber + 1; i <= PageCount && i <= pageNumber + nextPagesCount; i++)
             {
-                int step = i - pageNumber;
-                string htm = pagingItemHtml(startAt + (maxResults * step), i + 1, true);
+                string htm = PagingItemHtml(i + 1, true);
                 htmlList.Add(htm);
             }
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (string htm in htmlList)
                 sb.Append(htm);
 
             return sb.ToString();
         }
 
-
         /// <summary>
         /// Prepares HTML of a paging item (bold number for current page, links for others).
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="number"></param>
-        /// <param name="active"></param>
+        /// <param name="number">The number.</param>
+        /// <param name="active">if set to <c>true</c> [active].</param>
         /// <returns></returns>
-        private string pagingItemHtml(int start, int number, bool active)
+        private static string PagingItemHtml(int number, bool active)
         {
-
             if (active)
-                return "<a href=\"javascript:ThrowEvent('" + (maxResults * (number - 1)) + "', '');\"> " + number + " </a>";
-            else
-                return "<b>" + number + "</b>";
-        }
+                return "<a href=\"javascript:ThrowEvent('" + (MaxResults*(number - 1)) + "', '');\"> " + number +
+                       " </a>";
 
-        /// <summary>
-        /// Prepares the string with seach summary information.
-        /// </summary>
-        private string Summary
-        {
-            get
-            {
-                if (total > 0)
-                    return "Results <b>" + this.fromItem + " - " + this.toItem + "</b> of <b>" + this.total + "</b> for <b>" + this.Query + "</b>. (" + this.duration.TotalMilliseconds + " mili seconds)";
-                return "No results found";
-            }
+            return "<b>" + number + "</b>";
         }
 
         /// <summary>
@@ -264,7 +268,7 @@ namespace InventIt.SiteSystem.Providers
         /// this.Request.Params["start"]
         /// </summary>
         /// <returns></returns>
-        private int initStartAt()
+        private int InitStartAt()
         {
             try
             {
@@ -273,8 +277,8 @@ namespace InventIt.SiteSystem.Providers
                 if (_startAt < 0)
                     return 0;
                 // too big starting item, return last page
-                if (_startAt >= total - 1)
-                    return lastPageStartsAt;
+                if (_startAt >= _total - 1)
+                    return LastPageStartsAt;
                 return sa;
             }
             catch
@@ -284,27 +288,11 @@ namespace InventIt.SiteSystem.Providers
         }
 
         /// <summary>
-        /// How many pages are there in the results.
-        /// </summary>
-        private int pageCount
-        {
-            get { return (total - 1) / maxResults; }// floor 
-        }
-
-        /// <summary>
-        /// First item of the last page
-        /// </summary>
-        private int lastPageStartsAt
-        {
-            get { return pageCount * maxResults; }
-        }
-
-        /// <summary>
         /// Very simple, inefficient, and memory consuming HTML parser. Take a look at Demo/HtmlParser in DotLucene package for a better HTML parser.
         /// </summary>
         /// <param name="html"></param>
         /// <returns></returns>
-        private string parseHtml(string html)
+        private string ParseHtml(string html) // ToDo: Is a unused Method
         {
             string temp = html.Replace("<p>", " ");
             temp = temp.Replace("</p>", " ");

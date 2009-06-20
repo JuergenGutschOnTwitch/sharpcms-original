@@ -1,19 +1,17 @@
+//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
 //Credit: http://www.codeproject.com/csharp/imageresize.asp
 
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace InventIt.SiteSystem.Library
 {
     public static class ImageResize
     {
-        public enum Dimensions
-        {
-            Width,
-            Height
-        }
+        #region AnchorPosition enum
+
         public enum AnchorPosition
         {
             Top,
@@ -22,185 +20,186 @@ namespace InventIt.SiteSystem.Library
             Left,
             Right
         }
-       
-       public static Image ScaleByPercent(Image imgPhoto, int Percent)
-        {
-            double nPercent = ((double)Percent / 100);
 
+        #endregion
+
+        #region Dimensions enum
+
+        public enum Dimensions
+        {
+            Width,
+            Height
+        }
+
+        #endregion
+
+        public static Image ScaleByPercent(Image imgPhoto, int percent)
+            //ToDo: Is this realy a unused Method? (T.Huber 18.06.2009)
+        {
+            double nPercent = ((double) percent/100);
             int sourceWidth = imgPhoto.Width;
             int sourceHeight = imgPhoto.Height;
-            int sourceX = 0;
-            int sourceY = 0;
+            const int sourceX = 0;
+            const int sourceY = 0;
+            const int destX = -1;
+            const int destY = -1;
+            var destWidth = (int) (sourceWidth*nPercent);
+            var destHeight = (int) (sourceHeight*nPercent);
 
-            int destX = -1;
-            int destY = -1;
-            int destWidth = (int)(sourceWidth * nPercent);
-            int destHeight = (int)(sourceHeight * nPercent);
-
-            Bitmap bmPhoto = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
+            var bmPhoto = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
             Graphics grPhoto = Graphics.FromImage(bmPhoto);
             grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
             grPhoto.DrawImage(imgPhoto,
-                new Rectangle(destX, destY, destWidth+2, destHeight+2),
-                new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
-                GraphicsUnit.Pixel);
+                              new Rectangle(destX, destY, destWidth + 2, destHeight + 2),
+                              new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
+                              GraphicsUnit.Pixel);
 
             grPhoto.Dispose();
             return bmPhoto;
         }
-        public static Image ConstrainProportions(Image imgPhoto, int Size, Dimensions Dimension)
+
+        public static Image ConstrainProportions(Image imgPhoto, int size, Dimensions dimension)
         {
             int sourceWidth = imgPhoto.Width;
             int sourceHeight = imgPhoto.Height;
-            int sourceX = 0;
-            int sourceY = 0;
-            int destX = -1;
-            int destY = -1;
-            double nPercent = 0;
-            
-            switch (Dimension)
+            const int sourceX = 0;
+            const int sourceY = 0;
+            const int destX = -1;
+            const int destY = -1;
+            double nPercent;
+
+            switch (dimension)
             {
                 case Dimensions.Width:
-                    nPercent = ((double)Size / (double)sourceWidth);
+                    nPercent = (size/(double) sourceWidth);
                     break;
                 default:
-                    nPercent = ((double)Size / (double)sourceHeight);
+                    nPercent = (size/(double) sourceHeight);
                     break;
             }
 
-            int destWidth = (int)((double)sourceWidth * nPercent);
-            int destHeight = (int)((double)sourceHeight * nPercent);
+            var destWidth = (int) (sourceWidth*nPercent);
+            var destHeight = (int) (sourceHeight*nPercent);
 
-            Bitmap bmPhoto = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
+            var bmPhoto = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
             Graphics grPhoto = Graphics.FromImage(bmPhoto);
             grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
             grPhoto.DrawImage(imgPhoto,
-            new Rectangle(destX, destY, destWidth+2, destHeight+2),
-            new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
-            GraphicsUnit.Pixel);
+                              new Rectangle(destX, destY, destWidth + 2, destHeight + 2),
+                              new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
+                              GraphicsUnit.Pixel);
 
             grPhoto.Dispose();
             return bmPhoto;
         }
 
-        public static Image FixedSize(Image imgPhoto, int Width, int Height, Color color)
+        public static Image FixedSize(Image imgPhoto, int width, int height, Color color)
         {
             int sourceWidth = imgPhoto.Width;
             int sourceHeight = imgPhoto.Height;
-            int sourceX = 0;
-            int sourceY = 0;
+            const int sourceX = 0;
+            const int sourceY = 0;
             int destX = 0;
             int destY = 0;
-
-            decimal nPercent = 0;
-            decimal nPercentW = 0;
-            decimal nPercentH = 0;
-
-            nPercentW = ((decimal)Width / (decimal)sourceWidth);
-            nPercentH = ((decimal)Height / (decimal)sourceHeight);
+            decimal nPercent;
+            decimal nPercentW = (width/(decimal) sourceWidth);
+            decimal nPercentH = (height/(decimal) sourceHeight);
 
             //if we have to pad the height pad both the top and the bottom
             //with the difference between the scaled height and the desired height
             if (nPercentH < nPercentW)
             {
                 nPercent = nPercentH;
-                destX = (int) Math.Round(((decimal)Width - ((decimal)sourceWidth * nPercent)) / 2, 0);
+                destX = (int) Math.Round((width - (sourceWidth*nPercent))/2, 0);
             }
             else
             {
                 nPercent = nPercentW;
-                destY = (int) Math.Round(((decimal)Height - ((decimal)sourceHeight * nPercent)) / 2, 0);
+                destY = (int) Math.Round((height - (sourceHeight*nPercent))/2, 0);
             }
 
-            int destWidth = (int)Math.Round((decimal)sourceWidth * nPercent);
-            int destHeight = (int)Math.Round((decimal)sourceHeight * nPercent);
+            var destWidth = (int) Math.Round(sourceWidth*nPercent);
+            var destHeight = (int) Math.Round(sourceHeight*nPercent);
 
-            Bitmap bmPhoto = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
+            var bmPhoto = new Bitmap(width, height, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
             Graphics grPhoto = Graphics.FromImage(bmPhoto);
             grPhoto.Clear(color);
             grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
             grPhoto.DrawImage(imgPhoto,
-                new Rectangle(destX, destY, destWidth, destHeight),
-                new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
-                GraphicsUnit.Pixel);
-
+                              new Rectangle(destX, destY, destWidth, destHeight),
+                              new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
+                              GraphicsUnit.Pixel);
             grPhoto.Dispose();
-
 
             return bmPhoto;
         }
-        public static Image Crop(Image imgPhoto, int Width, int Height, AnchorPosition Anchor)
+
+        public static Image Crop(Image imgPhoto, int width, int height, AnchorPosition anchor)
         {
             int sourceWidth = imgPhoto.Width;
             int sourceHeight = imgPhoto.Height;
-            int sourceX = 0;
-            int sourceY = 0;
+            const int sourceX = 0;
+            const int sourceY = 0;
             int destX = -1;
             int destY = -1;
-
-            double nPercent = 0;
-            double nPercentW = 0;
-            double nPercentH = 0;
-            
-
-            nPercentW = ((double)Width / (double)sourceWidth);
-            nPercentH = ((double)Height / (double)sourceHeight);
+            double nPercent;
+            double nPercentW = (width/(double) sourceWidth);
+            double nPercentH = (height/(double) sourceHeight);
 
             if (nPercentH < nPercentW)
             {
                 nPercent = nPercentW;
-                switch (Anchor)
+                switch (anchor)
                 {
                     case AnchorPosition.Top:
                         destY = 0;
                         break;
                     case AnchorPosition.Bottom:
-                        destY = (int)(Height - (sourceHeight * nPercent));
+                        destY = (int) (height - (sourceHeight*nPercent));
                         break;
                     default:
-                        destY = (int)((Height - (sourceHeight * nPercent)) / 2);
+                        destY = (int) ((height - (sourceHeight*nPercent))/2);
                         break;
                 }
             }
             else
             {
                 nPercent = nPercentH;
-                switch (Anchor)
+                switch (anchor)
                 {
                     case AnchorPosition.Left:
                         destX = 0;
                         break;
                     case AnchorPosition.Right:
-                        destX = (int)(Width - (sourceWidth * nPercent));
+                        destX = (int) (width - (sourceWidth*nPercent));
                         break;
                     default:
-                        destX = (int)((Width - (sourceWidth * nPercent)) / 2);
+                        destX = (int) ((width - (sourceWidth*nPercent))/2);
                         break;
                 }
             }
 
-            int destWidth = (int)(sourceWidth * nPercent);
-            int destHeight = (int)(sourceHeight * nPercent);
+            var destWidth = (int) (sourceWidth*nPercent);
+            var destHeight = (int) (sourceHeight*nPercent);
 
-            Bitmap bmPhoto = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
+            var bmPhoto = new Bitmap(width, height, PixelFormat.Format24bppRgb);
             bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
             Graphics grPhoto = Graphics.FromImage(bmPhoto);
             grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
             grPhoto.DrawImage(imgPhoto,
-                new Rectangle(destX, destY, destWidth+2, destHeight+2),
-                new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
-                GraphicsUnit.Pixel);
+                              new Rectangle(destX, destY, destWidth + 2, destHeight + 2),
+                              new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
+                              GraphicsUnit.Pixel);
 
             grPhoto.Dispose();
             return bmPhoto;

@@ -1,111 +1,91 @@
 //Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+
 using System.IO;
-using InventIt.SiteSystem.Library;
+using System.Xml;
 
 namespace InventIt.SiteSystem.Library
 {
     public class Settings
     {
-        private string m_CustomPath = @"Custom\App_Data\CustomSettings.xml";
-        private string m_CustomFullPath;
-        private XmlDocument m_CombinedSettings;
-        private XmlDocument m_CustomSettings = new XmlDocument();
-		private string m_RootPath;
-		private static Settings m_DefaultInstance;
+        private const string CustomPath = @"Custom\App_Data\CustomSettings.xml";
+        private static Settings _defaultInstance;
+        private readonly XmlDocument _combinedSettings;
+        private readonly string _customFullPath;
+        private readonly XmlDocument _customSettings = new XmlDocument();
+        private readonly string _rootPath;
 
-        public string CustomFullPath
+        public Settings(Process process, string rootPath)
+        {
+            _rootPath = rootPath;
+            _customFullPath = Path.Combine(rootPath, CustomPath);
+            _customSettings.Load(_customFullPath);
+            _combinedSettings = process.Cache["settings"] as XmlDocument;
+            _defaultInstance = this;
+        }
+
+        public string CustomFullPath //ToDo: is a unused Property (T.Huber 18.06.2009)
+        {
+            get { return _customFullPath; }
+        }
+
+        public string RootPath
+        {
+            get { return _rootPath; }
+        }
+
+        public static Settings DefaultInstance
+        {
+            get { return _defaultInstance; }
+        }
+
+        public string this[string path]
+        {
+            get { return this[path, RelativePathHandling.ConvertToAbsolute]; }
+            set { this[path, RelativePathHandling.ConvertToAbsolute] = value; }
+        }
+
+        private string this[string path, RelativePathHandling relativePathHandling]
         {
             get
             {
-                return m_CustomFullPath;
-            }
-        }
-		public string RootPath
-		{
-			get
-			{
-				return m_RootPath;
-			}
-		}
-
-      
-		public static Settings DefaultInstance
-		{
-			get
-			{
-				return m_DefaultInstance;
-			}
-		}
-
-		public string this[string path]
-		{
-			get
-			{
-				return this[path, RelativePathHandling.ConvertToAbsolute];
-			}
-			set
-			{
-				this[path, RelativePathHandling.ConvertToAbsolute] = value;
-			}
-		}
-
-		public string this[string path, RelativePathHandling relativePathHandling]
-		{
-			get
-			{
-				XmlNode settingsNode = CommonXml.GetNode(m_CombinedSettings.SelectSingleNode("settings"), path, EmptyNodeHandling.CreateNew);
+                XmlNode settingsNode = CommonXml.GetNode(_combinedSettings.SelectSingleNode("settings"), path,
+                                                         EmptyNodeHandling.CreateNew);
 
                 string value = settingsNode.InnerText;
 
-				if (relativePathHandling == RelativePathHandling.ConvertToAbsolute)
-				{
-					return ConvertPath(value);
-				}
-				else
-				{
-					return value;
-				}
-			}
-			set
-			{
-                CommonXml.GetNode(m_CustomSettings.SelectSingleNode("settings"), path, EmptyNodeHandling.CreateNew).InnerText = value;
-                CommonXml.GetNode(m_CombinedSettings.SelectSingleNode("settings"), path, EmptyNodeHandling.CreateNew).InnerText = value;
-                Save();
-			}
-		}
+                if (relativePathHandling == RelativePathHandling.ConvertToAbsolute)
+                    return ConvertPath(value);
 
-		public Settings(Process process, string rootPath)
-        {
-			m_RootPath = rootPath;
-            m_CustomFullPath = Path.Combine(rootPath, m_CustomPath);
-            m_CustomSettings.Load(m_CustomFullPath);
-            m_CombinedSettings = process.Cache["settings"] as XmlDocument;
-			m_DefaultInstance = this;
+                return value;
+            }
+            set
+            {
+                CommonXml.GetNode(_customSettings.SelectSingleNode("settings"), path, EmptyNodeHandling.CreateNew).
+                    InnerText = value;
+                CommonXml.GetNode(_combinedSettings.SelectSingleNode("settings"), path, EmptyNodeHandling.CreateNew).
+                    InnerText = value;
+                Save();
+            }
         }
 
-		public XmlNode GetAsNode(string path)
-		{
-			return CommonXml.GetNode(m_CombinedSettings.SelectSingleNode("settings"), path);
-		}
+        public XmlNode GetAsNode(string path)
+        {
+            return CommonXml.GetNode(_combinedSettings.SelectSingleNode("settings"), path);
+        }
 
-		private string ConvertPath(string relativePath)
-		{
-			if (!relativePath.StartsWith("~/"))
-			{
-				return relativePath;
-			}
+        private string ConvertPath(string relativePath)
+        {
+            if (!relativePath.StartsWith("~/"))
+                return relativePath;
 
-			relativePath = relativePath.Substring(2);
-			return Common.CombinePaths(RootPath, relativePath.Replace('/', '\\'));
-		}
+            relativePath = relativePath.Substring(2);
+            return Common.CombinePaths(RootPath, relativePath.Replace('/', '\\'));
+        }
 
-		private void Save()
-        { //TODO: should work but has not been testet yet
-            m_CustomSettings.Save(m_CustomFullPath);
+        private void Save()
+        {
+            //ToDo: should work but has not been testet yet (old)
+            _customSettings.Save(_customFullPath);
         }
     }
 }

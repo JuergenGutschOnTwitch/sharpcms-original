@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <xsl:stylesheet
 		version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns="http://www.w3.org/1999/xhtml">
-
-
-	<xsl:template mode="show" match="element[@type='search']">
+	
+  <xsl:template mode="show" match="element[@type='search']">
 		<xsl:choose>
 			<xsl:when test="contains(//data/attributes/pageroot, 'english')">
 				<h1>Search sharpcms web site</h1>
@@ -17,20 +17,19 @@
 		<div>
 			<form name="systemform" method="post" encType="multipart/form-data">
 				<!-- primary hidden settings -->
-				<input type="hidden" name="event_main" value="search"/>
-				<input type="hidden" name="event_mainvalue" value=""/>
+				<input type="hidden" name="event_main" value="search" />
+				<input type="hidden" name="event_mainvalue" value="" />
 				<input type="hidden" name="process">
 					<xsl:attribute name="value">
-						<xsl:value-of select="//data/query/other/process"/>
+						<xsl:value-of select="//data/query/other/process" />
 					</xsl:attribute>
 				</input>
 				<input type="hidden" name="data_pageidentifier">
 					<xsl:attribute name="value">
-						<xsl:value-of select="//data/contenttwo/page/attributes/pageidentifier"/>
+						<xsl:value-of select="//data/contenttwo/page/attributes/pageidentifier" />
 					</xsl:attribute>
 				</input>
-				<input type="hidden" name="data_start" value=""/>
-
+				<input type="hidden" name="data_start" value="" />
 				<xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
 					<a href="javascript:ThrowEventConfirm('index', '','Are you sure to rebuild index?')">
 						<xsl:attribute name="class">button</xsl:attribute>
@@ -48,10 +47,10 @@
 
 	<xsl:template mode="show" match="element[@type='summary']">
 		<p>
-			<xsl:value-of select="." disable-output-escaping="yes"/>
+			<xsl:value-of select="." disable-output-escaping="yes" />
 			<hr />
 		</p>
-	</xsl:template >
+	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='paging']">
 		<p>
@@ -63,7 +62,7 @@
 					<xsl:text>Ergebnisseiten: </xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:value-of select="." disable-output-escaping="yes"/>
+			<xsl:value-of select="." disable-output-escaping="yes" />
 		</p>
 		<p>
 			<span>Search Powered by </span>
@@ -92,12 +91,13 @@
 				<xsl:attribute name="href">
 					<xsl:value-of select="path" />
 				</xsl:attribute>
-				<xsl:value-of select="/data/basepath"/>
+				<xsl:value-of select="/data/basepath" />
 				<xsl:text>/</xsl:text>
-				<xsl:value-of select="path"/>
+				<xsl:value-of select="path" />
 			</a>
 			<br />
 			<br />
 		</p>
 	</xsl:template>
+
 </xsl:stylesheet>

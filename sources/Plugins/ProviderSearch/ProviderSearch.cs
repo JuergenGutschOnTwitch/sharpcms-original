@@ -1,29 +1,28 @@
+//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+
 using System;
 using System.Collections;
-//using System.Text;
-using System.Xml;
-
-using InventIt.SiteSystem.Library;
-using InventIt.SiteSystem.Plugin;
-using InventIt.SiteSystem.Data.SiteTree;
 using System.IO;
+using InventIt.SiteSystem.Plugin;
 
 namespace InventIt.SiteSystem.Providers
 {
     public class ProviderSearch : BasePlugin2, IPlugin2
     {
-        public new string Name
-        {
-            get { return "search"; }
-        }
-
         public ProviderSearch()
         {
         }
 
-        public ProviderSearch(InventIt.SiteSystem.Process process)
+        public ProviderSearch(Process process)
         {
-            m_Process = process;
+            _process = process;
+        }
+
+        #region IPlugin2 Members
+
+        public new string Name
+        {
+            get { return "search"; }
         }
 
         public new void Handle(string mainEvent)
@@ -37,21 +36,22 @@ namespace InventIt.SiteSystem.Providers
                     HandleSearch(0);
                     break;
                 default:
-                    int startAt = 0;
+                    int startAt;
                     if (int.TryParse(mainEvent, out startAt))
                         HandleSearch(startAt);
                     break;
-
             }
         }
+
+        #endregion
 
         private void HandleSearch(int startAt)
         {
             // no query test don't process
-            string query = m_Process.QueryData["query"];
+            string query = _process.QueryData["query"];
             if (string.IsNullOrEmpty(query)) return;
 
-            Search search = new Search(m_Process);
+            var search = new Search(_process);
             if (startAt > 0)
                 search.StartAt = startAt;
 
@@ -60,10 +60,10 @@ namespace InventIt.SiteSystem.Providers
 
         private void HandleIndex()
         {
-            string rootPath = m_Process.Root;
-            string[] s = m_Process.CurrentProcess.Split('/');
+            string rootPath = _process.Root;
+            string[] s = _process.CurrentProcess.Split('/');
 
-            string baseDir = m_Process.Settings["search/index"];
+            string baseDir = _process.Settings["search/index"];
             string rules = rootPath + @"\Custom\App_Data\rules.xml";
             string filePath = rootPath + @"\Custom\App_Data\database";
 
@@ -74,9 +74,9 @@ namespace InventIt.SiteSystem.Providers
                 baseDir = Path.Combine(baseDir, s[1]);
             }
 
-            string procMessage = string.Empty;
+            string procMessage;
 
-            Indexer indexer = new Indexer(baseDir);
+            var indexer = new Indexer(baseDir);
             indexer.LoadRules(rules);
             try
             {
@@ -92,9 +92,7 @@ namespace InventIt.SiteSystem.Providers
             }
 
             if (procMessage != string.Empty)
-            {
-                m_Process.AddMessage(procMessage);
-            }
+                _process.AddMessage(procMessage);
         }
     }
 }

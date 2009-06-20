@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
+
 <xsl:stylesheet
 		version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns="http://www.w3.org/1999/xhtml">
 
 	<xsl:template mode="show" match="container[@name='content']">
-		<xsl:apply-templates mode="show" select="elements/element"/>
+		<xsl:apply-templates mode="show" select="elements/element" />
 	</xsl:template>
-	<xsl:template mode="show" match="container[@name='news']">
-		<xsl:apply-templates mode="show" select="elements/element"/>
+  
+  <xsl:template mode="show" match="container[@name='news']">
+		<xsl:apply-templates mode="show" select="elements/element" />
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='sitemap']">
@@ -30,14 +32,14 @@
 							<a>
 								<xsl:attribute name="href">
 									<xsl:text>show/</xsl:text>
-									<xsl:value-of select="@pageidentifier"/>
+									<xsl:value-of select="@pageidentifier" />
 									<xsl:text>.aspx</xsl:text>
 								</xsl:attribute>
-								<xsl:value-of select="@pagename"/>
+								<xsl:value-of select="@pagename" />
 							</a>
-							<br/>
+							<br />
 							<span>
-								<xsl:value-of select="@metadescription"/>
+								<xsl:value-of select="@metadescription" />
 							</span>
 							<xsl:if test="*[@status='open']">
 								<ul>
@@ -46,14 +48,14 @@
 											<a>
 												<xsl:attribute name="href">
 													<xsl:text>show/</xsl:text>
-													<xsl:value-of select="@pageidentifier"/>
+													<xsl:value-of select="@pageidentifier" />
 													<xsl:text>.aspx</xsl:text>
 												</xsl:attribute>
-												<xsl:value-of select="@pagename"/>
+												<xsl:value-of select="@pagename" />
 											</a>
-											<br/>
+											<br />
 											<span>
-												<xsl:value-of select="@metadescription"/>
+												<xsl:value-of select="@metadescription" />
 											</span>
 											<xsl:if test="*[@status='open']">
 												<ul>
@@ -62,14 +64,14 @@
 															<a>
 																<xsl:attribute name="href">
 																	<xsl:text>show/</xsl:text>
-																	<xsl:value-of select="@pageidentifier"/>
+																	<xsl:value-of select="@pageidentifier" />
 																	<xsl:text>.aspx</xsl:text>
 																</xsl:attribute>
-																<xsl:value-of select="@pagename"/>
+																<xsl:value-of select="@pagename" />
 															</a>
-															<br/>
+															<br />
 															<span>
-																<xsl:value-of select="@metadescription"/>
+																<xsl:value-of select="@metadescription" />
 															</span>
 															<xsl:if test="*[@status='open']">
 																<ul>
@@ -78,14 +80,14 @@
 																			<a>
 																				<xsl:attribute name="href">
 																					<xsl:text>show/</xsl:text>
-																					<xsl:value-of select="@pageidentifier"/>
+																					<xsl:value-of select="@pageidentifier" />
 																					<xsl:text>.aspx</xsl:text>
 																				</xsl:attribute>
-																				<xsl:value-of select="@pagename"/>
+																				<xsl:value-of select="@pagename" />
 																			</a>
-																			<br/>
+																			<br />
 																			<span>
-																				<xsl:value-of select="@metadescription"/>
+																				<xsl:value-of select="@metadescription" />
 																			</span>
 																		</li>
 																	</xsl:for-each>
@@ -114,7 +116,7 @@
 						<xsl:when test="substring(link, 1, 1) = '#'">
 							<a>
 								<xsl:attribute name="id">
-									<xsl:value-of select="link"/>
+									<xsl:value-of select="link" />
 								</xsl:attribute>
 							</a>
 						</xsl:when>
@@ -177,40 +179,38 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='gallery']">
-		<xsl:variable select="folder/@path" name="path"/>
+		<xsl:variable select="folder/@path" name="path" />
 		<xsl:if test="//data/query/data/picture">
 			<img>
 				<xsl:attribute name="src">
 					<xsl:text>default.aspx?process=download/</xsl:text>
-					<xsl:value-of select="$path"/>
+					<xsl:value-of select="$path" />
 					<xsl:text>/</xsl:text>
-					<xsl:value-of select="//data/query/data/picture"/>
+					<xsl:value-of select="//data/query/data/picture" />
 					<xsl:text>&amp;width=250</xsl:text>
 				</xsl:attribute>
 			</img>
-			<br/>
+			<br />
 		</xsl:if>
 		<xsl:for-each select="folder/folder/file[@extension='.jpg']">
 			<a>
-				<xsl:attribute  name="href">
+				<xsl:attribute name="href">
 					<xsl:text>default.aspx?process=</xsl:text>
-					<xsl:value-of select="//data/query/other/process"/>
+					<xsl:value-of select="//data/query/other/process" />
 					<xsl:text>&amp;data_picture=</xsl:text>
-					<xsl:value-of select="@name"/>
+					<xsl:value-of select="@name" />
 				</xsl:attribute>
 				<img border="0">
 					<xsl:attribute name="src">
 						<xsl:text>default.aspx?process=download/</xsl:text>
-						<xsl:value-of select="$path"/>
+						<xsl:value-of select="$path" />
 						<xsl:text>/</xsl:text>
-						<xsl:value-of select="@name"/>
+						<xsl:value-of select="@name" />
 						<xsl:text>&amp;width=50&amp;height=50</xsl:text>
 					</xsl:attribute>
 				</img>
 			</a>
 		</xsl:for-each>
-
-
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='paragraph']">
@@ -218,7 +218,7 @@
 			<img>
 				<xsl:attribute name="src">
 					<xsl:text>default.aspx?process=download/</xsl:text>
-					<xsl:value-of select="picture"/>
+					<xsl:value-of select="picture" />
 				</xsl:attribute>
 				<xsl:attribute name="style">
 					<xsl:choose>
@@ -232,13 +232,13 @@
 				</xsl:attribute>
 			</img>
 		</xsl:if>
-		<xsl:value-of select="text" disable-output-escaping="yes"/>
+		<xsl:value-of select="text" disable-output-escaping="yes" />
 		<xsl:if test="not(link = '') and link">
 			<a>
 				<xsl:choose>
 					<xsl:when test="substring(link, 1, 7) = 'http://'">
 						<xsl:attribute name="href">
-							<xsl:value-of select="link"/>
+							<xsl:value-of select="link" />
 						</xsl:attribute>
 						<xsl:attribute name="target">
 							<xsl:text>_blank</xsl:text>
@@ -247,7 +247,7 @@
 					<xsl:otherwise>
 						<xsl:attribute name="href">
 							<xsl:text>default.aspx?process=show/</xsl:text>
-							<xsl:value-of select="link"/>
+							<xsl:value-of select="link" />
 						</xsl:attribute>
 					</xsl:otherwise>
 				</xsl:choose>
@@ -261,17 +261,17 @@
 			<xsl:choose>
 				<xsl:when test="headerstyle='Header1'">
 					<h1>
-						<xsl:value-of select="text"/>
+						<xsl:value-of select="text" />
 					</h1>
 				</xsl:when>
 				<xsl:when test="headerstyle='Header2'">
 					<h2>
-						<xsl:value-of select="text"/>
+						<xsl:value-of select="text" />
 					</h2>
 				</xsl:when>
 				<xsl:when test="headerstyle='Header3'">
 					<h3>
-						<xsl:value-of select="text"/>
+						<xsl:value-of select="text" />
 					</h3>
 				</xsl:when>
 			</xsl:choose>
@@ -299,15 +299,15 @@
 				<img style="border:none 0px;">
 					<xsl:attribute name="src">
 						<xsl:text>default.aspx?process=download/</xsl:text>
-						<xsl:value-of select="picture"/>
+						<xsl:value-of select="picture" />
 					</xsl:attribute>
 					<xsl:attribute name="alt">
-						<xsl:value-of select="alttext"/>
+						<xsl:value-of select="alttext" />
 					</xsl:attribute>
 				</img>
 				<xsl:if test="not(text = '') and text">
-					<br/>
-					<xsl:value-of select="text"/>
+					<br />
+					<xsl:value-of select="text" />
 				</xsl:if>
 			</p>
 		</xsl:if>
@@ -320,24 +320,24 @@
 		<iframe>
 			<xsl:if test="width and not(width='')">
 				<xsl:attribute name="width">
-					<xsl:value-of select="width"/>
+					<xsl:value-of select="width" />
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="height and not(height='')">
 				<xsl:attribute name="height">
-					<xsl:value-of select="height"/>
+					<xsl:value-of select="height" />
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="border and not(border='')">
 				<xsl:attribute name="style">
 					<xsl:text>border:solid </xsl:text>
-					<xsl:value-of select="border"/>
+					<xsl:value-of select="border" />
 					<xsl:text>px #333333;</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="url and not(url='')">
 				<xsl:attribute name="src">
-					<xsl:value-of select="url"/>
+					<xsl:value-of select="url" />
 				</xsl:attribute>
 			</xsl:if>
 		</iframe>
@@ -346,7 +346,7 @@
 	<xsl:template mode="show" match="element[@type='code']">
 		<pre>
 			<xsl:if test="not(text = '') and text">
-				<xsl:value-of disable-output-escaping="yes" select="text"/>
+				<xsl:value-of disable-output-escaping="yes" select="text" />
 			</xsl:if>
 		</pre>
 	</xsl:template>
@@ -354,7 +354,7 @@
 	<xsl:template mode="show" match="element[@type='form']">
 		<form name="systemform" id="systemform" method="post" enctype="multipart/form-data">
 			<xsl:attribute name="action">
-				<xsl:value-of select="/data/query/other/process"/>
+				<xsl:value-of select="/data/query/other/process" />
 				<xsl:text disable-output-escaping="yes">.aspx</xsl:text>
 			</xsl:attribute>
 
@@ -393,16 +393,16 @@
 				]]></xsl:text>
 			</script>
 			<!-- primary hidden settings -->
-			<input type="hidden" name="event_main" value=""/>
-			<input type="hidden" name="event_mainvalue" value=""/>
+			<input type="hidden" name="event_main" value="" />
+			<input type="hidden" name="event_mainvalue" value="" />
 			<input type="hidden" name="process">
 				<xsl:attribute name="value">
-					<xsl:value-of select="data/query/other/process"/>
+					<xsl:value-of select="data/query/other/process" />
 				</xsl:attribute>
 			</input>
 			<input type="hidden" name="data_pageidentifier">
 				<xsl:attribute name="value">
-					<xsl:value-of select="/data/contenttwo/page/attributes/pageidentifier"/>
+					<xsl:value-of select="/data/contenttwo/page/attributes/pageidentifier" />
 				</xsl:attribute>
 			</input>
 			<dl>
@@ -425,9 +425,9 @@
 						<xsl:for-each select="category-list/*" >
 							<option>
 								<xsl:attribute name="value">
-									<xsl:value-of select="."/>
+									<xsl:value-of select="." />
 								</xsl:attribute>
-								<xsl:value-of select="."/>
+								<xsl:value-of select="." />
 							</option>
 						</xsl:for-each>
 					</select>
@@ -437,20 +437,20 @@
 						<label>
 							<xsl:attribute name="for">
 								<xsl:text>data_form_</xsl:text>
-								<xsl:value-of select="@id"/>
+								<xsl:value-of select="@id" />
 							</xsl:attribute>
-							<xsl:value-of select="."/>
+							<xsl:value-of select="." />
 						</label>
 					</dt>
 					<dd>
 						<input type="text" value="">
 							<xsl:attribute name="name">
 								<xsl:text>data_form_</xsl:text>
-								<xsl:value-of select="@id"/>
+								<xsl:value-of select="@id" />
 							</xsl:attribute>
 							<xsl:attribute name="id">
 								<xsl:text>data_form_</xsl:text>
-								<xsl:value-of select="@id"/>
+								<xsl:value-of select="@id" />
 							</xsl:attribute>
 						</input>
 					</dd>
@@ -490,7 +490,7 @@
 
 	<xsl:template mode="show" match="element[@type='freetext']">
 		<xsl:if test="not(text = '') and text">
-			<xsl:value-of disable-output-escaping="yes" select="text"/>
+			<xsl:value-of disable-output-escaping="yes" select="text" />
 		</xsl:if>
 	</xsl:template>
 
@@ -505,21 +505,21 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='faqhead']">
-		<xsl:value-of select="text" disable-output-escaping="yes"/>
+		<xsl:value-of select="text" disable-output-escaping="yes" />
 		<ul>
 			<xsl:for-each select="//element[@type='faq']">
 				<li>
-					<xsl:value-of select="position()"/>.
+					<xsl:value-of select="position()" />.
 					<a>
 						<xsl:attribute name="href">
-							<xsl:value-of select="/data/query/other/process"/>
+							<xsl:value-of select="/data/query/other/process" />
 							<xsl:text>.aspx#</xsl:text>
-							<xsl:value-of select="position()"/>
+							<xsl:value-of select="position()" />
 						</xsl:attribute>
-						<xsl:value-of select="question"/>
+						<xsl:value-of select="question" />
 					</a>
 				</li>
-				<xsl:value-of select="text" disable-output-escaping="yes"/>
+				<xsl:value-of select="text" disable-output-escaping="yes" />
 			</xsl:for-each>
 		</ul>
 	</xsl:template>
@@ -527,17 +527,17 @@
 	<xsl:template mode="show" match="element[@type='faq']">
 		<p class="contentHeader" style="margin-bottom:0px;">
 			<b>
-				<xsl:value-of select="position()-2"/>.
-				<xsl:value-of select="question"/>
+				<xsl:value-of select="position()-2" />.
+				<xsl:value-of select="question" />
 			</b>
 			<a>
 				<xsl:attribute name="name">
-					<xsl:value-of select="position()-1"/>
+					<xsl:value-of select="position()-1" />
 				</xsl:attribute>
 				<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 			</a>
 		</p>
-		<xsl:value-of select="answer" disable-output-escaping="yes"/>
+		<xsl:value-of select="answer" disable-output-escaping="yes" />
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='overview']">
@@ -548,20 +548,19 @@
 		</xsl:for-each>
 	</xsl:template>
 
-
 	<xsl:template mode="show" match="*">
 		<div>
 			<xsl:attribute name="class">
 				<xsl:text>element-</xsl:text>
-				<xsl:value-of select="@type"/>
+				<xsl:value-of select="@type" />
 			</xsl:attribute>
 			<xsl:for-each select="*">
 				<div>
 					<xsl:attribute name="class">
 						<xsl:text>item-</xsl:text>
-						<xsl:value-of select="name()"/>
+						<xsl:value-of select="name()" />
 					</xsl:attribute>
-					<xsl:value-of select="."/>
+					<xsl:value-of select="." />
 				</div>
 			</xsl:for-each>
 		</div>
@@ -570,28 +569,28 @@
 	<xsl:template match="*" mode="overviewlistitems">
 		<li>
 			<xsl:if test="not(@lastedited = '') and @lastedited">
-				<xsl:value-of select="@lastedited"/>
+				<xsl:value-of select="@lastedited" />
 				<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 			</xsl:if>
 			<a>
 				<xsl:attribute name="href">
-					<xsl:value-of select="/data/query/other/process"/>
+					<xsl:value-of select="/data/query/other/process" />
 					<xsl:text>/</xsl:text>
-					<xsl:value-of select="name()"/>
+					<xsl:value-of select="name()" />
 					<xsl:text>.aspx</xsl:text>
 				</xsl:attribute>
-				<xsl:value-of select="@pagename"/>
+				<xsl:value-of select="@pagename" />
 			</a>
 			<xsl:text disable-output-escaping="yes">&lt;br/&gt;</xsl:text>
 			<xsl:if test="not(@metadescription = '') and @metadescription">
-				<xsl:value-of select="@metadescription"/>
+				<xsl:value-of select="@metadescription" />
 				<xsl:text disable-output-escaping="yes">&lt;br/&gt;</xsl:text>
 			</xsl:if>
 			<a>
 				<xsl:attribute name="href">
-					<xsl:value-of select="/data/query/other/process"/>
+					<xsl:value-of select="/data/query/other/process" />
 					<xsl:text>/</xsl:text>
-					<xsl:value-of select="name()"/>
+					<xsl:value-of select="name()" />
 					<xsl:text>.aspx</xsl:text>
 				</xsl:attribute>
 				Read more
@@ -600,6 +599,5 @@
 			<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 		</li>
 	</xsl:template>
-
 
 </xsl:stylesheet>

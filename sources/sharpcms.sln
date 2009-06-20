@@ -35,6 +35,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "cleansite", "cleansite", "{
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52775"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderSearch", "Plugins\ProviderSearch\ProviderSearch.csproj", "{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}"
@@ -86,9 +87,6 @@ Global
 		SccProjectUniqueName10 = Tests\\UnitTest\\UnitTest.csproj
 		SccProjectName10 = Tests/UnitTest
 		SccLocalPath10 = Tests\\UnitTest
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = sharpcms.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,5 +176,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = sharpcms.vsmdi
 	EndGlobalSection
 EndGlobal

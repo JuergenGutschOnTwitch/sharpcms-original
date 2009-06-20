@@ -1,61 +1,61 @@
 ﻿/*************************************************************************/
 /* Colors:
 /*
-/* #628498      mainmenu background
-/* #486c82      a
-/*              .pagedata_headcolor 
-/* #cfb000      a:hover
-/* #96a1a9      .adminmenu a.button:hover
-/* #7697ab      .adminmenu border
-/*      		.pagedata_headborder
-/*              .pagedata_body background
-/* #e8eef1		.pagedata_headbackground
-/* #8da6b5      .element_headdiv.title color
+/* #628498			mainmenu background
+/* #486c82			a
+/*							.pagedata_headcolor 
+/* #cfb000			a:hover
+/* #96a1a9			.adminmenu a.button:hover
+/* #7697ab			.adminmenu border
+/*							.pagedata_headborder
+/*							.pagedata_body background
+/* #e8eef1			.pagedata_headbackground
+/* #8da6b5			.element_headdiv.title color
 /*
 /*************************************************************************/
 
 
 /*************************************************************************/
-/*                                                                   Basic
+/*																																	 Basic
 /*************************************************************************/
 * {
-    border: 0;
-    color: black;
-    font: Menu;
-    font-style: normal;
-    font-weight: normal;
-    margin: 0;
-    padding: 0;
-    text-align: left;
-    text-decoration: none;
+	border: 0;
+	color: black;
+	font: Menu;
+	font-style: normal;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	text-decoration: none;
 }
 
 html {
-    font-size: 100.1%;
+	font-size: 100.1%;
 }
 
 body {
-    background-color: white;
-    font-size: 62.5%;
+	background-color: white;
+	font-size: 62.5%;
 }
 
 label {
-    color: #486c82;
+	color: #486c82;
 }
 
 
 /*************************************************************************/
-/*                                                             Tree (base)
+/*																														 Tree (base)
 /*************************************************************************/
 .tree {
-    background-color: white;
-    border: 1px solid #bec7cd;
-    border-top: none;
-    float: left;
-    margin-bottom: 10px;
-    min-height: 220px;
-    padding: 10px;
-    width: 200px;
+	background-color: white;
+	border: 1px solid #bec7cd;
+	border-top: none;
+	float: left;
+	margin-bottom: 10px;
+	min-height: 220px;
+	padding: 10px;
+	width: 200px;
 }
 
 .tree b {
@@ -72,26 +72,26 @@ label {
 
 
 /*************************************************************************/
-/*                                                             Menu (base)
+/*																														 Menu (base)
 /*************************************************************************/
 .menu {
-    background-color: white;
-    border: 1px solid #7697ab;
-    padding: 6px;
-    float: left;
+	background-color: white;
+	border: 1px solid #7697ab;
+	padding: 6px;
+	float: left;
 }
 
 .menu a,
 .menu select {
-    float: left;
+	float: left;
 }
 
 .menu ul {
-    margin: 6px;
+	margin: 6px;
 }
 
 .menu li {
-    margin: 4px;
+	margin: 4px;
 }
 
 .top {
@@ -104,44 +104,44 @@ label {
 
 
 /*************************************************************************/
-/*															   Head (base)
+/*																														 Head (base)
 /*************************************************************************/
 .head {
-    background-color: #e8eef1;
-    border: 1px solid #7697ab;
-    color: #486c82;
-    float: left;
-    font-weight: bold;
-    height: 16px;
-    padding: 6px 4px 4px 8px;
+	background-color: #e8eef1;
+	border: 1px solid #7697ab;
+	color: #486c82;
+	float: left;
+	font-weight: bold;
+	height: 16px;
+	padding: 6px 4px 4px 8px;
 }
 
 .head div.title {
-    color: #486C82;
-    float: left; 
-    font-weight: bold;
+	color: #486C82;
+	float: left; 
+	font-weight: bold;
 }
 
 .head div.viewstate {
-    float: right;
+	float: right;
 }
 
 .head div.viewstate p {
-    color: #486C82; 
+	color: #486C82; 
 	cursor: pointer;
-    font-weight: bold;
+	font-weight: bold;
 }
 
 
 /*************************************************************************/
-/*															   Body (base)
+/*																														 Body (base)
 /*************************************************************************/
 .body {
-    background-color: white;
-    border: 1px solid #7697ab;
-    border-top: none;
-    float: left;
-    padding: 6px 6px 0 6px;
+	background-color: white;
+	border: 1px solid #7697ab;
+	border-top: none;
+	float: left;
+	padding: 6px 6px 0 6px;
 }
 
 .body table {
@@ -152,7 +152,7 @@ label {
 
 .body table tr td {
 	background-color: #e8eef1;
-    color: #486c82;
+	color: #486c82;
 	padding: 6px;
 }
 
@@ -166,170 +166,170 @@ label {
 
 
 /*************************************************************************/
-/*                                                                 Special
+/*																																 Special
 /*************************************************************************/
 a.anchor {
-    float: left;
+	float: left;
 }
 
 div.error {
-    color: red;
+	color: red;
 }
 
 a.button {
-    background-color: white;
-    border: 1px solid #aeb8bf;
-    padding: 1px 4px;
-    margin-right: 6px;
-    text-align: center;
+	background-color: white;
+	border: 1px solid #aeb8bf;
+	padding: 1px 4px;
+	margin-right: 6px;
+	text-align: center;
 }
 
 a.button:hover {
-    background-color: #96a1a9;
-    text-decoration: none;
+	background-color: #96a1a9;
+	text-decoration: none;
 }
 
 
 /*************************************************************************/
-/*                                                                    Page
+/*																																		Page
 /*************************************************************************/
 .page {
-    float: left;
-    height: 100%;
-    width: 100%;
+	float: left;
+	height: 100%;
+	width: 100%;
 }
 
 
 /*************************************************************************/
-/*                                                                  Header
+/*																																	Header
 /*************************************************************************/
 .header {
-    background: #628498 url('../images/topbg.gif') top left repeat-x;
-    color: white;
-    float: left;
-    height: 39px;
-    width: 100%;
+	background: #628498 url('../images/topbg.gif') top left repeat-x;
+	color: white;
+	float: left;
+	height: 39px;
+	width: 100%;
 }
 
 .header a img {
-    height: 39px;
-    width: 121px;
+	height: 39px;
+	width: 121px;
 }
 
 
 /*************************************************************************/
-/*                                                                 TopNavi
+/*																																 TopNavi
 /*************************************************************************/
 .mainnavi {
-    background: white url('../images/subbg.gif') top left repeat-x;
-    float: left;
-    height: 26px;
-    min-width: 300px;
-    width: 100%;
+	background: white url('../images/subbg.gif') top left repeat-x;
+	float: left;
+	height: 26px;
+	min-width: 300px;
+	width: 100%;
 }
 
 .mainnavi ul {
-    list-style-type: none;
-    min-width: 140px;
-    padding-top: 5px;
+	list-style-type: none;
+	min-width: 140px;
+	padding-top: 5px;
 }
 
 .mainnavi ul li {
-    float: left;
+	float: left;
 }
 
 .mainnavi ul li a {
-    color: #486c82;
-    font-weight: bold;
-    text-decoration: none;
+	color: #486c82;
+	font-weight: bold;
+	text-decoration: none;
 }
 
 .mainnavi ul li a:hover {
-    color: #cfb000;
-    text-decoration: none;
+	color: #cfb000;
+	text-decoration: none;
 }
 
 .mainnavi ul.left {
-    float: left;
-    padding-left: 10px;
+	float: left;
+	padding-left: 10px;
 }
 
 .mainnavi ul.left li {
-    padding-right: 10px;
+	padding-right: 10px;
 }
 
 .mainnavi ul.right {
-    float: right;
-    padding-right: 10px;
+	float: right;
+	padding-right: 10px;
 }
 
 .mainnavi ul.right li {
-    padding-left: 10px;
+	padding-left: 10px;
 }
 
 
 /*************************************************************************/
-/*                                                                 Content
+/*																																 Content
 /*************************************************************************/
 .content {
-    float: left;
-    width: 900px;
+	float: left;
+	width: 900px;
 }
 
 .content div.left,
 .content div.right {
-    margin: 10px 0 10px 10px;
+	margin: 10px 0 10px 10px;
 }
 
 .content div.left {
-    float: left;
-    width: 220px;
+	float: left;
+	width: 220px;
 }
 
 .content div.right {
-    float: left;
-    width: 650px;
+	float: left;
+	width: 650px;
 }
 
 
 /*************************************************************************/
-/*                                                           PageData Head
+/*																													 PageData Head
 /*************************************************************************/
 .pagedata_head{
-    width: 636px;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*                                                              Admin Menu
+/*																															Admin Menu
 /*************************************************************************/
 .pagedata_menu {
-    width: 636px;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*															 PageData Body
+/*																													 PageData Body
 /*************************************************************************/
 .pagedata_body {
-    width: 636px;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*                                                                    Item
+/*																																		Item
 /*************************************************************************/
 .item {
-    padding-bottom: 10px;
+	padding-bottom: 10px;
 }
 
 .item input {
-    margin-right: 6px;
+	margin-right: 6px;
 }
 
 .item input.date_day,
 .item input.date_month {
-    width: 2em;
+	width: 2em;
 }
 
 .item input.date_year {
@@ -347,112 +347,112 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*                                                                    Tabs
+/*																																		Tabs
 /*************************************************************************/
 .tab-row {
-    float: left;
+	float: left;
 }
 
 .tab-pane {
-    float: left;
-    margin-top: 10px;
-    width: 617px;
+	float: left;
+	margin-top: 10px;
+	width: 617px;
 }
 
 .tab-page {
-    float: left;
-    margin-top: -21px;  /* bad :-( */
-    margin-bottom: 29px;  /* bad :-( */
-    width: 632px;
+	float: left;
+	margin-top: -21px; /* bad :-( */
+	margin-bottom: 29px; /* bad :-( */
+	width: 632px;
 }
 
 
 /*************************************************************************/
-/*                                                            Element Menu
+/*																														Element Menu
 /*************************************************************************/
 .element_menu {
-    width: 618px;
+	width: 618px;
 }
 
 
 /*************************************************************************/
-/*                                                            Element Head
+/*																														Element Head
 /*************************************************************************/
 .element_head {
-    background-color: white;
-    float: left;
-    height: 22px;
-    margin-top: 10px;
-    padding: 6px 0 2px 0;
-    width: 630px;
+	background-color: white;
+	float: left;
+	height: 22px;
+	margin-top: 10px;
+	padding: 6px 0 2px 0;
+	width: 630px;
 }
 
 .element_head div.buttons {
-    float: right;
-    text-align: right;
-    width: 200px;
+	float: right;
+	text-align: right;
+	width: 200px;
 }
 
 .element_head div.buttons a {
-    float: right;
-    text-align: right;
+	float: right;
+	text-align: right;
 }
 
 .element_head div.title {
-    color: #8da6b5;
-    float: left;
-    font-weight: bold;
-    height: 19px;
-    line-height: 19px;
-    padding: 0 0 0 6px;
-    text-transform: capitalize;
-    width: 420px;
+	color: #8da6b5;
+	float: left;
+	font-weight: bold;
+	height: 19px;
+	line-height: 19px;
+	padding: 0 0 0 6px;
+	text-transform: capitalize;
+	width: 420px;
 }
 
 
 /*************************************************************************/
-/*                                                            Element Body
+/*																														Element Body
 /*************************************************************************/
 .element_body {
-    background-color: white;
-    border: 1px solid #7697ab;
-    margin-top: -1px;
-    padding: 6px 6px 0 6px;
-    float: left;
-    width: 618px;
+	background-color: white;
+	border: 1px solid #7697ab;
+	margin-top: -1px;
+	padding: 6px 6px 0 6px;
+	float: left;
+	width: 618px;
 }
 
 .element_body .button {
-    background-color: white;
-    border: 1px solid #aeb8bf;
-    display: inline-block;
-    padding: 1px 4px;
-    text-align: center;
+	background-color: white;
+	border: 1px solid #aeb8bf;
+	display: inline-block;
+	padding: 1px 4px;
+	text-align: center;
 }
 
 
 /*************************************************************************/
-/*															 UserData Head
+/*																													 UserData Head
 /*************************************************************************/
 .userdata_head{
-    width: 636px;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*															 UserData Menu
+/*																													 UserData Menu
 /*************************************************************************/
 .right .userdata_menu {
 	border-top: none;
-    width: 636px;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*                                                           UserData Body
+/*																													 UserData Body
 /*************************************************************************/
 .userdata_body {
-    width: 636px;
+	width: 636px;
 }
 
 .userdata_body table {
@@ -483,24 +483,24 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*															     Tree Head
+/*																															 Tree Head
 /*************************************************************************/
 .tree_head{
-    width: 208px;
+	width: 208px;
 }
 
 
 /*************************************************************************/
-/*																 Tree Menu
+/*																															 Tree Menu
 /*************************************************************************/
 .left .tree_menu {
-    border-top: none;
-    width: 208px;
+	border-top: none;
+	width: 208px;
 }
 
 
 /*************************************************************************/
-/*																 Tree Body
+/*																															 Tree Body
 /*************************************************************************/
 .tree_body {
 	
@@ -508,28 +508,28 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*															 FileData Menu
+/*																													 FileData Menu
 /*************************************************************************/
 .right .filedata_menu {
-    border-top: none;
-    width: 636px;
+	border-top: none;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*                                                         FileData Header
+/*																												 FileData Header
 /*************************************************************************/
 .filedata_head{
-    width: 636px;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*                                                           FileData Body
+/*																													 FileData Body
 /*************************************************************************/
 .filedata_body {
-    padding: 6px;
-    width: 636px;
+	padding: 6px;
+	width: 636px;
 }
 
 .filedata_body input {
@@ -538,33 +538,33 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*														   FolderData Menu
+/*																												 FolderData Menu
 /*************************************************************************/
 .right .folderdata_menu {
-    border-top: none;
-    width: 636px;
+	border-top: none;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*                                                       FolderData Header
+/*																											 FolderData Header
 /*************************************************************************/
 .folderdata_head{
-    width: 636px;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*                                                         FolderData Body
+/*																												 FolderData Body
 /*************************************************************************/
 .folderdata_body {
-    padding: 6px;
-    width: 636px;
+	padding: 6px;
+	width: 636px;
 }
 
 
 /*************************************************************************/
-/*                                                                   Login
+/*																																	 Login
 /*************************************************************************/
 .login {
 	float: left;
@@ -608,17 +608,17 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*                                                                  Choose
+/*																																	Choose
 /*************************************************************************/
 .choose .header {
 	background: #628498 url('../images/topbg.gif') top left repeat-x;
-    color: white;
-    float: left;
-    font-size: 18px;
-    height: 39px;
-    line-height: 39px;
+	color: white;
+	float: left;
+	font-size: 18px;
+	height: 39px;
+	line-height: 39px;
 	padding-left: 10px;
-    width: 100%;
+	width: 100%;
 }
 
 .choose .content {
@@ -628,31 +628,31 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*                                                                    Form
+/*																																		Form
 /*************************************************************************/
 input, 
 textarea, 
 select {
-    border: 1px solid #bec7cd;
-    background-color: white;
+	border: 1px solid #bec7cd;
+	background-color: white;
 }
 
 input {
 	height: 15px;
-    padding: 2px;
-    width: 200px;
+	padding: 2px;
+	width: 200px;
 }
 
 select {
-    width: 206px;
+	width: 206px;
 }
 
 select {
-    font: menu;
+	font: menu;
 }
 
 input.upload {
-    width: 375px;
+	width: 375px;
 }
 
 input.checkbox {

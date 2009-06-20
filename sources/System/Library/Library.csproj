@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeList.cs" />
+    <Compile Include="BitmapManipulator.cs" />
     <Compile Include="Cache.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\CommonXml.cs" />
@@ -64,8 +65,8 @@
     <Compile Include="RelativePathHandling.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Counter.cs" />
-    <Compile Include="Users\group.cs" />
-    <Compile Include="Users\grouplist.cs" />
+    <Compile Include="Users\Group.cs" />
+    <Compile Include="Users\GroupList.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Users\UserList.cs" />
     <Compile Include="Users\Users.cs" />

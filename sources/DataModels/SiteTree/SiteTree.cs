@@ -1,164 +1,140 @@
 //Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using InventIt.SiteSystem.Data.SiteTree;
-using InventIt.SiteSystem;
-using InventIt.SiteSystem.Library;
 using System.IO;
+using System.Xml;
+using InventIt.SiteSystem.Library;
 
 namespace InventIt.SiteSystem.Data.SiteTree
 {
-	public class SiteTree
-	{
-		private Process m_Process;
-		private XmlDocument m_TreeDocument;
-		private string m_TreeFilename;
-		private string m_ContentRoot;
-		private string m_ContentFilenameFormat;
+    public class SiteTree
+    {
+        private readonly string _contentFilenameFormat;
+        private readonly string _contentRoot;
+        private readonly Process _process;
+        private readonly XmlDocument _treeDocument;
+        private readonly string _treeFilename;
 
-		public XmlDocument TreeDocument
-		{
-			get
-			{
-				return m_TreeDocument;
-			}
-		}
+        public SiteTree(Process process)
+        {
+            _process = process;
+            _contentRoot = process.Settings["sitetree/contentRoot"];
+            _contentFilenameFormat = process.Settings["sitetree/contentFilenameFormat"];
+            _treeFilename = process.Settings["sitetree/treeFilename"];
+            _treeDocument = new XmlDocument();
+            _treeDocument.Load(_treeFilename);
+        }
 
-		public SiteTree(Process process)
-		{
-			m_Process = process;
+        public XmlDocument TreeDocument
+        {
+            get { return _treeDocument; }
+        }
 
-			m_ContentRoot = process.Settings["sitetree/contentRoot"];
-            m_ContentFilenameFormat = process.Settings["sitetree/contentFilenameFormat"];
-            m_TreeFilename = process.Settings["sitetree/treeFilename"];
+        public Page GetPage(string path)
+        {
+            XmlNode pageNode = GetPageNode(path);
+            return GetPage(pageNode);
+        }
 
-			m_TreeDocument = new XmlDocument();
-			m_TreeDocument.Load(m_TreeFilename);
-		}
+        private Page GetPage(XmlNode pageNode)
+        {
+            if (pageNode == null)
+                return null;
 
-		public Page GetPage(string path)
-		{
-			XmlNode pageNode = GetPageNode(path);
-			return GetPage(pageNode);
-		}
+            string path = CommonXml.GetXPath(pageNode);
 
-		public Page GetPage(XmlNode pageNode)
-		{
-			if (pageNode == null)
-			{
-				return null;
-			}
-			string path = CommonXml.GetXPath(pageNode);
+            string fileName = Path.Combine(_contentRoot, string.Format(_contentFilenameFormat, path));
+            if (!File.Exists(fileName))
+            {
+                var pagePath = new PagePath(path);
+                CreateFile(pagePath.Path, pagePath.Name, CommonXml.GetAttributeValue(pageNode, "menuname"));
+            }
 
-			string fileName = Path.Combine(m_ContentRoot, string.Format(m_ContentFilenameFormat, path));
-			if (!File.Exists(fileName))
-			{
-				PagePath pagePath = new PagePath(path);
-				CreateFile(pagePath.Path, pagePath.Name, CommonXml.GetAttributeValue(pageNode, "menuname"));
-			}
+            var document = new XmlDocument();
+            document.Load(fileName);
 
-			XmlDocument document = new XmlDocument();
-			document.Load(fileName);
+            var page = new Page(document.SelectSingleNode("//page"), GetPageNode(path), this);
 
-			Page page = new Page(document.SelectSingleNode("//page"), GetPageNode(path), this);
+            return page;
+        }
 
-			return page;
-		}
+        private XmlNode GetPageNode(string path)
+        {
+            //string xPath = NormalizePath(path);
+            XmlNode pageNode = CommonXml.GetNode(_treeDocument, path, EmptyNodeHandling.Ignore);
+            return pageNode;
+        }
 
-		private XmlNode GetPageNode(string path)
-		{
-			string xPath = NormalizePath(path);
-			XmlNode pageNode = CommonXml.GetNode(m_TreeDocument, path, EmptyNodeHandling.Ignore);
-			return pageNode;
-		}
+        public bool Exists(string path)
+        {
+            XmlNode pageNode = GetPageNode(path);
+            return pageNode != null;
+        }
 
-		public bool Exists(string path)
-		{
-			XmlNode pageNode = GetPageNode(path);
-			if (pageNode == null)
-			{
-				return false;
-			}
-			return true;
-		}
-
-		/// <summary>
-		/// Saves a page.
-		/// </summary>
-		/// <param name="page">The page to save.</param>
+        /// <summary>
+        /// Saves a page.
+        /// </summary>
+        /// <param name="page">The page to save.</param>
         public void SavePage(Page page)
         {
             SavePage(page, true);
         }
 
-        public void SavePage(Page page, bool saveTree)
+        private void SavePage(Page page, bool saveTree)
         {
-            if (page == null)
-            {
-                return;
-            }
+            if (page == null) return;
 
             string filename = GetDocumentFilename(page.TreeNode);
             CommonXml.SaveXmlDocument(filename, page.Node.OwnerDocument);
 
             if (saveTree)
-            {
                 Save();
-            }
         }
 
-		/// <summary>
-		/// Saves the tree.
-		/// </summary>
-		public void Save()
-		{
-            Rebuild();
-			CommonXml.SaveXmlDocument(m_TreeFilename, m_TreeDocument);
-		}
-
-        public void Rebuild()
+        /// <summary>
+        /// Saves the tree.
+        /// </summary>
+        public void Save()
         {
-            foreach (XmlNode pageNode in TreeDocument.SelectNodes("//*[@pageidentifier and not(@pageidentifier = '')]"))
-            {
-                string path = CommonXml.GetXPath(pageNode);
-                Page page = GetPage(path);
-                page["pageidentifier"] = path;
-                SavePage(page, false);
-
-                CommonXml.SetAttributeValue(pageNode, "pageidentifier", path);
-            }
+            Rebuild();
+            CommonXml.SaveXmlDocument(_treeFilename, _treeDocument);
         }
 
-		private static string NormalizePath(string path)
-		{
-			if (path.StartsWith("/"))
-			{
-				path = path.Substring(1);
-			}
-			return path;
+        private void Rebuild()
+        {
+            XmlNodeList xmlNodeList = TreeDocument.SelectNodes("//*[@pageidentifier and not(@pageidentifier = '')]");
+
+            if (xmlNodeList != null)
+                foreach (XmlNode pageNode in xmlNodeList)
+                {
+                    string path = CommonXml.GetXPath(pageNode);
+                    Page page = GetPage(path);
+                    page["pageidentifier"] = path;
+                    SavePage(page, false);
+                    CommonXml.SetAttributeValue(pageNode, "pageidentifier", path);
+                }
         }
 
         #region Copy Page
-        public void CopyTo(string main_value)
+
+        public void CopyTo(string mainValue)
         {
-            string[] parts = main_value.Split('¤');
+            string[] parts = mainValue.Split('¤');
             string copyFromPath = parts[0];
             string copyToPath = parts[1];
             string name = parts[2];
 
             if (copyFromPath.Trim() == string.Empty || copyToPath.Trim() == string.Empty)
             {
-                m_Process.AddMessage("An error occured while copying the page.");
+                _process.AddMessage("An error occured while copying the page.");
                 return;
             }
 
             Page copyFrom = GetPage(copyFromPath);
             Page copyTo = GetPage(copyToPath);
 
-            if (name.Trim() == string.Empty) {
+            if (name.Trim() == string.Empty)
+            {
                 name = string.Format("Copy of {0}", copyFrom.Name);
             }
 
@@ -169,238 +145,243 @@ namespace InventIt.SiteSystem.Data.SiteTree
 
             Save();
         }
+
         #endregion
 
         #region Create Page
+
         public Page Create(string path, string name, string menuName)
-		{
+        {
             name = Common.CleanToSafeString(name);
 
-			// Only lowercase URLs are accepted
-			path = path.ToLower();
-			name = name.ToLower();
+            // Only lowercase URLs are accepted
+            path = path.ToLower();
+            name = name.ToLower();
 
-			if (GetPageNode(path + "/" + name) != null)
-			{
-				// The requested page already exists.
-				return GetPage(path + "/" + name);
-			}
+            if (GetPageNode(path + "/" + name) != null)
+                return GetPage(path + "/" + name); // The requested page already exists.
 
-			// Update filesystem
+            // Update filesystem
             string pathfile = path;
             if (pathfile == ".")
-            {
-                pathfile = "";
-            }
+                pathfile = string.Empty;
 
             CreateFile(pathfile, name, menuName);
 
-			// Update Xml
-			XmlNode pageNode = CreateInTree(path, name, menuName);
+            // Update Xml
+            XmlNode pageNode = CreateInTree(path, name, menuName);
 
-			Save();
+            Save();
 
-			Page page = GetPage(pageNode);
-			InitializeCreatedPage(page);
+            Page page = GetPage(pageNode);
+            InitializeCreatedPage(page);
             return page;
-		}
+        }
 
-		private void CreateFile(string path, string name, string menuName)
-		{
-			string fileDirectory = GetDocumentDirectory(path);
-			string filename = GetDocumentFilename(path, name);
-			Directory.CreateDirectory(fileDirectory);
+        private void CreateFile(string path, string name, string menuName)
+        {
+            string fileDirectory = GetDocumentDirectory(path);
+            string filename = GetDocumentFilename(path, name);
+            Directory.CreateDirectory(fileDirectory);
 
-			XmlDocument document = new XmlDocument();
-			CommonXml.GetNode(document, "page/attributes/pagename", EmptyNodeHandling.CreateNew).InnerText = menuName;
-			CommonXml.SaveXmlDocument(filename, document);
-		}
+            var document = new XmlDocument();
+            CommonXml.GetNode(document, "page/attributes/pagename", EmptyNodeHandling.CreateNew).InnerText = menuName;
+            CommonXml.SaveXmlDocument(filename, document);
+        }
 
-		private XmlNode CreateInTree(string path, string name, string menuName)
-		{
-			XmlNode parentNode = GetPageNode(path);
+        private XmlNode CreateInTree(string path, string name, string menuName)
+        {
+            XmlNode parentNode = GetPageNode(path);
 
-			XmlNode pageNode = m_TreeDocument.CreateElement(name);
-			parentNode.AppendChild(pageNode);
+            XmlNode pageNode = _treeDocument.CreateElement(name);
+            parentNode.AppendChild(pageNode);
 
-			CommonXml.AppendAttribute(pageNode, "menuname", menuName);
-			return pageNode;
-		}
+            CommonXml.AppendAttribute(pageNode, "menuname", menuName);
+            return pageNode;
+        }
 
-		private void InitializeCreatedPage(Page page)
-		{
-            XmlNode xmlNodeContainer = m_Process.Settings.GetAsNode("sitetree/containers");
-            if (xmlNodeContainer.ChildNodes.Count >0 )
-            {
+        private void InitializeCreatedPage(Page page)
+        {
+            XmlNode xmlNodeContainer = _process.Settings.GetAsNode("sitetree/containers");
+            if (xmlNodeContainer.ChildNodes.Count > 0)
                 foreach (XmlNode xmlNode in xmlNodeContainer.ChildNodes)
                 {
-                    Container container = page.Containers[xmlNode.InnerText]; // todo: hack to secure content container.
+                    Container container = page.Containers[xmlNode.InnerText];
+                    // ToDo: hack to secure content container. (old)
                 }
-            }
             else
             {
-                Container container = page.Containers["content"]; // todo: secures older websites - goes obsoletet
+                Container container = page.Containers["content"]; 
+                // ToDo: secures older websites - goes obsoletet (old)
             }
-			
+
             page["status"] = "open";
-			page.Save();
-		}
-		#endregion
+            page.Save();
+        }
 
-		#region Delete Page
-		public void Delete(string path)
-		{
-			Delete(GetPageNode(path));
-		}
+        #endregion
 
-		public void Delete(XmlNode pageNode)
-		{
-			if (pageNode == null)
-			{
-				return;
-			}
+        #region Delete Page
 
-			// Update filesystem
-			DeleteFile(pageNode);
+        public void Delete(string path)
+        {
+            Delete(GetPageNode(path));
+        }
 
-			// Update Xml
-			DeleteInTree(pageNode);
+        private void Delete(XmlNode pageNode)
+        {
+            if (pageNode == null)
+                return;
 
-			Save();
-		}
+            // Update filesystem
+            DeleteFile(pageNode);
 
-		private void DeleteFile(XmlNode pageNode)
-		{
-			string path = CommonXml.GetXPath(pageNode);
-			PagePath pagePath = new PagePath(path);
+            // Update Xml
+            DeleteInTree(pageNode);
 
-			Common.DeleteFile(GetDocumentFilename(pagePath.Path, pagePath.Name));
-			Common.DeleteDirectory(GetDocumentContainerDirectory(pagePath.Path, pagePath.Name));
-		}
+            Save();
+        }
 
-		private static void DeleteInTree(XmlNode pageNode)
-		{
-			if (pageNode == null)
-			{
-				return;
-			}
-			pageNode.ParentNode.RemoveChild(pageNode);
-		}
-		#endregion
+        private void DeleteFile(XmlNode pageNode)
+        {
+            string path = CommonXml.GetXPath(pageNode);
+            var pagePath = new PagePath(path);
 
-		#region Rename page
-		public void Rename(Page page, string renameTo)
-		{
+            Common.DeleteFile(GetDocumentFilename(pagePath.Path, pagePath.Name));
+            Common.DeleteDirectory(GetDocumentContainerDirectory(pagePath.Path, pagePath.Name));
+        }
+
+        private static void DeleteInTree(XmlNode pageNode)
+        {
+            if (pageNode == null)
+            {
+                return;
+            }
+            pageNode.ParentNode.RemoveChild(pageNode);
+        }
+
+        #endregion
+
+        #region Rename page
+
+        public void Rename(Page page, string renameTo)
+        {
             renameTo = Common.CleanToSafeString(renameTo);
-			string oldName = page.TreeNode.Name;
+            string oldName = page.TreeNode.Name;
 
-			if (oldName == renameTo)
-			{
-				return;
-			}
+            if (oldName == renameTo)
+            {
+                return;
+            }
 
-			// Update filesystem
-			RenameFile(page, renameTo);
+            // Update filesystem
+            RenameFile(page, renameTo);
 
-			// Update Xml
-			RenameInTree(page, renameTo);
+            // Update Xml
+            RenameInTree(page, renameTo);
 
-			Save();
-		}
+            Save();
+        }
 
-		private void RenameFile(Page page, string renameTo)
-		{
-			string path = CommonXml.GetXPath(page.TreeNode);
-			PagePath pagePath = new PagePath(path);
+        private void RenameFile(Page page, string renameTo)
+        {
+            string path = CommonXml.GetXPath(page.TreeNode);
+            var pagePath = new PagePath(path);
 
-			// Rename file
-			string oldFilename = GetDocumentFilename(pagePath.Path, pagePath.Name);
-			string newFilename = GetDocumentFilename(pagePath.Path, renameTo);
-			File.Move(oldFilename, newFilename);
+            // Rename file
+            string oldFilename = GetDocumentFilename(pagePath.Path, pagePath.Name);
+            string newFilename = GetDocumentFilename(pagePath.Path, renameTo);
+            File.Move(oldFilename, newFilename);
 
-			// Rename directory
-			string oldDirectory = GetDocumentContainerDirectory(pagePath.Path, pagePath.Name);
-			if (Directory.Exists(oldDirectory))
-			{
-				string newDirectory = GetDocumentContainerDirectory(pagePath.Path, renameTo);
-				Directory.Move(oldDirectory, newDirectory);
-			}
-		}
+            // Rename directory
+            string oldDirectory = GetDocumentContainerDirectory(pagePath.Path, pagePath.Name);
+            if (Directory.Exists(oldDirectory))
+            {
+                string newDirectory = GetDocumentContainerDirectory(pagePath.Path, renameTo);
+                Directory.Move(oldDirectory, newDirectory);
+            }
+        }
 
-		private void RenameInTree(Page page, string renameTo)
-		{
+        private void RenameInTree(Page page, string renameTo)
+        {
             renameTo = Common.CleanToSafeString(renameTo);
 
-			XmlNode newTreeNode = m_TreeDocument.CreateElement(renameTo);
+            XmlNode newTreeNode = _treeDocument.CreateElement(renameTo);
 
-			// Copy children and attributes
-			newTreeNode.InnerXml = page.TreeNode.InnerXml;
-			CommonXml.CopyAttributes(page.TreeNode, newTreeNode);
+            // Copy children and attributes
+            newTreeNode.InnerXml = page.TreeNode.InnerXml;
+            CommonXml.CopyAttributes(page.TreeNode, newTreeNode);
 
-			// Replace old node with new
-			XmlNode parentNode = page.TreeNode.ParentNode;
-			parentNode.ReplaceChild(newTreeNode, page.TreeNode);
-		}
-		#endregion
+            // Replace old node with new
+            XmlNode parentNode = page.TreeNode.ParentNode;
+            parentNode.ReplaceChild(newTreeNode, page.TreeNode);
+        }
 
-		#region Move up / down
-		public void MoveUp(string path)
+        #endregion
+
+        #region Move up / down
+
+        public void MoveUp(string path)
         {
             Page page = GetPage(path);
             MoveUp(page);
         }
-		
-		public void MoveUp(Page page)
-		{
-			CommonXml.MoveUp(page.TreeNode);
-			Save();
-		}
 
-		public void MoveDown(string path)
+        private void MoveUp(Page page)
+        {
+            CommonXml.MoveUp(page.TreeNode);
+            Save();
+        }
+
+        public void MoveDown(string path)
         {
             Page page = GetPage(path);
             MoveDown(page);
         }
-        
-		public void MoveDown(Page page)
-		{
-			CommonXml.MoveDown(page.TreeNode);
-			Save();
-		}
-        public void MoveTop(Page page)
+
+        private void MoveDown(Page page)
+        {
+            CommonXml.MoveDown(page.TreeNode);
+            Save();
+        }
+
+        private void MoveTop(Page page)
         {
             CommonXml.MoveTop(page.TreeNode);
             Save();
         }
+
         public void MoveTop(string path)
         {
             Page page = GetPage(path);
             MoveTop(page);
         }
 
-        public void MoveBottom(Page page)
+        private void MoveBottom(Page page)
         {
             CommonXml.MoveBottom(page.TreeNode);
             Save();
         }
+
         public void MoveBottom(string path)
         {
             Page page = GetPage(path);
             MoveBottom(page);
         }
-       
-		#endregion
 
-		#region Move
-		public void Move(string path, string newParentPath)
-		{
-			Page page = GetPage(path);
+        #endregion
+
+        #region Move
+
+        public void Move(string path, string newParentPath)
+        {
+            Page page = GetPage(path);
             Page newParent = GetPage(newParentPath);
             Move(page, newParent);
-		}
+        }
 
-		public void Move(Page page, Page newParent)
-		{
+        private void Move(Page page, Page newParent)
+        {
             if (page.Node != newParent.Node && !newParent.PageIdentifier.StartsWith(page.PageIdentifier))
             {
                 string sourcePath = page.PageIdentifier;
@@ -431,7 +412,10 @@ namespace InventIt.SiteSystem.Data.SiteTree
                 {
                     Common.DeleteDirectory(sourceDirectory);
                 }
-                catch { /* Ignore errors */ }
+                catch
+                {
+                    /* Ignore errors */
+                }
 
                 Save();
             }
@@ -439,71 +423,75 @@ namespace InventIt.SiteSystem.Data.SiteTree
             {
                 throw new Exception("Cannot move page to child");
             }
-		}
-		#endregion
-
-		#region Directory and filename handling
-		private string GetDocumentContainerDirectory(string path, string name)
-		{
-			return Path.Combine(path, name);
-		}
-
-		private string GetDocumentDirectory(string path)
-		{
-			string directory = Path.Combine(m_ContentRoot, path);
-			return directory;
-		}
-
-		private string GetDocumentFilename(XmlNode treeNode)
-		{
-			string path = CommonXml.GetXPath(treeNode);
-			return GetDocumentFilename(path);
-		}
-
-		private string GetDocumentFilename(string fullPath)
-		{
-			PagePath pagePath = new PagePath(fullPath);
-			return GetDocumentFilename(pagePath.Path, pagePath.Name);
-		}
-
-		private string GetDocumentFilename(string path, string name)
-		{
-			string directory = GetDocumentDirectory(path);
-			string filename = Path.Combine(directory, string.Format(m_ContentFilenameFormat, name));
-			return filename;
-		}
-
-        private void RemoveSvnDirectories(string root)
-        {
-            string fullPath = Common.CheckedCombinePaths(root, ".svn");
-            if (Directory.Exists(fullPath))
-            {
-                DirectoryInfo dirInfo = new DirectoryInfo(fullPath);
-                if ((dirInfo.Attributes & FileAttributes.ReadOnly) != 0)
-                {
-                    dirInfo.Attributes = FileAttributes.Directory;
-                }
-
-                try
-                {
-                    Directory.Delete(fullPath, true);
-                }
-                catch
-                {
-                }
-            }
-
-            DirectoryInfo dir = new DirectoryInfo(root);
-            foreach (DirectoryInfo directory in dir.GetDirectories())
-            {
-                if (directory.Name != ".svn")
-                {
-                    RemoveSvnDirectories(directory.FullName);
-                }
-            }
         }
-		#endregion
 
-	//	private static string 
-	}
+        #endregion
+
+        #region Directory and filename handling
+
+        private static string GetDocumentContainerDirectory(string path, string name)
+        {
+            return Path.Combine(path, name);
+        }
+
+        private string GetDocumentDirectory(string path)
+        {
+            string directory = Path.Combine(_contentRoot, path);
+            return directory;
+        }
+
+        private string GetDocumentFilename(XmlNode treeNode)
+        {
+            string path = CommonXml.GetXPath(treeNode);
+            return GetDocumentFilename(path);
+        }
+
+        private string GetDocumentFilename(string fullPath)
+        {
+            var pagePath = new PagePath(fullPath);
+            return GetDocumentFilename(pagePath.Path, pagePath.Name);
+        }
+
+        private string GetDocumentFilename(string path, string name)
+        {
+            string directory = GetDocumentDirectory(path);
+            string filename = Path.Combine(directory, string.Format(_contentFilenameFormat, name));
+            return filename;
+        }
+
+        //private void RemoveSvnDirectories(string root)
+        //{
+        //    string fullPath = Common.CheckedCombinePaths(root, ".svn");
+        //    if (Directory.Exists(fullPath))
+        //    {
+        //        var dirInfo = new DirectoryInfo(fullPath);
+        //        if ((dirInfo.Attributes & FileAttributes.ReadOnly) != 0)
+        //            dirInfo.Attributes = FileAttributes.Directory;
+
+        //        try
+        //        {
+        //            Directory.Delete(fullPath, true);
+        //        }
+        //        catch
+        //        {
+
+        //        }
+        //    }
+
+        //    var dir = new DirectoryInfo(root);
+        //    foreach (DirectoryInfo directory in dir.GetDirectories())
+        //        if (directory.Name != ".svn")
+        //            RemoveSvnDirectories(directory.FullName);
+        //}
+
+        #endregion
+
+        //private static string NormalizePath(string path)
+        //{
+        //    if (path.StartsWith("/"))
+        //        path = path.Substring(1);
+
+        //    return path;
+        //}
+    }
 }
