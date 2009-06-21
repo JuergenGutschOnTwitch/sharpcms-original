@@ -57,25 +57,25 @@
         <script type="text/javascript" src="System/Components/Admin/Scripts/collapseexpand.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="System/Components/Admin/Scripts/tinymce/tiny_mce.js">
+        <script type="text/javascript" src="System/Components/Admin/Scripts/tiny_mce/tiny_mce.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript">
-          tinyMCE.baseURL = '<xsl:value-of select="/data/basepath"/>/System/Components/Admin/Scripts/tinymce';
-          tinyMCE.srcMode = '';
+          tinyMCE.baseURL = '<xsl:value-of select="/data/basepath"/>/System/Components/Admin/Scripts/tiny_mce';
           tinyMCE.init({
           mode : "textareas",
           relative_urls : true,
           document_base_url : "<xsl:value-of select="/data/basepath" />/",
-          plugins : "sharpcmschooser",
+          plugins : "sharpcmschooser,fullscreen,spellchecker,table",
           theme : "advanced",
           content_css : "<xsl:value-of select="/data/basepath"/><xsl:text>/</xsl:text>System/Components/Admin/Styles/tinystyle.css",
-          valid_elements : "blockquote,img[src|width|height],font[color],a[href|target],strong/b,div[align],br,h1,h2,h3,p[align],ul,li,ol,i,italic,em,b,table,tr,td",
-          theme_advanced_buttons1 : "formatselect,cleanup,forecolor,bold,italic,underline,strikethrough,justifyleft,justifycenter,image,bullist,numlist,undo,redo,link,unlink",
-          theme_advanced_buttons2 : "indent,outdent,sharpcmschooser,code",
+          valid_elements : "blockquote,|,img[src|width|height],font[color],a[href|target],strong/b,div[align],br,h1,h2,h3,p[align],ul,li,ol,i,italic,em,b,table,tr,td",
+          theme_advanced_buttons1 : "fullscreen,formatselect,cleanup,forecolor,bold,italic,underline,strikethrough,justifyleft,justifycenter,image,indent,outdent,bullist,numlist,undo,redo,link,unlink",
+          theme_advanced_buttons2 : "tablecontrols,|,sharpcmslinkchooser,sharpcmsfilechooser,sharpcmsimagechooser,|,code",
           theme_advanced_buttons3 : "",
           theme_advanced_toolbar_location : "top",
           theme_advanced_toolbar_align : "left",
+          theme_advanced_statusbar_location : "bottom",
           editor_selector : "mceeditor"});
         </script>
       </head>

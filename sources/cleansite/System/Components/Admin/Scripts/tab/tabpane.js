@@ -101,32 +101,20 @@ function WebFXTabPane( el, bUseCookie,numtabs ) {
 			tabIndex = 0;
 	}
 	
-	
-    
 	var cs = el.childNodes;
 	
 	// addded by inventit
-	
-    if(tabIndex > numtabs -1 )
-    {
-        tabIndex = 0;
-    }
- 
-	    
+
+	if (tabIndex > numtabs - 1)
+    tabIndex = 0;
+
 	this.selectedIndex = tabIndex;
 	// loop through child nodes and add them
 	
 	var n;
-	for (var i = 0; i < cs.length; i++) {
-	
-		if (cs[i].nodeType == 1 && cs[i].className == "tab-page") {
+	for (var i = 0; i < cs.length; i++)	
+		if (cs[i].nodeType == 1 && cs[i].className == "tab-page")
 			this.addTabPage( cs[i] );
-			
-		}
-	}
-	
-	
-	
 }
 
 WebFXTabPane.prototype.classNameTag = "dynamic-tab-pane-control";
@@ -134,7 +122,8 @@ WebFXTabPane.prototype.classNameTag = "dynamic-tab-pane-control";
 WebFXTabPane.prototype.setSelectedIndex = function ( n ) {
 	if (this.selectedIndex != n) {
 		if (this.selectedIndex != null && this.pages[ this.selectedIndex ] != null )
-			this.pages[ this.selectedIndex ].hide();
+		  this.pages[this.selectedIndex].hide();
+
 		this.selectedIndex = n;
 		this.pages[ this.selectedIndex ].show();
 		
@@ -204,13 +193,6 @@ WebFXTabPane.removeCookie = function ( name ) {
 	setCookie( name, "", -1 );
 };
 
-
-
-
-
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////
 // The constructor for tab pages. This one should not be used.
 // Use WebFXTabPage.addTabPage instead
@@ -235,8 +217,7 @@ function WebFXTabPage( el, tabPane, nIndex ) {
 	}
 	
 	// insert a tag around content to support keyboard navigation
-	
-	
+		
 	var a = document.createElement( "A" );
 	this.aElement = a;
 	a.href = "#";
@@ -244,7 +225,6 @@ function WebFXTabPage( el, tabPane, nIndex ) {
 	while ( this.tab.hasChildNodes() )
 		a.appendChild( this.tab.firstChild );
 	this.tab.appendChild( a );
-
 	
 	// hook up events, using DOM0
 	var oThis = this;
@@ -301,7 +281,6 @@ WebFXTabPage.tabOut = function ( tabpage ) {
 	el.className = s;
 };
 
-
 // This function initializes all uninitialized tab panes and tab pages
 function setupAllTabs() {
 	if ( !hasSupport() ) return;
@@ -330,8 +309,6 @@ function setupAllTabs() {
 			el.parentNode.tabPane.addTabPage( el );			
 		}
 	}
-	
-
 }
 
 function disposeAllTabs() {
@@ -360,7 +337,6 @@ function disposeAllTabs() {
 		tabPanes[i] = null;
 	}
 }
-
 
 // initialization hook up
 
