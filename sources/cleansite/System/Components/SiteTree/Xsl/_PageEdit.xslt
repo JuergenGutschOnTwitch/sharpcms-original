@@ -80,14 +80,13 @@
       <xsl:call-template name="topelements" />
     </div>
     <div id="tabpagecontent" class="tab-pane" style="float: left;">
-      <script type="text/javascript">
-        tp1 = new WebFXTabPane(document.getElementById("tabpagecontent"), true, <xsl:value-of select="count(containers/container)" />);
-      </script>
-      <xsl:apply-templates mode="form" select="containers/container" />
+      <div id="tabs">
+        <ul>
+          <xsl:apply-templates mode="tab" select="containers/container" />
+        </ul>
+        <xsl:apply-templates mode="panel" select="containers/container" />
+      </div>
     </div>
-    <script type="text/javascript">
-      // setupAllTabs();
-    </script>
     <div class="menu pagedata_menu bottom">
       <a class="button" href="javascript:ThrowEvent('save','');">Save</a>
       <a class="button" href="javascript:ThrowEvent('save','openwindow');">
@@ -96,20 +95,24 @@
     </div>
   </xsl:template>
 
-  <xsl:template mode="form" match="container">
+  <xsl:template mode="tab" match="container">
+    <li>
+      <a>
+        <xsl:attribute name="href">
+          <xsl:text>#tabs-</xsl:text>
+          <xsl:number level="any" />
+        </xsl:attribute>
+        <xsl:value-of select="@name" />
+      </a>
+    </li>
+  </xsl:template>
+
+  <xsl:template mode="panel" match="container">
     <div class="tab-page">
       <xsl:attribute name="id">
-        <xsl:text>tab</xsl:text>
-        <xsl:value-of select="@name" />
+        <xsl:text>tabs-</xsl:text>
+        <xsl:number level="any" />
       </xsl:attribute>
-      <h2 class="tab">
-        <xsl:value-of select="@name" />
-      </h2>
-      <script type="text/javascript">
-        <xsl:text>tp1.addTabPage(document.getElementById("tab</xsl:text>
-        <xsl:value-of select="@name" />
-        <xsl:text>"));</xsl:text>
-      </script>
 
       <div class="menu container_menu">
         <a class="button">
@@ -208,10 +211,23 @@
     <xsl:param name="id" />
     <xsl:variable select="@attribute" name="attribute" />
     <label>
-      <xsl:value-of  select="@name" />
+      <xsl:value-of select="@name" />
     </label>
     <div class="item">
       <textarea name="{$id}_{@attribute}">
+        <xsl:if test="@height or $id='data_attribute'">
+          <xsl:attribute name="style">
+            <xsl:if test="@height and not(@height='')">
+              <xsl:text>height:</xsl:text>
+              <xsl:value-of select="@height" />
+              <xsl:text>px;</xsl:text>
+            </xsl:if>
+            <xsl:if test="$id='data_attribute'">
+              <xsl:text>width:</xsl:text>
+              <xsl:text>634px;</xsl:text>
+            </xsl:if>
+          </xsl:attribute>
+        </xsl:if>
         <xsl:value-of select="$currentelement/*[name()=$attribute]" />
       </textarea>
     </div>

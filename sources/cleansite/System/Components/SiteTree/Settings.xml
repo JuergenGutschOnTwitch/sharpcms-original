@@ -9,7 +9,7 @@
         <item name="Page name" attribute="pagename" type="text" />
         <item name="Last edited" attribute="lastedited" type="text" />
         <item name="Keywords" attribute="metakeywords" type="text" />
-        <item name="Description" attribute="metadescription" type="text" />
+        <item name="Description" attribute="metadescription" type="textarea" />
         <item name="Status" attribute="status" type="statuslist" />
       </top>
     </elementlist>

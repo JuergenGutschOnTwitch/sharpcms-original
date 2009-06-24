@@ -32,14 +32,14 @@
         </title>
         <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
         <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tree/dtree.css" />
-        <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tab/tab.css" />
+        <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/jquery/ui.tabs.min.css" />
         <!--[if IE 7]>
 	      <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/ie.css" />
         <![endif]-->
         <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery-1.3.2.min.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="System/Components/Admin/Scripts/tab/tabpane.js">
+        <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery-ui-1.7.2.custom.min.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="System/Components/Admin/Scripts/tree/dtree.js">
@@ -77,6 +77,10 @@
           theme_advanced_toolbar_align : "left",
           theme_advanced_statusbar_location : "bottom",
           editor_selector : "mceeditor"});
+
+          $(function() {
+            $("#tabs").tabs();
+          });
         </script>
       </head>
       <body>

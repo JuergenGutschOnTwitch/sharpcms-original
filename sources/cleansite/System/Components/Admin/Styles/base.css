@@ -123,7 +123,7 @@ label {
 
 .head div.title {
 	color: #486C82;
-	float: left; 
+	float: left;
 	font-weight: bold;
 }
 
@@ -132,7 +132,7 @@ label {
 }
 
 .head div.viewstate p {
-	color: #486C82; 
+	color: #486C82;
 	cursor: pointer;
 	font-weight: bold;
 }
@@ -315,7 +315,7 @@ a.button:hover {
 
 
 /*************************************************************************/
-/*															 PageData Body
+/*                                                           PageData Body
 /*************************************************************************/
 .pagedata_body {
 	width: 636px;
@@ -355,10 +355,6 @@ a.button:hover {
 /*************************************************************************/
 /*                                                                    Tabs
 /*************************************************************************/
-.tab-row {
-	float: left;
-}
-
 .tab-pane {
 	float: left;
 	margin-top: 10px;
@@ -367,8 +363,7 @@ a.button:hover {
 
 .tab-page {
 	float: left;
-	margin-top: -21px; /* bad :-( */
-	margin-bottom: 29px; /* bad :-( */
+	margin-bottom: 10px;
 	width: 632px;
 }
 
@@ -386,9 +381,10 @@ a.button:hover {
 /*************************************************************************/
 .element_head {
 	background-color: white;
+	border-bottom: none;
 	float: left;
 	height: 22px;
-	margin-top: 10px;
+	margin-top: 8px;
 	padding: 6px 0 2px 0;
 	width: 630px;
 }
