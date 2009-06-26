@@ -57,6 +57,7 @@ namespace InventIt.SiteSystem.Providers
             {
                 if (_process.QueryOther["page"] == "")
                     _process.QueryOther["page"] = _process.Settings["sitetree/stdpage"];
+
                 return _process.QueryOther["page"];
             }
         }
@@ -285,7 +286,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleSave()
         {
-            bool isPublishReset = false;
+            string elementName = String.Empty;
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
 
             for (int i = 0; i < _process.QueryData.Count; i++)
@@ -303,26 +304,23 @@ namespace InventIt.SiteSystem.Providers
                                 XmlNode xmlNode = currentPage.GetAttribute(queryParts[1]);
                                 xmlNode.InnerText = "";
                                 foreach (string tmpstring in query.Value.Split('\n'))
-                                    CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew).InnerText =
-                                        tmpstring;
+                                    CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew).InnerText = tmpstring;
                             }
                             else
                                 currentPage[queryParts[1]] = query.Value;
                             break;
                         case "element":
+                            Container container = currentPage.Containers[int.Parse(queryParts[1]) - 1];
+
                             if (queryParts[3].EndsWith("-list"))
                             {
-                                XmlNode xmlNode =
-                                    CommonXml.GetNode(
-                                        currentPage.Containers[int.Parse(queryParts[1]) - 1].Elements[
-                                            int.Parse(queryParts[2]) - 1].Node, queryParts[3]);
+                                XmlNode xmlNode = CommonXml.GetNode(container.Elements[int.Parse(queryParts[2]) - 1].Node, queryParts[3]);
                                 xmlNode.InnerText = String.Empty;
                                 foreach (string tmpstring in query.Value.Split('\n'))
                                 {
                                     if (tmpstring != String.Empty)
                                     {
-                                        XmlNode tmpNode = CommonXml.GetNode(xmlNode, "item",
-                                                                            EmptyNodeHandling.ForceCreateNew);
+                                        XmlNode tmpNode = CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew);
                                         tmpNode.InnerText = tmpstring;
                                         CommonXml.AppendAttribute(tmpNode, "id", Common.CleanToSafeString(tmpstring));
                                     }
@@ -330,13 +328,10 @@ namespace InventIt.SiteSystem.Providers
                             }
                             else
                             {
-                                Container container = currentPage.Containers[int.Parse(queryParts[1]) - 1];
-
-                                if (!isPublishReset)
+                                if (elementName != query.Name.Substring(0, query.Name.LastIndexOf('_')))
                                 {
-                                    container.Elements[int.Parse(queryParts[2]) - 1].Publish =
-                                        false.ToString().ToLower();
-                                    isPublishReset = true;
+                                    elementName = query.Name.Substring(0, query.Name.LastIndexOf('_'));
+                                    container.Elements[int.Parse(queryParts[2]) - 1].Publish = false.ToString().ToLower();
                                 }
 
                                 if (query.Name.EndsWith("elementtitle"))
