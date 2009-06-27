@@ -42,6 +42,9 @@
         <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery-ui-1.7.2.custom.min.js">
           <xsl:text> </xsl:text>
         </script>
+        <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery.url.packed.js">
+          <xsl:text> </xsl:text>
+        </script>
         <script type="text/javascript" src="System/Components/Admin/Scripts/tree/dtree.js">
           <xsl:text> </xsl:text>
         </script>
@@ -81,6 +84,7 @@
             external_link_list_url : "js/link_list.js",
             external_image_list_url : "js/image_list.js",
             media_external_list_url : "js/media_list.js",
+            editor_selector : "mceeditor"
           });
         </script>
         <script type="text/javascript">

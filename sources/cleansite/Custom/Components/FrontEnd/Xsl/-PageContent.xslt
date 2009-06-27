@@ -5,6 +5,31 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns="http://www.w3.org/1999/xhtml">
 
+  <xsl:template name="edit">
+    <xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>editlink</xsl:text>
+        </xsl:attribute>
+        <a>
+          <xsl:attribute name="href">
+            <xsl:value-of select="/data/basepath" />
+            <xsl:text>/admin/page/edit/</xsl:text>
+            <xsl:value-of select="//data/attributes/pageroot" />
+            <xsl:text>/</xsl:text>
+            <xsl:value-of select="/data/contenttwo/page/attributes/menuname" />
+            <xsl:text>.aspx?e=</xsl:text>
+            <xsl:text>element_</xsl:text>
+            <xsl:number count="container" />
+            <xsl:text>_</xsl:text>
+            <xsl:number count="element" />
+          </xsl:attribute>
+          <xsl:text>Edit</xsl:text>
+        </a>
+      </div>
+    </xsl:if>
+  </xsl:template>
+  
 	<xsl:template mode="show" match="container[@name='content']">
 		<xsl:apply-templates mode="show" select="elements/element" />
 	</xsl:template>
@@ -12,9 +37,10 @@
   <xsl:template mode="show" match="container[@name='news']">
 		<xsl:apply-templates mode="show" select="elements/element" />
 	</xsl:template>
-
+  
 	<xsl:template mode="show" match="element[@type='sitemap']">
-		<xsl:variable name="language">
+    <xsl:call-template name="edit" />
+    <xsl:variable name="language">
 			<xsl:choose>
 				<xsl:when test="contains(//data/attributes/pageroot, 'english')">
 					<xsl:text>english</xsl:text>
@@ -109,7 +135,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='block']">
-		<dl>
+    <xsl:call-template name="edit" />
+    <dl>
 			<xsl:if test="title and not(title='')">
 				<dt>
 					<xsl:choose>
@@ -179,7 +206,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='gallery']">
-		<xsl:variable select="folder/@path" name="path" />
+    <xsl:call-template name="edit" />
+    <xsl:variable select="folder/@path" name="path" />
 		<xsl:if test="//data/query/data/picture">
 			<img>
 				<xsl:attribute name="src">
@@ -214,7 +242,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='paragraph']">
-		<xsl:if test="picture and not(picture='')">
+    <xsl:call-template name="edit" />
+    <xsl:if test="picture and not(picture='')">
 			<img>
 				<xsl:attribute name="src">
 					<xsl:text>default.aspx?process=download/</xsl:text>
@@ -257,7 +286,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='header']">
-		<xsl:if test="text and not(text='')">
+    <xsl:call-template name="edit" />
+    <xsl:if test="text and not(text='')">
 			<xsl:choose>
 				<xsl:when test="headerstyle='Header1'">
 					<h1>
@@ -294,7 +324,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='picture']">
-		<xsl:if test="picture and not(picture='')">
+    <xsl:call-template name="edit" />
+    <xsl:if test="picture and not(picture='')">
 			<p>
 				<img style="border:none 0px;">
 					<xsl:attribute name="src">
@@ -317,7 +348,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='iframe']">
-		<iframe>
+    <xsl:call-template name="edit" />
+    <iframe>
 			<xsl:if test="width and not(width='')">
 				<xsl:attribute name="width">
 					<xsl:value-of select="width" />
@@ -344,7 +376,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='code']">
-		<pre>
+    <xsl:call-template name="edit" />
+    <pre>
 			<xsl:if test="not(text = '') and text">
 				<xsl:value-of disable-output-escaping="yes" select="text" />
 			</xsl:if>
@@ -352,7 +385,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='form']">
-		<form name="systemform" id="systemform" method="post" enctype="multipart/form-data">
+    <xsl:call-template name="edit" />
+    <form name="systemform" id="systemform" method="post" enctype="multipart/form-data">
 			<xsl:attribute name="action">
 				<xsl:value-of select="/data/query/other/process" />
 				<xsl:text disable-output-escaping="yes">.aspx</xsl:text>
@@ -489,13 +523,15 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='freetext']">
-		<xsl:if test="not(text = '') and text">
+    <xsl:call-template name="edit" />
+    <xsl:if test="not(text = '') and text">
 			<xsl:value-of disable-output-escaping="yes" select="text" />
 		</xsl:if>
 	</xsl:template>
 
   <xsl:template mode="show" match="element[@type='publishsample']">
-    <xsl:if test="@publish = '' or @publish = 'true'">
+    <xsl:call-template name="edit" />
+    <xsl:if test="@publish = '' or @publish = 'true' or //data/basedata/currentuser/groups/group[contains(., 'admin')]">
       <xsl:if test="not(text = '') and text">
         <xsl:value-of disable-output-escaping="yes" select="text" />
       </xsl:if>
@@ -503,7 +539,8 @@
   </xsl:template>
 
   <xsl:template mode="show" match="element[@type='rssfeed']">
-		<xsl:if test="not(url = '') and url">
+    <xsl:call-template name="edit" />
+    <xsl:if test="not(url = '') and url">
 			<xsl:if test="document(url)">
 				<xsl:for-each select="document(url)/rss">
 					<xsl:apply-templates />
@@ -513,7 +550,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='faqhead']">
-		<xsl:value-of select="text" disable-output-escaping="yes" />
+    <xsl:call-template name="edit" />
+    <xsl:value-of select="text" disable-output-escaping="yes" />
 		<ul>
 			<xsl:for-each select="//element[@type='faq']">
 				<li>
@@ -533,7 +571,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='faq']">
-		<p class="contentHeader" style="margin-bottom:0px;">
+    <xsl:call-template name="edit" />
+    <p class="contentHeader" style="margin-bottom:0px;">
 			<b>
 				<xsl:value-of select="position()-2" />.
 				<xsl:value-of select="question" />
@@ -549,7 +588,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='overview']">
-		<xsl:for-each select="/data/contentone/sitetree/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']">
+    <xsl:call-template name="edit" />
+    <xsl:for-each select="/data/contentone/sitetree/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']">
 			<ul class="overview">
 				<xsl:apply-templates mode="overviewlistitems" select="*[@status='open']" />
 			</ul>
@@ -557,7 +597,8 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="*">
-		<div>
+    <xsl:call-template name="edit" />
+    <div>
 			<xsl:attribute name="class">
 				<xsl:text>element-</xsl:text>
 				<xsl:value-of select="@type" />
@@ -575,7 +616,8 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="overviewlistitems">
-		<li>
+    <xsl:call-template name="edit" />
+    <li>
 			<xsl:if test="not(@lastedited = '') and @lastedited">
 				<xsl:value-of select="@lastedited" />
 				<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>

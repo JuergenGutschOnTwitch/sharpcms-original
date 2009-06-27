@@ -20,7 +20,7 @@
           <xsl:text> </xsl:text>
         </script>
       </head>
-      <body>
+      <body onLoad="document.systemform.data_login.focus()">
         <div class="login">
           <form name="systemform" method="post" encType="multipart/form-data">
             <xsl:attribute name="action">

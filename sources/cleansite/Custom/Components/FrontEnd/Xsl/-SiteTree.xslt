@@ -30,6 +30,23 @@
 						</a>
 					</li>
 				</xsl:for-each>
+        <xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
+          <li>
+            <a>
+              <xsl:attribute name="class">
+                <xsl:choose>
+                  <xsl:when test="@inpath='true'">sel</xsl:when>
+                </xsl:choose>
+              </xsl:attribute>
+              <xsl:attribute name="href">
+                <xsl:value-of select="/data/basepath" />
+                <xsl:text>/admin.aspx</xsl:text>
+              </xsl:attribute>
+              <span>Administation</span>
+              <span class="hide"> | </span>
+            </a>
+          </li>
+        </xsl:if>
 			</ul>
 		</div>
 	</xsl:template>

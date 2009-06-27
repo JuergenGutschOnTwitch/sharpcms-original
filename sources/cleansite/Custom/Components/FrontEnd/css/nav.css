@@ -17,85 +17,78 @@
 @media all
 {
 	/*------------------------------------------------------------------------------------------------------*/
-	
-    #head1 #topmenu
-    {
-        float: right;
-    }
-    #head1 #topmenu ul, #topmenu li
-    {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        list-style-image: none;
-    }
-    #head1 #topmenu li
-    {
-        float: right;
-        display: block;
-    }
-    #head1 #topmenu li a
-    {
-        display: block;
-        margin: 0.4em 1em 0.4em 1em;
-        text-decoration: none;
-    }
-    #head1 #topmenu li a span
-    {
-        font-size: 1em;
-        font-weight: bold;
-        color: #7697AB;
-    }
-	
-    #menu ul, #menu li
-    {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        list-style-image: none;
-    }
-    #menu li
-    {
-        float: left;
-        display: block;
-    }
-    #menu li a
-    {
-        display: block;
-        margin: 0.5em 1em 0.5em 1em;
-        text-decoration: none;
-    }
-    #menu li a span
-    {
-        font-size: 1em;
-        font-weight: bold;
-        color: #FFFFFF;
-    }
-
-
-	#submenu ul, #submenu ul li
-	{
-		padding: 0px;
-		margin: 0px;
-		list-style: none;
-		list-style-image:none;
+	#head1 #topmenu {
+	 float: right;
 	}
-	#submenu ul li
-	{
+	
+	#head1 #topmenu ul, #topmenu li {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		list-style-image: none;
 	}
-	#submenu ul li a
-	{
-	    font-weight:bold;
+	
+	#head1 #topmenu li {
+		float: right;
+		display: block;
+	}
+	
+	#head1 #topmenu li a {
+		display: block;
+		margin: 0.4em 1em 0.4em 1em;
 		text-decoration: none;
-        color: #7697AB;
 	}
-	#submenu ul li a:hover
-	{
-		color: #617C8C;
-	}
-	#submenu ul li a.sel
-	{
-		color: #617C8C;
+	
+	#head1 #topmenu li a span {
+		font-size: 1em;
+		font-weight: bold;
+		color: #7697ab;
 	}
 
+	#menu ul, #menu li {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		list-style-image: none;
+	}
+	
+	#menu li {
+		float: left;
+		display: block;
+	}
+	
+	#menu li a {
+		display: block;
+		margin: 0.5em 1em 0.5em 1em;
+		text-decoration: none;
+	}
+	
+	#menu li a span {
+		font-size: 1em;
+		font-weight: bold;
+		color: #ffffff;
+	}
+
+	#submenu ul, #submenu ul li {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		list-style-image: none;
+	}
+
+	#submenu ul li { }
+
+	#submenu ul li a {
+		font-weight: bold;
+		text-decoration: none;
+		color: #7697ab;
+	}
+
+	#submenu ul li a:hover {
+		color: #617c8c;
+	}
+
+	#submenu ul li a.sel {
+		color: #617c8c;
+	}
 }

@@ -43,8 +43,15 @@
       </div>
     </div>
     <div class="menu pagedata_menu top">
-      <a class="button" href="javascript:ThrowEvent('save','');">Save</a>
-      <a class="button" href="javascript:ThrowEvent('save','openwindow');">Save and show</a>
+      <a class="button" href="javascript:ThrowEvent('save','');">
+        <xsl:text>Save</xsl:text>
+      </a>
+      <a class="button" href="javascript:ThrowEvent('save','openwindow');">
+        <xsl:text>Save and show</xsl:text>
+      </a>
+      <a class="button" href="javascript:ThrowEvent('','openwindow');">
+        <xsl:text>Show</xsl:text>
+      </a>
       <select name="adminmoreactions" id="adminmoreactions" onChange="eval(adminmoreactions.options[adminmoreactions.selectedIndex].value);">
         <option value="">More actions...</option>
         <option value="ThrowEventConfirm('removepage', '{attributes/pageidentifier}', 'Do you want to delete the page?');">
@@ -88,9 +95,14 @@
       </div>
     </div>
     <div class="menu pagedata_menu bottom">
-      <a class="button" href="javascript:ThrowEvent('save','');">Save</a>
+      <a class="button" href="javascript:ThrowEvent('save','');">
+        <xsl:text>Save</xsl:text>
+      </a>
       <a class="button" href="javascript:ThrowEvent('save','openwindow');">
-        Save and show
+        <xsl:text>Save and show</xsl:text>
+      </a>
+      <a class="button" href="javascript:ThrowEvent('','openwindow');">
+        <xsl:text>Show</xsl:text>
       </a>
     </div>
   </xsl:template>
@@ -159,7 +171,9 @@
       </xsl:attribute>
       <xsl:attribute name="id">
         <xsl:text>element_</xsl:text>
-        <xsl:number count="container" />_<xsl:number count="element" />
+        <xsl:number count="container" />
+        <xsl:text>_</xsl:text>
+        <xsl:number count="element" />
         <xsl:text>_body</xsl:text>
       </xsl:attribute>
       <xsl:variable name="currentelement" select="." />
@@ -469,6 +483,13 @@
 
   <xsl:template name="elementtop">
     <div>
+      <xsl:attribute name="id">
+        <xsl:text>element_</xsl:text>
+        <xsl:number count="container" />
+        <xsl:text>_</xsl:text>
+        <xsl:number count="element" />
+        <xsl:text>_anchor</xsl:text>
+      </xsl:attribute>
       <xsl:attribute name="class">
         <xsl:text>menu element_head</xsl:text>
       </xsl:attribute>
