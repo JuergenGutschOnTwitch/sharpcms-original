@@ -12,6 +12,10 @@
     <AssemblyName>Cookies</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,6 +60,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)cleansite\System\Components\Base\Plugins" /y
-copy "$(TargetDir)" "$(SolutionDir)cleansite\Bin" /y</PostBuildEvent>
+copy "$(TargetDir)" "$(SolutionDir)cleansite\Bin" /y
+copy "$(TargetDir)" "$(SolutionDir)resources" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>
