@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using InventIt.SiteSystem.Data.SiteTree;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
@@ -22,74 +21,78 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private const int MaxResults = 5;
 
-        private readonly Page _currentPage;
-        private readonly string _indexDir;
-        private readonly Process _process;
-        private readonly string _searchPage;
+        private readonly Page currentPage;
+        private readonly string indexDir;
+        private readonly Process process;
+        private readonly string searchPage;
 
         /// <summary>
         /// Time it took to make the search.
         /// </summary>
-        private TimeSpan _duration;
+        private TimeSpan duration;
 
         /// <summary>
         /// First item on page (user format).
         /// </summary>
-        private int _fromItem;
+        private int fromItem;
 
-        private string _query;
+        private string query;
 
-        private int _startAt;
+        private int startAt;
 
         /// <summary>
         /// First item on page (index format).
         /// </summary>
-        private int _startFirstAt;
+        private int startFirstAt;
 
         /// <summary>
         /// Last item on page (user format).
         /// </summary>
-        private int _toItem;
+        private int toItem;
 
         /// <summary>
         /// Total items returned by search.
         /// </summary>
-        private int _total;
+        private int total;
 
         public Search(Process process)
         {
-            _process = process;
+            this.process = process;
 
-            string mainVal = _process.QueryData["mainvalue"];
+            string mainVal = this.process.QueryData["mainvalue"];
             if (string.IsNullOrEmpty(mainVal))
             {
-                string mStartAt = _process.QueryData["start"];
-                _startAt = string.IsNullOrEmpty(mStartAt) ? 0 : int.Parse(mStartAt);
+                string mStartAt = this.process.QueryData["start"];
+                startAt = string.IsNullOrEmpty(mStartAt) ? 0 : int.Parse(mStartAt);
             }
             else
-                _startAt = int.Parse(mainVal);
+            {
+                startAt = int.Parse(mainVal);
+            }
 
-            _indexDir = _process.Settings["search/index"];
+            indexDir = this.process.Settings["search/index"];
 
             //jig: search only one section
-            string[] s = _process.CurrentProcess.Split('/');
+            string[] s = this.process.CurrentProcess.Split('/');
             if (s.Length >= 2)
-                _indexDir = Path.Combine(_indexDir, s[1]);
+            {
+                indexDir = Path.Combine(indexDir, s[1]);
+            }
 
-            _searchPage = "show/";
+            searchPage = "show/";
 
-            string pageID = _process.QueryData["pageidentifier"];
-            _currentPage = new SiteTree(_process).GetPage(pageID);
+            string pageID = this.process.QueryData["pageidentifier"];
+            currentPage = new SiteTree(this.process).GetPage(pageID);
         }
 
         public int StartAt
         {
-            set { _startAt = value; }
+            set { startAt = value; }
         }
 
         private string Query
         {
-            get { return _query; }
+            get { return query; }
         }
 
         /// <summary>
@@ -99,9 +102,10 @@ namespace InventIt.SiteSystem.Providers
         {
             get
             {
-                if (_total > 0)
-                    return "Results <b>" + _fromItem + " - " + _toItem + "</b> of <b>" + _total + "</b> for <b>" + Query +
-                           "</b>. (" + _duration.TotalMilliseconds + " mili seconds)";
+                if (total > 0)
+                {
+                    return string.Format("Results <b>{0} - {1}</b> of <b>{2}</b> for <b>{3}</b>. ({4} mili seconds)", fromItem, toItem, total, Query, duration.TotalMilliseconds);
+                }
                 return "No results found";
             }
         }
@@ -111,7 +115,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private int PageCount
         {
-            get { return (_total - 1)/MaxResults; } // floor 
+            get { return (total - 1) / MaxResults; } // floor 
         }
 
         /// <summary>
@@ -119,7 +123,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private int LastPageStartsAt
         {
-            get { return PageCount*MaxResults; }
+            get { return PageCount * MaxResults; }
         }
 
         /// <summary>
@@ -128,18 +132,18 @@ namespace InventIt.SiteSystem.Providers
         public void HandleSearch(string q)
         {
             DateTime start = DateTime.Now;
-            _query = q;
+            this.query = q;
 
             // create the searcher
             // index is placed in "index" subdirectory
-            var searcher = new IndexSearcher(_indexDir);
+            var searcher = new IndexSearcher(indexDir);
             Analyzer analyzer = new StandardAnalyzer();
 
             // parse the query, "text" is the default field to search
-            Lucene.Net.Search.Query query = QueryParser.Parse(_query, "text", analyzer);
+            Lucene.Net.Search.Query query = QueryParser.Parse(this.query, "text", analyzer);
 
             const string containername = "content";
-            Container container = _currentPage.Containers[containername];
+            Container container = currentPage.Containers[containername];
             const string elementResult = "result";
             const string elementPaging = "paging";
             const string elementSummary = "summary";
@@ -148,29 +152,33 @@ namespace InventIt.SiteSystem.Providers
 
             // Remove previous search result
             for (int i = count; i > 0; --i)
+            {
                 if (container.Elements[i] != null)
+                {
                     if (elementAll.IndexOf(container.Elements[i].Type) > -1)
-                        container.Elements.Remove(i);
+                    { container.Elements.Remove(i); }
+                }
+            }
 
             Element element = container.Elements[0];
             Element elSummary = container.Elements.Create(elementSummary);
-            element["query"] = _query;
+            element["query"] = this.query;
 
             // search
             Hits hits = searcher.Search(query);
 
-            _total = hits.Length();
+            total = hits.Length();
 
             // create highlighter
             var highlighter = new Highlighter(new QueryScorer(query));
 
             // initialize startAt
-            _startFirstAt = InitStartAt();
+            startFirstAt = InitStartAt();
 
             // how many items we should show - less than defined at the end of the results
-            int resultsCount = SmallerOf(_total, MaxResults + _startFirstAt);
+            int resultsCount = SmallerOf(total, MaxResults + startFirstAt);
 
-            for (int i = _startFirstAt; i < resultsCount; i++)
+            for (int i = startFirstAt; i < resultsCount; i++)
             {
                 // get the document from index
                 Document doc = hits.Doc(i);
@@ -185,23 +193,23 @@ namespace InventIt.SiteSystem.Providers
 
                     element = container.Elements.Create(elementResult);
                     element["title"] = doc.Get("title");
-                    element["path"] = _searchPage + path.Replace("\\", "/") + ".aspx";
+                    element["path"] = searchPage + path.Replace("\\", "/") + ".aspx";
                     element["sample"] = string.IsNullOrEmpty(text) ? plainText : text;
                 }
             }
 
             searcher.Close();
 
-            _duration = DateTime.Now - start;
-            _fromItem = _startFirstAt + 1;
-            _toItem = SmallerOf(_startFirstAt + MaxResults, _total);
+            duration = DateTime.Now - start;
+            fromItem = startFirstAt + 1;
+            toItem = SmallerOf(startFirstAt + MaxResults, total);
 
             // result information
             elSummary.Node.InnerText = Summary;
             // paging link
             element = container.Elements.Create(elementPaging);
             element.Node.InnerText = SetPaging();
-            _process.SearchContext = _currentPage;
+            process.SearchContext = currentPage;
         }
 
         /// <summary>
@@ -221,7 +229,7 @@ namespace InventIt.SiteSystem.Providers
         private string SetPaging()
         {
             // pageNumber starts at 1
-            int pageNumber = (_startFirstAt + MaxResults - 1)/MaxResults;
+            int pageNumber = (startFirstAt + MaxResults - 1) / MaxResults;
 
             var htmlList = new List<string>();
             string html = PagingItemHtml(pageNumber + 1, false);
@@ -243,7 +251,9 @@ namespace InventIt.SiteSystem.Providers
 
             var sb = new StringBuilder();
             foreach (string htm in htmlList)
+            {
                 sb.Append(htm);
+            }
 
             return sb.ToString();
         }
@@ -257,8 +267,9 @@ namespace InventIt.SiteSystem.Providers
         private static string PagingItemHtml(int number, bool active)
         {
             if (active)
-                return "<a href=\"javascript:ThrowEvent('" + (MaxResults*(number - 1)) + "', '');\"> " + number +
-                       " </a>";
+            {
+                return string.Format("<a href=\"javascript:ThrowEvent('{0}', '');\"> {1} </a>", (MaxResults * (number - 1)), number);
+            }
 
             return "<b>" + number + "</b>";
         }
@@ -272,13 +283,17 @@ namespace InventIt.SiteSystem.Providers
         {
             try
             {
-                int sa = Convert.ToInt32(_startAt);
+                int sa = Convert.ToInt32(startAt);
                 // too small starting item, return first page
-                if (_startAt < 0)
+                if (startAt < 0)
+                {
                     return 0;
+                }
                 // too big starting item, return last page
-                if (_startAt >= _total - 1)
+                if (startAt >= total - 1)
+                {
                     return LastPageStartsAt;
+                }
                 return sa;
             }
             catch
@@ -287,22 +302,5 @@ namespace InventIt.SiteSystem.Providers
             }
         }
 
-        /// <summary>
-        /// Very simple, inefficient, and memory consuming HTML parser. Take a look at Demo/HtmlParser in DotLucene package for a better HTML parser.
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        private string ParseHtml(string html) // ToDo: Is a unused Method
-        {
-            string temp = html.Replace("<p>", " ");
-            temp = temp.Replace("</p>", " ");
-            temp = Regex.Replace(temp, "<[^>]*>", "");
-            temp = temp.Replace("&lt;", "<");
-            temp = temp.Replace("&gt;", ">");
-            temp = temp.Replace("<p>", " ");
-            temp = temp.Replace("</p>", " ");
-            temp = Regex.Replace(temp, "<[^>]*>", "");
-            return temp.Replace("&nbsp;", " ");
-        }
     }
 }

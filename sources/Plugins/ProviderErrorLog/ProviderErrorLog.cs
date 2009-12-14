@@ -41,7 +41,10 @@ namespace InventIt.SiteSystem.Providers
         private void HandleLog()
         {
             XmlNode messagesNode = CommonXml.GetNode(_process.XmlData, "messages", EmptyNodeHandling.Ignore);
-            if (messagesNode == null) return;
+            if (messagesNode == null)
+            {
+                return;
+            }
 
             string logFileName = _process.Settings["errorlog/logpath"];
 
@@ -53,22 +56,28 @@ namespace InventIt.SiteSystem.Providers
                     try
                     {
                         if (CommonXml.GetAttributeValue(item, "writtenToLogFile") == "true")
+                        {
                             writtenToLogFile = true;
+                        }
                     }
                     catch
                     {
                         // Ignore
                     }
 
-                    if (writtenToLogFile) continue;
+                    if (writtenToLogFile)
+                    {
+                        continue;
+                    }
 
-                    if (CommonXml.GetAttributeValue(item, "messagetype") != "Error") continue;
+                    if (CommonXml.GetAttributeValue(item, "messagetype") != "Error")
+                    {
+                        continue;
+                    }
 
                     string errorType = CommonXml.GetAttributeValue(item, "type");
                     string message = item.InnerText;
-                    File.AppendAllText(logFileName,
-                                       string.Format("{0};{1};{2}\r\n", DateTime.Now.ToUniversalTime(), errorType,
-                                                     message));
+                    File.AppendAllText(logFileName, string.Format("{0};{1};{2}\r\n", DateTime.Now.ToUniversalTime(), errorType, message));
                     CommonXml.SetAttributeValue(item, "writtenToLogFile", "true");
                 }
         }

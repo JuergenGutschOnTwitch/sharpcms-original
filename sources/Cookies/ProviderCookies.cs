@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Web;
 using InventIt.SiteSystem.Plugin;
 using InventIt.SiteSystem;
 using InventIt.SiteSystem.Library;
-using System.Xml;
 
 namespace Cookies
 {
@@ -20,7 +18,7 @@ namespace Cookies
         }
         public ProviderCookies(Process process)
         {
-            m_Process = process;
+            _process = process;
         }
 
         public new void Initialize()
@@ -45,13 +43,15 @@ namespace Cookies
 
         private void HandleCookies()
         {
-            foreach (string key in base.Process.HttpPage.Request.QueryString.Keys)
+            foreach (string key in Process.HttpPage.Request.QueryString.Keys)
             {
-                if (base.Process.Settings["general/cookies"].Contains("," + key + ","))
+                if (Process.Settings["general/cookies"].Contains("," + key + ","))
                 {
-                    System.Web.HttpCookie cookie = new System.Web.HttpCookie(key, base.Process.HttpPage.Request.QueryString[key]);
-                    cookie.Expires = DateTime.Now.AddDays(1);
-                    System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
+                    HttpCookie cookie = new HttpCookie(key, Process.HttpPage.Request.QueryString[key])
+                                            {
+                                                Expires = DateTime.Now.AddDays(1)
+                                            };
+                    HttpContext.Current.Response.Cookies.Add(cookie);
                 }
             }
         }
@@ -70,17 +70,20 @@ namespace Cookies
         private void LoadCookies(string value, ControlList control)
         {
             {
-                XmlItemList CookieData = new XmlItemList(CommonXml.GetNode(control.ParentNode, "items", EmptyNodeHandling.CreateNew));
-                List<string> keys = new List<string>();
-                foreach (string key in base.Process.HttpPage.Response.Cookies.Keys)
+                XmlItemList cookieData = new XmlItemList(CommonXml.GetNode(control.ParentNode, "items", EmptyNodeHandling.CreateNew));
+                foreach (string key in Process.HttpPage.Response.Cookies.Keys)
                 {
-                    if (base.Process.Settings["general/cookies"].Contains("," + key + ","))
-                        CookieData[key.Replace(".", "")] = System.Web.HttpUtility.UrlEncode(base.Process.HttpPage.Response.Cookies[key].Value);
+                    if (Process.Settings["general/cookies"].Contains("," + key + ","))
+                    {
+                        cookieData[key.Replace(".", "")] = HttpUtility.UrlEncode(Process.HttpPage.Response.Cookies[key].Value);
+                    }
                 }
-                foreach (string key in base.Process.HttpPage.Request.Cookies.Keys)
+                foreach (string key in Process.HttpPage.Request.Cookies.Keys)
                 {
-                    if (base.Process.Settings["general/cookies"].Contains("," + key + ",") && string.IsNullOrEmpty(CookieData[key.Replace(".", "")]))
-                        CookieData[key.Replace(".", "")] = System.Web.HttpUtility.UrlEncode(base.Process.HttpPage.Request.Cookies[key].Value);
+                    if (Process.Settings["general/cookies"].Contains("," + key + ",") && string.IsNullOrEmpty(cookieData[key.Replace(".", "")]))
+                    {
+                        cookieData[key.Replace(".", "")] = HttpUtility.UrlEncode(Process.HttpPage.Request.Cookies[key].Value);
+                    }
                 }
             }
         }

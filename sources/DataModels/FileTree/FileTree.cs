@@ -14,78 +14,80 @@ namespace InventIt.SiteSystem.Data.FileTree
 {
     public class FileTree
     {
-        private readonly Process _process;
-        private readonly string _rootFilesPath;
+        private readonly Process process;
+        private readonly string rootFilesPath;
 
         public FileTree(Process process)
         {
-            _process = process;
-            _rootFilesPath = Path.Combine(_process.Root, _process.Settings["filetree/filesPath"]);
-            RootFolder = new FolderElement(_rootFilesPath);
+            this.process = process;
+            rootFilesPath = Path.Combine(this.process.Root, this.process.Settings["filetree/filesPath"]);
+            RootFolder = new FolderElement(rootFilesPath);
         }
 
         public FolderElement RootFolder { get; private set; }
 
         public bool FolderExists(string path)
         {
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path);
             return Directory.Exists(combinedPath);
         }
 
         public bool FileExists(string path)
         {
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path);
             return File.Exists(combinedPath);
         }
 
         public void CreateFolder(string path, string name)
         {
             name = Common.CleanToSafeString(name);
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path, name);
+            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path, name);
             Directory.CreateDirectory(combinedPath);
         }
 
         public void DeleteFolder(string path)
         {
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path);
             Common.DeleteDirectory(combinedPath);
         }
 
         public void DeleteFile(string path)
         {
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path);
             File.Delete(combinedPath);
         }
 
         public FolderElement GetFolder(string folder)
         {
-            string path = Path.Combine(_rootFilesPath, folder);
-            if (Directory.Exists(path))
-                return new FolderElement(path);
-
-            return null;
+            string path = Path.Combine(rootFilesPath, folder);
+            return Directory.Exists(path)
+                ? new FolderElement(path)
+                : null;
         }
 
         public string[] SaveUploadedFiles(string path)
         {
-            int fileCount = _process.HttpPage.Request.Files.Count;
-            var files = new string[fileCount];
+            int fileCount = process.HttpPage.Request.Files.Count;
+            string[] files = new string[fileCount];
 
             for (int fileIndex = 0; fileIndex < fileCount; fileIndex++)
             {
-                HttpPostedFile file = _process.HttpPage.Request.Files[fileIndex];
+                HttpPostedFile file = process.HttpPage.Request.Files[fileIndex];
 
                 if (path != null && file.ContentLength > 0)
                 {
-                    string prepend = _process.QueryOther["file_prepend"];
+                    string prepend = process.QueryOther["file_prepend"];
                     if (!string.IsNullOrEmpty(prepend))
+                    {
                         prepend = prepend + "_";
+                    }
                     else
+                    {
                         prepend = string.Empty;
+                    }
 
-                    string filename = string.Join("_",
-                                                  Common.CleanToSafeString(Path.GetFileName(file.FileName)).Split(' '));
-                    string fullName = Common.CombinePaths(_rootFilesPath, path, prepend + filename);
+                    string filename = string.Join("_", Common.CleanToSafeString(Path.GetFileName(file.FileName)).Split(' '));
+                    string fullName = Common.CombinePaths(rootFilesPath, path, prepend + filename);
                     if (Common.PathIsInSite(fullName) && filename != "")
                     {
                         file.SaveAs(fullName);
@@ -94,7 +96,7 @@ namespace InventIt.SiteSystem.Data.FileTree
                 }
                 else if (path != null && file.ContentLength == 0 && file.FileName != string.Empty)
                 {
-                    _process.AddMessage(
+                    process.AddMessage(
                         string.Format("The file \"{0}\" was ignored because it was empty.", file.FileName),
                         MessageType.Error);
                 }
@@ -105,10 +107,10 @@ namespace InventIt.SiteSystem.Data.FileTree
 
         public void SendToBrowser(string filename)
         {
-            HttpResponse response = _process.HttpPage.Response;
+            HttpResponse response = process.HttpPage.Response;
 
-            var fileInfo = new FileInfo(Path.Combine(_rootFilesPath, filename));
-            if (fileInfo.FullName.StartsWith(_rootFilesPath))
+            FileInfo fileInfo = new FileInfo(Path.Combine(rootFilesPath, filename));
+            if (fileInfo.FullName.StartsWith(rootFilesPath))
             {
                 if (fileInfo.Exists)
                 {
@@ -116,20 +118,20 @@ namespace InventIt.SiteSystem.Data.FileTree
                     string currentFile = fileInfo.FullName;
 
                     int width;
-                    int.TryParse(_process.QueryOther["width"], out width);
+                    int.TryParse(process.QueryOther["width"], out width);
 
                     int height;
-                    int.TryParse(_process.QueryOther["height"], out height);
+                    int.TryParse(process.QueryOther["height"], out height);
 
                     int radius;
-                    int.TryParse(_process.QueryOther["radius"], out radius);
+                    int.TryParse(process.QueryOther["radius"], out radius);
 
                     int borderwidth;
-                    int.TryParse(_process.QueryOther["borderwidth"], out borderwidth);
+                    int.TryParse(process.QueryOther["borderwidth"], out borderwidth);
 
-                    string bordercolor = ("#" + _process.QueryOther["bordercolor"]);
+                    string bordercolor = ("#" + process.QueryOther["bordercolor"]);
 
-                    bool isFixed = _process.QueryOther["fixed"] == "true";
+                    bool isFixed = process.QueryOther["fixed"] == "true";
                     if (width > 0 || height > 0 || radius >= 0)
                     {
                         Bitmap bitmap = null;
@@ -138,7 +140,9 @@ namespace InventIt.SiteSystem.Data.FileTree
                                                            width, height, radius);
 
                         if (borderwidth > 0 && Regex.IsMatch(bordercolor, @"[#]([0-9]|[a-f]|[A-F]){6}\b"))
+                        {
                             newFilename += ("bw" + borderwidth + "bc" + bordercolor);
+                        }
 
                         newFilename += ("_" + isFixed + ".png");
 
@@ -147,24 +151,24 @@ namespace InventIt.SiteSystem.Data.FileTree
                             string thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs",
                                                                        newFilename);
 
-                            // We changed the cropping and resizing code on April 28 2006
-                            // - rerender all thumbnails before that
-                            // - and changed it again in September
-                            var rerender = new DateTime(2006, 9, 25);
+                            DateTime rerender = new DateTime(2006, 9, 25);
                             FileInfo thumbInfo = null;
                             if (File.Exists(thumbnailFile))
                                 thumbInfo = new FileInfo(thumbnailFile);
 
-                            if (thumbInfo == null || thumbInfo.LastWriteTime < fileInfo.LastWriteTime ||
-                                rerender > thumbInfo.LastWriteTime)
+                            if (thumbInfo == null || thumbInfo.LastWriteTime < fileInfo.LastWriteTime || rerender > thumbInfo.LastWriteTime)
                             {
                                 bitmap = new Bitmap(fileInfo.FullName);
                                 if (fileInfo.Extension.ToLower() == ".gif")
                                 {
-                                    var realBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+                                    Bitmap realBitmap = new Bitmap(bitmap.Width, bitmap.Height);
                                     for (int x = 0; x < bitmap.Width; x++)
+                                    {
                                         for (int y = 0; y < bitmap.Height; y++)
+                                        {
                                             realBitmap.SetPixel(x, y, bitmap.GetPixel(x, y));
+                                        }
+                                    }
 
                                     bitmap.Dispose();
                                     bitmap = realBitmap;
@@ -174,14 +178,18 @@ namespace InventIt.SiteSystem.Data.FileTree
                                 bitmap = RoundImageVertex(bitmap, radius, borderwidth, bordercolor);
                             }
                             else
+                            {
                                 currentFile = thumbnailFile;
+                            }
 
                             if (bitmap != null)
                             {
                                 if (!Directory.Exists(fileInfo.Directory + @"\thumbs"))
+                                {
                                     Directory.CreateDirectory(fileInfo.Directory + @"\thumbs");
+                                }
 
-                                var eps = new EncoderParameters(1);
+                                EncoderParameters eps = new EncoderParameters(1);
                                 eps.Param[0] = new EncoderParameter(Encoder.Quality, 95L);
                                 ImageCodecInfo ici = GetEncoderInfo("image/png");
                                 bitmap.Save(thumbnailFile, ici, eps);
@@ -192,23 +200,24 @@ namespace InventIt.SiteSystem.Data.FileTree
                     }
 
                     // Send image to browser
-                    var file = new FileInfo(currentFile);
-                    if (_process.QueryOther["download"] == "true")
+                    FileInfo file = new FileInfo(currentFile);
+                    if (process.QueryOther["download"] == "true")
+                    {
                         response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+                    }
                     else
+                    {
                         response.AddHeader("Content-Disposition", "filename=" + file.Name);
-                    //response.ContentType = Common.GetMimeType(file.Extension);
+                    }
                     response.AddHeader("Content-Length", file.Length.ToString());
                     response.AddHeader("Content-Type", Common.GetMimeType(file.Extension));
 
                     response.Cache.SetExpires(DateTime.Now + new TimeSpan(7, 0, 0, 0));
                     response.Cache.SetCacheability(HttpCacheability.Public);
 
-                    //response.TransmitFile(currentFile);   //jig: com 2007-0-17
-                    response.WriteFile(currentFile); //jig: add 2007-0-17
+                    response.WriteFile(currentFile);
                     response.Flush();
                     response.End();
-                    //response.Close();
                 }
             }
         }
@@ -216,56 +225,70 @@ namespace InventIt.SiteSystem.Data.FileTree
         private static Bitmap ResizeOrCropImage(Image bitmap, int width, int height, bool isFixed)
         {
             if (width >= bitmap.Width && height >= bitmap.Height && !isFixed)
+            {
                 return null;
+            }
 
             Image tmpImage = bitmap;
 
             // Crop
             if (width > 0 && height > 0)
+            {
                 tmpImage = isFixed
                                ? ImageResize.FixedSize(tmpImage, width, height, Color.White)
                                : ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
+            }
 
             // Resize
             if (width > 0 && width < bitmap.Width)
+            {
                 tmpImage = ImageResize.ConstrainProportions(tmpImage, width, ImageResize.Dimensions.Width);
+            }
             else if (height > 0 && height < bitmap.Height)
+            {
                 tmpImage = ImageResize.ConstrainProportions(tmpImage, height, ImageResize.Dimensions.Height);
+            }
 
-            return (Bitmap) tmpImage;
+            return (Bitmap)tmpImage;
         }
 
         private static Bitmap RoundImageVertex(Bitmap bitmap, int radius, int borderWidth, string borderColor)
         {
-            if (radius <= 0 || (radius*2) > bitmap.Height || (radius*2) > bitmap.Width)
+            if (radius <= 0 || (radius * 2) > bitmap.Height || (radius * 2) > bitmap.Width)
+            {
                 return bitmap;
+            }
 
             Image tmpImage = bitmap;
 
             if (!Regex.IsMatch(borderColor, @"[#]([0-9]|[a-f]|[A-F]){6}\b") || borderWidth < 1)
+            {
                 tmpImage = ImageVertexRounding.RoundedRectangle(tmpImage, radius);
+            }
             else
+            {
                 tmpImage = ImageVertexRounding.RoundedRectangle(tmpImage, radius, borderWidth, borderColor);
+            }
 
-            return (Bitmap) tmpImage;
+            return (Bitmap)tmpImage;
         }
 
         public void MoveFolder(string folder, string newContainingDirectory)
         {
-            Common.MoveDirectory(Common.CombinePaths(_rootFilesPath, folder),
-                                 Common.CombinePaths(_rootFilesPath, newContainingDirectory));
+            Common.MoveDirectory(Common.CombinePaths(rootFilesPath, folder),
+                                 Common.CombinePaths(rootFilesPath, newContainingDirectory));
         }
 
         public void MoveFile(string file, string newContainingDiretory)
         {
-            Common.MoveFile(Common.CombinePaths(_rootFilesPath, file),
-                            Common.CombinePaths(_rootFilesPath, newContainingDiretory));
+            Common.MoveFile(Common.CombinePaths(rootFilesPath, file),
+                            Common.CombinePaths(rootFilesPath, newContainingDiretory));
         }
 
         public void RenameFile(string file, string newFileName)
         {
-            string filePath = Common.CheckedCombinePaths(_rootFilesPath, file);
-            var fileInfo = new FileInfo(filePath);
+            string filePath = Common.CheckedCombinePaths(rootFilesPath, file);
+            FileInfo fileInfo = new FileInfo(filePath);
             string filePathNew = Common.CheckedCombinePaths(fileInfo.DirectoryName, newFileName);
 
             fileInfo.MoveTo(filePathNew);
@@ -273,9 +296,9 @@ namespace InventIt.SiteSystem.Data.FileTree
 
         public void RenameFolder(string folder, string newFolderName)
         {
-            string folderPath = Common.CheckedCombinePaths(_rootFilesPath, folder);
+            string folderPath = Common.CheckedCombinePaths(rootFilesPath, folder);
 
-            var folderInfo = new DirectoryInfo(folderPath);
+            DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
             if (folderInfo.Parent != null)
             {
                 string folderPathNew = Common.CheckedCombinePaths(folderInfo.Parent.FullName, newFolderName);
@@ -289,8 +312,12 @@ namespace InventIt.SiteSystem.Data.FileTree
             int j;
             ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
             for (j = 0; j < encoders.Length; ++j)
+            {
                 if (encoders[j].MimeType == mimeType)
+                {
                     return encoders[j];
+                }
+            }
 
             return null;
         }
@@ -298,16 +325,16 @@ namespace InventIt.SiteSystem.Data.FileTree
 
     public class FolderElement
     {
-        private readonly DirectoryInfo _directoryInfo;
+        private readonly DirectoryInfo directoryInfo;
 
         public FolderElement(string path)
         {
-            _directoryInfo = new DirectoryInfo(path);
+            directoryInfo = new DirectoryInfo(path);
         }
 
         private string Name
         {
-            get { return _directoryInfo.Name; }
+            get { return directoryInfo.Name; }
         }
 
         private static bool Filter(string name)
@@ -321,34 +348,34 @@ namespace InventIt.SiteSystem.Data.FileTree
             XmlNode folderNode = CommonXml.GetNode(xmlNode, "folder", EmptyNodeHandling.ForceCreateNew);
             CommonXml.SetAttributeValue(folderNode, "name", Name);
 
-            foreach (FileInfo file in _directoryInfo.GetFiles())
+            foreach (FileInfo file in directoryInfo.GetFiles())
             {
                 XmlNode fileNode = CommonXml.GetNode(folderNode, "file", EmptyNodeHandling.ForceCreateNew);
                 CommonXml.SetAttributeValue(fileNode, "name", file.Name);
                 CommonXml.SetAttributeValue(fileNode, "extension", file.Extension);
-                GetFileAttributes(fileNode, file.Name); // jig: add 2007-09-17
+                GetFileAttributes(fileNode, file.Name); 
             }
 
             if (subFolder == SubFolder.IncludeSubfolders)
             {
-                foreach (DirectoryInfo dir in _directoryInfo.GetDirectories())
+                foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
                 {
                     if (Filter(dir.Name))
                     {
-                        var folderElement = new FolderElement(dir.FullName);
+                        FolderElement folderElement = new FolderElement(dir.FullName);
                         folderElement.GetXml(folderNode, SubFolder.IncludeSubfolders);
                     }
                 }
             }
         }
 
-        private void GetFileAttributes(XmlNode xmlNode, String fileName) // jig: add 2007-09-17
+        private void GetFileAttributes(XmlNode xmlNode, String fileName) 
         {
             DataRow[] dr;
-            var ds = new DataSet();
+            DataSet ds = new DataSet();
             try
             {
-                ds.ReadXml(_directoryInfo.FullName + "\\data\\gallery.xml");
+                ds.ReadXml(directoryInfo.FullName + "\\data\\gallery.xml");
                 if (ds.Tables["file"] == null) return;
 
                 dr = ds.Tables["file"].Select("name='" + fileName + "'");

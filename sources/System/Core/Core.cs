@@ -18,7 +18,7 @@ namespace InventIt.SiteSystem
 
             PrepareConfiguration(httpPage);
 
-            var processHandler = new ProcessHandler();
+            ProcessHandler processHandler = new ProcessHandler();
             Process process = processHandler.Run(httpPage);
 
             if (!process.OutputHandledByModule && process.RedirectUrl == null)
@@ -30,25 +30,27 @@ namespace InventIt.SiteSystem
             }
 
             if (process.RedirectUrl != null)
+            {
                 httpPage.Response.Redirect(process.RedirectUrl);
+            }
         }
 
         private static void PrepareConfiguration(Page httpPage)
         {
-            var cache = new Cache(httpPage.Application);
+            Cache cache = new Cache(httpPage.Application);
 
-            var configurationPaths = new List<string>
-                                         {
-                                             httpPage.Server.MapPath("~/Custom/Components"),
-                                             httpPage.Server.MapPath("~/System/Components")
-                                         };
+            List<string> configurationPaths = new List<string>
+                                                  {
+                                                      httpPage.Server.MapPath("~/Custom/Components"),
+                                                      httpPage.Server.MapPath("~/System/Components")
+                                                  };
 
-            var settingsPaths = new string[3];
+            string[] settingsPaths = new string[3];
             configurationPaths.CopyTo(settingsPaths);
             settingsPaths[2] = httpPage.Server.MapPath("~/Custom/App_Data/CustomSettings.xml");
             Configuration.CombineSettings(settingsPaths, cache);
 
-            var processPaths = new string[3];
+            string[] processPaths = new string[3];
             configurationPaths.CopyTo(processPaths);
             processPaths[2] = httpPage.Server.MapPath("~/Custom/App_Data/CustomProcess.xml");
             Configuration.CombineProcessTree(processPaths, cache);
@@ -67,6 +69,7 @@ namespace InventIt.SiteSystem
                 if (process.MainTemplate != null)
                 {
                     string output = CommonXml.TransformXsl(process.MainTemplate, process.XmlData, process.Cache);
+
                     // ToDo: dirty hack (old)
                     string[] badtags = {
                                            "<ul />", "<li />", "<h1 />", "<h2 />", "<h3 />", "<div />", "<p />",
@@ -74,16 +77,20 @@ namespace InventIt.SiteSystem
                                            , "<b />", "<strong />", "<i />"
                                        };
                     foreach (string a in badtags)
+                    {
                         output = output.Replace(a, "");
+                    }
 
-                    var regex =
+                    Regex regex =
                         new Regex(
                             "(?<email>(mailto:)([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3}))",
                             RegexOptions.IgnoreCase | RegexOptions.CultureInvariant |
                             RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
                     foreach (Match match in regex.Matches(output))
+                    {
                         output = output.Replace(match.Groups["email"].Value, HtmlObfuscate(match.Groups["email"].Value));
+                    }
 
                     httpPage.Response.Write(output);
                 }
