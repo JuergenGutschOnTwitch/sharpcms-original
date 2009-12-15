@@ -88,9 +88,10 @@
           });
         </script>
         <script type="text/javascript">
-          $(function() {
+            $(function() {
             $("#tabs").tabs();
-          });
+            $("#pada_body_tabs").tabs();
+            });
         </script>
       </head>
       <body>

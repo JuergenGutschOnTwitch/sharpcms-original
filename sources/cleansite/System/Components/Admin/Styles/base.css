@@ -23,701 +23,827 @@
 /*************************************************************************/
 /*                                                                   Basic
 /*************************************************************************/
-* {
-	border: 0;
-	color: black;
-	font: Menu;
-	font-style: normal;
-	font-weight: normal;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	text-decoration: none;
+*
+{
+    border: 0;
+    color: black;
+    font: Menu;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    text-decoration: none;
 }
 
-html {
-	font-size: 100.1%;
+html
+{
+    font-size: 100.1%;
 }
 
-body {
-	background-color: white;
-	font-size: 62.5%;
+body
+{
+    background-color: white;
+    font-size: 62.5%;
 }
 
-label {
-	color: #486c82;
+label
+{
+    color: #486c82;
 }
 
 
 /*************************************************************************/
 /*                                                             Tree (base)
 /*************************************************************************/
-.tree {
-	background-color: white;
-	border: 1px solid #bec7cd;
-	border-top: none;
-	float: left;
-	margin-bottom: 10px;
-	min-height: 220px;
-	padding: 10px;
-	width: 200px;
+.tree
+{
+    background-color: white;
+    border: 1px solid #bec7cd;
+    border-top: none;
+    float: left;
+    margin-bottom: 10px;
+    min-height: 220px;
+    padding: 10px;
+    width: 200px;
 }
 
-.tree b {
-	font-weight: bold;
+.tree b
+{
+    font-weight: bold;
 }
 
-.tree ul {
-	padding-left: 20px;
+.tree ul
+{
+    padding-left: 20px;
 }
 
-.tree ul li {
-	padding-top: 5px;
+.tree ul li
+{
+    padding-top: 5px;
 }
 
 
 /*************************************************************************/
 /*                                                             Menu (base)
 /*************************************************************************/
-.menu {
-	background-color: white;
-	border: 1px solid #7697ab;
-	padding: 6px;
-	float: left;
+.menu
+{
+    background-color: white;
+    border: 1px solid #7697ab;
+    padding: 6px;
+    float: left;
 }
 
-.menu a,
-.menu select {
-	float: left;
+.menu a, .menu select
+{
+    float: left;
 }
 
-.menu ul {
-	margin: 6px;
+.menu ul
+{
+    margin: 6px;
 }
 
-.menu li {
-	margin: 4px;
+.menu li
+{
+    margin: 4px;
 }
 
-.top {
-	border-top: none;
+.top
+{
+    border-top: none;
 }
 
-.bottom {
-	
+.bottom
+{
 }
 
 
 /*************************************************************************/
 /*                                                             Head (base)
 /*************************************************************************/
-.head {
-	background-color: #e8eef1;
-	border: 1px solid #7697ab;
-	color: #486c82;
-	float: left;
-	font-weight: bold;
-	height: 16px;
-	padding: 6px 4px 4px 8px;
+.head
+{
+    background-color: #e8eef1;
+    border: 1px solid #7697ab;
+    color: #486c82;
+    float: left;
+    font-weight: bold;
+    height: 16px;
+    padding: 6px 4px 4px 8px;
 }
 
-.head div.title {
-	color: #486C82;
-	float: left;
-	font-weight: bold;
+.head div.title
+{
+    color: #486C82;
+    float: left;
+    font-weight: bold;
 }
 
-.head div.viewstate {
-	float: right;
+.head div.viewstate
+{
+    float: right;
+    margin-top:-2px;
+    margin-right:-5px;
 }
 
-.head div.viewstate p {
-	color: #486C82;
-	cursor: pointer;
-	font-weight: bold;
+.head div.viewstate p
+{
+    color: #486C82;
+    cursor: pointer;
+    font-weight: bold;
 }
 
+.head div.viewstate p.button
+{
+    background-color: white;
+    border: 1px solid #aeb8bf;
+    cursor: pointer;
+    padding: 1px 4px;
+    margin-right: 6px;
+    text-align: center;
+}
+
+.head div.viewstate p.button:hover
+{
+    background-color: #96a1a9;
+    text-decoration: none;
+}
 
 /*************************************************************************/
 /*                                                             Body (base)
 /*************************************************************************/
-.body {
-	background-color: white;
-	border: 1px solid #7697ab;
-	border-top: none;
-	float: left;
-	padding: 6px 6px 0 6px;
+.body
+{
+    background-color: white;
+    border: 1px solid #7697ab;
+    border-top: none;
+    float: left;
+    padding: 6px 6px 0 6px;
 }
 
-.body table {
-	border: 1px solid black;
-	margin-top: 6px;
-	width: 636px;
+.body table
+{
+    border: 1px solid black;
+    margin-top: 6px;
+    width: 636px;
 }
 
-.body table tr td {
-	background-color: #e8eef1;
-	color: #486c82;
-	padding: 6px;
+.body table tr td
+{
+    background-color: #e8eef1;
+    color: #486c82;
+    padding: 6px;
 }
 
-.body table tr td.field {
-	width: 130px;
+.body table tr td.field
+{
+    width: 130px;
 }
 
-.body table tr td input {
-	margin: 0 5px 0 10px;
+.body table tr td input
+{
+    margin: 0 5px 0 10px;
 }
 
 
 /*************************************************************************/
 /*                                                                 Special
 /*************************************************************************/
-a.anchor {
-	float: left;
+a.anchor
+{
+    float: left;
 }
 
-div.error {
-	color: red;
+div.error
+{
+    color: red;
 }
 
-a.button {
-	background-color: white;
-	border: 1px solid #aeb8bf;
-	cursor: pointer;
-	padding: 1px 4px;
-	margin-right: 6px;
-	text-align: center;
+a.button
+{
+    background-color: white;
+    border: 1px solid #aeb8bf;
+    cursor: pointer;
+    padding: 1px 4px;
+    margin-right: 6px;
+    text-align: center;
 }
 
-a.button:hover {
-	background-color: #96a1a9;
-	text-decoration: none;
+a.button:hover
+{
+    background-color: #96a1a9;
+    text-decoration: none;
 }
 
 
 /*************************************************************************/
 /*                                                                    Page
 /*************************************************************************/
-.page {
-	float: left;
-	height: 100%;
-	width: 100%;
+.page
+{
+    float: left;
+    height: 100%;
+    width: 100%;
 }
 
 
 /*************************************************************************/
 /*                                                                  Header
 /*************************************************************************/
-.header {
-	background: #628498 url('../images/topbg.gif') top left repeat-x;
-	color: white;
-	float: left;
-	height: 39px;
-	width: 100%;
+.header
+{
+    background: #628498 url(  '../images/topbg.gif' ) top left repeat-x;
+    color: white;
+    float: left;
+    height: 39px;
+    width: 100%;
 }
 
-.header a img {
-	height: 39px;
-	width: 121px;
+.header a img
+{
+    height: 39px;
+    width: 121px;
 }
 
 
 /*************************************************************************/
 /*                                                                 TopNavi
 /*************************************************************************/
-.mainnavi {
-	background: white url('../images/subbg.gif') top left repeat-x;
-	float: left;
-	height: 26px;
-	min-width: 300px;
-	width: 100%;
+.mainnavi
+{
+    background: white url(  '../images/subbg.gif' ) top left repeat-x;
+    float: left;
+    height: 26px;
+    min-width: 300px;
+    width: 100%;
 }
 
-.mainnavi ul {
-	list-style-type: none;
-	min-width: 140px;
-	padding-top: 5px;
+.mainnavi ul
+{
+    list-style-type: none;
+    min-width: 140px;
+    padding-top: 5px;
 }
 
-.mainnavi ul li {
-	float: left;
+.mainnavi ul li
+{
+    float: left;
 }
 
-.mainnavi ul li a {
-	color: #486c82;
-	font-weight: bold;
-	text-decoration: none;
+.mainnavi ul li a
+{
+    color: #486c82;
+    font-weight: bold;
+    text-decoration: none;
 }
 
-.mainnavi ul li a:hover {
-	color: #cfb000;
-	text-decoration: none;
+.mainnavi ul li a:hover
+{
+    color: #cfb000;
+    text-decoration: none;
 }
 
-.mainnavi ul.left {
-	float: left;
-	padding-left: 10px;
+.mainnavi ul.left
+{
+    float: left;
+    padding-left: 10px;
 }
 
-.mainnavi ul.left li {
-	padding-right: 10px;
+.mainnavi ul.left li
+{
+    padding-right: 10px;
 }
 
-.mainnavi ul.right {
-	float: right;
-	padding-right: 10px;
+.mainnavi ul.right
+{
+    float: right;
+    padding-right: 10px;
 }
 
-.mainnavi ul.right li {
-	padding-left: 10px;
+.mainnavi ul.right li
+{
+    padding-left: 10px;
 }
 
 
 /*************************************************************************/
 /*                                                                 Content
 /*************************************************************************/
-.content {
-	float: left;
-	width: 900px;
+.content
+{
+    float: left;
+    width: 900px;
 }
 
-.content div.left,
-.content div.right {
-	margin: 10px 0 10px 10px;
+.content div.left, .content div.right
+{
+    margin: 10px 0 10px 10px;
 }
 
-.content div.left {
-	float: left;
-	width: 220px;
+.content div.left
+{
+    float: left;
+    width: 220px;
 }
 
-.content div.right {
-	float: left;
-	width: 650px;
+.content div.right
+{
+    float: left;
+    width: 650px;
 }
 
 
 /*************************************************************************/
 /*                                                           PageData Head
 /*************************************************************************/
-.pagedata_head {
-	width: 636px;
+.pagedata_head
+{
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                              Admin Menu
 /*************************************************************************/
-.pagedata_menu {
-	width: 636px;
+.pagedata_menu
+{
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                           PageData Body
 /*************************************************************************/
-.pagedata_body {
-	width: 636px;
+.pagedata_body
+{
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                                    Item
 /*************************************************************************/
-.item {
-	padding-bottom: 10px;
+.item
+{
+    padding-bottom: 10px;
 }
 
-.item input {
-	margin-right: 6px;
+.item input
+{
+    margin-right: 6px;
 }
 
-.item input.date_day,
-.item input.date_month {
-	width: 2em;
+.item input.date_day, .item input.date_month
+{
+    width: 2em;
 }
 
-.item input.date_year {
-	width: 4em;
+.item input.date_year
+{
+    width: 4em;
 }
 
-.item textarea {
-	height: 150px;
-	width: 614px;
+.item textarea
+{
+    height: 150px;
+    width: 614px;
 }
 
-.item textarea.mceeditor {
-	height: 200px;
+.item textarea.mceeditor
+{
+    height: 200px;
 }
 
 
 /*************************************************************************/
 /*                                                                    Tabs
 /*************************************************************************/
-.tab-pane {
-	float: left;
-	margin-top: 10px;
-	width: 617px;
+.tab-pane
+{
+    float: left;
+    margin-top: 10px;
+    width: 617px;
 }
 
-.tab-page {
-	float: left;
-	margin-bottom: 10px;
-	width: 632px;
+.tab-page
+{
+    float: left;
+    margin-bottom: 10px;
+    width: 632px;
 }
 
 
 /*************************************************************************/
 /*                                                          Container Menu
 /*************************************************************************/
-.container_menu {
-	width: 618px;
+.container_menu
+{
+    width: 618px;
 }
 
 
 /*************************************************************************/
 /*                                                            Element Head
 /*************************************************************************/
-.element_head {
-	background-color: white;
-	border-bottom: none;
-	float: left;
-	height: 22px;
-	margin-top: 8px;
-	padding: 6px 0 2px 0;
-	width: 630px;
+.element_head
+{
+    background-color: white;
+    float: left;
+    height: 22px;
+    margin-top: 8px;
+    padding: 6px 0 2px 0;
+    width: 630px;
 }
 
-.element_head div.buttons {
-	float: right;
-	text-align: right;
-	width: 220px;
+.element_head div.buttons
+{
+    float: right;
+    text-align: right;
+    width: 220px;
 }
 
-.element_head div.buttons a {
-	float: right;
-	text-align: right;
+.element_head div.buttons a
+{
+    float: right;
+    text-align: right;
 }
 
-.element_head div.title {
-	color: #8da6b5;
-	float: left;
-	font-weight: bold;
-	height: 19px;
-	line-height: 19px;
-	padding: 0 0 0 6px;
-	text-transform: capitalize;
-	width: 400px;
+.element_head div.title
+{
+    color: #8da6b5;
+    float: left;
+    font-weight: bold;
+    height: 19px;
+    line-height: 19px;
+    padding: 0 0 0 6px;
+    text-transform: capitalize;
+    width: 130px;
+}
+
+
+
+.element_head .name
+{
+    float: right;
+    padding-left: 6px;
+    width: 180px;
+}
+
+.element_head .name label, .element_head .name input
+{
+    float: left;
+}
+.element_head .name input
+{
+    width: 130px;
+}
+
+.element_head .publish
+{
+    float: right;
+    padding-right: 6px;
+    text-align: right;
+    width: 80px;
+}
+
+.element_head .publish label, .element_head .publish input
+{
+    text-align: right;
+}
+
+.element_head label
+{
+    color: #8da6b5;
+    font-weight: normal;
+    height: 22px;
+    line-height: 22px;
+    padding-right: 6px;
+    text-transform: capitalize;
+}
+
+.element_head input
+{
+    height: 16px;
+    padding: 1px 2px 0 2px;
+    margin: 0;
+    font-size: 12px;
+}
+
+.element_head input.checkbox
+{
+    padding: 0;
+    width: 16px;
 }
 
 
 /*************************************************************************/
 /*                                                            Element Menu
 /*************************************************************************/
-.element_menu {
-	background-color: white;
-	border-top: none;
-	float: left;
-	height: 22px;
-	padding: 6px 0 2px 0;
-	width: 630px;
-}
-
-.element_menu .name {
-	float: left;
-	padding-left: 6px;
-	width: 430px;
-
-}
-
-.element_menu .name label,
-.element_menu .name input {
-	float: left;
-}
-
-.element_menu .publish {
-	float: right;
-	padding-right: 6px;
-	text-align: right;
-	width: 188px;
-}
-
-.element_menu .publish label,
-.element_menu .publish input {
-	text-align: right;
-}
-
-.element_menu label {
-	color: #8da6b5;
-	font-weight: normal;
-	height: 22px;
-	line-height: 22px;
-	padding-right: 6px;
-	text-transform: capitalize;
-}
-
-.element_menu input {
-	height: 16px;
-	padding: 1px 2px 0 2px;
-	margin: 0;
-	font-size: 12px;
-}
-
-.element_menu input.checkbox {
-	padding: 0;
-	width: 16px;
+.element_menu
+{
+    background-color: white;
+    border-top: none;
+    float: left;
+    height: 22px;
+    padding: 6px 0 2px 0;
+    width: 630px;
 }
 
 
 /*************************************************************************/
 /*                                                            Element Body
 /*************************************************************************/
-.element_body {
-	background-color: white;
-	border: 1px solid #7697ab;
-	border-top: none;
-	padding: 6px 6px 0 6px;
-	float: left;
-	width: 618px;
+.element_body
+{
+    background-color: white;
+    border: 1px solid #7697ab;
+    border-top: none;
+    padding: 6px 6px 0 6px;
+    float: left;
+    width: 618px;
 }
 
-.element_body .button {
-	background-color: white;
-	border: 1px solid #aeb8bf;
-	display: inline-block;
-	padding: 1px 4px;
-	text-align: center;
+.element_body .button
+{
+    background-color: white;
+    border: 1px solid #aeb8bf;
+    display: inline-block;
+    padding: 1px 4px;
+    text-align: center;
+}
+
+.tab_page_body
+{
+    background-color: white;
+    border: 1px solid #7697ab;
+    padding: 6px 6px 0 6px;
+    width: 618px;
+}
+.tab_page_body textarea
+{
+    width: 608px !important;
 }
 
 
 /*************************************************************************/
 /*                                                           UserData Head
 /*************************************************************************/
-.userdata_head{
-	width: 636px;
+.userdata_head
+{
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                           UserData Menu
 /*************************************************************************/
-.right .userdata_menu {
-	border-top: none;
-	width: 636px;
+.right .userdata_menu
+{
+    border-top: none;
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                           UserData Body
 /*************************************************************************/
-.userdata_body {
-	width: 636px;
+.userdata_body
+{
+    width: 636px;
 }
 
-.userdata_body table {
-	margin-bottom: 7px;
+.userdata_body table
+{
+    margin-bottom: 7px;
 }
 
-.userdata_body .checkbox {
-	background-color: transparent;
-	float: left;
-	margin: 0 0 5px 9px;
-	width: auto;
+.userdata_body .checkbox
+{
+    background-color: transparent;
+    float: left;
+    margin: 0 0 5px 9px;
+    width: auto;
 }
 
-.userdata_body label {
-	display: block;
-	cursor: pointer;
-	float: left;
-	height: 20px;
-	line-height: 1em;
-	margin: 0 0 5px 1px;
-	padding-left: 5px;
-	width: 510px;
+.userdata_body label
+{
+    display: block;
+    cursor: pointer;
+    float: left;
+    height: 20px;
+    line-height: 1em;
+    margin: 0 0 5px 1px;
+    padding-left: 5px;
+    width: 510px;
 }
 
-.userdata_body table tr td {
-	padding: 6px;
+.userdata_body table tr td
+{
+    padding: 6px;
 }
 
 
 /*************************************************************************/
 /*                                                               Tree Head
 /*************************************************************************/
-.tree_head{
-	width: 208px;
+.tree_head
+{
+    width: 208px;
 }
 
 
 /*************************************************************************/
 /*                                                               Tree Menu
 /*************************************************************************/
-.left .tree_menu {
-	border-top: none;
-	width: 208px;
+.left .tree_menu
+{
+    border-top: none;
+    width: 208px;
 }
 
 
 /*************************************************************************/
 /*                                                               Tree Body
 /*************************************************************************/
-.tree_body {
-	
+.tree_body
+{
 }
 
 
 /*************************************************************************/
 /*                                                           FileData Menu
 /*************************************************************************/
-.right .filedata_menu {
-	border-top: none;
-	width: 636px;
+.right .filedata_menu
+{
+    border-top: none;
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                         FileData Header
 /*************************************************************************/
-.filedata_head{
-	width: 636px;
+.filedata_head
+{
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                           FileData Body
 /*************************************************************************/
-.filedata_body {
-	padding: 6px;
-	width: 636px;
+.filedata_body
+{
+    padding: 6px;
+    width: 636px;
 }
 
-.filedata_body input {
-	width: 40px;
+.filedata_body input
+{
+    width: 40px;
 }
 
 
 /*************************************************************************/
 /*                                                         FolderData Menu
 /*************************************************************************/
-.right .folderdata_menu {
-	border-top: none;
-	width: 636px;
+.right .folderdata_menu
+{
+    border-top: none;
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                       FolderData Header
 /*************************************************************************/
-.folderdata_head{
-	width: 636px;
+.folderdata_head
+{
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                         FolderData Body
 /*************************************************************************/
-.folderdata_body {
-	padding: 6px;
-	width: 636px;
+.folderdata_body
+{
+    padding: 6px;
+    width: 636px;
 }
 
 
 /*************************************************************************/
 /*                                                                   Login
 /*************************************************************************/
-.login {
-	float: left;
-	padding-top: 30px;
-	width: 100%;
+.login
+{
+    float: left;
+    padding-top: 30px;
+    width: 100%;
 }
 
-.login table {
-	background: white;
-	border: 1px solid black;
-	margin: 0 auto;
+.login table
+{
+    background: white;
+    border: 1px solid black;
+    margin: 0 auto;
 }
 
-.login table thead {
-	height: 39px;
+.login table thead
+{
+    height: 39px;
 }
 
-.login table thead tr td {
-	background: #628498 url('../Images/topbg.gif') top left repeat-x;
+.login table thead tr td
+{
+    background: #628498 url(  '../Images/topbg.gif' ) top left repeat-x;
 }
 
-.login table tbody tr td {
-	padding: 6px;
+.login table tbody tr td
+{
+    padding: 6px;
 }
 
-.login table tbody tr td input {
-	height: 1.5em;
+.login table tbody tr td input
+{
+    height: 1.5em;
 }
 
-.login table tbody tr td input.submit {
-	background-color: white;
-	height: 2em;
-	padding: 0 2px;
-	text-align: center;
-	width: 80px;
+.login table tbody tr td input.submit
+{
+    background-color: white;
+    height: 2em;
+    padding: 0 2px;
+    text-align: center;
+    width: 80px;
 }
 
-.login table tfoot {
-	height: 50px;
+.login table tfoot
+{
+    height: 50px;
 }
 
 
 /*************************************************************************/
 /*                                                                  Choose
 /*************************************************************************/
-.choose .header {
-	background: #628498 url('../images/topbg.gif') top left repeat-x;
-	color: white;
-	float: left;
-	font-size: 18px;
-	height: 39px;
-	line-height: 39px;
-	padding-left: 10px;
-	width: 100%;
+.choose .header
+{
+    background: #628498 url(  '../images/topbg.gif' ) top left repeat-x;
+    color: white;
+    float: left;
+    font-size: 18px;
+    height: 39px;
+    line-height: 39px;
+    padding-left: 10px;
+    width: 100%;
 }
 
-.choose .content {
-	padding: 10px;
-	width: 100%;
+.choose .content
+{
+    padding: 10px;
+    width: 100%;
 }
 
 
 /*************************************************************************/
 /*                                                                    Form
 /*************************************************************************/
-input, 
-textarea, 
-select {
-	border: 1px solid #bec7cd;
-	background-color: white;
+input, textarea, select
+{
+    border: 1px solid #bec7cd;
+    background-color: white;
 }
 
-input {
-	height: 15px;
-	padding: 2px;
-	width: 200px;
+input
+{
+    height: 15px;
+    padding: 2px;
+    width: 200px;
 }
 
-select {
-	width: 206px;
+select
+{
+    width: 206px;
 }
 
-select {
-	font: menu;
+select
+{
+    font: menu;
 }
 
-input.upload {
-	width: 375px;
+input.upload
+{
+    width: 375px;
 }
 
-input.checkbox {
-	width: 30px;
-	margin: 0;
-	padding: 2px;
-	border: none;
+input.checkbox
+{
+    width: 30px;
+    margin: 0;
+    padding: 2px;
+    border: none;
 }
