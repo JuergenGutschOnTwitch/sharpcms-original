@@ -12,7 +12,7 @@ namespace InventIt.SiteSystem.Data.Users
         {
         }
 
-        private User this[int index]
+        public User this[int index]
         {
             get
             {
@@ -21,7 +21,7 @@ namespace InventIt.SiteSystem.Data.Users
 
                 if (node != null)
                 {
-                    var user = new User(node);
+                    User user = new User(node);
                     return user;
                 }
                 return null;
@@ -38,7 +38,7 @@ namespace InventIt.SiteSystem.Data.Users
 
                 if (node != null)
                 {
-                    var user = new User(node);
+                    User user = new User(node);
                     return user;
                 }
                 return null;

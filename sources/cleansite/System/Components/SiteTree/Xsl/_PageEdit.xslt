@@ -103,12 +103,16 @@
                 </div>
                 <div id="ptabs2" class="tab-page">
                     <div class="tab_page_body">
-                        Editor Security (currently not supported)
+                        <xsl:call-template name="security">
+                            <xsl:with-param name="view">editors</xsl:with-param>
+                        </xsl:call-template>
                     </div>
                 </div>
                 <div id="ptabs3" class="tab-page">
                     <div class="tab_page_body">
-                        Extranet Security (currently not supported)
+                        <xsl:call-template name="security">
+                            <xsl:with-param name="view">visitors</xsl:with-param>
+                        </xsl:call-template>
                     </div>
                 </div>
             </div>
@@ -210,6 +214,84 @@
                     <xsl:number count="container" />_<xsl:number count="element" />
                 </xsl:with-param>
             </xsl:apply-templates>
+        </div>
+    </xsl:template>
+
+
+    <xsl:template name="security">
+        <xsl:param name="view" />
+        <label>
+            <xsl:text>Allow Groups or Users to </xsl:text>
+            <xsl:choose>
+                <xsl:when test="$view='editors'">
+                    <xsl:text>Edit</xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>View</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:text> the current Page</xsl:text>
+        </label>
+        <div class="checkbox_list">
+            <ul>
+
+                <xsl:for-each select="//data/basedata/security/groups/*">
+                    <li>
+                        <input type="checkbox" value="user1" class="checkbox">
+                            <xsl:attribute name="id">
+                                <xsl:text>checkbox_</xsl:text>
+                                <xsl:value-of select="$view"/>
+                                <xsl:text>_group_</xsl:text>
+                                <xsl:value-of select="."/>
+                            </xsl:attribute>
+                            <xsl:attribute name="name">
+                                <xsl:text>checkbox_</xsl:text>
+                                <xsl:value-of select="$view"/>
+                                <xsl:text>_group_</xsl:text>
+                                <xsl:value-of select="."/>
+                            </xsl:attribute>
+                        </input>
+                        <label>
+                            <xsl:attribute name="for">
+                                <xsl:text>checkbox_</xsl:text>
+                                <xsl:value-of select="$view"/>
+                                <xsl:text>_group_</xsl:text>
+                                <xsl:value-of select="."/>
+                            </xsl:attribute>
+                            <xsl:text>&lt;</xsl:text>
+                            <xsl:value-of select="." />
+                            <xsl:text>&gt;</xsl:text>
+                        </label>
+                    </li>
+                </xsl:for-each>
+                <xsl:for-each select="//data/basedata/security/users/*">
+                    <li>
+                        <input type="checkbox" value="user1" class="checkbox">
+                            <xsl:attribute name="id">
+                                <xsl:text>checkbox_</xsl:text>
+                                <xsl:value-of select="$view"/>
+                                <xsl:text>_user_</xsl:text>
+                                <xsl:value-of select="."/>
+                            </xsl:attribute>
+                            <xsl:attribute name="name">
+                                <xsl:text>checkbox_</xsl:text>
+                                <xsl:value-of select="$view"/>
+                                <xsl:text>_user_</xsl:text>
+                                <xsl:value-of select="."/>
+                            </xsl:attribute>
+                        </input>
+                        <label>
+                            <xsl:attribute name="for">
+                                <xsl:text>checkbox_</xsl:text>
+                                <xsl:value-of select="$view"/>
+                                <xsl:text>_user_</xsl:text>
+                                <xsl:value-of select="."/>
+                            </xsl:attribute>
+                            <xsl:value-of select="." />
+                        </label>
+                    </li>
+                </xsl:for-each>
+            </ul>
         </div>
     </xsl:template>
 

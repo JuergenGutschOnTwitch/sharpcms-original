@@ -21,7 +21,7 @@ namespace InventIt.SiteSystem.Data.Users
 
                 if (node != null)
                 {
-                    var group = new Group(node);
+                    Group group = new Group(node);
                     return group;
                 }
                 return null;
@@ -38,7 +38,7 @@ namespace InventIt.SiteSystem.Data.Users
 
                 if (node != null)
                 {
-                    var group = new Group(node);
+                    Group group = new Group(node);
                     return group;
                 }
                 return null;

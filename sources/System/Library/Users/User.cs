@@ -8,17 +8,17 @@ namespace InventIt.SiteSystem.Data.Users
 {
     public class User : DataElement
     {
-        private readonly GroupList _groupList;
+        private readonly GroupList groupList;
 
         public User(XmlNode node)
             : base(node)
         {
-            _groupList = new GroupList(CommonXml.GetNode(node, "groups"));
+            groupList = new GroupList(CommonXml.GetNode(node, "groups"));
         }
 
         public GroupList GroupList
         {
-            get { return _groupList; }
+            get { return groupList; }
         }
 
         public string Login
@@ -27,7 +27,7 @@ namespace InventIt.SiteSystem.Data.Users
             set { CommonXml.GetNode(Node, "login").InnerText = Common.CleanToSafeString(value); }
         }
 
-        public String Password
+        public string Password
         {
             set { CommonXml.GetNode(Node, "password").InnerText = Common.CleanToSafeString(value).GetHashCode().ToString(); }
         }

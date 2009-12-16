@@ -1,8 +1,10 @@
 //Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
 
 using System;
+using System.Collections.Generic;
 using System.Xml;
 using InventIt.SiteSystem.Data.SiteTree;
+using InventIt.SiteSystem.Data.Users;
 using InventIt.SiteSystem.Library;
 using InventIt.SiteSystem.Plugin;
 using InventIt.SiteSystem.Plugin.Types;
@@ -14,7 +16,7 @@ namespace InventIt.SiteSystem.Providers
     /// </summary>
     public class ProviderPage : BasePlugin2, IPlugin2
     {
-        private SiteTree _siteTree;
+        private SiteTree siteTree;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProviderPage"/> class.
@@ -40,10 +42,12 @@ namespace InventIt.SiteSystem.Providers
         {
             get
             {
-                if (_siteTree == null)
-                    _siteTree = new SiteTree(_process);
+                if (siteTree == null)
+                {
+                    siteTree = new SiteTree(_process);
+                }
 
-                return _siteTree;
+                return siteTree;
             }
         }
 
@@ -56,7 +60,9 @@ namespace InventIt.SiteSystem.Providers
             get
             {
                 if (_process.QueryOther["page"] == "")
+                {
                     _process.QueryOther["page"] = _process.Settings["sitetree/stdpage"];
+                }
 
                 return _process.QueryOther["page"];
             }
@@ -161,6 +167,10 @@ namespace InventIt.SiteSystem.Providers
                 case "pagestatus":
                     LoadPageStatus(control);
                     break;
+                case "security":
+                    LoadPageSecurity(control);
+                    break;
+
             }
         }
 
@@ -173,7 +183,9 @@ namespace InventIt.SiteSystem.Providers
         {
             string newDefault = _process.QueryData["pageidentifier"].Trim();
             if (newDefault.Length > 0)
+            {
                 _process.Settings["sitetree/stdpage"] = newDefault;
+            }
         }
 
         /// <summary>
@@ -304,10 +316,14 @@ namespace InventIt.SiteSystem.Providers
                                 XmlNode xmlNode = currentPage.GetAttribute(queryParts[1]);
                                 xmlNode.InnerText = "";
                                 foreach (string tmpstring in query.Value.Split('\n'))
+                                {
                                     CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew).InnerText = tmpstring;
+                                }
                             }
                             else
+                            {
                                 currentPage[queryParts[1]] = query.Value;
+                            }
                             break;
                         case "element":
                             Container container = currentPage.Containers[int.Parse(queryParts[1]) - 1];
@@ -335,16 +351,22 @@ namespace InventIt.SiteSystem.Providers
                                 }
 
                                 if (query.Name.EndsWith("elementtitle"))
+                                {
                                     container.Elements[int.Parse(queryParts[2]) - 1].Name = query.Value;
+                                }
                                 else if (query.Name.EndsWith("elementpublish"))
+                                {
                                     container.Elements[int.Parse(queryParts[2]) - 1].Publish = query.Value.ToLower() ==
                                                                                                "publish"
                                                                                                    ? true.ToString().
                                                                                                          ToLower()
                                                                                                    : false.ToString().
                                                                                                          ToLower();
+                                }
                                 else
+                                {
                                     container.Elements[int.Parse(queryParts[2]) - 1][queryParts[3]] = query.Value;
+                                }
                             }
                             break;
                     }
@@ -360,7 +382,10 @@ namespace InventIt.SiteSystem.Providers
         private void HandleRemove()
         {
             Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
-            if (currentPage == null) throw new NotImplementedException();
+            if (currentPage == null)
+            {
+                throw new NotImplementedException();
+            }
             string element = _process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('-');
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Remove(int.Parse(elementParts[2]) - 1);
@@ -434,6 +459,57 @@ namespace InventIt.SiteSystem.Providers
             control["pagestatus"] = xmlNode;
         }
 
+
+
+        private void LoadPageSecurity(ControlList control)
+        {
+
+            Users users = new Users(_process);
+
+            List<User> userList = new List<User>();
+            List<Group> groupList = new List<Group>();
+            for (int i = 0; i < users.UserList.Count; i++)
+            {
+                User user = users.UserList[i];
+                if (!userList.Contains(user))
+                {
+                    userList.Add(user);
+                }
+            }
+            for (int i = 0; i < users.GroupList.Count; i++)
+            {
+                Group group = users.GroupList[i];
+                if (!groupList.Contains(group))
+                {
+                    groupList.Add(group);
+                }
+            }
+
+
+            XmlNode security = _process.XmlData.CreateElement("security");
+
+            XmlNode xusers = _process.XmlData.CreateElement("users");
+            foreach (User user in userList)
+            {
+                XmlNode xuser = _process.XmlData.CreateElement("user");
+                xuser.AppendChild(_process.XmlData.CreateTextNode(user.Login));
+                xusers.AppendChild(xuser);
+            }
+
+            XmlNode xgroups = _process.XmlData.CreateElement("groups");
+            foreach (Group group in groupList)
+            {
+                XmlNode xgroup = _process.XmlData.CreateElement("group");
+                xgroup.AppendChild(_process.XmlData.CreateTextNode(group.Name));
+                xgroups.AppendChild(xgroup);
+            }
+
+            security.AppendChild(xusers);
+            security.AppendChild(xgroups);
+
+            control["security"] = security;
+        }
+
         /// <summary>
         /// Loads the page.
         /// </summary>
@@ -448,14 +524,21 @@ namespace InventIt.SiteSystem.Providers
 
             Page page = Tree.GetPage(pagePath);
 
-            if (page == null) return;
+            if (page == null)
+            {
+                return;
+            }
 
             _process.Attributes["pageroot"] = pagePath.Split('/')[0];
+
             Plugins(page);
+
             control["page"] = page.Node;
             _process.Content["templates"] = _process.Settings.GetAsNode("templates");
             if (page["template"] != "" && _process.CurrentProcess.Split('/')[0].ToLower() != "admin")
+            {
                 _process.MainTemplate = _process.Settings["templates/" + page["template"]];
+            }
         }
 
         /// <summary>
@@ -470,12 +553,16 @@ namespace InventIt.SiteSystem.Providers
             if (value != string.Empty)
             {
                 if (value.StartsWith("!"))
+                {
                     fullPath = value.Substring(1);
+                }
                 else
                 {
                     fullPath = value;
                     if (pathTrail.Trim() != string.Empty)
+                    {
                         fullPath += "/" + pathTrail;
+                    }
                 }
             }
             else
@@ -494,8 +581,6 @@ namespace InventIt.SiteSystem.Providers
             {
                 for (int b = 0; b < page.Containers[i].Elements.Count; b++)
                 {
-                    //  m_Process.Settings["sitetree/elementlist/
-
                     XmlNode xmlElementNode = page.Containers[i].Elements[b].Node;
                     string plugin = CommonXml.GetNode(xmlElementNode, "plugin").InnerText;
                     string action = CommonXml.GetNode(xmlElementNode, "action").InnerText;
@@ -511,7 +596,9 @@ namespace InventIt.SiteSystem.Providers
                                 var iPlugin = availablePlugin.Instance as IPlugin2;
                                 //_process.AddMessage("IPlugin 2");
                                 if (iPlugin != null)
+                                {
                                     iPlugin.Load(new ControlList(xmlElementNode), action, string.Empty, pathTrail);
+                                }
                             }
                             else
                             {
@@ -549,7 +636,9 @@ namespace InventIt.SiteSystem.Providers
             {
                 args = Common.RemoveOneLast(args);
                 if (args != null)
+                {
                     pagePath = string.Join("/", args);
+                }
             }
             return pagePath;
         }
@@ -570,7 +659,9 @@ namespace InventIt.SiteSystem.Providers
                     currentNode = CommonXml.GetNode(currentNode, str, EmptyNodeHandling.Ignore);
                     CommonXml.SetAttributeValue(currentNode, "inpath", "true");
                     if (i + 1 == path.Length)
+                    {
                         CommonXml.SetAttributeValue(currentNode, "currentpage", "true");
+                    }
                 }
             }
             catch
@@ -590,15 +681,21 @@ namespace InventIt.SiteSystem.Providers
             XmlNode xmlNode = Tree.TreeDocument.DocumentElement;
 
             if (value != string.Empty)
+            {
                 HandleDifferentRoot(control, ref value, xmlNode);
+            }
             else
+            {
                 control["sitetree"] = xmlNode;
+            }
 
             string pagePath = GetCurrentPage(GetFullPath(value, pathTrail).Replace("edit/", ""));
 
             // ToDo: a very dirty hack (old)
             if (pagePath != string.Empty)
+            {
                 SetCurrentPage(control["sitetree"], pagePath.Split('/'));
+            }
         }
 
         /// <summary>
@@ -626,7 +723,9 @@ namespace InventIt.SiteSystem.Providers
             XmlNode treeNode = control["sitetree"].OwnerDocument.CreateElement(treeRootName);
             XmlNode copyNode = xmlNode.SelectSingleNode(value);
             if (copyNode != null)
+            {
                 treeNode.InnerXml = copyNode.InnerXml;
+            }
 
             CommonXml.AppendAttribute(treeNode, "realname", realName);
             control["sitetree"].AppendChild(treeNode);

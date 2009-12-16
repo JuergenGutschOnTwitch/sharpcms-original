@@ -6,38 +6,40 @@ namespace InventIt.SiteSystem.Library
 {
     public class DataElementList
     {
-        private readonly XmlNode _parentNode;
+        private readonly XmlNode parentNode;
 
         protected DataElementList(XmlNode parentNode)
         {
-            _parentNode = parentNode;
+            this.parentNode = parentNode;
         }
 
         public XmlNode ParentNode
         {
-            get { return _parentNode; }
+            get { return parentNode; }
         }
 
         protected XmlDocument Document
         {
-            get { return _parentNode != null ? _parentNode.OwnerDocument : null; }
+            get { return parentNode != null ? parentNode.OwnerDocument : null; }
         }
 
         public int Count
         {
             get
             {
-                if (_parentNode == null)
+                if (parentNode == null)
+                {
                     return 0;
+                }
 
-                XmlNodeList xmlNodeList = _parentNode.SelectNodes("*");
+                XmlNodeList xmlNodeList = parentNode.SelectNodes("*");
                 return xmlNodeList == null ? 0 : xmlNodeList.Count;
             }
         }
 
         protected XmlNode GetNode(string cleanPath, EmptyNodeHandling emptyNode)
         {
-            return CommonXml.GetNode(_parentNode, cleanPath, emptyNode);
+            return CommonXml.GetNode(parentNode, cleanPath, emptyNode);
         }
     }
 }

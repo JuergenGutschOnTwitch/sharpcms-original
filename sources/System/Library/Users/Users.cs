@@ -7,33 +7,33 @@ namespace InventIt.SiteSystem.Data.Users
 {
     public class Users
     {
-        private readonly GroupList _groupList;
-        private readonly XmlDocument _userDocument;
-        private readonly string _userFileName;
-        private readonly UserList _userList;
+        private readonly GroupList groupList;
+        private readonly XmlDocument userDocument;
+        private readonly string userFileName;
+        private readonly UserList userList;
 
         public Users(Process process)
         {
-            _userFileName = process.Settings["users/filename"];
-            _userDocument = new XmlDocument();
-            _userDocument.Load(_userFileName);
-            _userList = new UserList(CommonXml.GetNode(_userDocument.DocumentElement, "users"));
-            _groupList = new GroupList(CommonXml.GetNode(_userDocument.DocumentElement, "groups"));
+            userFileName = process.Settings["users/filename"];
+            userDocument = new XmlDocument();
+            userDocument.Load(userFileName);
+            userList = new UserList(CommonXml.GetNode(userDocument.DocumentElement, "users"));
+            groupList = new GroupList(CommonXml.GetNode(userDocument.DocumentElement, "groups"));
         }
 
         public UserList UserList
         {
-            get { return _userList; }
+            get { return userList; }
         }
 
         public GroupList GroupList
         {
-            get { return _groupList; }
+            get { return groupList; }
         }
 
         public void Save()
         {
-            _userDocument.Save(_userFileName);
+            userDocument.Save(userFileName);
         }
     }
 }

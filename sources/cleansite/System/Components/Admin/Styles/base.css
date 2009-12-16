@@ -144,8 +144,8 @@ label
 .head div.viewstate
 {
     float: right;
-    margin-top:-2px;
-    margin-right:-5px;
+    margin-top: -2px;
+    margin-right: -5px;
 }
 
 .head div.viewstate p
@@ -254,7 +254,7 @@ a.button:hover
 /*************************************************************************/
 .header
 {
-    background: #628498 url(  '../images/topbg.gif' ) top left repeat-x;
+    background: #628498 url(     '../images/topbg.gif' ) top left repeat-x;
     color: white;
     float: left;
     height: 39px;
@@ -273,7 +273,7 @@ a.button:hover
 /*************************************************************************/
 .mainnavi
 {
-    background: white url(  '../images/subbg.gif' ) top left repeat-x;
+    background: white url(     '../images/subbg.gif' ) top left repeat-x;
     float: left;
     height: 26px;
     min-width: 300px;
@@ -759,7 +759,7 @@ a.button:hover
 
 .login table thead tr td
 {
-    background: #628498 url(  '../Images/topbg.gif' ) top left repeat-x;
+    background: #628498 url(     '../Images/topbg.gif' ) top left repeat-x;
 }
 
 .login table tbody tr td
@@ -792,7 +792,7 @@ a.button:hover
 /*************************************************************************/
 .choose .header
 {
-    background: #628498 url(  '../images/topbg.gif' ) top left repeat-x;
+    background: #628498 url(     '../images/topbg.gif' ) top left repeat-x;
     color: white;
     float: left;
     font-size: 18px;
@@ -846,4 +846,21 @@ input.checkbox
     margin: 0;
     padding: 2px;
     border: none;
+}
+
+.checkbox_list
+{
+    border: 1px solid #bec7cd;
+    background-color: white;
+    height: 100px;
+    width: 206px;
+    overflow: auto;
+}
+.checkbox_list ul
+{
+    list-style: none none;
+}
+.checkbox_list ul label, .checkbox_list ul input
+{
+    vertical-align: middle;
 }

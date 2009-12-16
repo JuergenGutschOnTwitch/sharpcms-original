@@ -9,6 +9,7 @@
         <load provider="Page" place="contenttwo" action="page" />
         <load provider="Page" place="basedata" action="elementlist" />
         <load provider="Page" place="basedata" action="pagestatus" />
+        <load provider="Page" place="basedata" action="security" />
       </edit>
     </page>
     <choose>
