@@ -8,21 +8,23 @@ namespace InventIt.SiteSystem
 {
     public class Cache
     {
-        private readonly HttpApplicationState _applicationState;
+        private readonly HttpApplicationState applicationState;
 
         public Cache(HttpApplicationState applicationState)
         {
-            _applicationState = applicationState;
+            this.applicationState = applicationState;
         }
 
         private Hashtable CacheTable
         {
             get
             {
-                if (_applicationState["cache"] == null)
+                if (applicationState["cache"] == null)
+                {
                     Clean();
+                }
 
-                return _applicationState["cache"] as Hashtable;
+                return applicationState["cache"] as Hashtable;
             }
         }
 
@@ -32,12 +34,16 @@ namespace InventIt.SiteSystem
             {
                 object value = this[key];
                 if (value == null)
+                {
                     return null;
+                }
 
                 string fileModified = fileDependency.LastWriteTime.ToString();
                 string cacheModifiedKey = FormatModifiedKey(key);
                 if (this[cacheModifiedKey] == null || this[cacheModifiedKey].ToString() != fileModified)
+                {
                     return null;
+                }
 
                 return value;
             }
@@ -60,7 +66,7 @@ namespace InventIt.SiteSystem
         public void Clean()
         {
             var cache = new Hashtable();
-            _applicationState["cache"] = cache;
+            applicationState["cache"] = cache;
         }
 
         private static string FormatModifiedKey(string key)

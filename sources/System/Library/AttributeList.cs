@@ -6,17 +6,17 @@ namespace InventIt.SiteSystem.Library
 {
     public class AttributeList
     {
-        private readonly XmlNode _xmlNode;
+        private readonly XmlNode xmlNode;
 
         public AttributeList(XmlNode xmlNode)
         {
-            _xmlNode = xmlNode;
+            this.xmlNode = xmlNode;
         }
 
         public string this[string name]
         {
-            get { return CommonXml.GetAttributeValue(_xmlNode, name); }
-            set { CommonXml.SetAttributeValue(_xmlNode, name, value); }
+            get { return CommonXml.GetAttributeValue(xmlNode, name); }
+            set { CommonXml.SetAttributeValue(xmlNode, name, value); }
         }
     }
 }

@@ -11,12 +11,14 @@ namespace InventIt.SiteSystem.Library
     {
         private static string[] GetConfigFileNames(string fileName, IEnumerable<string> paths)
         {
-            var processFiles = new List<string>();
+            List<string> processFiles = new List<string>();
 
             foreach (string path in paths)
             {
                 if (path.EndsWith(".xml"))
+                {
                     processFiles.Add(path);
+                }
                 else
                 {
                     string[] directories = Directory.GetDirectories(path);
@@ -25,7 +27,9 @@ namespace InventIt.SiteSystem.Library
                     {
                         string fullName = Common.CombinePaths(path, directory, fileName);
                         if (File.Exists(fullName))
+                        {
                             processFiles.Add(fullName);
+                        }
                     }
                 }
             }
@@ -38,11 +42,15 @@ namespace InventIt.SiteSystem.Library
             foreach (string fileName in fileNames)
             {
                 if (cache["changed_" + fileName] == null)
+                {
                     return true;
+                }
 
-                var cacheChanged = (DateTime) cache["changed_" + fileName];
+                DateTime cacheChanged = (DateTime) cache["changed_" + fileName];
                 if (cacheChanged != File.GetLastWriteTime(fileName))
+                {
                     return true;
+                }
             }
 
             return false;
@@ -53,12 +61,12 @@ namespace InventIt.SiteSystem.Library
             string[] fileNames = GetConfigFileNames("Process.xml", paths);
             if (FilesChanged(fileNames, cache))
             {
-                var combinedProcess = new XmlDocument();
+                XmlDocument combinedProcess = new XmlDocument();
                 combinedProcess.AppendChild(combinedProcess.CreateElement("process"));
 
                 foreach (string fileName in fileNames)
                 {
-                    var xmlDocument = new XmlDocument();
+                    XmlDocument xmlDocument = new XmlDocument();
                     xmlDocument.Load(fileName);
                     CommonXml.MergeXml(combinedProcess, xmlDocument, "load", "handle");
                     cache["changed_" + fileName] = File.GetLastWriteTime(fileName);
@@ -73,12 +81,12 @@ namespace InventIt.SiteSystem.Library
             string[] fileNames = GetConfigFileNames("Settings.xml", paths);
             if (FilesChanged(fileNames, cache))
             {
-                var combinedSettings = new XmlDocument();
+                XmlDocument combinedSettings = new XmlDocument();
                 combinedSettings.AppendChild(combinedSettings.CreateElement("settings"));
 
                 foreach (string fileName in fileNames)
                 {
-                    var xmlDocument = new XmlDocument();
+                    XmlDocument xmlDocument = new XmlDocument();
                     xmlDocument.Load(fileName);
                     CommonXml.MergeXml(combinedSettings, xmlDocument, "item");
                     cache["changed_" + fileName] = File.GetLastWriteTime(fileName);
