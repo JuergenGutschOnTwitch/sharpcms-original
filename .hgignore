@@ -1,7 +1,9 @@
 syntax: glob
+sources/sharpcms.suo
 syntax: regexp
 sources/_ReSharper
 /obj/
 /bin/
 /Bin/
 sources/cleansite/Custom/App_Data/Files/Files/Pictures/thumbs/
+sources/resources/Sharpcms.
