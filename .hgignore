@@ -3,3 +3,5 @@ syntax: regexp
 sources/_ReSharper
 /obj/
 /bin/
+/Bin/
+sources/cleansite/Custom/App_Data/Files/Files/Pictures/thumbs/
