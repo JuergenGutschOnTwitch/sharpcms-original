@@ -6,7 +6,6 @@
       <features menuname="Features" pageidentifier="german/about/features" status="open" pagename="Features" lastedited="25.09.2007" metakeywords="sharpcms, content management, content management system, cms, xml, xslt" metadescription="die Features des sharpcms" template="" />
       <release_notes menuname="Versionshinweise" pageidentifier="german/about/release_notes" status="hide" pagename="Versionshinweise" lastedited="25.09.2007" metakeywords="sharpcms, content management, content management system, cms, xml, xslt" metadescription="die Versionshinweise des sharpcms" />
       <system_requirements menuname="Systemvoraussetzungen" pageidentifier="german/about/system_requirements" status="open" pagename="Systemvoraussetzungen" lastedited="05.01.2008" metakeywords="sharpcms, content management, content management system, cms, xml, xslt, system" metadescription="die Systemvoraussetzungen des sharpcms" template="" />
-      <tueoeaest menuname="Tüöäst" pageidentifier="german/about/tueoeaest" status="open" />
     </about>
     <support menuname="Support" pageidentifier="german/support" status="open" pagename="Support" lastedited="" metakeywords="suport, sharpcms, XML XSL, ASP.NET, C#" metadescription="support für sharpcms" template="">
       <tips_und_tricks menuname="Tips und Tricks" pageidentifier="german/support/tips_und_tricks" status="open" pagename="Tips und Tricks" lastedited="" template="" metakeywords="tips, tricks, asp.net, c#, xml, xslt" metadescription="tips und tricks zu zu sharpcms">
