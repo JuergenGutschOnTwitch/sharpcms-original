@@ -1,3 +1,5 @@
 syntax: glob
 syntax: regexp
 sources/_ReSharper
+/obj/
+/bin/
