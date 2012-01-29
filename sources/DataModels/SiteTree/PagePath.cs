@@ -1,6 +1,6 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
-namespace InventIt.SiteSystem.Data.SiteTree
+namespace Sharpcms.Data.SiteTree
 {
     public class PagePath
     {
@@ -9,7 +9,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
 
         public PagePath(string path)
         {
-            int lastPathPosition = path.LastIndexOf("/");
+            int lastPathPosition = path.LastIndexOf("/", System.StringComparison.Ordinal);
             if (lastPathPosition > 0)
             {
                 _path = path.Substring(0, lastPathPosition);

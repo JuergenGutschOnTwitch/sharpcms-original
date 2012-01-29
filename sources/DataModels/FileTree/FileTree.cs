@@ -1,82 +1,85 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
-using InventIt.SiteSystem.Library;
+using Sharpcms.Library;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Data.FileTree
+namespace Sharpcms.Data.FileTree
 {
     public class FileTree
     {
-        private readonly Process process;
-        private readonly string rootFilesPath;
+        private readonly Process _process;
+        private readonly string _rootFilesPath;
 
         public FileTree(Process process)
         {
-            this.process = process;
-            rootFilesPath = Path.Combine(this.process.Root, this.process.Settings["filetree/filesPath"]);
-            RootFolder = new FolderElement(rootFilesPath);
+            _process = process;
+            _rootFilesPath = Path.Combine(_process.Root, _process.Settings["filetree/filesPath"]);
+            RootFolder = new FolderElement(_rootFilesPath);
         }
 
         public FolderElement RootFolder { get; private set; }
 
         public bool FolderExists(string path)
         {
-            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path);
+            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
             return Directory.Exists(combinedPath);
         }
 
         public bool FileExists(string path)
         {
-            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path);
+            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
             return File.Exists(combinedPath);
         }
 
         public void CreateFolder(string path, string name)
         {
             name = Common.CleanToSafeString(name);
-            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path, name);
+            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path, name);
             Directory.CreateDirectory(combinedPath);
         }
 
         public void DeleteFolder(string path)
         {
-            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path);
+            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
             Common.DeleteDirectory(combinedPath);
         }
 
         public void DeleteFile(string path)
         {
-            string combinedPath = Common.CheckedCombinePaths(rootFilesPath, path);
+            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
             File.Delete(combinedPath);
         }
 
         public FolderElement GetFolder(string folder)
         {
-            string path = Path.Combine(rootFilesPath, folder);
+            string path = Path.Combine(_rootFilesPath, folder);
             return Directory.Exists(path)
                 ? new FolderElement(path)
                 : null;
         }
 
-        public string[] SaveUploadedFiles(string path)
+        public void SaveUploadedFiles(string path)
         {
-            int fileCount = process.HttpPage.Request.Files.Count;
-            string[] files = new string[fileCount];
+            int fileCount = _process.HttpPage.Request.Files.Count;
+            var files = new string[fileCount];
 
             for (int fileIndex = 0; fileIndex < fileCount; fileIndex++)
             {
-                HttpPostedFile file = process.HttpPage.Request.Files[fileIndex];
+                HttpPostedFile file = _process.HttpPage.Request.Files[fileIndex];
 
                 if (path != null && file.ContentLength > 0)
                 {
-                    string prepend = process.QueryOther["file_prepend"];
+                    string prepend = _process.QueryOther["file_prepend"];
                     if (!string.IsNullOrEmpty(prepend))
                     {
                         prepend = prepend + "_";
@@ -87,7 +90,7 @@ namespace InventIt.SiteSystem.Data.FileTree
                     }
 
                     string filename = string.Join("_", Common.CleanToSafeString(Path.GetFileName(file.FileName)).Split(' '));
-                    string fullName = Common.CombinePaths(rootFilesPath, path, prepend + filename);
+                    string fullName = Common.CombinePaths(_rootFilesPath, path, prepend + filename);
                     if (Common.PathIsInSite(fullName) && filename != "")
                     {
                         file.SaveAs(fullName);
@@ -96,21 +99,19 @@ namespace InventIt.SiteSystem.Data.FileTree
                 }
                 else if (path != null && file.ContentLength == 0 && file.FileName != string.Empty)
                 {
-                    process.AddMessage(
+                    _process.AddMessage(
                         string.Format("The file \"{0}\" was ignored because it was empty.", file.FileName),
                         MessageType.Error);
                 }
             }
-
-            return files;
         }
 
         public void SendToBrowser(string filename)
         {
-            HttpResponse response = process.HttpPage.Response;
+            HttpResponse response = _process.HttpPage.Response;
 
-            FileInfo fileInfo = new FileInfo(Path.Combine(rootFilesPath, filename));
-            if (fileInfo.FullName.StartsWith(rootFilesPath))
+            var fileInfo = new FileInfo(Path.Combine(_rootFilesPath, filename));
+            if (fileInfo.FullName.StartsWith(_rootFilesPath))
             {
                 if (fileInfo.Exists)
                 {
@@ -118,26 +119,24 @@ namespace InventIt.SiteSystem.Data.FileTree
                     string currentFile = fileInfo.FullName;
 
                     int width;
-                    int.TryParse(process.QueryOther["width"], out width);
+                    int.TryParse(_process.QueryOther["width"], out width);
 
                     int height;
-                    int.TryParse(process.QueryOther["height"], out height);
+                    int.TryParse(_process.QueryOther["height"], out height);
 
                     int radius;
-                    int.TryParse(process.QueryOther["radius"], out radius);
+                    int.TryParse(_process.QueryOther["radius"], out radius);
 
                     int borderwidth;
-                    int.TryParse(process.QueryOther["borderwidth"], out borderwidth);
+                    int.TryParse(_process.QueryOther["borderwidth"], out borderwidth);
 
-                    string bordercolor = ("#" + process.QueryOther["bordercolor"]);
+                    string bordercolor = ("#" + _process.QueryOther["bordercolor"]);
 
-                    bool isFixed = process.QueryOther["fixed"] == "true";
+                    bool isFixed = _process.QueryOther["fixed"] == "true";
                     if (width > 0 || height > 0 || radius >= 0)
                     {
                         Bitmap bitmap = null;
-                        string newFilename = string.Format("{0}_{1}x{2}r{3}",
-                                                           fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()),
-                                                           width, height, radius);
+                        string newFilename = string.Format("{0}_{1}x{2}r{3}", fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height, radius);
 
                         if (borderwidth > 0 && Regex.IsMatch(bordercolor, @"[#]([0-9]|[a-f]|[A-F]){6}\b"))
                         {
@@ -151,7 +150,7 @@ namespace InventIt.SiteSystem.Data.FileTree
                             string thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs",
                                                                        newFilename);
 
-                            DateTime rerender = new DateTime(2006, 9, 25);
+                            var rerender = new DateTime(2006, 9, 25);
                             FileInfo thumbInfo = null;
                             if (File.Exists(thumbnailFile))
                                 thumbInfo = new FileInfo(thumbnailFile);
@@ -161,7 +160,7 @@ namespace InventIt.SiteSystem.Data.FileTree
                                 bitmap = new Bitmap(fileInfo.FullName);
                                 if (fileInfo.Extension.ToLower() == ".gif")
                                 {
-                                    Bitmap realBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+                                    var realBitmap = new Bitmap(bitmap.Width, bitmap.Height);
                                     for (int x = 0; x < bitmap.Width; x++)
                                     {
                                         for (int y = 0; y < bitmap.Height; y++)
@@ -189,7 +188,7 @@ namespace InventIt.SiteSystem.Data.FileTree
                                     Directory.CreateDirectory(fileInfo.Directory + @"\thumbs");
                                 }
 
-                                EncoderParameters eps = new EncoderParameters(1);
+                                var eps = new EncoderParameters(1);
                                 eps.Param[0] = new EncoderParameter(Encoder.Quality, 95L);
                                 ImageCodecInfo ici = GetEncoderInfo("image/png");
                                 bitmap.Save(thumbnailFile, ici, eps);
@@ -200,8 +199,8 @@ namespace InventIt.SiteSystem.Data.FileTree
                     }
 
                     // Send image to browser
-                    FileInfo file = new FileInfo(currentFile);
-                    if (process.QueryOther["download"] == "true")
+                    var file = new FileInfo(currentFile);
+                    if (_process.QueryOther["download"] == "true")
                     {
                         response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
                     }
@@ -209,7 +208,8 @@ namespace InventIt.SiteSystem.Data.FileTree
                     {
                         response.AddHeader("Content-Disposition", "filename=" + file.Name);
                     }
-                    response.AddHeader("Content-Length", file.Length.ToString());
+
+                    response.AddHeader("Content-Length", file.Length.ToString(CultureInfo.InvariantCulture));
                     response.AddHeader("Content-Type", Common.GetMimeType(file.Extension));
 
                     response.Cache.SetExpires(DateTime.Now + new TimeSpan(7, 0, 0, 0));
@@ -234,9 +234,9 @@ namespace InventIt.SiteSystem.Data.FileTree
             // Crop
             if (width > 0 && height > 0)
             {
-                tmpImage = isFixed
-                               ? ImageResize.FixedSize(tmpImage, width, height, Color.White)
-                               : ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
+                tmpImage = isFixed 
+                    ? ImageResize.FixedSize(tmpImage, width, height, Color.White)
+                    : ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
             }
 
             // Resize
@@ -275,20 +275,20 @@ namespace InventIt.SiteSystem.Data.FileTree
 
         public void MoveFolder(string folder, string newContainingDirectory)
         {
-            Common.MoveDirectory(Common.CombinePaths(rootFilesPath, folder),
-                                 Common.CombinePaths(rootFilesPath, newContainingDirectory));
+            Common.MoveDirectory(Common.CombinePaths(_rootFilesPath, folder),
+                                 Common.CombinePaths(_rootFilesPath, newContainingDirectory));
         }
 
         public void MoveFile(string file, string newContainingDiretory)
         {
-            Common.MoveFile(Common.CombinePaths(rootFilesPath, file),
-                            Common.CombinePaths(rootFilesPath, newContainingDiretory));
+            Common.MoveFile(Common.CombinePaths(_rootFilesPath, file),
+                            Common.CombinePaths(_rootFilesPath, newContainingDiretory));
         }
 
         public void RenameFile(string file, string newFileName)
         {
-            string filePath = Common.CheckedCombinePaths(rootFilesPath, file);
-            FileInfo fileInfo = new FileInfo(filePath);
+            string filePath = Common.CheckedCombinePaths(_rootFilesPath, file);
+            var fileInfo = new FileInfo(filePath);
             string filePathNew = Common.CheckedCombinePaths(fileInfo.DirectoryName, newFileName);
 
             fileInfo.MoveTo(filePathNew);
@@ -296,9 +296,9 @@ namespace InventIt.SiteSystem.Data.FileTree
 
         public void RenameFolder(string folder, string newFolderName)
         {
-            string folderPath = Common.CheckedCombinePaths(rootFilesPath, folder);
+            string folderPath = Common.CheckedCombinePaths(_rootFilesPath, folder);
 
-            DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
+            var folderInfo = new DirectoryInfo(folderPath);
             if (folderInfo.Parent != null)
             {
                 string folderPathNew = Common.CheckedCombinePaths(folderInfo.Parent.FullName, newFolderName);
@@ -325,22 +325,22 @@ namespace InventIt.SiteSystem.Data.FileTree
 
     public class FolderElement
     {
-        private readonly DirectoryInfo directoryInfo;
+        private readonly DirectoryInfo _directoryInfo;
 
         public FolderElement(string path)
         {
-            directoryInfo = new DirectoryInfo(path);
+            _directoryInfo = new DirectoryInfo(path);
         }
 
         private string Name
         {
-            get { return directoryInfo.Name; }
+            get { return _directoryInfo.Name; }
         }
 
         private static bool Filter(string name)
         {
             const string illegal = "._";
-            return !illegal.Contains(name[0].ToString());
+            return !illegal.Contains(name[0].ToString(CultureInfo.InvariantCulture));
         }
 
         public void GetXml(XmlNode xmlNode, SubFolder subFolder)
@@ -348,7 +348,7 @@ namespace InventIt.SiteSystem.Data.FileTree
             XmlNode folderNode = CommonXml.GetNode(xmlNode, "folder", EmptyNodeHandling.ForceCreateNew);
             CommonXml.SetAttributeValue(folderNode, "name", Name);
 
-            foreach (FileInfo file in directoryInfo.GetFiles())
+            foreach (FileInfo file in _directoryInfo.GetFiles())
             {
                 XmlNode fileNode = CommonXml.GetNode(folderNode, "file", EmptyNodeHandling.ForceCreateNew);
                 CommonXml.SetAttributeValue(fileNode, "name", file.Name);
@@ -358,11 +358,11 @@ namespace InventIt.SiteSystem.Data.FileTree
 
             if (subFolder == SubFolder.IncludeSubfolders)
             {
-                foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+                foreach (DirectoryInfo dir in _directoryInfo.GetDirectories())
                 {
                     if (Filter(dir.Name))
                     {
-                        FolderElement folderElement = new FolderElement(dir.FullName);
+                        var folderElement = new FolderElement(dir.FullName);
                         folderElement.GetXml(folderNode, SubFolder.IncludeSubfolders);
                     }
                 }
@@ -371,32 +371,30 @@ namespace InventIt.SiteSystem.Data.FileTree
 
         private void GetFileAttributes(XmlNode xmlNode, String fileName) 
         {
-            DataRow[] dr;
-            DataSet ds = new DataSet();
+            var dataSet = new DataSet();
             try
             {
-                ds.ReadXml(directoryInfo.FullName + "\\data\\gallery.xml");
-                if (ds.Tables["file"] == null) return;
+                dataSet.ReadXml(_directoryInfo.FullName + "\\data\\gallery.xml");
+                if (dataSet.Tables["file"] == null) return;
 
-                dr = ds.Tables["file"].Select("name='" + fileName + "'");
-                if (dr.Length == 0) return;
+                DataRow[] dataRows = dataSet.Tables["file"].Select("name='" + fileName + "'");
+                if (dataRows.Length == 0) return;
 
-                CommonXml.SetAttributeValue(xmlNode, "title", dr[0]["title"].ToString());
-                CommonXml.SetAttributeValue(xmlNode, "description", dr[0]["description"].ToString());
+                CommonXml.SetAttributeValue(xmlNode, "title", dataRows[0]["title"].ToString());
+                CommonXml.SetAttributeValue(xmlNode, "description", dataRows[0]["description"].ToString());
             }
             catch
             {
             }
             finally
             {
-                ds.Dispose();
+                dataSet.Dispose();
             }
         }
     }
 
     public enum SubFolder
     {
-        IncludeSubfolders,
-        OnlyThisFolder
+        IncludeSubfolders, OnlyThisFolder
     }
 }

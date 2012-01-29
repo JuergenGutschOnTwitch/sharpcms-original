@@ -42,6 +42,7 @@
 /// The author makes no guarantee regarding the fitness of this code, and hereby disclaims
 /// all liability for any damage incurred as a result of using this code.
 /// </summary>
+
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -49,7 +50,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 
-namespace InventIt.SiteSystem.Library
+namespace Sharpcms.Library
 {
     /// <summary>
     /// Utility class with static methods that do various useful things

@@ -86,8 +86,7 @@
             media_external_list_url : "js/media_list.js",
             editor_selector : "mceeditor"
           });
-        </script>
-        <script type="text/javascript">
+
             $(function() {
             $("#tabs").tabs();
             $("#pada_body_tabs").tabs();
@@ -113,7 +112,7 @@
             <!-- Begin Header -->
             <div class="header">
               <a href="{/data/basepath}">
-                <img src="System/Components/Admin/Images/logo.gif" alt="" />
+                <img src="System/Components/Admin/Images/logo.gif" />
               </a>
             </div>
             <!-- End Header -->
@@ -127,7 +126,9 @@
               </ul>
               <ul class="right">
                 <li>
-                  <a href="{/data/basepath}" target="_blank">Show website</a>
+                  <a href="{/data/basepath}" target="_blank">
+                    <xsl:text>Show website</xsl:text>
+                  </a>
                 </li>
                 <xsl:apply-templates mode="topmenu" select="/data/basedata/adminmenu/right/item">
                   <xsl:sort select="@weight" order="ascending" />
@@ -166,7 +167,6 @@
 
   <xsl:template mode="topmenu" match="item">
     <li>
-      <!--<div>-->
       <a>
         <xsl:attribute name="href">
           <xsl:if test="@path">
@@ -183,11 +183,8 @@
             <xsl:text>', '');</xsl:text>
           </xsl:if>
         </xsl:attribute>
-        <!--<xsl:if test="position()-last()=-3"><xsl:attribute name="style"><xsl:text>padding-left:50px;</xsl:text></xsl:attribute></xsl:if>-->
         <xsl:value-of select="." />
       </a>
-      <!--<xsl:if test="not(position()=last())"><span class="middot">·</span></xsl:if>-->
-      <!--</div>-->
     </li>
   </xsl:template>
 </xsl:stylesheet>

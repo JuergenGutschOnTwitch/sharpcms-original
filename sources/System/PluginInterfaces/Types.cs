@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
-namespace InventIt.SiteSystem.Plugin.Types
+namespace Sharpcms.PluginInterface
 {
 	/// <summary>
 	/// Collection for AvailablePlugin Type
@@ -15,18 +13,18 @@ namespace InventIt.SiteSystem.Plugin.Types
 		/// Add a Plugin to the collection of Available plugins
 		/// </summary>
 		/// <param name="pluginToAdd">The Plugin to Add</param>
-		public void Add(Types.AvailablePlugin pluginToAdd)
+		public void Add(AvailablePlugin pluginToAdd)
 		{
-			this.List.Add(pluginToAdd);
+			List.Add(pluginToAdd);
 		}
 
 		/// <summary>
 		/// Remove a Plugin to the collection of Available plugins
 		/// </summary>
 		/// <param name="pluginToRemove">The Plugin to Remove</param>
-		public void Remove(Types.AvailablePlugin pluginToRemove)
+		public void Remove(AvailablePlugin pluginToRemove)
 		{
-			this.List.Remove(pluginToRemove);
+			List.Remove(pluginToRemove);
 		}
 
 		/// <summary>
@@ -34,12 +32,12 @@ namespace InventIt.SiteSystem.Plugin.Types
 		/// </summary>
 		/// <param name="pluginNameOrPath">The name or File path of the plugin to find</param>
 		/// <returns>Available Plugin, or null if the plugin is not found</returns>
-		public Types.AvailablePlugin Find(string pluginNameOrPath)
+		public AvailablePlugin Find(string pluginNameOrPath)
 		{
-			Types.AvailablePlugin toReturn = null;
+			AvailablePlugin toReturn = null;
 
 			//Loop through all the plugins
-			foreach (Types.AvailablePlugin pluginOn in this.List)
+			foreach (AvailablePlugin pluginOn in this.List)
 			{
 				//Find the one with the matching name or filename
 				if ((pluginOn.Instance.Name.Equals(pluginNameOrPath)) || pluginOn.AssemblyPath.Equals(pluginNameOrPath))
@@ -60,18 +58,19 @@ namespace InventIt.SiteSystem.Plugin.Types
 		//This is the actual AvailablePlugin object.. 
 		//Holds an instance of the plugin to access
 		//ALso holds assembly path... not really necessary
-		private IPlugin myInstance = null;
-		private string myAssemblyPath = "";
+	    private string _assemblyPath = "";
 
-		public IPlugin Instance
+	    public AvailablePlugin()
+	    {
+	        Instance = null;
+	    }
+
+	    public IPlugin Instance { get; set; }
+
+	    public string AssemblyPath
 		{
-			get { return myInstance; }
-			set { myInstance = value; }
-		}
-		public string AssemblyPath
-		{
-			get { return myAssemblyPath; }
-			set { myAssemblyPath = value; }
+			get { return _assemblyPath; }
+			set { _assemblyPath = value; }
 		}
 	}
 }

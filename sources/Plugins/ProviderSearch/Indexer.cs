@@ -1,4 +1,4 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.Collections;
@@ -10,9 +10,8 @@ using System.Xml.XPath;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Env = System.Environment;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.ProviderSearch
 {
     internal class Rule
     {
@@ -47,34 +46,34 @@ namespace InventIt.SiteSystem.Providers
 
     internal class DocItem
     {
-        private readonly string key;
-        private readonly ArrayList rules = new ArrayList();
-        private readonly string xPath;
+        private readonly string _key;
+        private readonly ArrayList _rules = new ArrayList();
+        private readonly string _xPath;
 
         public DocItem(string xPath, string key)
         {
-            this.xPath = xPath;
-            this.key = key;
+            _xPath = xPath;
+            _key = key;
         }
 
         public ArrayList Rules
         {
-            get { return rules; }
+            get { return _rules; }
         }
 
         public string XPath
         {
-            get { return xPath; }
+            get { return _xPath; }
         }
 
         public string Key
         {
-            get { return key; }
+            get { return _key; }
         }
 
-        private void AddRule(Rule r)
+        private void AddRule(Rule rule)
         {
-            rules.Add(r);
+            _rules.Add(rule);
         }
 
         public void AddRule(string name, string type, string xPath)
@@ -84,54 +83,55 @@ namespace InventIt.SiteSystem.Providers
 
         public override string ToString()
         {
-            var rs = new StringBuilder();
-            rs.AppendFormat("DocItem: Key '{0}' XPath '{1}'" + Environment.NewLine, Key, XPath);
-            rs.Append("Rules:" + Environment.NewLine);
-            foreach (Rule r in Rules)
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("DocItem: Key '{0}' XPath '{1}'" + Environment.NewLine, Key, XPath);
+            stringBuilder.Append("Rules:" + Environment.NewLine);
+
+            foreach (Rule rule in Rules)
             {
-                rs.Append(r + Environment.NewLine);
+                stringBuilder.Append(rule + Environment.NewLine);
             }
 
-            return rs.ToString();
+            return stringBuilder.ToString();
         }
     }
 
     internal class RuleSet
     {
-        private readonly ArrayList docItems = new ArrayList();
-        private readonly ArrayList globalRules = new ArrayList();
-        private readonly string name;
-        private readonly string ns;
+        private readonly ArrayList _docItems = new ArrayList();
+        private readonly ArrayList _globalRules = new ArrayList();
+        private readonly string _name;
+        private readonly string _namespace;
 
         public RuleSet(string name, string nameSpace)
         {
-            this.name = name;
-            ns = nameSpace;
+            _name = name;
+            _namespace = nameSpace;
         }
 
         public string Name
         {
-            get { return name; }
+            get { return _name; }
         }
 
         private string Namespace
         {
-            get { return ns; }
+            get { return _namespace; }
         }
 
         public ArrayList GlobalRules
         {
-            get { return globalRules; }
+            get { return _globalRules; }
         }
 
         public ArrayList DocItems
         {
-            get { return docItems; }
+            get { return _docItems; }
         }
 
         private void AddGlobalRule(Rule r)
         {
-            globalRules.Add(r);
+            _globalRules.Add(r);
         }
 
         public void AddGlobalRule(string name, string type, string xpath)
@@ -141,64 +141,65 @@ namespace InventIt.SiteSystem.Providers
 
         public override string ToString()
         {
-            var rs = new StringBuilder();
-            rs.AppendFormat("RuleSet for document type '{0}', namespace '{1}'" + Environment.NewLine,
-                            Name, Namespace);
-            rs.Append("Global rules:" + Environment.NewLine);
-            foreach (Rule r in globalRules)
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("RuleSet for document type '{0}', namespace '{1}'" + Environment.NewLine, Name, Namespace);
+            stringBuilder.Append("Global rules:" + Environment.NewLine);
+
+            foreach (Rule rule in _globalRules)
             {
-                rs.Append(r + Environment.NewLine);
+                stringBuilder.Append(rule + Environment.NewLine);
             }
 
-            rs.Append("Document items:" + Environment.NewLine);
-            foreach (DocItem d in docItems)
+            stringBuilder.Append("Document items:" + Environment.NewLine);
+            foreach (DocItem docItem in _docItems)
             {
-                rs.Append(d.ToString());
+                stringBuilder.Append(docItem.ToString());
             }
 
-            return rs.ToString();
+            return stringBuilder.ToString();
         }
 
         public DocItem AddDocItem(string xp, string key)
         {
-            var d = new DocItem(xp, key);
-            docItems.Add(d);
-            return d;
+            var addDocItem = new DocItem(xp, key);
+
+            _docItems.Add(addDocItem);
+
+            return addDocItem;
         }
     }
 
     public class Indexer
     {
-        private static string RULENS = "";
-        private readonly ArrayList fileList = new ArrayList();
-        private readonly string indexName;
-        private readonly ArrayList ruleSets;
-        private readonly StringBuilder sbMsg;
-        private readonly bool verbose;
-        private string docRootDirectory;
-        private string pattern;
+        private const string Rules = "";
+        private readonly ArrayList _fileList = new ArrayList();
+        private readonly string _indexName;
+        private readonly ArrayList _ruleSets;
+        private readonly StringBuilder _messageStringBuilder;
+        private readonly bool _verbose;
+        private string _docRootDirectory;
+        private string _pattern;
 
         public Indexer(string name, bool verbose)
         {
-            ruleSets = new ArrayList();
-            this.verbose = verbose;
-            indexName = name;
-            sbMsg = new StringBuilder();
+            _ruleSets = new ArrayList();
+            _verbose = verbose;
+            _indexName = name;
+            _messageStringBuilder = new StringBuilder();
         }
 
-        public Indexer(string name)
-            : this(name, false)
+        public Indexer(string name) : this(name, false)
         {
         }
 
         public string DocRootDirectory
         {
-            get { return docRootDirectory; }
+            get { return _docRootDirectory; }
         }
 
         public string ProcMessage
         {
-            get { return sbMsg.ToString(); }
+            get { return _messageStringBuilder.ToString(); }
         }
 
         /// <summary>
@@ -208,8 +209,8 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="pattern">Search pattern, e.g. <c>"*.html"</c></param>
         public void AddDirectory(DirectoryInfo directory, string pattern)
         {
-            docRootDirectory = directory.FullName;
-            this.pattern = pattern;
+            _docRootDirectory = directory.FullName;
+            _pattern = pattern;
 
             AddSubDirectory(directory);
         }
@@ -221,60 +222,76 @@ namespace InventIt.SiteSystem.Providers
 
         private void AddSubDirectory(DirectoryInfo directory)
         {
-            foreach (FileInfo fi in directory.GetFiles(pattern))
+            foreach (FileInfo fileInfo in directory.GetFiles(_pattern))
             {
-                if (fileList.Contains(fi.FullName))
-                    sbMsg.AppendFormat("Error : {0}\n", fi.FullName);
+                if (_fileList.Contains(fileInfo.FullName))
+                {
+                    _messageStringBuilder.AppendFormat("Error : {0}\n", fileInfo.FullName);
+                }
                 else
-                    fileList.Add(fi.FullName);
+                {
+                    _fileList.Add(fileInfo.FullName);
+                }
             }
 
-            foreach (DirectoryInfo di in directory.GetDirectories())
-                AddSubDirectory(di);
+            foreach (DirectoryInfo directoryInfo in directory.GetDirectories())
+            {
+                AddSubDirectory(directoryInfo);
+            }
         }
 
         public void LoadRules(string filename)
         {
-            var rd = new XPathDocument(new StreamReader(filename));
-            XPathNavigator n = rd.CreateNavigator();
-            XPathNodeIterator iter = n.Select("/rules/doctype");
+            var xPathDocument = new XPathDocument(new StreamReader(filename));
+            XPathNavigator pathNavigator = xPathDocument.CreateNavigator();
+            XPathNodeIterator xPathNodeIterator = pathNavigator.Select("/rules/doctype");
 
-            while (iter.MoveNext())
+            while (xPathNodeIterator.MoveNext())
             {
-                XPathNavigator cn = iter.Current.Clone();
-                string root = cn.GetAttribute("root", RULENS);
-                string ns = cn.GetAttribute("namespace", RULENS);
-                var rset = new RuleSet(root, ns);
-                XPathNodeIterator riter = cn.Select("rule");
-
-                while (riter.MoveNext())
+                if (xPathNodeIterator.Current != null)
                 {
-                    rset.AddGlobalRule(riter.Current.GetAttribute("field", RULENS),
-                                       riter.Current.GetAttribute("type", RULENS),
-                                       riter.Current.GetAttribute("xpath", RULENS));
-                }
+                    XPathNavigator clone = xPathNodeIterator.Current.Clone();
+                    string root = clone.GetAttribute("root", Rules);
+                    string nameSpace = clone.GetAttribute("namespace", Rules);
+                    var ruleSet = new RuleSet(root, nameSpace);
+                    XPathNodeIterator riter = clone.Select("rule");
 
-                riter = cn.Select("document");
-
-                while (riter.MoveNext())
-                {
-                    XPathNavigator dn = riter.Current.Clone();
-                    string xpath = dn.GetAttribute("xpath", RULENS);
-                    string key = dn.GetAttribute("key", RULENS);
-                    DocItem d = rset.AddDocItem(xpath, key);
-                    XPathNodeIterator diter = dn.Select("rule");
-                    while (diter.MoveNext())
+                    while (riter.MoveNext())
                     {
-                        d.AddRule(diter.Current.GetAttribute("field", RULENS),
-                                  diter.Current.GetAttribute("type", RULENS),
-                                  diter.Current.GetAttribute("xpath", RULENS));
+                        if (riter.Current != null)
+                        {
+                            ruleSet.AddGlobalRule(riter.Current.GetAttribute("field", Rules), riter.Current.GetAttribute("type", Rules), riter.Current.GetAttribute("xpath", Rules));
+                        }
                     }
+
+                    riter = clone.Select("document");
+
+                    while (riter.MoveNext())
+                    {
+                        if (riter.Current != null)
+                        {
+                            XPathNavigator xPathNavigator = riter.Current.Clone();
+                            string xpath = xPathNavigator.GetAttribute("xpath", Rules);
+                            string key = xPathNavigator.GetAttribute("key", Rules);
+                            DocItem docItem = ruleSet.AddDocItem(xpath, key);
+                            XPathNodeIterator diter = xPathNavigator.Select("rule");
+                            while (diter.MoveNext())
+                            {
+                                if (diter.Current != null)
+                                {
+                                    docItem.AddRule(diter.Current.GetAttribute("field", Rules), diter.Current.GetAttribute("type", Rules), diter.Current.GetAttribute("xpath", Rules));
+                                }
+                            }
+                        }
+                    }
+
+                    if (_verbose)
+                    {
+                        _messageStringBuilder.Append(ruleSet + "\n");
+                    }
+
+                    _ruleSets.Add(ruleSet);
                 }
-
-                if (verbose)
-                    sbMsg.Append(rset + "\n");
-
-                ruleSets.Add(rset);
             }
         }
 
@@ -289,7 +306,7 @@ namespace InventIt.SiteSystem.Providers
                     ludoc.Add(Field.Keyword(rule.Name, val));
                     break;
                 default:
-                    sbMsg.AppendFormat("Ignoring unknown rule type: {0}\n", rule);
+                    _messageStringBuilder.AppendFormat("Ignoring unknown rule type: {0}\n", rule);
                     break;
             }
         }
@@ -311,94 +328,96 @@ namespace InventIt.SiteSystem.Providers
 
         public void IndexDocument(string fname)
         {
-            var r = new ArrayList { fname };
-            IndexDocuments(r);
+            var arrayList = new ArrayList { fname };
+            IndexDocuments(arrayList);
         }
 
         public ArrayList IndexDocuments()
         {
-            return IndexDocuments(fileList);
+            return IndexDocuments(_fileList);
         }
 
         public ArrayList IndexDocuments(ArrayList fnames)
         {
             var failures = new ArrayList();
-            IndexModifier writer;
-
-            if (File.Exists(Path.Combine(indexName, "segments")))
-            {
-                // create index if it doesn't exist
-                writer = new IndexModifier(indexName, new StandardAnalyzer(), false);
-            }
-            else
-            {
-                writer = new IndexModifier(indexName, new StandardAnalyzer(), true);
-            }
+ 
+            // create index if it doesn't exist
+             IndexModifier writer = File.Exists(Path.Combine(_indexName, "segments")) 
+                ? new IndexModifier(_indexName, new StandardAnalyzer(), false) 
+                : new IndexModifier(_indexName, new StandardAnalyzer(), true);
 
             foreach (string fname in fnames)
             {
                 try
                 {
-                    if (verbose)
+                    if (_verbose)
                     {
-                        sbMsg.AppendFormat("Indexing file: {0}\n", fname);
+                        _messageStringBuilder.AppendFormat("Indexing file: {0}\n", fname);
                     }
 
-                    var rd = new XPathDocument(new StreamReader(fname));
-                    XPathNavigator n = rd.CreateNavigator();
-                    n.MoveToFirstChild();
-                    string docname = n.Name;
+                    var xPathDocument = new XPathDocument(new StreamReader(fname));
+                    XPathNavigator xPathNavigator = xPathDocument.CreateNavigator();
+                    xPathNavigator.MoveToFirstChild();
+                    string docname = xPathNavigator.Name;
 
-                    if (verbose)
-                        sbMsg.AppendFormat("Found document type: {0}\n", docname);
-
-                    foreach (RuleSet r in ruleSets)
+                    if (_verbose)
                     {
-                        if (r.Name == docname)
+                        _messageStringBuilder.AppendFormat("Found document type: {0}\n", docname);
+                    }
+
+                    foreach (RuleSet ruleSet in _ruleSets)
+                    {
+                        if (ruleSet.Name == docname)
                         {
-                            if (verbose)
-                                sbMsg.Append("Found matching ruleset, indexing.\n");
-                            n.MoveToRoot();
+                            if (_verbose)
+                            {
+                                _messageStringBuilder.Append("Found matching ruleset, indexing.\n");
+                            }
+
+                            xPathNavigator.MoveToRoot();
 
                             // first thing is to read and cache global fields
                             // these are duped for each document found
                             var globals = new ArrayList();
-                            foreach (Rule rule in r.GlobalRules)
+                            foreach (Rule rule in ruleSet.GlobalRules)
                             {
-                                XPathExpression expr = n.Compile(rule.Xpath);
-                                XPathNodeIterator iter = n.Select(expr);
+                                XPathExpression xPathExpression = xPathNavigator.Compile(rule.Xpath);
+                                XPathNodeIterator iter = xPathNavigator.Select(xPathExpression);
                                 while (iter.MoveNext())
                                 {
-                                    if (verbose)
-                                        sbMsg.AppendFormat(
-                                            "Found field '{0}' value '{1}'\n",
-                                            rule.Name, iter.Current.Value);
+                                    if (_verbose)
+                                    {
+                                        _messageStringBuilder.AppendFormat("Found field '{0}' value '{1}'\n", rule.Name, iter.Current.Value);
+                                    }
+
                                     globals.Add(new RuleValue(rule, iter.Current.Value));
                                 }
                             }
 
                             // ok, all globals cached. now to index documents
 
-                            n.MoveToRoot();
-                            foreach (DocItem doc in r.DocItems)
+                            xPathNavigator.MoveToRoot();
+                            foreach (DocItem docItem in ruleSet.DocItems)
                             {
-                                XPathExpression docex = n.Compile(doc.XPath);
-                                XPathNodeIterator diter = n.Select(docex);
+                                XPathExpression docex = xPathNavigator.Compile(docItem.XPath);
+                                XPathNodeIterator diter = xPathNavigator.Select(docex);
 
                                 while (diter.MoveNext())
                                 {
                                     XPathNavigator dn = diter.Current.Clone();
 
-                                    if (verbose)
-                                        sbMsg.Append("Found document\n");
+                                    if (_verbose)
+                                    {
+                                        _messageStringBuilder.Append("Found document\n");
+                                    }
 
                                     // now compute key
                                     string key = "";
-                                    if (doc.Key != "")
+                                    if (docItem.Key != "")
                                     {
                                         //key = dn.Evaluate(doc.Key).ToString();
 
-                                        object result = dn.Evaluate(doc.Key);
+                                        object result = dn.Evaluate(docItem.Key);
                                         var iterator = result as XPathNodeIterator;
                                         if (iterator != null)
                                         {
@@ -417,8 +436,10 @@ namespace InventIt.SiteSystem.Providers
                                         key = fname;
                                     }
 
-                                    if (verbose)
-                                        sbMsg.AppendFormat("Key is {0}\n", key);
+                                    if (_verbose)
+                                    {
+                                        _messageStringBuilder.AppendFormat("Key is {0}\n", key);
+                                    }
 
                                     // delete if document exists
                                     DeleteDocument(writer, key);
@@ -426,11 +447,11 @@ namespace InventIt.SiteSystem.Providers
                                     var ludoc = new Document();
 
                                     AddKeyField(ludoc, key);
-                                    AddNameField(ludoc, r.Name);
+                                    AddNameField(ludoc, ruleSet.Name);
 
                                     string textField = string.Empty;
                                     Rule ruleText = null;
-                                    foreach (Rule rule in doc.Rules)
+                                    foreach (Rule rule in docItem.Rules)
                                     {
                                         XPathExpression expr = dn.Compile(rule.Xpath);
                                         XPathNodeIterator iter = dn.Select(expr);
@@ -438,10 +459,11 @@ namespace InventIt.SiteSystem.Providers
                                         {
                                             string textVal = parseHtml(iter.Current.Value);
 
-                                            if (verbose)
-                                                sbMsg.AppendFormat(
-                                                    "Found field '{0}' value '{1}'\n",
-                                                    rule.Name, textVal);
+                                            if (_verbose)
+                                            {
+                                                _messageStringBuilder.AppendFormat("Found field '{0}' value '{1}'\n", rule.Name, textVal);
+                                            }
+
                                             // index away!
                                             if (rule.Name == "text")
                                             {
@@ -456,17 +478,23 @@ namespace InventIt.SiteSystem.Providers
                                                 }
                                             }
                                             else
+                                            {
                                                 AddField(ludoc, rule, iter.Current.Value);
+                                            }
                                         }
                                     }
+
                                     if (textField.Length > 0)
+                                    {
                                         AddField(ludoc, ruleText, textField);
+                                    }
 
                                     // now add the globals into this document
-                                    foreach (RuleValue rval in globals)
+                                    foreach (RuleValue ruleValue in globals)
                                     {
-                                        AddField(ludoc, rval.Rule, rval.Value);
+                                        AddField(ludoc, ruleValue.Rule, ruleValue.Value);
                                     }
+
                                     writer.AddDocument(ludoc);
                                 }
                             }
@@ -477,15 +505,17 @@ namespace InventIt.SiteSystem.Providers
                 catch (Exception e)
                 {
                     failures.Add(String.Format("Failed to index file {0}, exception: {1}", fname, e));
-                    if (verbose)
+                    if (_verbose)
                     {
-                        sbMsg.AppendFormat("Failed to index {0}\n", fname);
-                        sbMsg.Append(e.StackTrace + "\n");
+                        _messageStringBuilder.AppendFormat("Failed to index {0}\n", fname);
+                        _messageStringBuilder.Append(e.StackTrace + "\n");
                     }
                 }
             }
+
             writer.Optimize();
             writer.Close();
+
             return failures;
         }
 

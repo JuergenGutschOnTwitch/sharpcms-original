@@ -10,7 +10,9 @@
             <xsl:text>/</xsl:text>
           </xsl:attribute>
         </base>
-        <title>Admin - Sharpcms.net</title>
+        <title>
+          <xsl:text>Admin - Sharpcms.net</xsl:text>
+        </title>
         <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
         <link type="text/css" rel="stylesheet" href="System/Components/Admin/niftycorners/niftyCorners.css" />
         <script type="text/javascript" src="System/Components/Admin/Scripts/eventhandler.js">
@@ -59,7 +61,7 @@
               <tbody>
                 <tr>
                   <td>
-                    Login
+                    <xsl:text>Login</xsl:text>
                   </td>
                   <td>
                     <input type="text" name="data_login" />
@@ -67,7 +69,7 @@
                 </tr>
                 <tr>
                   <td>
-                    Password
+                    <xsl:text>Password</xsl:text>
                   </td>
                   <td>
                     <input type="password" name="data_password" />

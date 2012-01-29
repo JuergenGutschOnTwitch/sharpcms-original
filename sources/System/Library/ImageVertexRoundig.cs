@@ -1,10 +1,10 @@
-﻿//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+﻿// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 
-namespace InventIt.SiteSystem.Library
+namespace Sharpcms.Library
 {
     public static class ImageVertexRounding
     {
@@ -31,7 +31,7 @@ namespace InventIt.SiteSystem.Library
                 Graphics grPhoto = Graphics.FromImage(bmPhoto);
                 grPhoto.Clear(Color.Transparent);
                 Brush brush = new TextureBrush(imgin);
-                var tempPen = new Pen(GetColorFromARGB(borderColor), borderWidth);
+                var tempPen = new Pen(GetColorFromArgb(borderColor), borderWidth);
 
                 FillRoundedRectangle(grPhoto, new Rectangle(1, 1, imgin.Width - 3, imgin.Height - 3), (radius*2), brush);
                 DrawRoundedRectangle(grPhoto, new Rectangle(1, 1, imgin.Width - 3, imgin.Height - 3), (radius*2),
@@ -51,15 +51,15 @@ namespace InventIt.SiteSystem.Library
 
             // Create points that define polygon.
             Point[] points = {
-                                 new Point(tempInt, 1),
-                                 new Point(r.Width - tempInt, 1),
-                                 new Point(r.Width, tempInt),
-                                 new Point(r.Width, r.Height - tempInt),
-                                 new Point(r.Width - tempInt, r.Height),
-                                 new Point(tempInt, r.Height),
-                                 new Point(1, r.Height - tempInt),
-                                 new Point(1, tempInt)
-                             };
+                new Point(tempInt, 1),
+                new Point(r.Width - tempInt, 1),
+                new Point(r.Width, tempInt),
+                new Point(r.Width, r.Height - tempInt),
+                new Point(r.Width - tempInt, r.Height),
+                new Point(tempInt, r.Height),
+                new Point(1, r.Height - tempInt),
+                new Point(1, tempInt)
+            };
 
             // Define fill mode.
             const FillMode newFillMode = FillMode.Winding;
@@ -79,7 +79,6 @@ namespace InventIt.SiteSystem.Library
             grPhoto.FillRectangle(b, r.X, r.Y + d/2, r.Width, r.Height - d);
             grPhoto.FillRectangle(b, r.X + d/2, r.Y + r.Height - d/2, r.Width - d, d/2);
             grPhoto.SmoothingMode = mode;
-            grPhoto = tempPhoto; //ToDo: Muss ich das wirklich tun? (T.Huber/16.06.2009)
         }
 
         // http://forums.asp.net/p/942160/1128861.aspx
@@ -101,7 +100,7 @@ namespace InventIt.SiteSystem.Library
         }
 
         // http://dotnet-snippets.de/dns/c-hexstring-in-systemdrawingcolor-umwandeln-SID95.aspx
-        private static Color GetColorFromARGB(string hexString)
+        private static Color GetColorFromArgb(string hexString)
         {
             int red = int.Parse(hexString.Substring(1, 2), NumberStyles.HexNumber);
             int green = int.Parse(hexString.Substring(3, 2), NumberStyles.HexNumber);

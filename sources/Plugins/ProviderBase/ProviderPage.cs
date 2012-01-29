@@ -1,22 +1,23 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Xml;
-using InventIt.SiteSystem.Data.SiteTree;
-using InventIt.SiteSystem.Data.Users;
-using InventIt.SiteSystem.Library;
-using InventIt.SiteSystem.Plugin;
-using InventIt.SiteSystem.Plugin.Types;
+using Sharpcms.Data.SiteTree;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
+using Sharpcms.Library.Users;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.Base
 {
     /// <summary>
     /// 
     /// </summary>
     public class ProviderPage : BasePlugin2, IPlugin2
     {
-        private SiteTree siteTree;
+        private SiteTree _siteTree;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProviderPage"/> class.
@@ -31,7 +32,7 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="process">The process.</param>
         public ProviderPage(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         /// <summary>
@@ -40,15 +41,7 @@ namespace InventIt.SiteSystem.Providers
         /// <value>The tree.</value>
         private SiteTree Tree
         {
-            get
-            {
-                if (siteTree == null)
-                {
-                    siteTree = new SiteTree(_process);
-                }
-
-                return siteTree;
-            }
+            get { return _siteTree ?? (_siteTree = new SiteTree(Process)); }
         }
 
         /// <summary>
@@ -59,12 +52,12 @@ namespace InventIt.SiteSystem.Providers
         {
             get
             {
-                if (_process.QueryOther["page"] == "")
+                if (Process.QueryOther["page"] == "")
                 {
-                    _process.QueryOther["page"] = _process.Settings["sitetree/stdpage"];
+                    Process.QueryOther["page"] = Process.Settings["sitetree/stdpage"];
                 }
 
-                return _process.QueryOther["page"];
+                return Process.QueryOther["page"];
             }
         }
 
@@ -181,10 +174,10 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleSetStandardPage()
         {
-            string newDefault = _process.QueryData["pageidentifier"].Trim();
+            string newDefault = Process.QueryData["pageidentifier"].Trim();
             if (newDefault.Length > 0)
             {
-                _process.Settings["sitetree/stdpage"] = newDefault;
+                Process.Settings["sitetree/stdpage"] = newDefault;
             }
         }
 
@@ -193,8 +186,8 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandlePageRemoveContainer()
         {
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
-            string query = _process.QueryEvents["mainvalue"];
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
+            string query = Process.QueryEvents["mainvalue"];
 
             currentPage.Containers.Remove(int.Parse(query) - 1);
             currentPage.Save();
@@ -205,11 +198,11 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandlePageCreateContainer()
         {
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
-            string query = _process.QueryEvents["mainvalue"];
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
+            string query = Process.QueryEvents["mainvalue"];
             query = Common.CleanToSafeString(query).ToLower();
 
-            Container container = currentPage.Containers[query]; //ToDo: ??? (T.Huber 18.06.2009)
+            Container container = currentPage.Containers[query];
             currentPage.Save();
         }
 
@@ -218,7 +211,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandlePageMoveUp()
         {
-            new SiteTree(_process).MoveUp(_process.QueryData["pageidentifier"]);
+            new SiteTree(Process).MoveUp(Process.QueryData["pageidentifier"]);
         }
 
         /// <summary>
@@ -226,7 +219,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandlePageMoveDown()
         {
-            new SiteTree(_process).MoveDown(_process.QueryData["pageidentifier"]);
+            new SiteTree(Process).MoveDown(Process.QueryData["pageidentifier"]);
         }
 
         /// <summary>
@@ -234,7 +227,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandlePageMoveTop()
         {
-            new SiteTree(_process).MoveTop(_process.QueryData["pageidentifier"]);
+            new SiteTree(Process).MoveTop(Process.QueryData["pageidentifier"]);
         }
 
         /// <summary>
@@ -242,7 +235,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandlePageMoveBottom()
         {
-            new SiteTree(_process).MoveBottom(_process.QueryData["pageidentifier"]);
+            new SiteTree(Process).MoveBottom(Process.QueryData["pageidentifier"]);
         }
 
         /// <summary>
@@ -250,7 +243,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandlePageCopy()
         {
-            new SiteTree(_process).CopyTo(_process.QueryEvents["mainvalue"]);
+            new SiteTree(Process).CopyTo(Process.QueryEvents["mainvalue"]);
         }
 
         /// <summary>
@@ -258,7 +251,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandlePageMove()
         {
-            new SiteTree(_process).Move(_process.QueryData["pageidentifier"], _process.QueryEvents["mainvalue"]);
+            new SiteTree(Process).Move(Process.QueryData["pageidentifier"], Process.QueryEvents["mainvalue"]);
         }
 
         /// <summary>
@@ -266,10 +259,10 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleAddElement()
         {
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
-            string element = _process.QueryEvents["mainvalue"];
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
+            string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('_');
-            string elementType = _process.QueryData["container_" + elementParts[1]];
+            string elementType = Process.QueryData["container_" + elementParts[1]];
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Create(elementType, String.Empty, false);
             currentPage.Save();
         }
@@ -279,9 +272,9 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleAddPage()
         {
-            string path = _process.QueryEvents["mainvalue"];
+            string path = Process.QueryEvents["mainvalue"];
             string[] pathSplit = path.Split('*');
-            new SiteTree(_process).Create(pathSplit[0], pathSplit[1], pathSplit[1]);
+            new SiteTree(Process).Create(pathSplit[0], pathSplit[1], pathSplit[1]);
         }
 
         /// <summary>
@@ -289,8 +282,8 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleRemovePage()
         {
-            string path = _process.QueryEvents["mainvalue"];
-            new SiteTree(_process).Delete(path);
+            string path = Process.QueryEvents["mainvalue"];
+            new SiteTree(Process).Delete(path);
         }
 
         /// <summary>
@@ -299,11 +292,11 @@ namespace InventIt.SiteSystem.Providers
         private void HandleSave()
         {
             string elementName = String.Empty;
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
 
-            for (int i = 0; i < _process.QueryData.Count; i++)
+            for (int i = 0; i < Process.QueryData.Count; i++)
             {
-                Query query = _process.QueryData[i];
+                Query query = Process.QueryData[i];
                 string[] queryParts = query.Name.Split('_');
 
                 if (queryParts.Length > 1)
@@ -347,7 +340,7 @@ namespace InventIt.SiteSystem.Providers
                                 if (elementName != query.Name.Substring(0, query.Name.LastIndexOf('_')))
                                 {
                                     elementName = query.Name.Substring(0, query.Name.LastIndexOf('_'));
-                                    container.Elements[int.Parse(queryParts[2]) - 1].Publish = false.ToString().ToLower();
+                                    container.Elements[int.Parse(queryParts[2]) - 1].Publish = false.ToString(CultureInfo.InvariantCulture).ToLower();
                                 }
 
                                 if (query.Name.EndsWith("elementtitle"))
@@ -356,12 +349,9 @@ namespace InventIt.SiteSystem.Providers
                                 }
                                 else if (query.Name.EndsWith("elementpublish"))
                                 {
-                                    container.Elements[int.Parse(queryParts[2]) - 1].Publish = query.Value.ToLower() ==
-                                                                                               "publish"
-                                                                                                   ? true.ToString().
-                                                                                                         ToLower()
-                                                                                                   : false.ToString().
-                                                                                                         ToLower();
+                                    container.Elements[int.Parse(queryParts[2]) - 1].Publish = query.Value.ToLower() == "publish" 
+                                        ? true.ToString(CultureInfo.InvariantCulture).ToLower()
+                                        : false.ToString(CultureInfo.InvariantCulture).ToLower();
                                 }
                                 else
                                 {
@@ -381,12 +371,12 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleRemove()
         {
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
             if (currentPage == null)
             {
                 throw new NotImplementedException();
             }
-            string element = _process.QueryEvents["mainvalue"];
+            string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('-');
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Remove(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -397,8 +387,8 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleCopy()
         {
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
-            string element = _process.QueryEvents["mainvalue"];
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
+            string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('-');
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Copy(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -409,8 +399,8 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleMoveTop()
         {
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
-            string element = _process.QueryEvents["mainvalue"];
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
+            string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('-');
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.MoveTop(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -421,8 +411,8 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleMoveUp()
         {
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
-            string element = _process.QueryEvents["mainvalue"];
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
+            string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('-');
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.MoveUp(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -433,8 +423,8 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleMoveDown()
         {
-            Page currentPage = new SiteTree(_process).GetPage(_process.QueryData["pageidentifier"]);
-            string element = _process.QueryEvents["mainvalue"];
+            Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
+            string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('-');
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.MoveDown(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -446,7 +436,7 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="control">The control.</param>
         private void LoadElementList(ControlList control)
         {
-            control["elementlist"] = _process.Settings.GetAsNode("sitetree/elementlist");
+            control["elementlist"] = Process.Settings.GetAsNode("sitetree/elementlist");
         }
 
         /// <summary>
@@ -455,19 +445,17 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="control">The control.</param>
         private void LoadPageStatus(ControlList control)
         {
-            XmlNode xmlNode = _process.Settings.GetAsNode("sitetree/pagestatus");
+            XmlNode xmlNode = Process.Settings.GetAsNode("sitetree/pagestatus");
             control["pagestatus"] = xmlNode;
         }
-
-
-
+        
         private void LoadPageSecurity(ControlList control)
         {
 
-            Users users = new Users(_process);
+            var users = new Users(Process);
 
-            List<User> userList = new List<User>();
-            List<Group> groupList = new List<Group>();
+            var userList = new List<User>();
+            var groupList = new List<Group>();
             for (int i = 0; i < users.UserList.Count; i++)
             {
                 User user = users.UserList[i];
@@ -486,21 +474,21 @@ namespace InventIt.SiteSystem.Providers
             }
 
 
-            XmlNode security = _process.XmlData.CreateElement("security");
+            XmlNode security = Process.XmlData.CreateElement("security");
 
-            XmlNode xusers = _process.XmlData.CreateElement("users");
+            XmlNode xusers = Process.XmlData.CreateElement("users");
             foreach (User user in userList)
             {
-                XmlNode xuser = _process.XmlData.CreateElement("user");
-                xuser.AppendChild(_process.XmlData.CreateTextNode(user.Login));
+                XmlNode xuser = Process.XmlData.CreateElement("user");
+                xuser.AppendChild(Process.XmlData.CreateTextNode(user.Login));
                 xusers.AppendChild(xuser);
             }
 
-            XmlNode xgroups = _process.XmlData.CreateElement("groups");
+            XmlNode xgroups = Process.XmlData.CreateElement("groups");
             foreach (Group group in groupList)
             {
-                XmlNode xgroup = _process.XmlData.CreateElement("group");
-                xgroup.AppendChild(_process.XmlData.CreateTextNode(group.Name));
+                XmlNode xgroup = Process.XmlData.CreateElement("group");
+                xgroup.AppendChild(Process.XmlData.CreateTextNode(group.Name));
                 xgroups.AppendChild(xgroup);
             }
 
@@ -518,7 +506,7 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="pathTrail">The path trail.</param>
         private void LoadPage(ControlList control, string value, string pathTrail)
         {
-            LoadDay(_process.Content.GetSubControl("basedata")); //ToDo: quick hack not nice (old)
+            LoadDay(Process.Content.GetSubControl("basedata")); //ToDo: quick hack not nice (old)
 
             string pagePath = GetCurrentPage(GetFullPath(value, pathTrail));
 
@@ -529,15 +517,15 @@ namespace InventIt.SiteSystem.Providers
                 return;
             }
 
-            _process.Attributes["pageroot"] = pagePath.Split('/')[0];
+            Process.Attributes["pageroot"] = pagePath.Split('/')[0];
 
             Plugins(page);
 
             control["page"] = page.Node;
-            _process.Content["templates"] = _process.Settings.GetAsNode("templates");
-            if (page["template"] != "" && _process.CurrentProcess.Split('/')[0].ToLower() != "admin")
+            Process.Content["templates"] = Process.Settings.GetAsNode("templates");
+            if (page["template"] != "" && Process.CurrentProcess.Split('/')[0].ToLower() != "admin")
             {
-                _process.MainTemplate = _process.Settings["templates/" + page["template"]];
+                Process.MainTemplate = Process.Settings["templates/" + page["template"]];
             }
         }
 
@@ -587,7 +575,7 @@ namespace InventIt.SiteSystem.Providers
                     if (plugin != "" & action != "")
                     {
                         string pathTrail = CommonXml.GetNode(xmlElementNode, "value").InnerText;
-                        AvailablePlugin availablePlugin = _process.Plugins.AvailablePlugins.Find(plugin);
+                        AvailablePlugin availablePlugin = Process.Plugins.AvailablePlugins.Find(plugin);
                         if (availablePlugin != null)
                         {
                             var plugin2 = availablePlugin.Instance as IPlugin2;
@@ -595,10 +583,7 @@ namespace InventIt.SiteSystem.Providers
                             {
                                 var iPlugin = availablePlugin.Instance as IPlugin2;
                                 //_process.AddMessage("IPlugin 2");
-                                if (iPlugin != null)
-                                {
-                                    iPlugin.Load(new ControlList(xmlElementNode), action, string.Empty, pathTrail);
-                                }
+                                iPlugin.Load(new ControlList(xmlElementNode), action, string.Empty, pathTrail);
                             }
                             else
                             {
@@ -617,9 +602,9 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="control">The control.</param>
         private static void LoadDay(ControlList control)
         {
-            control["now/day"].InnerText = DateTime.Now.Day.ToString();
-            control["now/month"].InnerText = DateTime.Now.Month.ToString();
-            control["now/year"].InnerText = DateTime.Now.Year.ToString();
+            control["now/day"].InnerText = DateTime.Now.Day.ToString(CultureInfo.InvariantCulture);
+            control["now/month"].InnerText = DateTime.Now.Month.ToString(CultureInfo.InvariantCulture);
+            control["now/year"].InnerText = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -629,7 +614,7 @@ namespace InventIt.SiteSystem.Providers
         /// <returns></returns>
         private string GetCurrentPage(string value)
         {
-            string pagePath = string.IsNullOrEmpty(value) ? _process.Settings["sitetree/stdpage"] : value;
+            string pagePath = string.IsNullOrEmpty(value) ? Process.Settings["sitetree/stdpage"] : value;
             string[] args = pagePath.Split('/');
 
             while (args != null && !Tree.Exists(pagePath))
@@ -708,10 +693,10 @@ namespace InventIt.SiteSystem.Providers
         {
             string realName;
             string treeRootName;
-            if (value.IndexOf("|") > 0)
+            if (value.IndexOf("|", StringComparison.Ordinal) > 0)
             {
-                treeRootName = value.Substring(0, value.IndexOf("|"));
-                value = value.Substring(value.IndexOf("|") + 1);
+                treeRootName = value.Substring(0, value.IndexOf("|", StringComparison.Ordinal));
+                value = value.Substring(value.IndexOf("|", StringComparison.Ordinal) + 1);
                 realName = GetTreeRootName(value);
             }
             else
@@ -720,15 +705,19 @@ namespace InventIt.SiteSystem.Providers
                 realName = treeRootName;
             }
 
-            XmlNode treeNode = control["sitetree"].OwnerDocument.CreateElement(treeRootName);
-            XmlNode copyNode = xmlNode.SelectSingleNode(value);
-            if (copyNode != null)
+            XmlDocument ownerDocument = control["sitetree"].OwnerDocument;
+            if (ownerDocument != null)
             {
-                treeNode.InnerXml = copyNode.InnerXml;
-            }
+                XmlNode treeNode = ownerDocument.CreateElement(treeRootName);
+                XmlNode copyNode = xmlNode.SelectSingleNode(value);
+                if (copyNode != null)
+                {
+                    treeNode.InnerXml = copyNode.InnerXml;
+                }
 
-            CommonXml.AppendAttribute(treeNode, "realname", realName);
-            control["sitetree"].AppendChild(treeNode);
+                CommonXml.AppendAttribute(treeNode, "realname", realName);
+                control["sitetree"].AppendChild(treeNode);
+            }
         }
 
         /// <summary>
@@ -738,7 +727,7 @@ namespace InventIt.SiteSystem.Providers
         /// <returns></returns>
         private static string GetTreeRootName(string value)
         {
-            return value.Substring(value.LastIndexOf("/") + 1);
+            return value.Substring(value.LastIndexOf("/", StringComparison.Ordinal) + 1);
         }
     }
 }

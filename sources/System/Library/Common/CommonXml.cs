@@ -1,29 +1,22 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
 
-//using System.Text; // ReSparper mean "is never used" (Part 1)
-
-namespace InventIt.SiteSystem.Library
+namespace Sharpcms.Library.Common
 {
     public static class CommonXml
     {
         public static string TransformXsl(string xsl, XmlDocument document, Cache cache)
         {
             XslCompiledTransform transform = GetTransform(xsl, cache);
+            TextWriter textWriter = new StringWriter();
 
-            // ReSparper mean "is never used" (Part 2)
-            //var memoryStream = new MemoryStream();
-
-            //var ws = new XmlWriterSettings {Encoding = Encoding.Unicode, OmitXmlDeclaration = true, Indent = true};
-
-            TextWriter test = new StringWriter();
-
-            transform.Transform(document, null, test);
-            return test.ToString();
+            transform.Transform(document, null, textWriter);
+            return textWriter.ToString();
         }
 
         private static List<string> GetXslIncludes(string xsl)
@@ -37,6 +30,7 @@ namespace InventIt.SiteSystem.Library
             manager.AddNamespace("xsl", "http://www.w3.org/1999/XSL/Transform");
             XmlNodeList nodeList = doc.SelectNodes("//xsl:include", manager);
             if (nodeList != null)
+            {
                 foreach (XmlNode node in nodeList)
                 {
                     string filename = GetAttributeValue(node, "href");
@@ -46,10 +40,12 @@ namespace InventIt.SiteSystem.Library
                     List<string> additionalIncludes = GetXslIncludes(fullFilename);
 
                     if (additionalIncludes != null && additionalIncludes.Count > 0)
-                        foreach (string file in additionalIncludes)
-                            includes.Add(file);
+                    {
+                        includes.AddRange(additionalIncludes);
+                    }
                 }
-
+            }
+            
             return includes;
         }
 
@@ -64,24 +60,35 @@ namespace InventIt.SiteSystem.Library
             {
                 if (xmlNode.Name != "#text")
                 {
-                    EmptyNodeHandling emptyNode = Common.StringArrayContains(uniqueIdentifiers, xmlNode.Name)
-                                                      ? EmptyNodeHandling.ForceCreateNew
-                                                      : EmptyNodeHandling.CreateNew;
+                    var emptyNode = Common.StringArrayContains(uniqueIdentifiers, xmlNode.Name) 
+                        ? EmptyNodeHandling.ForceCreateNew
+                        : EmptyNodeHandling.CreateNew;
 
-                    XmlNode currentBaseXmlnode = GetNode(baseXmlNode, xmlNode.Name, emptyNode);
-                    foreach (XmlAttribute xmlAttribute in xmlNode.Attributes)
-                        SetAttributeValue(currentBaseXmlnode, xmlAttribute.Name, xmlAttribute.Value);
+                    var currentBaseXmlnode = GetNode(baseXmlNode, xmlNode.Name, emptyNode);
+                    if (xmlNode.Attributes != null)
+                    {
+                        foreach (XmlAttribute xmlAttribute in xmlNode.Attributes)
+                        {
+                            SetAttributeValue(currentBaseXmlnode, xmlAttribute.Name, xmlAttribute.Value);
+                        }
+                    }
 
                     if (xmlNode.HasChildNodes)
+                    {
                         DoMergeXml(currentBaseXmlnode, xmlNode, uniqueIdentifiers);
+                    }
                 }
                 else
                 {
-                    XmlNode textNode = baseXmlNode.SelectSingleNode("text()");
+                    var textNode = baseXmlNode.SelectSingleNode("text()");
                     if (textNode != null)
+                    {
                         textNode.InnerText = xmlNode.Value;
-                    else
+                    }
+                    else if (baseXmlNode.OwnerDocument != null)
+                    {
                         baseXmlNode.AppendChild(baseXmlNode.OwnerDocument.CreateTextNode(xmlNode.Value));
+                    }
                 }
             }
         }
@@ -99,12 +106,20 @@ namespace InventIt.SiteSystem.Library
                 // Check included files
                 var includedFiles = cache[cacheKey + "_includeFiles"] as Dictionary<string, string>;
                 if (includedFiles != null)
-                    foreach (string file in includedFiles.Keys)
-                        if (File.GetLastWriteTime(file).ToString() != includedFiles[file])
+                {
+                    foreach (var file in includedFiles.Keys)
+                    {
+                        if (File.GetLastWriteTime(file).ToString(CultureInfo.InvariantCulture) != includedFiles[file])
+                        {
                             useCache = false;
+                        }
+                    }
+                }
 
                 if (useCache)
+                {
                     return cacheTransform as XslCompiledTransform;
+                }
             }
 
             // The file has changed or is not in memory
@@ -118,7 +133,9 @@ namespace InventIt.SiteSystem.Library
             List<string> includeFiles = GetXslIncludes(xsl);
             var includeDictionary = new Dictionary<string, string>();
             foreach (string includeFile in includeFiles)
-                includeDictionary[includeFile] = File.GetLastWriteTime(includeFile).ToString();
+            {
+                includeDictionary[includeFile] = File.GetLastWriteTime(includeFile).ToString(CultureInfo.InvariantCulture);
+            }
 
             cache[cacheKey + "_includeFiles"] = includeDictionary;
 
@@ -128,14 +145,16 @@ namespace InventIt.SiteSystem.Library
         public static void SaveXmlDocument(string filename, XmlDocument document)
         {
             if (document == null)
+            {
                 return;
+            }
 
             var writerSettings = new XmlWriterSettings {Indent = true};
             XmlWriter writer = XmlWriter.Create(filename, writerSettings);
 
             document.WriteContentTo(writer);
 
-            if (writer != null) writer.Close();
+            writer.Close();
         }
 
         public static string GetXPath(XmlNode node)
@@ -143,8 +162,10 @@ namespace InventIt.SiteSystem.Library
             var xPath = new List<string>();
 
             XmlNode currentNode = node;
-            while (currentNode != node.OwnerDocument.DocumentElement)
+            while (node.OwnerDocument != null && currentNode != node.OwnerDocument.DocumentElement)
             {
+                if (currentNode == null) continue;
+
                 xPath.Add(currentNode.Name);
                 currentNode = currentNode.ParentNode;
             }
@@ -157,45 +178,65 @@ namespace InventIt.SiteSystem.Library
 
         public static string GetAttributeValue(XmlNode node, string name)
         {
-            if (node == null)
-                return string.Empty;
+            if (node != null && node.Attributes != null)
+            {
+                XmlAttribute attributeNode = node.Attributes[name];
+                if (attributeNode != null)
+                {
+                    return attributeNode.Value;
+                }
+            }
 
-            XmlAttribute attributeNode = node.Attributes[name];
-            if (attributeNode == null)
-                return string.Empty;
-
-            return attributeNode.Value;
+            return string.Empty;
         }
 
         public static void SetAttributeValue(XmlNode node, string name, string value)
         {
-            if (node == null) return;
-
-            XmlAttribute attribute = node.Attributes[name];
-            if (attribute != null)
-                attribute.Value = value;
-            else
+            if (node != null && node.Attributes != null)
             {
-                attribute = node.OwnerDocument.CreateAttribute(name);
-                attribute.Value = value;
-                node.Attributes.Append(attribute);
+                XmlAttribute attribute = node.Attributes[name];
+                if (attribute != null)
+                {
+                    attribute.Value = value;
+                }
+                else if (node.OwnerDocument != null)
+                {
+                    attribute = node.OwnerDocument.CreateAttribute(name);
+                    attribute.Value = value;
+                    node.Attributes.Append(attribute);
+                }
             }
         }
 
         public static void AppendAttribute(XmlNode node, string name, string value)
         {
-            XmlAttribute attributeNode = node.OwnerDocument.CreateAttribute(name);
-            attributeNode.Value = value;
-            node.Attributes.Append(attributeNode);
+            if (node.OwnerDocument != null)
+            {
+                XmlAttribute attributeNode = node.OwnerDocument.CreateAttribute(name);
+                attributeNode.Value = value;
+                if (node.Attributes != null)
+                {
+                    node.Attributes.Append(attributeNode);
+                }
+            }
         }
 
         public static void CopyAttributes(XmlNode copyFrom, XmlNode copyTo)
         {
-            foreach (XmlAttribute fromAttribute in copyFrom.Attributes)
+            if (copyFrom.Attributes != null)
             {
-                XmlAttribute toAttribute = copyTo.OwnerDocument.CreateAttribute(fromAttribute.Name);
-                toAttribute.Value = fromAttribute.Value;
-                copyTo.Attributes.Append(toAttribute);
+                foreach (XmlAttribute fromAttribute in copyFrom.Attributes)
+                {
+                    if (copyTo.OwnerDocument != null)
+                    {
+                        XmlAttribute toAttribute = copyTo.OwnerDocument.CreateAttribute(fromAttribute.Name);
+                        toAttribute.Value = fromAttribute.Value;
+                        if (copyTo.Attributes != null)
+                        {
+                            copyTo.Attributes.Append(toAttribute);
+                        }
+                    }
+                }
             }
         }
 
@@ -210,7 +251,6 @@ namespace InventIt.SiteSystem.Library
         /// <param name="path">Path for the node.</param>
         /// <returns></returns>
         public static XmlNode GetNode(XmlDocument document, string path)
-            //ToDo: Is a unused Method (T.Huber / 18.06.2009)
         {
             return GetNode(document, path, EmptyNodeHandling.CreateNew);
         }
@@ -224,25 +264,29 @@ namespace InventIt.SiteSystem.Library
         /// <returns></returns>
         public static XmlNode GetNode(XmlDocument document, string path, EmptyNodeHandling emptyNode)
         {
-            if (document == null)
-                return null;
-
-            // If document is empty, create the root node
-            if (document.ChildNodes.Count == 0)
+            if (document != null)
             {
-                if (emptyNode == EmptyNodeHandling.CreateNew)
+                if (document.ChildNodes.Count == 0)
                 {
-                    int indexOfSlash = path.IndexOf("/");
-                    string rootNodeName = path.Substring(0, indexOfSlash);
-                    XmlNode rootNode = document.CreateElement(rootNodeName);
-                    document.AppendChild(rootNode);
-                    path = path.Substring(indexOfSlash + 1);
+                    if (emptyNode == EmptyNodeHandling.CreateNew)
+                    {
+                        int indexOfSlash = path.IndexOf("/", System.StringComparison.Ordinal);
+                        string rootNodeName = path.Substring(0, indexOfSlash);
+                        XmlNode rootNode = document.CreateElement(rootNodeName);
+                        document.AppendChild(rootNode);
+                        path = path.Substring(indexOfSlash + 1);
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
-                else
-                    return null;
+
+                return GetNode(document.DocumentElement, path, emptyNode);
             }
 
-            return GetNode(document.DocumentElement, path, emptyNode);
+            // If document is empty, create the root node
+            return null;
         }
 
         /// <summary>
@@ -268,25 +312,32 @@ namespace InventIt.SiteSystem.Library
             string[] pathParts = path.Split('/');
             pathParts[0] = RenameIntegerPath(pathParts[0]);
 
-            XmlNode xmlNode;
-            XmlNode xmlOldNode;
+            XmlNode xmlNode = null;
             if (emptyNode != EmptyNodeHandling.ForceCreateNew)
                 xmlNode = fromXmlNode.SelectSingleNode(pathParts[0]);
             else
             {
-                xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]);
-                fromXmlNode.AppendChild(xmlNode);
+                if (fromXmlNode.OwnerDocument != null)
+                {
+                    xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]); 
+                    fromXmlNode.AppendChild(xmlNode);
+                }
             }
 
             if (xmlNode == null)
             {
                 if (emptyNode == EmptyNodeHandling.CreateNew)
                 {
-                    xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]);
-                    fromXmlNode.AppendChild(xmlNode);
+                    if (fromXmlNode.OwnerDocument != null)
+                    {
+                        xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]); 
+                        fromXmlNode.AppendChild(xmlNode);
+                    }
                 }
                 else if (emptyNode == EmptyNodeHandling.Ignore)
+                {
                     return null;
+                }
             }
 
             for (int i = 1; i < pathParts.Length; i++)
@@ -296,25 +347,41 @@ namespace InventIt.SiteSystem.Library
 
                 if (pathPart != string.Empty)
                 {
-                    xmlOldNode = xmlNode;
+                    XmlNode xmlOldNode = xmlNode;
                     if (emptyNode != EmptyNodeHandling.ForceCreateNew)
+                    {
                         if (xmlOldNode != null)
+                        {
                             xmlNode = xmlOldNode.SelectSingleNode(pathPart);
+                        }
                         else
                         {
-                            xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]);
-                            fromXmlNode.AppendChild(xmlNode);
+                            if (fromXmlNode.OwnerDocument != null)
+                            {
+                                xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathParts[0]);
+                                fromXmlNode.AppendChild(xmlNode);
+                            }
                         }
-
+                    }
+                    
                     if (xmlNode == null)
                     {
                         if (emptyNode == EmptyNodeHandling.CreateNew)
                         {
-                            xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathPart);
-                            if (xmlOldNode != null) xmlOldNode.AppendChild(xmlNode);
+                            if (fromXmlNode.OwnerDocument != null)
+                            {
+                                xmlNode = fromXmlNode.OwnerDocument.CreateElement(pathPart); 
+                                
+                                if (xmlOldNode != null)
+                                {
+                                    xmlOldNode.AppendChild(xmlNode);
+                                }
+                            }
                         }
                         else if (emptyNode == EmptyNodeHandling.Ignore)
+                        {
                             break;
+                        }
                     }
                 }
             }
@@ -324,10 +391,14 @@ namespace InventIt.SiteSystem.Library
         public static string RenameIntegerPath(string pathPart)
         {
             if (pathPart == string.Empty)
+            {
                 return pathPart;
+            }
 
             if (!char.IsDigit(pathPart[0]))
+            {
                 return pathPart;
+            }
 
             return "int_" + pathPart;
         }
@@ -339,54 +410,69 @@ namespace InventIt.SiteSystem.Library
         public static void MoveUp(XmlNode node)
         {
             XmlNode previousSibling = node.PreviousSibling;
-            if (previousSibling == null)
-                return;
+
+            if (previousSibling == null) return;
 
             XmlNode nodeCopy = node.CloneNode(true);
             XmlNode previousCopy = previousSibling.CloneNode(true);
 
-            node.ParentNode.ReplaceChild(nodeCopy, previousSibling);
-            node.ParentNode.ReplaceChild(previousCopy, node);
+            if (node.ParentNode != null)
+            {
+                node.ParentNode.ReplaceChild(nodeCopy, previousSibling);
+                node.ParentNode.ReplaceChild(previousCopy, node);
+            }
         }
 
         public static void MoveTop(XmlNode node)
         {
-            XmlNode firsChild = node.ParentNode.FirstChild;
-            if (firsChild == null || firsChild == node)
-                return;
+            if (node.ParentNode != null)
+            {
+                XmlNode firsChild = node.ParentNode.FirstChild;
 
-            //node.ParentNode.RemoveChild(node);
-            node.ParentNode.InsertBefore(node, firsChild);
+                if (firsChild == null || firsChild == node) return;
+
+                //node.ParentNode.RemoveChild(node);
+                node.ParentNode.InsertBefore(node, firsChild);
+            }
         }
 
         public static void MoveBottom(XmlNode node)
         {
-            XmlNode lastChild = node.ParentNode.LastChild;
-            if (lastChild == null || lastChild == node)
-                return;
+            if (node.ParentNode != null)
+            {
+                XmlNode lastChild = node.ParentNode.LastChild;
 
-            //node.ParentNode.RemoveChild(node);
-            node.ParentNode.InsertAfter(node, lastChild);
+                if (lastChild == null || lastChild == node) return;
+
+                //node.ParentNode.RemoveChild(node);
+                node.ParentNode.InsertAfter(node, lastChild);
+            }
         }
 
         public static void MoveDown(XmlNode node)
         {
             XmlNode nextSibling = node.NextSibling;
-            if (nextSibling == null)
-                return;
+
+            if (nextSibling == null) return;
 
             XmlNode nodeCopy = node.CloneNode(true);
             XmlNode nextCopy = nextSibling.CloneNode(true);
 
-            node.ParentNode.ReplaceChild(nodeCopy, nextSibling);
-            node.ParentNode.ReplaceChild(nextCopy, node);
+            if (node.ParentNode != null)
+            {
+                node.ParentNode.ReplaceChild(nodeCopy, nextSibling);
+                node.ParentNode.ReplaceChild(nextCopy, node);
+            }
         }
 
         public static void Move(XmlNode node, XmlNode newParent)
         {
             Copy(node, newParent);
 
-            node.ParentNode.RemoveChild(node);
+            if (node.ParentNode != null)
+            {
+                node.ParentNode.RemoveChild(node);
+            }
         }
 
         public static void Copy(XmlNode node, XmlNode newParent)

@@ -4,16 +4,16 @@ using MbUnit.Framework;
 using WatiN.Core;
 using WatiN.Core.Logging;
 
-namespace UITests
+namespace UITests.Helper
 {
     public class WatiNTestBase
     {
-        protected IE ie;
+        protected IE Ie;
 
         [SetUp]
         public void CreateBrowser()
         {
-            ie = new IE();
+            Ie = new IE();
             Logger.LogWriter = new WatiNStreamLogger();
         }
 
@@ -21,25 +21,25 @@ namespace UITests
         public void DisposeBrowser()
         {
             if (TestContext.CurrentContext.Outcome.Status == TestStatus.Failed)
-                TestHelper.Snapshot(ie, "Final screen when failure occurred.", TestLog.Failures);
-            if (ie != null)
-                ie.Dispose();
+                TestHelper.Snapshot(Ie, "Final screen when failure occurred.", TestLog.Failures);
+            if (Ie != null)
+                Ie.Dispose();
         }
 
         public void Login()
         {
             using (TestLog.BeginSection("Go to sharpcms adminpage"))
             {
-                ie.GoTo("http://localhost:17267/cleansite/login.aspx");
-                Assert.IsTrue(ie.ContainsText("Login"), "Unable to load adminpage! Ensure that the webserver is started");
+                Ie.GoTo("http://localhost:17267/cleansite/login.aspx");
+                Assert.IsTrue(Ie.ContainsText("Login"), "Unable to load adminpage! Ensure that the webserver is started");
             }
 
             using (TestLog.BeginSection("Enter the password and press login"))
             {
-                ie.TextField(Find.ByName("data_login")).TypeText("admin");
-                ie.TextField(Find.ByName("data_password")).TypeText("admin");
-                ie.Button(Find.ByValue("Login")).Click();
-                Assert.IsTrue(ie.ContainsText("Pages"), "Expected to find \"Pages\" on the page.");
+                Ie.TextField(Find.ByName("data_login")).TypeText("admin");
+                Ie.TextField(Find.ByName("data_password")).TypeText("admin");
+                Ie.Button(Find.ByValue("Login")).Click();
+                Assert.IsTrue(Ie.ContainsText("Pages"), "Expected to find \"Pages\" on the page.");
             }
         }
 
@@ -47,8 +47,8 @@ namespace UITests
         {
             using (TestLog.BeginSection("Lgout from sharpcms adminpage"))
             {
-                ie.Link(Find.ByText("Log out")).Click();
-                Assert.IsTrue(ie.ContainsText("Login"), "Expected to find \"Login \" on the page.");
+                Ie.Link(Find.ByText("Log out")).Click();
+                Assert.IsTrue(Ie.ContainsText("Login"), "Expected to find \"Login \" on the page.");
             }
         }
     }

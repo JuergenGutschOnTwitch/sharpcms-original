@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using InventIt.SiteSystem.Plugin.Types;
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
-namespace InventIt.SiteSystem.Plugin
+using System.Xml;
+using Sharpcms.Library.Process;
+
+namespace Sharpcms.PluginInterface
 {
 	public interface IPlugin
 	{
@@ -16,7 +16,7 @@ namespace InventIt.SiteSystem.Plugin
 		void Dispose();
 
 		void Handle(string mainEvent);
-		void Load(string value, string[] args,XmlNode node);
+		void Load(string value, string[] args, XmlNode node);
 	}
 
 	public interface IPluginHost

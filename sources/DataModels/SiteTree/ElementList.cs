@@ -1,14 +1,15 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System.Globalization;
 using System.Xml;
-using InventIt.SiteSystem.Library;
+using Sharpcms.Library;
+using Sharpcms.Library.Common;
 
-namespace InventIt.SiteSystem.Data.SiteTree
+namespace Sharpcms.Data.SiteTree
 {
     public class ElementList : DataElementList
     {
-        public ElementList(XmlNode parentNode)
-            : base(parentNode)
+        public ElementList(XmlNode parentNode) : base(parentNode)
         {
         }
 
@@ -52,7 +53,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);
-            var element = new Element(node) {Type = type, Name = name, Publish = true.ToString()};
+            var element = new Element(node) {Type = type, Name = name, Publish = true.ToString(CultureInfo.InvariantCulture)};
 
             return element;
         }
@@ -68,7 +69,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);
-            var element = new Element(node) {Type = type, Name = name, Publish = publish.ToString().ToLower()};
+            var element = new Element(node) {Type = type, Name = name, Publish = publish.ToString(CultureInfo.InvariantCulture).ToLower()};
 
             return element;
         }

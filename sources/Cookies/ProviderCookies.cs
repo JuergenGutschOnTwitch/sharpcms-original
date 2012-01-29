@@ -1,10 +1,12 @@
-﻿using System;
-using System.Web;
-using InventIt.SiteSystem.Plugin;
-using InventIt.SiteSystem;
-using InventIt.SiteSystem.Library;
+﻿// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
-namespace Cookies
+using System;
+using System.Web;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
+
+namespace Sharpcms.Providers.Cookies
 {
     public class ProviderCookies : BasePlugin2, IPlugin2
     {
@@ -18,7 +20,7 @@ namespace Cookies
         }
         public ProviderCookies(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         public new void Initialize()
@@ -47,10 +49,7 @@ namespace Cookies
             {
                 if (Process.Settings["general/cookies"].Contains("," + key + ","))
                 {
-                    HttpCookie cookie = new HttpCookie(key, Process.HttpPage.Request.QueryString[key])
-                                            {
-                                                Expires = DateTime.Now.AddDays(1)
-                                            };
+                    var cookie = new HttpCookie(key, Process.HttpPage.Request.QueryString[key]) { Expires = DateTime.Now.AddDays(1) };
                     HttpContext.Current.Response.Cookies.Add(cookie);
                 }
             }
@@ -61,28 +60,37 @@ namespace Cookies
             switch (action)
             {
                 case "cookie":
-                    LoadCookies(value, control);
+                    LoadCookies(control);
                     break;
             }
         }
 
 
-        private void LoadCookies(string value, ControlList control)
+        private void LoadCookies(ControlList control)
         {
             {
-                XmlItemList cookieData = new XmlItemList(CommonXml.GetNode(control.ParentNode, "items", EmptyNodeHandling.CreateNew));
+                var cookieData = new XmlItemList(CommonXml.GetNode(control.ParentNode, "items", EmptyNodeHandling.CreateNew));
                 foreach (string key in Process.HttpPage.Response.Cookies.Keys)
                 {
                     if (Process.Settings["general/cookies"].Contains("," + key + ","))
                     {
-                        cookieData[key.Replace(".", "")] = HttpUtility.UrlEncode(Process.HttpPage.Response.Cookies[key].Value);
+                        HttpCookie httpCookie = Process.HttpPage.Response.Cookies[key];
+                        if (httpCookie != null)
+                        {
+                            cookieData[key.Replace(".", "")] = HttpUtility.UrlEncode(httpCookie.Value);
+                        }
                     }
                 }
+
                 foreach (string key in Process.HttpPage.Request.Cookies.Keys)
                 {
                     if (Process.Settings["general/cookies"].Contains("," + key + ",") && string.IsNullOrEmpty(cookieData[key.Replace(".", "")]))
                     {
-                        cookieData[key.Replace(".", "")] = HttpUtility.UrlEncode(Process.HttpPage.Request.Cookies[key].Value);
+                        HttpCookie httpCookie = Process.HttpPage.Request.Cookies[key];
+                        if (httpCookie != null)
+                        {
+                            cookieData[key.Replace(".", "")] = HttpUtility.UrlEncode(httpCookie.Value);
+                        }
                     }
                 }
             }

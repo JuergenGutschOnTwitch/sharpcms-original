@@ -1,6 +1,8 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
-namespace InventIt.SiteSystem.Plugin
+using Sharpcms.Library.Process;
+
+namespace Sharpcms.Library.Plugin
 {
     /// <summary>
     /// Implements most of the IPlugin interface. By inherting from this class,
@@ -8,8 +10,6 @@ namespace InventIt.SiteSystem.Plugin
     /// </summary>
     public class BasePlugin : IPlugin
     {
-        protected Process _process;
-
         #region IPlugin Members
 
         public string Name
@@ -17,11 +17,7 @@ namespace InventIt.SiteSystem.Plugin
             get { return "BasePlugin"; }
         }
 
-        public Process Process
-        {
-            get { return _process; }
-            set { _process = value; }
-        }
+        public Process.Process Process { get; set; }
 
         public IPluginHost Host { get; set; }
 
@@ -64,7 +60,7 @@ namespace InventIt.SiteSystem.Plugin
 
         public void Load(ControlList control, string action, string value, string pathTrail)
         {
-            Load(control, action, null, pathTrail);
+            Load(control, action, pathTrail);
         }
 
         #endregion

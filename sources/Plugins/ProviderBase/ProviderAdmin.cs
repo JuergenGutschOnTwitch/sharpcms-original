@@ -1,12 +1,13 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using InventIt.SiteSystem.Library;
-using InventIt.SiteSystem.Plugin;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.Base
 {
     public class ProviderAdmin : BasePlugin2, IPlugin2
     {
@@ -16,7 +17,7 @@ namespace InventIt.SiteSystem.Providers
 
         public ProviderAdmin(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         #region IPlugin2 Members
@@ -34,7 +35,7 @@ namespace InventIt.SiteSystem.Providers
                     HandleUpdate();
                     break;
                 case "clear":
-                    _process.Cache.Clean();
+                    Process.Cache.Clean();
                     break;
             }
         }
@@ -54,8 +55,8 @@ namespace InventIt.SiteSystem.Providers
         private void HandleUpdate()
         {
             var paths = new string[2];
-            paths[0] = _process.Settings["general/customrootcomponents"];
-            paths[1] = _process.Settings["general/systemrootcomponents"];
+            paths[0] = Process.Settings["general/customrootcomponents"];
+            paths[1] = Process.Settings["general/systemrootcomponents"];
 
             UpdateSnippets(paths);
             UpdateDlls(paths);
@@ -75,11 +76,11 @@ namespace InventIt.SiteSystem.Providers
                         {
                             if (fileinfo.Extension == ".dll" || fileinfo.Extension == ".pdb")
                             {
-                                string destination = Common.CombinePaths(_process.Root, "Bin", fileinfo.Name);
-                                if (!File.Exists(destination) ||
-                                    fileinfo.LastWriteTime != File.GetLastWriteTime(destination))
-                                    File.Copy(fileinfo.FullName,
-                                              Common.CombinePaths(_process.Root, "Bin", fileinfo.Name), true);
+                                string destination = Common.CombinePaths(Process.Root, "Bin", fileinfo.Name);
+                                if (!File.Exists(destination) || fileinfo.LastWriteTime != File.GetLastWriteTime(destination))
+                                {
+                                    File.Copy(fileinfo.FullName, Common.CombinePaths(Process.Root, "Bin", fileinfo.Name), true);
+                                }
                             }
                         }
                     }
@@ -89,7 +90,7 @@ namespace InventIt.SiteSystem.Providers
 
         private void UpdateSnippets(IEnumerable<string> paths)
         {
-            string pathsnippets = _process.Settings["general/customrootcomponents"] + "\\snippets.xslt";
+            string pathsnippets = Process.Settings["general/customrootcomponents"] + "\\snippets.xslt";
             // ToDo: should be more generic (old)
 
             var stringB = new StringBuilder();
@@ -101,18 +102,21 @@ namespace InventIt.SiteSystem.Providers
 
                 foreach (DirectoryInfo subdirinfo in dirinfo.GetDirectories())
                 {
-                    if (!(subdirinfo.Name == ".svn"))
+                    if (subdirinfo.Name != ".svn")
                     {
                         if (Directory.Exists(Common.CombinePaths(subdirinfo.FullName, "Xsl")))
                         {
                             var xslDirInfo = new DirectoryInfo(Common.CombinePaths(subdirinfo.FullName, "Xsl"));
                             foreach (FileInfo fileinfo in xslDirInfo.GetFiles())
-                                if ((fileinfo.Extension == ".xslt" || fileinfo.Extension == ".xsl") &&
-                                    fileinfo.Name[0] == '_')
+                            {
+                                if ((fileinfo.Extension == ".xslt" || fileinfo.Extension == ".xsl") && fileinfo.Name[0] == '_')
+                                {
                                     if (dirinfo.Parent != null)
-                                        stringB.AppendLine("<xsl:include href=\"..\\..\\" + dirinfo.Parent.Name + "\\" +
-                                                           dirinfo.Name + "\\" + subdirinfo.Name + "\\" +
-                                                           xslDirInfo.Name + "\\" + fileinfo.Name + "\"/>");
+                                    {
+                                        stringB.AppendLine("<xsl:include href=\"..\\..\\" + dirinfo.Parent.Name + "\\" + dirinfo.Name + "\\" + subdirinfo.Name + "\\" + xslDirInfo.Name + "\\" + fileinfo.Name + "\"/>");
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -123,7 +127,7 @@ namespace InventIt.SiteSystem.Providers
 
         private void LoadMenu(ControlList control)
         {
-            control["adminmenu"] = _process.Settings.GetAsNode("admin/menu");
+            control["adminmenu"] = Process.Settings.GetAsNode("admin/menu");
         }
     }
 }

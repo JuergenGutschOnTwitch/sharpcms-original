@@ -1,14 +1,12 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Xml;
-using InventIt.SiteSystem.Library;
 
-namespace InventIt.SiteSystem.Data.Users
+namespace Sharpcms.Library.Users
 {
     public class UserList : DataElementList
     {
-        public UserList(XmlNode parentNode)
-            : base(parentNode)
+        public UserList(XmlNode parentNode) : base(parentNode)
         {
         }
 
@@ -21,7 +19,7 @@ namespace InventIt.SiteSystem.Data.Users
 
                 if (node != null)
                 {
-                    User user = new User(node);
+                    var user = new User(node);
                     return user;
                 }
                 return null;
@@ -33,12 +31,12 @@ namespace InventIt.SiteSystem.Data.Users
             get
             {
                 //ToDo this is not implementet yet (old)
-                string xPath = string.Format("user[login='{0}']", Common.CleanToSafeString(name));
+                string xPath = string.Format("user[login='{0}']", Common.Common.CleanToSafeString(name));
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
 
                 if (node != null)
                 {
-                    User user = new User(node);
+                    var user = new User(node);
                     return user;
                 }
                 return null;
@@ -54,7 +52,7 @@ namespace InventIt.SiteSystem.Data.Users
             return user;
         }
 
-        public void Remove(int index) //ToDo Is a unused Method (T.Huber 18.06.2009)
+        public void Remove(int index)
         {
             User user = this[index];
             ParentNode.RemoveChild(user.Node);

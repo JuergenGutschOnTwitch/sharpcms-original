@@ -1,8 +1,9 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Xml;
+using Sharpcms.Library.Common;
 
-namespace InventIt.SiteSystem.Library
+namespace Sharpcms.Library
 {
     public class DataElement
     {
@@ -43,7 +44,9 @@ namespace InventIt.SiteSystem.Library
         protected string GetNodeValue(string name)
         {
             if (_xmlNode == null)
+            {
                 return string.Empty;
+            }
 
             XmlNode node = SelectNode(name);
             return node != null ? node.InnerText : string.Empty;

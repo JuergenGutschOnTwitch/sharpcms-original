@@ -1,4 +1,4 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.Collections.Generic;
@@ -7,10 +7,10 @@ using System.Net.Mail;
 using System.Text;
 using System.Web.UI;
 using System.Xml;
-using InventIt.SiteSystem.Plugin;
-using InventIt.SiteSystem.Plugin.Types;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Plugin;
 
-namespace InventIt.SiteSystem.Library
+namespace Sharpcms.Library.Process
 {
     public class ProcessHandler
     {
@@ -61,10 +61,12 @@ namespace InventIt.SiteSystem.Library
                         LoopThroughProcessOneByOne(contentNodes, "redirect", process, args);
                         LoopThroughProcessOneByOne(contentNodes, "load", process, args);
 
-                        args = Common.RemoveOne(args);
+                        args = Common.Common.RemoveOne(args);
 
                         if (args != null)
+                        {
                             LoopThroughProcess(args, xmlNode, process);
+                        }
                     }
                     else
                     {
@@ -95,15 +97,18 @@ namespace InventIt.SiteSystem.Library
                                 HandlePlugin(contentNode, args, process);
                                 break;
                             case "template":
-                                process.MainTemplate =
-                                    process.Settings["templates/" + contentNode.Attributes["name"].Value];
+                                if (contentNode.Attributes != null)
+                                {
+                                    process.MainTemplate = process.Settings["templates/" + contentNode.Attributes["name"].Value];
+                                }
                                 break;
                             case "redirect":
-                                if (contentNode.Attributes["href"].Value.IndexOf("http://") > -1)
-                                    process.HttpPage.Response.Redirect(contentNode.Attributes["href"].Value);
-                                else
-                                    process.HttpPage.Response.Redirect(
-                                        process.GetUrl(contentNode.Attributes["href"].Value));
+                                if (contentNode.Attributes != null)
+                                {
+                                    process.HttpPage.Response.Redirect(contentNode.Attributes["href"].Value.IndexOf("http://", StringComparison.Ordinal) > -1 
+                                        ? contentNode.Attributes["href"].Value
+                                        : process.GetUrl(contentNode.Attributes["href"].Value));
+                                }
                                 break;
                         }
                     }
@@ -120,12 +125,16 @@ namespace InventIt.SiteSystem.Library
                                     HandlePlugin(contentNode, args, process);
                                     break;
                                 case "template":
-                                    process.MainTemplate =
-                                        process.Settings["templates/" + contentNode.Attributes["name"].Value];
+                                    if (contentNode.Attributes != null)
+                                    {
+                                        process.MainTemplate = process.Settings["templates/" + contentNode.Attributes["name"].Value];
+                                    }
                                     break;
                                 case "redirect":
-                                    process.HttpPage.Response.Redirect(
-                                        process.GetUrl(contentNode.Attributes["href"].Value));
+                                    if (contentNode.Attributes != null)
+                                    {
+                                        process.HttpPage.Response.Redirect(process.GetUrl(contentNode.Attributes["href"].Value));
+                                    }
                                     break;
                             }
                         }
@@ -141,29 +150,37 @@ namespace InventIt.SiteSystem.Library
 
         private void HandlePlugin(XmlNode contentNode, string[] args, Process process)
         {
-            IPlugin provider = GetProvider(contentNode.Attributes["provider"].Value);
-            if (provider != null)
+            if (contentNode.Attributes != null)
             {
-                switch (contentNode.Name)
+                IPlugin provider = GetProvider(contentNode.Attributes["provider"].Value);
+                if (provider != null)
                 {
-                    case "load":
-                        ControlList control =
-                            process.Content.GetSubControl(CommonXml.GetAttributeValue(contentNode, "place"));
-                        string action = CommonXml.GetAttributeValue(contentNode, "action");
-                        string value = GetValue(contentNode, process);
+                    switch (contentNode.Name)
+                    {
+                        case "load":
+                            ControlList control = process.Content.GetSubControl(CommonXml.GetAttributeValue(contentNode, "place"));
+                            string action = CommonXml.GetAttributeValue(contentNode, "action");
+                            string value = GetValue(contentNode, process);
 
-                        string pathTrail = JoinPath(Common.RemoveOne(args));
-                        if (provider is IPlugin2)
-                            ((IPlugin2) provider).Load(control, action, value, pathTrail);
-                        else
-                            provider.Load(control, action, pathTrail);
-                        break;
+                            string pathTrail = JoinPath(Common.Common.RemoveOne(args));
+                            if (provider is IPlugin2)
+                            {
+                                ((IPlugin2) provider).Load(control, action, value, pathTrail);
+                            }
+                            else
+                            {
+                                provider.Load(control, action, pathTrail);
+                            }
+                            break;
 
-                    case "handle":
-                        string mainEvent = process.QueryEvents["main"];
-                        if (mainEvent != "")
-                            provider.Handle(mainEvent);
-                        break;
+                        case "handle":
+                            string mainEvent = process.QueryEvents["main"];
+                            if (mainEvent != "")
+                            {
+                                provider.Handle(mainEvent);
+                            }
+                            break;
+                    }
                 }
             }
         }
@@ -176,10 +193,14 @@ namespace InventIt.SiteSystem.Library
                 // No value is specified. Maybe a variable was requested?
                 string variable = CommonXml.GetAttributeValue(contentNode, "variable");
                 if (variable != string.Empty)
+                {
                     value = new StringBuilder(process.Variables[variable]);
+                }
             }
             else
+            {
                 ReplaceVariables(process.Variables, value); // Replace variables
+            }
 
             return value.ToString();
         }
@@ -188,17 +209,17 @@ namespace InventIt.SiteSystem.Library
         {
             while (true)
             {
-                int startCurlyBrace = value.ToString().IndexOf("{");
+                int startCurlyBrace = value.ToString().IndexOf("{", StringComparison.Ordinal);
                 if (startCurlyBrace < 0)
+                {
                     break;
+                }
 
-                int endCurlyBrace = value.ToString().IndexOf("}", startCurlyBrace);
+                int endCurlyBrace = value.ToString().IndexOf("}", startCurlyBrace, StringComparison.Ordinal);
                 int stringLength = endCurlyBrace - startCurlyBrace - 1;
                 string variable = value.ToString().Substring(startCurlyBrace + 1, stringLength);
-                if (variables.ContainsKey(variable))
-                    value.Replace("{" + variable + "}", variables[variable]);
-                else
-                    value.Replace("{" + variable + "}", string.Empty);
+                
+                value.Replace("{" + variable + "}", variables.ContainsKey(variable) ? variables[variable] : string.Empty);
             }
         }
 
@@ -224,9 +245,7 @@ namespace InventIt.SiteSystem.Library
                     var smtpClient = new SmtpClient(process.Settings["mail/smtp"]);
                     if (process.Settings["mail/smtpuser"] != string.Empty)
                     {
-                        smtpClient.Credentials = new NetworkCredential(
-                            process.Settings["mail/smtpuser"],
-                            process.Settings["mail/smtppass"]);
+                        smtpClient.Credentials = new NetworkCredential(process.Settings["mail/smtpuser"], process.Settings["mail/smtppass"]);
                     }
                     smtpClient.Send(mail);
                 }
@@ -241,7 +260,9 @@ namespace InventIt.SiteSystem.Library
         {
             var lines = new List<string>(original.Trim().Split('\n'));
             for (int i = 0; i < lines.Count; i++)
+            {
                 lines[i] = lines[i].Trim();
+            }
 
             string output = string.Join("\n", lines.ToArray());
 
@@ -255,7 +276,9 @@ namespace InventIt.SiteSystem.Library
 
             var requestParams = new List<string>();
             foreach (string key in process.HttpPage.Request.Params.Keys)
+            {
                 requestParams.Add(string.Format("{0} = {1}", key, process.HttpPage.Request.Params[key]));
+            }
 
             output = output.Replace("{params}", string.Join("\n", requestParams.ToArray()));
 

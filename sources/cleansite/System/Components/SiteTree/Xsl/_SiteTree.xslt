@@ -3,9 +3,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sharpcms="urn:my-scripts">
   <ms:script implements-prefix="sharpcms" xmlns:ms="urn:schemas-microsoft-com:xslt" language="C#" xmlns:sharpcms="urn:my-scripts">
     <![CDATA[
-      public string Escape(string text) {
-        return text.Replace("'", @"\'");
-      }
+      public string Escape(string text) { return text.Replace("'", @"\'"); }
 	  ]]>
   </ms:script>
 
@@ -14,7 +12,7 @@
   <xsl:template mode="edit" match="sitetree">
     <div class="head tree_head">
       <div class="title">
-        Sites
+        <xsl:text>Sites</xsl:text>
       </div>
       <div class="viewstate">
 
@@ -22,17 +20,19 @@
     </div>
     <div class="tree tree_body">
       <script type="text/javascript">
-        sitetree = new dTree('sitetree', false);
+        <xsl:text>sitetree = new dTree('sitetree', false);</xsl:text>
         <xsl:for-each select="*">
           <xsl:call-template name="SiteTreeElement">
             <xsl:with-param name="current-path">
               <xsl:value-of select="name()" />
             </xsl:with-param>
             <xsl:with-param name="number" select="position()" />
-            <xsl:with-param name="parent">-1</xsl:with-param>
+            <xsl:with-param name="parent">
+              <xsl:text>-1</xsl:text>
+            </xsl:with-param>
           </xsl:call-template>
         </xsl:for-each>
-        document.write(sitetree);
+        <xsl:text>document.write(sitetree);</xsl:text>
       </script>
     </div>
 
@@ -62,13 +62,13 @@
     <xsl:text>', 'admin/page/edit/</xsl:text>
     <xsl:value-of select="sharpcms:Escape($current-path)" />
     <xsl:text>.aspx', '', '');</xsl:text>
-    <xsl:text>
-			
-		</xsl:text>
+    <xsl:text> </xsl:text>
     <xsl:for-each select="*">
       <xsl:call-template name="SiteTreeElement">
         <xsl:with-param name="current-path">
-          <xsl:value-of select="$current-path" />/<xsl:value-of select="name()" />
+          <xsl:value-of select="$current-path" />
+          <xsl:text>/</xsl:text>
+          <xsl:value-of select="name()" />
         </xsl:with-param>
         <xsl:with-param name="parent" select="$number" />
         <xsl:with-param name="number" select="($number * -200) + position()" />

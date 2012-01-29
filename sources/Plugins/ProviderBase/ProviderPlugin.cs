@@ -1,8 +1,9 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
-using InventIt.SiteSystem.Plugin;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.Base
 {
     public class ProviderPlugin : BasePlugin2, IPlugin2
     {
@@ -19,7 +20,7 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="process">The process.</param>
         public ProviderPlugin(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         #region IPlugin2 Members

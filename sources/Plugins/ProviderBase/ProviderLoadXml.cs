@@ -1,9 +1,10 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Xml;
-using InventIt.SiteSystem.Plugin;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.Base
 {
     public class ProviderLoadXml : BasePlugin2, IPlugin2
     {
@@ -13,7 +14,7 @@ namespace InventIt.SiteSystem.Providers
 
         public ProviderLoadXml(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         #region IPlugin2 Members
@@ -36,7 +37,7 @@ namespace InventIt.SiteSystem.Providers
         public new void Load(ControlList control, string action, string value, string pathTrail)
         {
             var doc = new XmlDocument();
-            doc.Load(_process.Settings["loadxml/" + action]);
+            doc.Load(Process.Settings["loadxml/" + action]);
 
             if (doc.DocumentElement != null) control[action].InnerXml = doc.DocumentElement.InnerXml;
         }

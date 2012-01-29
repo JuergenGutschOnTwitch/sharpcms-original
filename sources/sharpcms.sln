@@ -1,26 +1,35 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "System\Core\Core.csproj", "{8D3AF0F3-3706-40E7-823E-F1B5E14D113B}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalResources", "ExternalResources", "{A64D4D86-9DD0-4DB4-8737-EFB53C1F96A6}"
+	ProjectSection(SolutionItems) = preProject
+		resources\Highlighter.Net.dll = resources\Highlighter.Net.dll
+		resources\Interop.SHDocVw.dll = resources\Interop.SHDocVw.dll
+		resources\Lucene.Net.dll = resources\Lucene.Net.dll
+		resources\Microsoft.mshtml.dll = resources\Microsoft.mshtml.dll
+		resources\WatiN.Core.dll = resources\WatiN.Core.dll
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteTree", "DataModels\SiteTree\SiteTree.csproj", "{1E4424FF-3B6F-42D4-90C3-44348FB5AF47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Core", "System\Core\Sharpcms.Core.csproj", "{8D3AF0F3-3706-40E7-823E-F1B5E14D113B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "System\Library\Library.csproj", "{033FD7D2-D3F9-4EA7-81E7-EFA959753107}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Data.SiteTree", "DataModels\SiteTree\Sharpcms.Data.SiteTree.csproj", "{1E4424FF-3B6F-42D4-90C3-44348FB5AF47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileTree", "DataModels\FileTree\FileTree.csproj", "{0611BC03-6D92-429E-836D-1FACCFCD7FC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Library", "System\Library\Sharpcms.Library.csproj", "{033FD7D2-D3F9-4EA7-81E7-EFA959753107}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderBase", "Plugins\ProviderBase\ProviderBase.csproj", "{2CD5AE1B-2592-4278-AED1-47F68467E849}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Data.FileTree", "DataModels\FileTree\Sharpcms.Data.FileTree.csproj", "{0611BC03-6D92-429E-836D-1FACCFCD7FC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderErrorLog", "Plugins\ProviderErrorLog\ProviderErrorLog.csproj", "{334CF88B-303C-4904-B841-147822607BAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.Base", "Plugins\ProviderBase\Sharpcms.Providers.Base.csproj", "{2CD5AE1B-2592-4278-AED1-47F68467E849}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "cleansite", "cleansite", "{9DDBB54A-232D-47E4-8172-36BFCAF92BA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.ProviderErrorLog", "Plugins\ProviderErrorLog\Sharpcms.Providers.ProviderErrorLog.csproj", "{334CF88B-303C-4904-B841-147822607BAD}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "cleansite", "cleansite\", "{9DDBB54A-232D-47E4-8172-36BFCAF92BA5}"
 	ProjectSection(WebsiteProperties) = preProject
-		SccProjectName = "SAK"
-		SccAuxPath = "SAK"
-		SccLocalPath = "SAK"
-		SccProvider = "SAK"
-		TargetFramework = "2.0"
-		ProjectReferences = "{8D3AF0F3-3706-40E7-823E-F1B5E14D113B}|Core.dll;{033FD7D2-D3F9-4EA7-81E7-EFA959753107}|Library.dll;{0611BC03-6D92-429E-836D-1FACCFCD7FC1}|FileTree.dll;{2CD5AE1B-2592-4278-AED1-47F68467E849}|Providerbase.dll;{334CF88B-303C-4904-B841-147822607BAD}|ProviderErrorLog.dll;{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}|ProviderSearch.dll;{1E4424FF-3B6F-42D4-90C3-44348FB5AF47}|SiteTree.dll;"
+		SccProjectName = ""
+		SccAuxPath = ""
+		SccLocalPath = ""
+		SccProvider = ""
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{8D3AF0F3-3706-40E7-823E-F1B5E14D113B}|Core.dll;{033FD7D2-D3F9-4EA7-81E7-EFA959753107}|Library.dll;{0611BC03-6D92-429E-836D-1FACCFCD7FC1}|FileTree.dll;{2CD5AE1B-2592-4278-AED1-47F68467E849}|Providerbase.dll;{334CF88B-303C-4904-B841-147822607BAD}|ProviderErrorLog.dll;{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}|ProviderSearch.dll;{1E4424FF-3B6F-42D4-90C3-44348FB5AF47}|SiteTree.dll;{6B2512E4-8BC7-48E6-9BCE-994EAFB24ECD}|Cookies.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/cleansite"
 		Debug.AspNetCompiler.PhysicalPath = "cleansite\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\cleansite\"
@@ -36,75 +45,23 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "cleansite", "cleansite", "{
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "52775"
+		VWDVirtualPath = "/"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderSearch", "Plugins\ProviderSearch\ProviderSearch.csproj", "{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.ProviderSearch", "Plugins\ProviderSearch\Sharpcms.Providers.ProviderSearch.csproj", "{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0611BC03-6D92-429E-836D-1FACCFCD7FC1} = {0611BC03-6D92-429E-836D-1FACCFCD7FC1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests", "Tests\UITests\UITests.csproj", "{CA492DA1-8307-4ED6-9612-7ABF41AF092A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{248853C8-1C36-4DA3-B542-9A26AB189F8C}"
-	ProjectSection(SolutionItems) = preProject
-		sharpcms.vsmdi = sharpcms.vsmdi
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "Tests\UnitTest\UnitTest.csproj", "{9D83A13D-B5A2-4363-8B3E-9ED055BACAFD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalResources", "ExternalResources", "{A64D4D86-9DD0-4DB4-8737-EFB53C1F96A6}"
-	ProjectSection(SolutionItems) = preProject
-		resources\Highlighter.Net.dll = resources\Highlighter.Net.dll
-		resources\Interop.SHDocVw.dll = resources\Interop.SHDocVw.dll
-		resources\Lucene.Net.dll = resources\Lucene.Net.dll
-		resources\Microsoft.mshtml.dll = resources\Microsoft.mshtml.dll
-		resources\WatiN.Core.dll = resources\WatiN.Core.dll
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.Cookies", "Cookies\Sharpcms.Providers.Cookies.csproj", "{6B2512E4-8BC7-48E6-9BCE-994EAFB24ECD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cookies", "Cookies\Cookies.csproj", "{6B2512E4-8BC7-48E6-9BCE-994EAFB24ECD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.PluginInterface", "System\PluginInterfaces\Sharpcms.PluginInterface.csproj", "{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs01.codeplex.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = System\\Core\\Core.csproj
-		SccProjectName1 = System/Core
-		SccLocalPath1 = System\\Core
-		SccProjectUniqueName2 = DataModels\\SiteTree\\SiteTree.csproj
-		SccProjectName2 = DataModels/SiteTree
-		SccLocalPath2 = DataModels\\SiteTree
-		SccProjectUniqueName3 = System\\Library\\Library.csproj
-		SccProjectName3 = System/Library
-		SccLocalPath3 = System\\Library
-		SccProjectUniqueName4 = DataModels\\FileTree\\FileTree.csproj
-		SccProjectName4 = DataModels/FileTree
-		SccLocalPath4 = DataModels\\FileTree
-		SccProjectUniqueName5 = Plugins\\ProviderBase\\ProviderBase.csproj
-		SccProjectName5 = Plugins/ProviderBase
-		SccLocalPath5 = Plugins\\ProviderBase
-		SccProjectUniqueName6 = Plugins\\ProviderErrorLog\\ProviderErrorLog.csproj
-		SccProjectName6 = Plugins/ProviderErrorLog
-		SccLocalPath6 = Plugins\\ProviderErrorLog
-		SccWebProject7 = true
-		SccProjectUniqueName7 = cleansite
-		SccProjectName7 = cleansite
-		SccLocalPath7 = cleansite
-		SccProjectEnlistmentChoice7 = 2
-		SccProjectUniqueName8 = Plugins\\ProviderSearch\\ProviderSearch.csproj
-		SccProjectName8 = Plugins/ProviderSearch
-		SccLocalPath8 = Plugins\\ProviderSearch
-		SccProjectUniqueName9 = Tests\\UITests\\UITests.csproj
-		SccProjectName9 = Tests/UITests
-		SccLocalPath9 = Tests\\UITests
-		SccProjectUniqueName10 = Tests\\UnitTest\\UnitTest.csproj
-		SccProjectName10 = Tests/UnitTest
-		SccLocalPath10 = Tests\\UnitTest
-		SccProjectUniqueName11 = Cookies\\Cookies.csproj
-		SccProjectName11 = Cookies
-		SccLocalPath11 = Cookies
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = sharpcms.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -198,6 +155,14 @@ Global
 		{6B2512E4-8BC7-48E6-9BCE-994EAFB24ECD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6B2512E4-8BC7-48E6-9BCE-994EAFB24ECD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6B2512E4-8BC7-48E6-9BCE-994EAFB24ECD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

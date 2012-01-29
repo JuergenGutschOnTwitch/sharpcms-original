@@ -20,8 +20,12 @@
         </title>
         <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
         <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tree/dtree.css" />
-        <script type="text/javascript" src="System/Components/Admin/Scripts/tree/dtree.js">alert('There is something wrong.');</script>
-        <script type="text/javascript" src="System/Components/Admin/Scripts/modal.js">alert('There is something wrong.');</script>
+        <script type="text/javascript" src="System/Components/Admin/Scripts/tree/dtree.js">
+          <xsl:text>alert('There is something wrong.');</xsl:text>
+        </script>
+        <script type="text/javascript" src="System/Components/Admin/Scripts/modal.js">
+          <xsl:text>alert('There is something wrong.');</xsl:text>
+        </script>
       </head>
       <body>
         <div class="choose">

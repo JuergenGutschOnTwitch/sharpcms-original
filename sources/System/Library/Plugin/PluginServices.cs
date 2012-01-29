@@ -1,12 +1,11 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using InventIt.SiteSystem.Plugin.Types;
 
-namespace InventIt.SiteSystem.Plugin
+namespace Sharpcms.Library.Plugin
 {
     /// <summary>
     /// Summary description for PluginServices.
@@ -56,7 +55,9 @@ namespace InventIt.SiteSystem.Plugin
 
                 object result = invokablePlugin.Invoke(api, action, args);
                 if (result != null)
+                {
                     results.Add(result);
+                }
             }
 
             return results.ToArray();
@@ -69,12 +70,12 @@ namespace InventIt.SiteSystem.Plugin
             {
                 foreach (object result in results)
                 {
-                    if (result != null)
+                    if (result == null) continue;
+
+                    var partResults = result as object[];
+                    if (partResults != null)
                     {
-                        var partResults = result as object[];
-                        if (partResults != null)
-                            foreach (object partResult in partResults)
-                                flattened.Add(partResult);
+                        flattened.AddRange(partResults);
                     }
                 }
             }
@@ -89,7 +90,7 @@ namespace InventIt.SiteSystem.Plugin
         /// <summary>
         /// Searches the Application's Startup Directory for Plugins
         /// </summary>
-        public void FindPlugins(Process process)
+        public void FindPlugins(Process.Process process)
         {
             FindPlugins(process, AppDomain.CurrentDomain.BaseDirectory);
         }
@@ -97,20 +98,23 @@ namespace InventIt.SiteSystem.Plugin
         /// <summary>
         /// Searches the passed Path for Plugins
         /// </summary>
-        /// <param name="Path">Directory to search for Plugins in</param>
-        public void FindPlugins(Process process, string Path)
+        /// <param name="process"> </param>
+        /// <param name="path">Directory to search for Plugins in</param>
+        public void FindPlugins(Process.Process process, string path)
         {
             //First empty the collection, we're reloading them all
             _colAvailablePlugins.Clear();
 
             //Go through all the files in the plugin directory
-            foreach (string fileOn in Directory.GetFiles(Path))
+            foreach (string fileOn in Directory.GetFiles(path))
             {
                 var file = new FileInfo(fileOn);
 
                 // Preliminary check, must be .dll
                 if (file.Extension.Equals(".dll"))
+                {
                     AddPlugin(fileOn, process); //Add the 'plugin'
+                }
             }
         }
 
@@ -134,7 +138,7 @@ namespace InventIt.SiteSystem.Plugin
             _colAvailablePlugins.Clear();
         }
 
-        private void AddPlugin(string fileName, Process process)
+        private void AddPlugin(string fileName, Process.Process process)
         {
             //Create a new assembly from the plugin file we're adding..
             Assembly pluginAssembly = Assembly.LoadFrom(fileName);
@@ -147,7 +151,7 @@ namespace InventIt.SiteSystem.Plugin
                     if (!pluginType.IsAbstract) //Only look at non-abstract types
                     {
                         //Gets a type object of the interface we need the plugins to match
-                        Type typeInterface = pluginType.GetInterface("InventIt.SiteSystem.Plugin.IPlugin", true);
+                        Type typeInterface = pluginType.GetInterface("Sharpcms.Library.Plugin.IPlugin", true);
 
                         //Make sure the interface we want to use actually exists
                         if (typeInterface != null)
@@ -163,8 +167,7 @@ namespace InventIt.SiteSystem.Plugin
                             //1- Make one instance, and use it whenever we need it.. it's always there
                             //2- Don't make an instance, and instead make an instance whenever we use it, then close it
                             //For now we'll just make an instance of all the plugins
-                            newPlugin.Instance =
-                                (IPlugin) Activator.CreateInstance(pluginAssembly.GetType(pluginType.ToString()));
+                            newPlugin.Instance = (IPlugin) Activator.CreateInstance(pluginAssembly.GetType(pluginType.ToString()));
 
                             //Set the Plugin's host to this class which inherited IPluginHost
                             newPlugin.Instance.Host = this;
@@ -181,17 +184,10 @@ namespace InventIt.SiteSystem.Plugin
                                 //Add the new plugin to our collection here
                                 _colAvailablePlugins.Add(newPlugin);
                             }
-
-                            //cleanup a bit
-                            newPlugin = null;
-                        }
-
-                        typeInterface = null; //Mr. Clean			
+                        }		
                     }
                 }
             }
-
-            pluginAssembly = null; //more cleanup
         }
     }
 }

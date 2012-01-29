@@ -1,8 +1,8 @@
-﻿using Gallio.Framework;
-using Gallio.Model.Logging;
+﻿using Gallio.Common.Markup;
+using Gallio.Framework;
 using WatiN.Core;
 
-namespace UITests
+namespace UITests.Helper
 {
     public class TestHelper
     {
@@ -12,7 +12,7 @@ namespace UITests
             Snapshot(ie, caption, TestLog.Default);
         }
 
-        public static void Snapshot(IE ie, string caption, TestLogStreamWriter logStreamWriter)
+        public static void Snapshot(IE ie, string caption, MarkupStreamWriter logStreamWriter)
         {
             using (logStreamWriter.BeginSection(caption))
             {

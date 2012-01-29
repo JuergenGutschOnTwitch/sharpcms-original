@@ -1,0 +1,17 @@
+28.01.2012 17:07:30;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 17:07:30;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 17:07:30;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 17:07:31;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 17:07:31;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 17:07:32;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 17:07:32;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 22:31:21;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 22:31:22;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 22:31:23;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 22:31:30;System.Threading.ThreadAbortException;Der Thread wurde abgebrochen.
+28.01.2012 22:31:36;System.IO.IOException;C:\Users\tomi\Documents\Visual Studio 2010\Projects\sharpcms\sources\cleansite\Custom\App_Data\Index\german not a directory
+28.01.2012 22:32:20;System.IO.IOException;C:\Users\tomi\Documents\Visual Studio 2010\Projects\sharpcms\sources\cleansite\Custom\App_Data\Index\english not a directory
+28.01.2012 22:33:15;System.IO.FileNotFoundException;Die Datei "C:\Users\tomi\Documents\Visual Studio 2010\Projects\sharpcms\sources\cleansite\Custom\App_Data\Index\english\segments" konnte nicht gefunden werden.
+28.01.2012 22:33:31;System.UnauthorizedAccessException;Der Zugriff auf den Pfad "C:\Users\tomi\Documents\Visual Studio 2010\Projects\sharpcms\sources\cleansite\Custom\App_Data\Index\english\segments" wurde verweigert.
+28.01.2012 22:34:49;System.UnauthorizedAccessException;Der Zugriff auf den Pfad "C:\Users\tomi\Documents\Visual Studio 2010\Projects\sharpcms\sources\cleansite\Custom\App_Data\Index\english\segments" wurde verweigert.
+28.01.2012 22:38:21;System.UnauthorizedAccessException;Der Zugriff auf den Pfad "C:\Users\tomi\Documents\Visual Studio 2010\Projects\sharpcms\sources\cleansite\Custom\App_Data\Index\english\segments" wurde verweigert.

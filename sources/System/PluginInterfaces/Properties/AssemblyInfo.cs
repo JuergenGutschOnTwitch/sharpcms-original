@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PluginInterfaces")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hjemme")]
-[assembly: AssemblyProduct("PluginInterfaces")]
-[assembly: AssemblyCopyright("Copyright © Hjemme 2005")]
+[assembly: AssemblyCompany("Sharpcms")]
+[assembly: AssemblyProduct("SiteSystem.PluginInterface")]
+[assembly: AssemblyCopyright("Copyright © 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

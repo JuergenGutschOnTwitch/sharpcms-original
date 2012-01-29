@@ -1,11 +1,12 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.Collections;
 using System.IO;
-using InventIt.SiteSystem.Plugin;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.ProviderSearch
 {
     public class ProviderSearch : BasePlugin2, IPlugin2
     {
@@ -15,7 +16,7 @@ namespace InventIt.SiteSystem.Providers
 
         public ProviderSearch(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         #region IPlugin2 Members
@@ -48,22 +49,24 @@ namespace InventIt.SiteSystem.Providers
         private void HandleSearch(int startAt)
         {
             // no query test don't process
-            string query = _process.QueryData["query"];
+            string query = Process.QueryData["query"];
             if (string.IsNullOrEmpty(query)) return;
 
-            var search = new Search(_process);
+            var search = new Search(Process);
             if (startAt > 0)
+            {
                 search.StartAt = startAt;
+            }
 
             search.HandleSearch(query);
         }
 
         private void HandleIndex()
         {
-            string rootPath = _process.Root;
-            string[] s = _process.CurrentProcess.Split('/');
+            string rootPath = Process.Root;
+            string[] s = Process.CurrentProcess.Split('/');
 
-            string baseDir = _process.Settings["search/index"];
+            string baseDir = Process.Settings["search/index"];
             string rules = rootPath + @"\Custom\App_Data\rules.xml";
             string filePath = rootPath + @"\Custom\App_Data\database";
 
@@ -92,7 +95,9 @@ namespace InventIt.SiteSystem.Providers
             }
 
             if (procMessage != string.Empty)
-                _process.AddMessage(procMessage);
+            {
+                Process.AddMessage(procMessage);
+            }
         }
     }
 }

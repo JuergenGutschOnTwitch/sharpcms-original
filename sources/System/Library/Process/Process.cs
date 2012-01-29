@@ -1,13 +1,16 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
 using System.Xml;
-using InventIt.SiteSystem.Library;
-using InventIt.SiteSystem.Plugin;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Plugin;
 
-namespace InventIt.SiteSystem
+namespace Sharpcms.Library.Process
 {
     public class Process
     {
@@ -33,29 +36,35 @@ namespace InventIt.SiteSystem
             HttpPage = httpPage;
             XmlData = new XmlDocument();
 
-            Plugins.FindPlugins(this, Common.CombinePaths(Root, "Bin"));
+            Plugins.FindPlugins(this, Common.Common.CombinePaths(Root, "Bin"));
 
             XmlNode xmlNode = XmlData.CreateElement("data");
             XmlData.AppendChild(xmlNode);
 
             Content = new ControlList(xmlNode);
 
-            if (httpPage.Request.ServerVariables["SERVER_PORT"] == "80")
-                _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
-                            httpPage.Request.ServerVariables["SERVER_NAME"] +
-                            httpPage.Request.ApplicationPath.TrimEnd('/') + "";
-            else
-                _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
-                            httpPage.Request.ServerVariables["SERVER_NAME"] + ":" +
-                            httpPage.Request.ServerVariables["SERVER_PORT"] +
-                            httpPage.Request.ApplicationPath.TrimEnd('/') + "";
+            if (httpPage.Request.ApplicationPath != null)
+            {
+                if (httpPage.Request.ServerVariables["SERVER_PORT"] == "80")
+                {
+                    _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
+                                    httpPage.Request.ServerVariables["SERVER_NAME"] +
+                                    httpPage.Request.ApplicationPath.TrimEnd('/') + "";
+                }
+                else
+                {
+                    _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
+                                httpPage.Request.ServerVariables["SERVER_NAME"] + ":" +
+                                httpPage.Request.ServerVariables["SERVER_PORT"] +
+                                httpPage.Request.ApplicationPath.TrimEnd('/') + "";
+                }
+            }
 
             Content["basepath"].InnerText = _basePath;
             Content["referrer"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_REFERER"]);
             Content["domain"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["SERVER_NAME"]);
-            Content["useragent"].InnerText =
-                httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_USER_AGENT"]);
-            Content["sessionid"].InnerText = httpPage.Server.UrlEncode(httpPage.Session.LCID.ToString());
+            Content["useragent"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_USER_AGENT"]);
+            Content["sessionid"].InnerText = httpPage.Server.UrlEncode(httpPage.Session.LCID.ToString(CultureInfo.InvariantCulture));
             Content["ip"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["REMOTE_ADDR"]);
 
             QueryData = new XmlItemList(CommonXml.GetNode(xmlNode, "query/data", EmptyNodeHandling.CreateNew));
@@ -71,19 +80,23 @@ namespace InventIt.SiteSystem
             {
                 if (!Login(QueryData["login"], QueryData["password"]))
                 {
-                    if (_settings["messages/loginerror"] != string.Empty)
-                        httpPage.Response.Redirect(BasePath + "/login.aspx?error=" +
-                                                   httpPage.Server.UrlEncode(_settings["messages/loginerror"]) +
-                                                   "&redirect=" + QueryOther["process"]);
+                    if (_settings != null && _settings["messages/loginerror"] != string.Empty)
+                    {
+                        httpPage.Response.Redirect(BasePath + "/login.aspx?error=" + httpPage.Server.UrlEncode(_settings["messages/loginerror"]) + "&redirect=" + QueryOther["process"]);
+                    }
                     else
+                    {
                         httpPage.Response.Redirect(BasePath + "/login.aspx?" + "redirect=" + QueryOther["process"]);
+                    }
                 }
             }
             else if (QueryEvents["main"] == "logout")
             {
                 Logout();
                 if (QueryEvents["mainValue"] != string.Empty)
+                {
                     HttpPage.Response.Redirect(QueryEvents["mainValue"]);
+                }
             }
             UpdateCookieTimeout();
 
@@ -93,12 +106,7 @@ namespace InventIt.SiteSystem
 
         public Dictionary<string, string> Variables
         {
-            get
-            {
-                if (_variables == null)
-                    _variables = new Dictionary<string, string>();
-                return _variables;
-            }
+            get { return _variables ?? (_variables = new Dictionary<string, string>()); }
         }
 
         public string RedirectUrl { get; set; }
@@ -117,12 +125,7 @@ namespace InventIt.SiteSystem
 
         public Cache Cache
         {
-            get
-            {
-                if (_cache == null)
-                    _cache = new Cache(HttpPage.Application);
-                return _cache;
-            }
+            get { return _cache ?? (_cache = new Cache(HttpPage.Application)); }
         }
 
         public XmlDocument XmlData { get; set; }
@@ -147,12 +150,7 @@ namespace InventIt.SiteSystem
 
         public Settings Settings
         {
-            get
-            {
-                if (_settings == null)
-                    _settings = new Settings(this, Root);
-                return _settings;
-            }
+            get { return _settings ?? (_settings = new Settings(this, Root)); }
         }
 
         // >>>>> Search Mod by Kiho Chang 2008-10-05
@@ -166,7 +164,9 @@ namespace InventIt.SiteSystem
             get
             {
                 if (HttpPage.Session["current_username"] == null)
+                {
                     Logout();
+                }
 
                 return HttpPage.Session["current_username"].ToString();
             }
@@ -212,7 +212,9 @@ namespace InventIt.SiteSystem
         private void DebugMessage(string message)
         {
             if (DebugEnabled)
+            {
                 AddMessage(message, MessageType.Debug);
+            }
         }
 
         private void LoadBaseData()
@@ -221,43 +223,49 @@ namespace InventIt.SiteSystem
             CommonXml.GetNode(userNode, "username").InnerText = CurrentUser;
             XmlNode groupNode = CommonXml.GetNode(userNode, "groups");
             object[] resultsGroups = Plugins.InvokeAll("users", "list_groups", CurrentUser);
-            var userGroups = new List<string>(Common.FlattenToStrings(resultsGroups));
+            var userGroups = new List<string>(Common.Common.FlattenToStrings(resultsGroups));
 
             foreach (string group in userGroups)
+            {
                 CommonXml.GetNode(groupNode, "group", EmptyNodeHandling.ForceCreateNew).InnerText = group;
+            }
 
             ControlList baseData = Content.GetSubControl("basedata");
 
-            baseData["pageviewcount"].InnerText = PageViewCount().ToString();
+            baseData["pageviewcount"].InnerText = PageViewCount().ToString(CultureInfo.InvariantCulture);
 
             foreach (string pageInHistory in History())
             {
-                XmlNode historyNode = baseData["history"].OwnerDocument.CreateElement("item");
-                historyNode.InnerText = pageInHistory;
-                baseData["history"].AppendChild(historyNode);
+                XmlDocument ownerDocument = baseData["history"].OwnerDocument;
+                if (ownerDocument != null)
+                {
+                    XmlNode historyNode = ownerDocument.CreateElement("item");
+                    historyNode.InnerText = pageInHistory;
+                    baseData["history"].AppendChild(historyNode);
+                }
             }
         }
 
         private void ConfigureDebugging()
         {
-            if (HttpPage.Request.ServerVariables["REMOTE_ADDR"] == "127.0.0.1")
-            {
-                if (HttpPage.Session["enabledebug"] == null)
-                    DebugEnabled = true;
+            if (HttpPage.Request.ServerVariables["REMOTE_ADDR"] != "127.0.0.1") return;
 
-                if (QueryOther["enabledebug"] == "true" || QueryOther["enabledebug"] == "false")
-                    DebugEnabled = (QueryOther["enabledebug"] == "true");
+            if (HttpPage.Session["enabledebug"] == null)
+            {
+                DebugEnabled = true;
+            }
+
+            if (QueryOther["enabledebug"] == "true" || QueryOther["enabledebug"] == "false")
+            {
+                DebugEnabled = (QueryOther["enabledebug"] == "true");
             }
         }
 
         private void ProcessQueries()
         {
-            var keys = new List<string>();
-            foreach (string key in HttpPage.Request.Form)
-                keys.Add(key);
-
-            foreach (string key in HttpPage.Request.QueryString)
-                keys.Add(key);
+            var keys = HttpPage.Request.Form.Cast<string>().ToList();
+            
+            keys.AddRange(HttpPage.Request.QueryString.Cast<string>());
 
             foreach (string key in keys)
             {
@@ -269,10 +277,10 @@ namespace InventIt.SiteSystem
                     switch (keyParts[0])
                     {
                         case "data":
-                            QueryData[string.Join("_", Common.RemoveOne(keyParts))] = value;
+                            QueryData[string.Join("_", Common.Common.RemoveOne(keyParts))] = value;
                             break;
                         case "event":
-                            QueryEvents[string.Join("_", Common.RemoveOne(keyParts))] = value;
+                            QueryEvents[string.Join("_", Common.Common.RemoveOne(keyParts))] = value;
                             break;
                         default:
                             QueryOther[key] = value;
@@ -288,14 +296,11 @@ namespace InventIt.SiteSystem
             return url;
         }
 
-        private List<string> History()
+        private IEnumerable<string> History()
         {
-            List<string> history;
-
-            if (HttpPage.Session["history"] != null)
-                history = (List<string>) HttpPage.Session["history"];
-            else
-                history = new List<string>();
+            var history = HttpPage.Session["history"] != null 
+                ? (List<string>) HttpPage.Session["history"]
+                : new List<string>();
 
             history.Add(CurrentProcess);
 
@@ -312,9 +317,13 @@ namespace InventIt.SiteSystem
             {
                 pageViewCounts = (Dictionary<string, int>) HttpPage.Session["pageviews"];
                 if (pageViewCounts.ContainsKey(CurrentProcess))
+                {
                     pageViewCounts[CurrentProcess] += 1;
+                }
                 else
+                {
                     pageViewCounts[CurrentProcess] = 1;
+                }
             }
             else
             {
@@ -335,16 +344,22 @@ namespace InventIt.SiteSystem
             {
                 bool verified = false;
                 foreach (object result in results)
+                {
                     if ((bool) result)
+                    {
                         verified = true;
+                    }
+                }
 
                 if (verified)
                 {
-                    HttpPage.Response.Cookies["login_cookie"].Value = string.Format("{0}{1}{2}", username,
-                                                                                    CookieSeparator, password);
-                    //ToDo: ??? (T.Huber / 18.06.2009)
-                    HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(1);
-                    //ToDo: ??? (T.Huber / 18.06.2009)
+                    var httpCookie = HttpPage.Response.Cookies["login_cookie"];
+                    if (httpCookie != null)
+                    {
+                        httpCookie.Value = string.Format("{0}{1}{2}", username, CookieSeparator, password);
+                        httpCookie.Expires = DateTime.Now.AddDays(1);
+                    }
+
                     HttpPage.Session["current_username"] = username;
 
                     return true;
@@ -357,19 +372,26 @@ namespace InventIt.SiteSystem
         {
             if (CurrentUser == "anonymous")
             {
-                if (HttpPage.Request.Cookies["login_cookie"] != null)
+                var httpCookie = HttpPage.Request.Cookies["login_cookie"];
+                if (httpCookie != null)
                 {
-                    string value = HttpPage.Request.Cookies["login_cookie"].Value; //ToDo: ??? (T.Huber / 18.06.2009)
+                    var value = httpCookie.Value; //ToDo: ??? (T.Huber / 18.06.2009)
                     if (value == null || !value.Contains(CookieSeparator))
+                    {
                         return false;
+                    }
 
-                    string[] valueParts = Common.SplitByString(value, CookieSeparator);
+                    var valueParts = Common.Common.SplitByString(value, CookieSeparator);
                     if (Login(valueParts[0], valueParts[1]))
+                    {
                         return true;
+                    }
                 }
             }
             else
+            {
                 return true;
+            }
 
             return false;
         }
@@ -386,34 +408,32 @@ namespace InventIt.SiteSystem
         public bool CheckGroups(string groups)
         {
             object[] results = Plugins.InvokeAll("users", "list_groups", CurrentUser);
-            var userGroups = new List<string>(Common.FlattenToStrings(results));
+            var userGroups = new List<string>(Common.Common.FlattenToStrings(results));
 
             if (groups != "")
             {
                 string[] groupList = groups.Split(',');
-                foreach (string checkRight in groupList)
-                    if (userGroups.Contains(checkRight))
-                        return true;
+                return groupList.Any(userGroups.Contains);
             }
-            else
-                return true;
-
-            return false;
+            
+            return true;
         }
 
         private void Logout()
         {
             HttpPage.Session.Clear();
             HttpPage.Session["current_username"] = "anonymous";
-            HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(-1);
-            //ToDo: ??? (T.Huber / 18.06.2009)
+            HttpCookie httpCookie = HttpPage.Response.Cookies["login_cookie"];
+            if (httpCookie != null)
+            {
+                httpCookie.Expires = DateTime.Now.AddDays(-1);
+            }
         }
     }
 
     public class ControlList : DataElementList
     {
-        public ControlList(XmlNode parentNode)
-            : base(parentNode)
+        public ControlList(XmlNode parentNode) : base(parentNode)
         {
         }
 
@@ -448,8 +468,7 @@ namespace InventIt.SiteSystem
 
     public class XmlItemList : DataElementList
     {
-        public XmlItemList(XmlNode parentNode)
-            : base(parentNode)
+        public XmlItemList(XmlNode parentNode) : base(parentNode)
         {
         }
 
@@ -500,11 +519,6 @@ namespace InventIt.SiteSystem
 
     public enum MessageType
     {
-        Error,
-        Status,
-        Event,
-        Warning,
-        Message,
-        Debug
+        Error, Status, Event, Warning, Message, Debug
     }
 }

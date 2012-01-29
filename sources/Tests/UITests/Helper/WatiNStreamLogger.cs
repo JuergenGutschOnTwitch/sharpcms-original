@@ -1,7 +1,7 @@
 ﻿using Gallio.Framework;
 using WatiN.Core.Interfaces;
 
-namespace UITests
+namespace UITests.Helper
 {
     public class WatiNStreamLogger : ILogWriter
     {

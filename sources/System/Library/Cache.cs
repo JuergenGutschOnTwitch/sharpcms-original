@@ -1,30 +1,31 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Collections;
+using System.Globalization;
 using System.IO;
 using System.Web;
 
-namespace InventIt.SiteSystem
+namespace Sharpcms.Library
 {
     public class Cache
     {
-        private readonly HttpApplicationState applicationState;
+        private readonly HttpApplicationState _applicationState;
 
         public Cache(HttpApplicationState applicationState)
         {
-            this.applicationState = applicationState;
+            _applicationState = applicationState;
         }
 
         private Hashtable CacheTable
         {
             get
             {
-                if (applicationState["cache"] == null)
+                if (_applicationState["cache"] == null)
                 {
                     Clean();
                 }
 
-                return applicationState["cache"] as Hashtable;
+                return _applicationState["cache"] as Hashtable;
             }
         }
 
@@ -38,7 +39,7 @@ namespace InventIt.SiteSystem
                     return null;
                 }
 
-                string fileModified = fileDependency.LastWriteTime.ToString();
+                string fileModified = fileDependency.LastWriteTime.ToString(CultureInfo.InvariantCulture);
                 string cacheModifiedKey = FormatModifiedKey(key);
                 if (this[cacheModifiedKey] == null || this[cacheModifiedKey].ToString() != fileModified)
                 {
@@ -51,7 +52,7 @@ namespace InventIt.SiteSystem
             {
                 this[key] = value;
 
-                string fileModified = fileDependency.LastWriteTime.ToString();
+                string fileModified = fileDependency.LastWriteTime.ToString(CultureInfo.InvariantCulture);
                 string cacheModifiedKey = FormatModifiedKey(key);
                 this[cacheModifiedKey] = fileModified;
             }
@@ -66,7 +67,7 @@ namespace InventIt.SiteSystem
         public void Clean()
         {
             var cache = new Hashtable();
-            applicationState["cache"] = cache;
+            _applicationState["cache"] = cache;
         }
 
         private static string FormatModifiedKey(string key)

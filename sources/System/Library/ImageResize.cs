@@ -1,4 +1,4 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 //Credit: http://www.codeproject.com/csharp/imageresize.asp
 
 using System;
@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace InventIt.SiteSystem.Library
+namespace Sharpcms.Library
 {
     public static class ImageResize
     {
@@ -34,7 +34,6 @@ namespace InventIt.SiteSystem.Library
         #endregion
 
         public static Image ScaleByPercent(Image imgPhoto, int percent)
-            //ToDo: Is this realy a unused Method? (T.Huber 18.06.2009)
         {
             double nPercent = ((double) percent/100);
             int sourceWidth = imgPhoto.Width;

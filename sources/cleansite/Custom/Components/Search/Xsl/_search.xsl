@@ -4,14 +4,17 @@
 		version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns="http://www.w3.org/1999/xhtml">
-	
   <xsl:template mode="show" match="element[@type='search']">
 		<xsl:choose>
 			<xsl:when test="contains(//data/attributes/pageroot, 'english')">
-				<h1>Search sharpcms web site</h1>
+				<h1>
+          <xsl:text>Search sharpcms web site</xsl:text>
+        </h1>
 			</xsl:when>
 			<xsl:otherwise>
-				<h1>sharpcms Website drchsuchen</h1>
+				<h1>
+          <xsl:text>sharpcms Website drchsuchen</xsl:text>
+        </h1>
 			</xsl:otherwise>
 		</xsl:choose>
 		<div>
@@ -32,9 +35,15 @@
 				<input type="hidden" name="data_start" value="" />
 				<xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
 					<a href="javascript:ThrowEventConfirm('index', '','Are you sure to rebuild index?')">
-						<xsl:attribute name="class">button</xsl:attribute>
-						<xsl:attribute name="onmouseover">this.style.backgroundColor='AliceBlue';</xsl:attribute>
-						<xsl:attribute name="onmouseout">this.style.backgroundColor='White';</xsl:attribute>
+						<xsl:attribute name="class">
+              <xsl:text>button</xsl:text>
+            </xsl:attribute>
+						<xsl:attribute name="onmouseover">
+              <xsl:text>this.style.backgroundColor='AliceBlue';</xsl:text>
+            </xsl:attribute>
+						<xsl:attribute name="onmouseout">
+              <xsl:text>this.style.backgroundColor='White';</xsl:text>
+            </xsl:attribute>
 						<xsl:text>Rebuild Index</xsl:text>
 					</a>
 				</xsl:if>
@@ -65,7 +74,9 @@
 			<xsl:value-of select="." disable-output-escaping="yes" />
 		</p>
 		<p>
-			<span>Search Powered by </span>
+			<span>
+        <xsl:text>Search Powered by </xsl:text>
+      </span>
 			<a href="http://incubator.apache.org/lucene.net/">
 				<xsl:text>Lucene.Net</xsl:text>
 			</a>
@@ -99,5 +110,4 @@
 			<br />
 		</p>
 	</xsl:template>
-
 </xsl:stylesheet>

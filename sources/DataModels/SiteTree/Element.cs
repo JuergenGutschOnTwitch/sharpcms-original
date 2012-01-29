@@ -1,9 +1,10 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Xml;
-using InventIt.SiteSystem.Library;
+using Sharpcms.Library;
+using Sharpcms.Library.Common;
 
-namespace InventIt.SiteSystem.Data.SiteTree
+namespace Sharpcms.Data.SiteTree
 {
     public class Element : DataElement
     {
@@ -11,8 +12,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
         /// Initializes a new instance of the <see cref="Element"/> class.
         /// </summary>
         /// <param name="node">The node.</param>
-        public Element(XmlNode node)
-            : base(node)
+        public Element(XmlNode node) : base(node)
         {
         }
 

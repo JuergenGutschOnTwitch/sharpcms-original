@@ -10,35 +10,43 @@
       </div>
       <div class="viewstate">
         <xsl:if test="@mainmimetype='image'">
-          <p id="fida_vs">˅</p>
+          <p id="fida_vs">
+            <xsl:text>˅</xsl:text>
+          </p>
         </xsl:if>
       </div>
     </div>
     <div class="menu filedata_menu">
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ThrowEventConfirm('removefile','<xsl:value-of select="@path" />','Do you want to delete the file?');
+          <xsl:text>javascript:ThrowEventConfirm('removefile','</xsl:text>
+          <xsl:value-of select="@path" />
+          <xsl:text>','Do you want to delete the file?');</xsl:text>
         </xsl:attribute>
-        Delete file
+        <xsl:text>Delete file</xsl:text>
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ThrowEventNew('renamefile','<xsl:value-of select="@path" />','Write the new name');
+          <xsl:text>javascript:ThrowEventNew('renamefile','</xsl:text>
+          <xsl:value-of select="@path" />
+          <xsl:text>','Write the new name');</xsl:text>
         </xsl:attribute>
-        Rename file
+        <xsl:text>Rename file</xsl:text>
       </a>
       <a class="button">
         <xsl:attribute name="href">
           <xsl:text>default.aspx?process=download/</xsl:text>
           <xsl:value-of select="@path" />&amp;download=true
         </xsl:attribute>
-        Download file
+        <xsl:text>Download file</xsl:text>
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ModalDialogShow('<xsl:value-of select="/data/basepath" />/default.aspx?process=admin/choose/folder','ReturnMethodMoveFile()');
+          <xsl:text>javascript:ModalDialogShow('</xsl:text>
+          <xsl:value-of select="/data/basepath" />
+          <xsl:text>/default.aspx?process=admin/choose/folder','ReturnMethodMoveFile()');</xsl:text>
         </xsl:attribute>
-        Move file
+        <xsl:text>Move file</xsl:text>
       </a>
       <script language="JavaScript">
         function ReturnMethodMoveFile() {
@@ -52,7 +60,8 @@
       <div class="body filedata_body" id="fida_body">
         <img>
           <xsl:attribute name="src">
-            ?process=download/<xsl:value-of select="@path" />
+            <xsl:text>?process=download/</xsl:text>
+            <xsl:value-of select="@path" />
             <xsl:choose>
               <xsl:when test="/data/query/other/width">
                 <xsl:text>&amp;width=</xsl:text>
@@ -71,20 +80,27 @@
         <table>
           <tr>
             <td class="field">
-              Width: <input type="text" name="width" maxlength="5" />px
+              <xsl:text>Width: </xsl:text>
+              <input type="text" name="width" maxlength="5" />
+              <xsl:text>px</xsl:text>
             </td>
             <td class="field">
-              Height: <input type="text" name="height" maxlength="5" />px
+              <xsl:text>Height: </xsl:text>
+              <input type="text" name="height" maxlength="5" />
+              <xsl:text>px</xsl:text>
             </td>
             <td>
               <a class="button" href="javascript:ThrowEvent('doresize','');">
-                Resize
+                <xsl:text>Resize</xsl:text>
               </a>
             </td>
           </tr>
           <tr>
             <td colspan="3">
-              <strong>NB:</strong> The resized image will be placed in the thumbs folder.
+              <strong>
+                <xsl:text>NB:</xsl:text>
+              </strong>
+              <xsl:text>The resized image will be placed in the thumbs folder.</xsl:text>
             </td>
           </tr>
         </table>

@@ -1,14 +1,12 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Xml;
-using InventIt.SiteSystem.Library;
 
-namespace InventIt.SiteSystem.Data.Users
+namespace Sharpcms.Library.Users
 {
     public class GroupList : DataElementList
     {
-        public GroupList(XmlNode parentNode)
-            : base(parentNode)
+        public GroupList(XmlNode parentNode) : base(parentNode)
         {
         }
 
@@ -21,7 +19,7 @@ namespace InventIt.SiteSystem.Data.Users
 
                 if (node != null)
                 {
-                    Group group = new Group(node);
+                    var group = new Group(node);
                     return group;
                 }
                 return null;
@@ -33,12 +31,12 @@ namespace InventIt.SiteSystem.Data.Users
             // ToDo: group is not consistent yet (old)
             get
             {
-                string xPath = string.Format("group[@name='{0}']", Common.CleanToSafeString(name));
+                string xPath = string.Format("group[@name='{0}']", Common.Common.CleanToSafeString(name));
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
 
                 if (node != null)
                 {
-                    Group group = new Group(node);
+                    var group = new Group(node);
                     return group;
                 }
                 return null;

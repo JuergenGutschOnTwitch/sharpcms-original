@@ -1,9 +1,10 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Xml;
-using InventIt.SiteSystem.Library;
+using Sharpcms.Library;
+using Sharpcms.Library.Common;
 
-namespace InventIt.SiteSystem.Data.SiteTree
+namespace Sharpcms.Data.SiteTree
 {
     public class Page : DataElement
     {
@@ -11,8 +12,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
         private readonly SiteTree _siteTree;
         private readonly XmlNode _treeNode;
 
-        public Page(XmlNode pageNode, XmlNode treeNode, SiteTree siteTree)
-            : base(pageNode)
+        public Page(XmlNode pageNode, XmlNode treeNode, SiteTree siteTree) : base(pageNode)
         {
             _treeNode = treeNode;
             _siteTree = siteTree;
@@ -36,14 +36,6 @@ namespace InventIt.SiteSystem.Data.SiteTree
         {
             get { return this["name"]; }
         }
-
-/*
-        public string MenuName
-        {
-            get { return this["menuname"]; }
-            set { this["menuname"] = value; }
-        }
-*/
 
         public string PageIdentifier
         {

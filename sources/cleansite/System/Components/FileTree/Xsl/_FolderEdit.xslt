@@ -9,30 +9,43 @@
         <xsl:value-of select="@path" />
       </div>
       <div class="viewstate">
-        <p id="foda_vs">˅</p>
+        <p id="foda_vs">
+          <xsl:text>˅</xsl:text>
+        </p>
       </div>
     </div>
     <div class="menu folderdata_menu">
-      <a class="button" href="javascript:ThrowEventConfirm('removefolder','{@path}','Do you want to delete the folder?');">
-        Delete folder
+      <a class="button">
+        <xsl:attribute name="href">
+          <xsl:text>javascript:ThrowEventConfirm('removefolder','</xsl:text>
+          <xsl:value-of select="@path" />
+          <xsl:text>','Do you want to delete the folder?');</xsl:text>
+        </xsl:attribute>
+        <xsl:text>Delete folder</xsl:text>
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ThrowEventNew('renamefolder','<xsl:value-of select="@path" />','Write the new name');
+          <xsl:text>javascript:ThrowEventNew('renamefolder','</xsl:text>
+          <xsl:value-of select="@path" />
+          <xsl:text>','Write the new name');</xsl:text>
         </xsl:attribute>
-        Rename folder
+        <xsl:text>Rename folder</xsl:text>
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ThrowEventNew('addfolder','<xsl:value-of select="@path" />','Type the name of the new folder');
+          <xsl:text>javascript:ThrowEventNew('addfolder','</xsl:text>
+          <xsl:value-of select="@path" />
+          <xsl:text>','Type the name of the new folder');</xsl:text>
         </xsl:attribute>
-        Add subfolder
+        <xsl:text>Add subfolder</xsl:text>
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          javascript:ModalDialogShow('<xsl:value-of select="/data/basepath" />/default.aspx?process=admin/choose/folder','ReturnMethodMoveFolder()');
+          <xsl:text>javascript:ModalDialogShow('</xsl:text>
+          <xsl:value-of select="/data/basepath" />
+          <xsl:text>/default.aspx?process=admin/choose/folder','ReturnMethodMoveFolder()');</xsl:text>
         </xsl:attribute>
-        Move folder
+        <xsl:text>Move folder</xsl:text>
       </a>
       <script type="text/javascript">
         function ReturnMethodMoveFolder() {
@@ -49,14 +62,18 @@
 
   <xsl:template name="upload">
     <div class="adminmenu">
-      Upload new file in directory
+      <xsl:text>Upload new file in directory</xsl:text>
       <br />
       <xsl:call-template name="uploadfield">
-        <xsl:with-param name="currentlevel">1</xsl:with-param>
-        <xsl:with-param name="maxlevel">10</xsl:with-param>
+        <xsl:with-param name="currentlevel">
+          <xsl:text>1</xsl:text>
+        </xsl:with-param>
+        <xsl:with-param name="maxlevel">
+          <xsl:text>10</xsl:text>
+        </xsl:with-param>
       </xsl:call-template>
       <a class="button" href="javascript:ThrowEvent('uploadfile', '{@path}', 'Type the name of the new folder:');">
-        Upload
+        <xsl:text>Upload</xsl:text>
       </a>
     </div>
   </xsl:template>
@@ -75,7 +92,9 @@
       <br />
       <xsl:if test="$currentlevel &lt; $maxlevel">
         <div id="showlink_{$currentlevel + 1}">
-          <a href="javascript:showAndHide('file_{$currentlevel + 1}', 'showlink_{$currentlevel + 1}');">More files...</a>
+          <a href="javascript:showAndHide('file_{$currentlevel + 1}', 'showlink_{$currentlevel + 1}');">
+            <xsl:text>More files...</xsl:text>
+          </a>
           <br />
           <br />
         </div>

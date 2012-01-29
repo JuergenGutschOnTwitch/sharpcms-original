@@ -4,7 +4,7 @@
   <xsl:template  mode="choose" match="filetree">
     <div class="dtree">
       <script type="text/javascript">
-        filetreechoose = new dTree('filetreechoose',true);
+        <xsl:text>filetreechoose = new dTree('filetreechoose',true);</xsl:text>
         <xsl:choose>
           <xsl:when test="//data/query/other/process='admin/choose/folder'">
             <xsl:apply-templates mode="choosefolders" select="folder/*">
@@ -19,7 +19,7 @@
             </xsl:apply-templates>
           </xsl:otherwise>
         </xsl:choose>
-        document.write(filetreechoose);
+        <xsl:text>document.write(filetreechoose);</xsl:text>
 			</script>
 		</div>
 	</xsl:template>
@@ -27,12 +27,19 @@
 	<xsl:template mode="choosefiles" match="folder">
 		<xsl:param name="current-path" />
 		<xsl:param name="parent" />
-			filetreechoose.add(<xsl:value-of select="($parent*-200)+position()" />,
-				<xsl:value-of select="$parent" />,
-				'<xsl:value-of select="@name" />'
-				,'','','','System/Components/Admin/Icons/Tree/folder.gif');
+    <xsl:text>filetreechoose.add(</xsl:text>
+    <xsl:value-of select="($parent*-200)+position()" />
+    <xsl:text>,</xsl:text>
+    <xsl:value-of select="$parent" />
+    <xsl:text>,'</xsl:text>
+    <xsl:value-of select="@name" />
+    <xsl:text>','','','','System/Components/Admin/Icons/Tree/folder.gif');</xsl:text>
 		<xsl:apply-templates mode="choosefiles" select="*">
-			<xsl:with-param name="current-path"><xsl:value-of select="$current-path" /><xsl:value-of select="@name" />/</xsl:with-param>
+			<xsl:with-param name="current-path">
+        <xsl:value-of select="$current-path" />
+        <xsl:value-of select="@name" />
+        <xsl:text>/</xsl:text>
+      </xsl:with-param>
 			<xsl:with-param name="parent" select="($parent*-200)+position()" />
 		</xsl:apply-templates>
 	</xsl:template>
@@ -40,22 +47,37 @@
 	<xsl:template mode="choosefiles" match="file">
 		<xsl:param name="current-path" />
 		<xsl:param name="parent" />
-			filetreechoose.add(<xsl:value-of select="($parent*-200)+position()" />,
-			<xsl:value-of select="$parent" />,
-			'<xsl:value-of select="@name" />'
-			,'javascript:CloseForm(\'<xsl:value-of select="$current-path" /><xsl:value-of select="@name" />\')','','');
+    <xsl:text>filetreechoose.add(</xsl:text>
+    <xsl:value-of select="($parent*-200)+position()" />
+    <xsl:text>,</xsl:text>
+    <xsl:value-of select="$parent" />
+    <xsl:text>,'</xsl:text>
+    <xsl:value-of select="@name" />
+    <xsl:text>','javascript:CloseForm(\'</xsl:text>
+    <xsl:value-of select="$current-path" />
+    <xsl:value-of select="@name" />
+    <xsl:text>\')','','');</xsl:text>
 	</xsl:template>
 
 	<xsl:template mode="choosefolders" match="folder">
 		<xsl:param name="current-path" />
 		<xsl:param name="parent" />
-			filetreechoose.add(<xsl:value-of select="($parent*-200)+position()" />,
-				<xsl:value-of select="$parent" />,
-				'<xsl:value-of select="@name" />'
-				,'javascript:CloseForm(\'<xsl:value-of select="$current-path" /><xsl:value-of select="@name" />\')',
-				'','','System/Components/Admin/Icons/Tree/folder.gif');
+    <xsl:text>filetreechoose.add(</xsl:text>
+    <xsl:value-of select="($parent*-200)+position()" />
+    <xsl:text>,</xsl:text>
+    <xsl:value-of select="$parent" />
+    <xsl:text>,'</xsl:text>
+    <xsl:value-of select="@name" />
+    <xsl:text>','javascript:CloseForm(\'</xsl:text>
+    <xsl:value-of select="$current-path" />
+    <xsl:value-of select="@name" />
+    <xsl:text>\')','','','System/Components/Admin/Icons/Tree/folder.gif');</xsl:text>
 		<xsl:apply-templates mode="choosefolders" select="*">
-			<xsl:with-param name="current-path"><xsl:value-of select="$current-path" /><xsl:value-of select="@name" />/</xsl:with-param>
+			<xsl:with-param name="current-path">
+        <xsl:value-of select="$current-path" />
+        <xsl:value-of select="@name" />
+        <xsl:text>/</xsl:text>
+      </xsl:with-param>
 			<xsl:with-param name="parent" select="($parent*-200)+position()" />
 		</xsl:apply-templates>
 	</xsl:template>

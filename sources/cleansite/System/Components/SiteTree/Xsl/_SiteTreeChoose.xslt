@@ -6,7 +6,7 @@
   <xsl:template mode="choose" match="sitetree">
     <div class="dtree">
       <script type="text/javascript">
-        sitetreechoose = new dTree('sitetreechoose',false);
+        <xsl:text>sitetreechoose = new dTree('sitetreechoose',false);</xsl:text>
         <xsl:for-each select="*">
           <xsl:call-template name="SiteTreeElementChoose">
             <xsl:with-param name="current-path">
@@ -16,7 +16,7 @@
             <xsl:with-param name="parent" >-1</xsl:with-param>
           </xsl:call-template>
         </xsl:for-each>
-        document.write(sitetreechoose);
+        <xsl:text>document.write(sitetreechoose);</xsl:text>
       </script>
     </div>
   </xsl:template>
@@ -25,14 +25,21 @@
     <xsl:param name="current-path" />
     <xsl:param name="number" />
     <xsl:param name="parent" />
-    sitetreechoose.add(<xsl:value-of select="$number" />,
-    <xsl:value-of select="$parent" />,
-    '<xsl:value-of select="name()" />',
-    'javascript:CloseForm(\'<xsl:value-of select="$current-path" />\')','','');
+    <xsl:text>sitetreechoose.add(</xsl:text>
+    <xsl:value-of select="$number" />
+    <xsl:text>,</xsl:text>
+    <xsl:value-of select="$parent" />
+    <xsl:text>,'</xsl:text>
+    <xsl:value-of select="name()" />
+    <xsl:text>','javascript:CloseForm(\'</xsl:text>
+    <xsl:value-of select="$current-path" />
+    <xsl:text>\')','','');</xsl:text>
     <xsl:for-each select="*">
       <xsl:call-template name="SiteTreeElementChoose">
         <xsl:with-param name="current-path">
-          <xsl:value-of select="$current-path" />/<xsl:value-of select="name()" />
+          <xsl:value-of select="$current-path" />
+          <xsl:text>/</xsl:text>
+          <xsl:value-of select="name()" />
         </xsl:with-param>
         <xsl:with-param name="parent" select="$number" />
         <xsl:with-param name="number" select="($number*-200)+position()" />

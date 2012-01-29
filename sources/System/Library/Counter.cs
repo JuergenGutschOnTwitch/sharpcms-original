@@ -1,7 +1,9 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
-namespace InventIt.SiteSystem.Library
+namespace Sharpcms.Library
 {
+    // NOTE: Is unused
+
     /// <summary>
     /// Counter class for measuring elapsed times.
     /// Uses the NT performance counters

@@ -1,21 +1,20 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Xml;
-using InventIt.SiteSystem.Library;
+using Sharpcms.Library.Common;
 
-namespace InventIt.SiteSystem.Data.Users
+namespace Sharpcms.Library.Users
 {
     public class Group : DataElement
     {
-        public Group(XmlNode node)
-            : base(node)
+        public Group(XmlNode node) : base(node)
         {
         }
 
         public string Name
         {
             get { return CommonXml.GetAttributeValue(Node, "name"); }
-            set { CommonXml.SetAttributeValue(Node, "name", Common.CleanToSafeString(value)); }
+            set { CommonXml.SetAttributeValue(Node, "name", Common.Common.CleanToSafeString(value)); }
         }
     }
 }

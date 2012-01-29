@@ -1,18 +1,19 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using InventIt.SiteSystem.Data.SiteTree;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Search.Highlight;
+using Sharpcms.Data.SiteTree;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.ProviderSearch
 {
     public class Search
     {
@@ -21,78 +22,78 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private const int MaxResults = 5;
 
-        private readonly Page currentPage;
-        private readonly string indexDir;
-        private readonly Process process;
-        private readonly string searchPage;
+        private readonly Page _currentPage;
+        private readonly string _indexDir;
+        private readonly Process _process;
+        private readonly string _searchPage;
 
         /// <summary>
         /// Time it took to make the search.
         /// </summary>
-        private TimeSpan duration;
+        private TimeSpan _duration;
 
         /// <summary>
         /// First item on page (user format).
         /// </summary>
-        private int fromItem;
+        private int _fromItem;
 
-        private string query;
+        private string _searchQuery;
 
-        private int startAt;
+        private int _startAt;
 
         /// <summary>
         /// First item on page (index format).
         /// </summary>
-        private int startFirstAt;
+        private int _startFirstAt;
 
         /// <summary>
         /// Last item on page (user format).
         /// </summary>
-        private int toItem;
+        private int _toItem;
 
         /// <summary>
         /// Total items returned by search.
         /// </summary>
-        private int total;
+        private int _total;
 
         public Search(Process process)
         {
-            this.process = process;
+            _process = process;
 
-            string mainVal = this.process.QueryData["mainvalue"];
+            string mainVal = _process.QueryData["mainvalue"];
             if (string.IsNullOrEmpty(mainVal))
             {
-                string mStartAt = this.process.QueryData["start"];
-                startAt = string.IsNullOrEmpty(mStartAt) ? 0 : int.Parse(mStartAt);
+                string mStartAt = _process.QueryData["start"];
+                _startAt = string.IsNullOrEmpty(mStartAt) ? 0 : int.Parse(mStartAt);
             }
             else
             {
-                startAt = int.Parse(mainVal);
+                _startAt = int.Parse(mainVal);
             }
 
-            indexDir = this.process.Settings["search/index"];
+            _indexDir = _process.Settings["search/index"];
 
             //jig: search only one section
-            string[] s = this.process.CurrentProcess.Split('/');
+            string[] s = _process.CurrentProcess.Split('/');
             if (s.Length >= 2)
             {
-                indexDir = Path.Combine(indexDir, s[1]);
+                _indexDir = Path.Combine(_indexDir, s[1]);
             }
 
-            searchPage = "show/";
+            _searchPage = "show/";
 
-            string pageID = this.process.QueryData["pageidentifier"];
-            currentPage = new SiteTree(this.process).GetPage(pageID);
+            string pageId = _process.QueryData["pageidentifier"];
+            _currentPage = new SiteTree(_process).GetPage(pageId);
         }
 
         public int StartAt
         {
-            set { startAt = value; }
+            set { _startAt = value; }
         }
 
-        private string Query
+        private string SearchQuery
         {
-            get { return query; }
+            get { return _searchQuery; }
         }
 
         /// <summary>
@@ -102,11 +103,9 @@ namespace InventIt.SiteSystem.Providers
         {
             get
             {
-                if (total > 0)
-                {
-                    return string.Format("Results <b>{0} - {1}</b> of <b>{2}</b> for <b>{3}</b>. ({4} mili seconds)", fromItem, toItem, total, Query, duration.TotalMilliseconds);
-                }
-                return "No results found";
+                return _total > 0 
+                    ? string.Format("Results <b>{0} - {1}</b> of <b>{2}</b> for <b>{3}</b>. ({4} mili seconds)", _fromItem, _toItem, _total, SearchQuery, _duration.TotalMilliseconds) 
+                    : "No results found";
             }
         }
 
@@ -115,7 +114,7 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private int PageCount
         {
-            get { return (total - 1) / MaxResults; } // floor 
+            get { return (_total - 1) / MaxResults; } // floor 
         }
 
         /// <summary>
@@ -129,21 +128,21 @@ namespace InventIt.SiteSystem.Providers
         /// <summary>
         /// Does the search and stores the information about the results.
         /// </summary>
-        public void HandleSearch(string q)
+        public void HandleSearch(string searchQuery)
         {
             DateTime start = DateTime.Now;
-            this.query = q;
+            _searchQuery = searchQuery;
 
             // create the searcher
             // index is placed in "index" subdirectory
-            var searcher = new IndexSearcher(indexDir);
+            var searcher = new IndexSearcher(_indexDir);
             Analyzer analyzer = new StandardAnalyzer();
 
             // parse the query, "text" is the default field to search
-            Lucene.Net.Search.Query query = QueryParser.Parse(this.query, "text", analyzer);
+            Lucene.Net.Search.Query query = QueryParser.Parse(_searchQuery, "text", analyzer);
 
             const string containername = "content";
-            Container container = currentPage.Containers[containername];
+            Container container = _currentPage.Containers[containername];
             const string elementResult = "result";
             const string elementPaging = "paging";
             const string elementSummary = "summary";
@@ -153,32 +152,33 @@ namespace InventIt.SiteSystem.Providers
             // Remove previous search result
             for (int i = count; i > 0; --i)
             {
-                if (container.Elements[i] != null)
+                if (container.Elements[i] == null) continue;
+
+                if (elementAll.IndexOf(container.Elements[i].Type, StringComparison.Ordinal) > -1)
                 {
-                    if (elementAll.IndexOf(container.Elements[i].Type) > -1)
-                    { container.Elements.Remove(i); }
+                    container.Elements.Remove(i);
                 }
             }
 
             Element element = container.Elements[0];
             Element elSummary = container.Elements.Create(elementSummary);
-            element["query"] = this.query;
+            element["query"] = _searchQuery;
 
             // search
             Hits hits = searcher.Search(query);
 
-            total = hits.Length();
+            _total = hits.Length();
 
             // create highlighter
             var highlighter = new Highlighter(new QueryScorer(query));
 
             // initialize startAt
-            startFirstAt = InitStartAt();
+            _startFirstAt = InitStartAt();
 
             // how many items we should show - less than defined at the end of the results
-            int resultsCount = SmallerOf(total, MaxResults + startFirstAt);
+            int resultsCount = SmallerOf(_total, MaxResults + _startFirstAt);
 
-            for (int i = startFirstAt; i < resultsCount; i++)
+            for (int i = _startFirstAt; i < resultsCount; i++)
             {
                 // get the document from index
                 Document doc = hits.Doc(i);
@@ -193,23 +193,23 @@ namespace InventIt.SiteSystem.Providers
 
                     element = container.Elements.Create(elementResult);
                     element["title"] = doc.Get("title");
-                    element["path"] = searchPage + path.Replace("\\", "/") + ".aspx";
+                    element["path"] = _searchPage + path.Replace("\\", "/") + ".aspx";
                     element["sample"] = string.IsNullOrEmpty(text) ? plainText : text;
                 }
             }
 
             searcher.Close();
 
-            duration = DateTime.Now - start;
-            fromItem = startFirstAt + 1;
-            toItem = SmallerOf(startFirstAt + MaxResults, total);
+            _duration = DateTime.Now - start;
+            _fromItem = _startFirstAt + 1;
+            _toItem = SmallerOf(_startFirstAt + MaxResults, _total);
 
             // result information
             elSummary.Node.InnerText = Summary;
             // paging link
             element = container.Elements.Create(elementPaging);
             element.Node.InnerText = SetPaging();
-            process.SearchContext = currentPage;
+            _process.SearchContext = _currentPage;
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace InventIt.SiteSystem.Providers
         private string SetPaging()
         {
             // pageNumber starts at 1
-            int pageNumber = (startFirstAt + MaxResults - 1) / MaxResults;
+            int pageNumber = (_startFirstAt + MaxResults - 1) / MaxResults;
 
             var htmlList = new List<string>();
             string html = PagingItemHtml(pageNumber + 1, false);
@@ -276,21 +276,22 @@ namespace InventIt.SiteSystem.Providers
 
         /// <summary>
         /// Initializes startAt value. Checks for bad values.
-        /// this.Request.Params["start"]
+        /// Request.Params["start"]
         /// </summary>
         /// <returns></returns>
         private int InitStartAt()
         {
             try
             {
-                int sa = Convert.ToInt32(startAt);
+                int sa = Convert.ToInt32(_startAt);
                 // too small starting item, return first page
-                if (startAt < 0)
+                if (_startAt < 0)
                 {
                     return 0;
                 }
+
                 // too big starting item, return last page
-                if (startAt >= total - 1)
+                if (_startAt >= _total - 1)
                 {
                     return LastPageStartsAt;
                 }

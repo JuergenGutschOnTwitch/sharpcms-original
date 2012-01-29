@@ -1,9 +1,9 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Collections;
 using System.Collections.Generic;
 
-namespace InventIt.SiteSystem.Plugin.Types
+namespace Sharpcms.Library.Plugin
 {
     /// <summary>
     /// Collection for AvailablePlugin Type
@@ -63,7 +63,9 @@ namespace InventIt.SiteSystem.Plugin.Types
                 {
                     var implements = new List<string>(instance.Implements);
                     if (implements.Contains(api))
+                    {
                         plugins.Add(plugin);
+                    }
                 }
             }
 

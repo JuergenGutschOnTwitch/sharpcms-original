@@ -1,12 +1,13 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.IO;
 using System.Xml;
-using InventIt.SiteSystem.Data.FileTree;
-using InventIt.SiteSystem.Library;
-using InventIt.SiteSystem.Plugin;
+using Sharpcms.Data.FileTree;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.Base
 {
     public class ProviderFile : BasePlugin2, IPlugin2
     {
@@ -25,7 +26,7 @@ namespace InventIt.SiteSystem.Providers
         /// <param name="process">The process.</param>
         public ProviderFile(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         /// <summary>
@@ -34,13 +35,7 @@ namespace InventIt.SiteSystem.Providers
         /// <value>The tree.</value>
         private FileTree Tree
         {
-            get
-            {
-                if (_siteTree == null)
-                    _siteTree = new FileTree(_process);
-
-                return _siteTree;
-            }
+            get { return _siteTree ?? (_siteTree = new FileTree(Process)); }
         }
 
         #region IPlugin2 Members
@@ -125,7 +120,7 @@ namespace InventIt.SiteSystem.Providers
         {
             if (!string.IsNullOrEmpty(value))
             {
-                _process.OutputHandledByModule = true;
+                Process.OutputHandledByModule = true;
                 Tree.SendToBrowser(value);
             }
         }
@@ -135,10 +130,10 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleMoveFolder()
         {
-            string[] par = _process.QueryEvents["mainvalue"].Split('*');
+            string[] par = Process.QueryEvents["mainvalue"].Split('*');
             if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
             {
-                var filetree = new FileTree(_process);
+                var filetree = new FileTree(Process);
                 filetree.MoveFolder(par[0], par[1]);
             }
         }
@@ -148,10 +143,10 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleMoveFile()
         {
-            string[] par = _process.QueryEvents["mainvalue"].Split('*');
+            string[] par = Process.QueryEvents["mainvalue"].Split('*');
             if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
             {
-                var filetree = new FileTree(_process);
+                var filetree = new FileTree(Process);
                 filetree.MoveFile(par[0], par[1]);
             }
         }
@@ -161,10 +156,10 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleRenameFolder()
         {
-            string[] par = _process.QueryEvents["mainvalue"].Split('*');
+            string[] par = Process.QueryEvents["mainvalue"].Split('*');
             if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
             {
-                var filetree = new FileTree(_process);
+                var filetree = new FileTree(Process);
                 filetree.RenameFolder(par[0], par[1]);
             }
         }
@@ -174,10 +169,10 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleRenameFile()
         {
-            string[] par = _process.QueryEvents["mainvalue"].Split('*');
+            string[] par = Process.QueryEvents["mainvalue"].Split('*');
             if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
             {
-                var filetree = new FileTree(_process);
+                var filetree = new FileTree(Process);
                 filetree.RenameFile(par[0], par[1]);
             }
         }
@@ -187,9 +182,9 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleRemoveFolder()
         {
-            string path = _process.QueryEvents["mainvalue"];
+            string path = Process.QueryEvents["mainvalue"];
 
-            var filetree = new FileTree(_process);
+            var filetree = new FileTree(Process);
             filetree.DeleteFolder(path);
         }
 
@@ -198,9 +193,9 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleRemoveFile()
         {
-            string path = _process.QueryEvents["mainvalue"];
+            string path = Process.QueryEvents["mainvalue"];
 
-            var filetree = new FileTree(_process);
+            var filetree = new FileTree(Process);
             filetree.DeleteFile(path);
         }
 
@@ -209,9 +204,9 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleAddFolder()
         {
-            string query = _process.QueryEvents["mainvalue"];
+            string query = Process.QueryEvents["mainvalue"];
             string[] list = query.Split('*');
-            var filetree = new FileTree(_process);
+            var filetree = new FileTree(Process);
             filetree.CreateFolder(list[0], list[1]);
         }
 
@@ -220,9 +215,9 @@ namespace InventIt.SiteSystem.Providers
         /// </summary>
         private void HandleUpload()
         {
-            string query = _process.QueryEvents["mainvalue"];
-            var fileTree = new FileTree(_process);
-            string[] files = fileTree.SaveUploadedFiles(query); //ToDo: ??? (T.Huber 18.06.2009)
+            string query = Process.QueryEvents["mainvalue"];
+            var fileTree = new FileTree(Process);
+            fileTree.SaveUploadedFiles(query);
         }
 
         /// <summary>

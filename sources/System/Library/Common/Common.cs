@@ -1,22 +1,19 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using InventIt.SiteSystem.Plugin;
+using System.Linq;
+using Sharpcms.Library.Plugin;
 
-namespace InventIt.SiteSystem.Library
+namespace Sharpcms.Library.Common
 {
     public static class Common
     {
         public static string[] FlattenToStrings(object[] results)
         {
             object[] flattened = PluginServices.Flatten(results);
-            var strings = new List<string>();
-            foreach (object result in flattened)
-                strings.Add(result as string);
 
-            return strings.ToArray();
+            return flattened.Select(result => result as string).ToArray();
         }
 
         public static string[] RemoveOne(string[] args)
@@ -25,7 +22,9 @@ namespace InventIt.SiteSystem.Library
             {
                 var argsNew = new string[args.Length - 1];
                 for (int i = 1; i < args.Length; i++)
+                {
                     argsNew[i - 1] = args[i];
+                }
 
                 return argsNew;
             }
@@ -38,7 +37,9 @@ namespace InventIt.SiteSystem.Library
             {
                 var argsNew = new string[args.Length - 1];
                 for (int i = 0; i < args.Length - 1; i++)
+                {
                     argsNew[i] = args[i];
+                }
 
                 return argsNew;
             }
@@ -47,19 +48,18 @@ namespace InventIt.SiteSystem.Library
 
         public static bool StringArrayContains(string[] args, string value)
         {
-            foreach (string currentValue in args)
-                if (currentValue == value)
-                    return true;
-
-            return false;
+            return args.Any(currentValue => currentValue == value);
         }
 
         public static string CombinePaths(params string[] paths)
         {
             //ToDo: this is not safe yeat - a stack overflow happened... (old)
             string combinedPath = string.Empty;
+
             for (int i = 1; i < paths.Length; i++)
+            {
                 combinedPath = i == 1 ? Path.Combine(paths[i - 1], paths[i]) : Path.Combine(combinedPath, paths[i]);
+            }
 
             return combinedPath;
         }
@@ -90,14 +90,22 @@ namespace InventIt.SiteSystem.Library
                 char currentChar = loweredDirtyChars[index];
 
                 if (index > 0)
+                {
                     if (semiCleanChars.IndexOf(currentChar) > -1)
+                    {
                         allowed = true;
+                    }
+                }
 
                 if (cleanChars.IndexOf(currentChar) > -1)
+                {
                     allowed = true;
+                }
 
                 if (!allowed)
+                {
                     originalChars[index] = '_';
+                }
             }
 
             var cleanString = new string(originalChars);
@@ -109,7 +117,9 @@ namespace InventIt.SiteSystem.Library
                 string beforeRemoval = cleanString;
                 cleanString = cleanString.Replace("__", "_");
                 if (cleanString == beforeRemoval)
+                {
                     doubleUnderscoresRemoved = false;
+                }
             }
 
             return cleanString;
@@ -119,10 +129,14 @@ namespace InventIt.SiteSystem.Library
         {
             string absolutePath = CombinePaths(Settings.DefaultInstance.RootPath, path);
             if (!Directory.Exists(absolutePath))
+            {
                 return false;
+            }
 
             if (!PathIsInSite(path))
+            {
                 return false;
+            }
 
             Directory.Delete(absolutePath, true);
             return true;
@@ -132,10 +146,14 @@ namespace InventIt.SiteSystem.Library
         {
             string absolutePath = CombinePaths(Settings.DefaultInstance.RootPath, path);
             if (!File.Exists(absolutePath))
+            {
                 return false;
+            }
 
             if (!PathIsInSite(path))
+            {
                 return false;
+            }
 
             File.Delete(absolutePath);
             return true;
@@ -147,25 +165,23 @@ namespace InventIt.SiteSystem.Library
             string newContainingDirectoryAbsolutePath = CheckedCombinePaths(newContainingDirectory);
 
             if (!File.Exists(sourceAbsolutePath))
+            {
                 return false;
+            }
 
             if (!Directory.Exists(newContainingDirectoryAbsolutePath))
+            {
                 return false;
+            }
 
             string filename = new FileInfo(sourceAbsolutePath).Name;
             string newFilename = CombinePaths(newContainingDirectoryAbsolutePath, filename);
             if (File.Exists(newFilename))
+            {
                 File.Delete(newFilename);
+            }
 
             File.Move(sourceAbsolutePath, newFilename);
-
-            try
-            {
-            }
-            catch
-            {
-                /* Ignore */
-            }
 
             return true;
         }
@@ -176,15 +192,21 @@ namespace InventIt.SiteSystem.Library
             string newContainingDirectoryAbsolutePath = CheckedCombinePaths(newContainingDirectory);
 
             if (!Directory.Exists(sourceAbsolutePath))
+            {
                 return false;
+            }
 
             if (!Directory.Exists(newContainingDirectoryAbsolutePath))
+            {
                 return false;
+            }
 
             string directoryName = new DirectoryInfo(sourceAbsolutePath).Name;
             string newDirectoryName = CombinePaths(newContainingDirectoryAbsolutePath, directoryName);
             if (Directory.Exists(newDirectoryName))
+            {
                 Directory.Delete(newDirectoryName);
+            }
 
             Directory.Move(path, newDirectoryName);
 
@@ -192,15 +214,13 @@ namespace InventIt.SiteSystem.Library
         }
 
         public static void CopyDirectory(string srcPath, string destPath)
-            //ToDo: Is a unused Method (T.Huber / 18.06.2009)
         {
             CopyDirectory(srcPath, destPath, false);
         }
 
         public static void CopyDirectory(string srcPath, string destPath, bool recursive)
         {
-            CopyDirectory(new DirectoryInfo(CheckedCombinePaths(srcPath)),
-                          new DirectoryInfo(CheckedCombinePaths(destPath)), recursive);
+            CopyDirectory(new DirectoryInfo(CheckedCombinePaths(srcPath)), new DirectoryInfo(CheckedCombinePaths(destPath)), recursive);
         }
 
         private static void CopyDirectory(DirectoryInfo srcPath, DirectoryInfo destPath, bool recursive)
@@ -208,17 +228,25 @@ namespace InventIt.SiteSystem.Library
             if (!PathIsUnderRoot(srcPath.FullName) || !PathIsUnderRoot(destPath.FullName)) return;
 
             if (!destPath.Exists)
+            {
                 destPath.Create();
+            }
 
             // Copy files
-            foreach (FileInfo fi in srcPath.GetFiles())
-                fi.CopyTo(Path.Combine(destPath.FullName, fi.Name), true);
+            foreach (FileInfo fileInfo in srcPath.GetFiles())
+            {
+                fileInfo.CopyTo(Path.Combine(destPath.FullName, fileInfo.Name), true);
+            }
 
             // Copy directories
             if (recursive)
-                foreach (DirectoryInfo di in srcPath.GetDirectories())
-                    if (!di.Name.StartsWith("."))
-                        CopyDirectory(di, new DirectoryInfo(Path.Combine(destPath.FullName, di.Name)), true);
+                foreach (DirectoryInfo directoryInfo in srcPath.GetDirectories())
+                {
+                    if (!directoryInfo.Name.StartsWith("."))
+                    {
+                        CopyDirectory(directoryInfo, new DirectoryInfo(Path.Combine(destPath.FullName, directoryInfo.Name)), true);
+                    }
+                }
         }
 
         /// <summary>
@@ -239,7 +267,9 @@ namespace InventIt.SiteSystem.Library
 
             string combinedPath = CombinePaths(allPaths);
             if (PathIsUnderRoot(root, combinedPath))
+            {
                 return combinedPath;
+            }
 
             throw new ArgumentException("The combined path does not begin with the root path.");
         }
@@ -269,7 +299,9 @@ namespace InventIt.SiteSystem.Library
         public static string GetMimeType(string extension)
         {
             if (extension.StartsWith("."))
+            {
                 extension = extension.Substring(1);
+            }
 
             string mimeType = Settings.DefaultInstance["common/mimetypes/" + extension];
             return mimeType != string.Empty ? mimeType : Settings.DefaultInstance["mimetypes/defaulttype"];
@@ -283,26 +315,31 @@ namespace InventIt.SiteSystem.Library
 
             while (index < originalString.Length)
             {
-                int indexOf = originalString.IndexOf(pattern, index);
+                int indexOf = originalString.IndexOf(pattern, index, StringComparison.Ordinal);
                 if (indexOf != -1)
                 {
                     offsets[offset++] = indexOf;
                     index = (indexOf + pattern.Length);
                 }
                 else
+                {
                     index = originalString.Length;
+                }
             }
 
             var final = new string[offset + 1];
             if (offset == 0)
+            {
                 final[0] = originalString;
+            }
             else
             {
                 offset--;
                 final[0] = originalString.Substring(0, offsets[0]);
                 for (int i = 0; i < offset; i++)
+                {
                     final[i + 1] = originalString.Substring(offsets[i] + pattern.Length,
-                                                            offsets[i + 1] - offsets[i] - pattern.Length);
+                                                            offsets[i + 1] - offsets[i] - pattern.Length);}
                 final[offset + 1] = originalString.Substring(offsets[offset] + pattern.Length);
             }
             return final;

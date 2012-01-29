@@ -1,11 +1,12 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.IO;
 using System.Xml;
-using InventIt.SiteSystem.Library;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Data.SiteTree
+namespace Sharpcms.Data.SiteTree
 {
     public class SiteTree
     {
@@ -57,7 +58,9 @@ namespace InventIt.SiteSystem.Data.SiteTree
         private Page GetPage(XmlNode pageNode)
         {
             if (pageNode == null)
+            {
                 return null;
+            }
 
             string path = CommonXml.GetXPath(pageNode);
 
@@ -121,7 +124,9 @@ namespace InventIt.SiteSystem.Data.SiteTree
             CommonXml.SaveXmlDocument(filename, page.Node.OwnerDocument);
 
             if (saveTree)
+            {
                 Save();
+            }
         }
 
         /// <summary>
@@ -141,6 +146,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
             XmlNodeList xmlNodeList = TreeDocument.SelectNodes("//*[@pageidentifier and not(@pageidentifier = '')]");
 
             if (xmlNodeList != null)
+            {
                 foreach (XmlNode pageNode in xmlNodeList)
                 {
                     string path = CommonXml.GetXPath(pageNode);
@@ -148,7 +154,8 @@ namespace InventIt.SiteSystem.Data.SiteTree
                     page["pageidentifier"] = path;
                     SavePage(page, false);
                     CommonXml.SetAttributeValue(pageNode, "pageidentifier", path);
-                }
+                }                
+            }
         }
 
         #region Copy Page
@@ -263,11 +270,13 @@ namespace InventIt.SiteSystem.Data.SiteTree
         {
             XmlNode xmlNodeContainer = _process.Settings.GetAsNode("sitetree/containers");
             if (xmlNodeContainer.ChildNodes.Count > 0)
+            {
                 foreach (XmlNode xmlNode in xmlNodeContainer.ChildNodes)
                 {
                     Container container = page.Containers[xmlNode.InnerText];
                     // ToDo: hack to secure content container. (old)
-                }
+                }                
+            }
             else
             {
                 Container container = page.Containers["content"];
@@ -289,8 +298,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
 
         private void Delete(XmlNode pageNode)
         {
-            if (pageNode == null)
-                return;
+            if (pageNode == null) return;
 
             // Update filesystem
             DeleteFile(pageNode);
@@ -312,10 +320,9 @@ namespace InventIt.SiteSystem.Data.SiteTree
 
         private static void DeleteInTree(XmlNode pageNode)
         {
-            if (pageNode == null)
-            {
-                return;
-            }
+            if (pageNode == null) return;
+            if (pageNode.ParentNode == null)  return;
+            
             pageNode.ParentNode.RemoveChild(pageNode);
         }
 
@@ -328,10 +335,7 @@ namespace InventIt.SiteSystem.Data.SiteTree
             renameTo = Common.CleanToSafeString(renameTo);
             string oldName = page.TreeNode.Name;
 
-            if (oldName == renameTo)
-            {
-                return;
-            }
+            if (oldName == renameTo) return;
 
             // Update filesystem
             RenameFile(page, renameTo);
@@ -373,7 +377,10 @@ namespace InventIt.SiteSystem.Data.SiteTree
 
             // Replace old node with new
             XmlNode parentNode = page.TreeNode.ParentNode;
-            parentNode.ReplaceChild(newTreeNode, page.TreeNode);
+            if (parentNode != null)
+            {
+                parentNode.ReplaceChild(newTreeNode, page.TreeNode);
+            }
         }
 
         #endregion
@@ -518,44 +525,6 @@ namespace InventIt.SiteSystem.Data.SiteTree
             return filename;
         }
 
-        //private void RemoveSvnDirectories(string root)
-        //{
-        //    string fullPath = Common.CheckedCombinePaths(root, ".svn");
-        //    if (Directory.Exists(fullPath))
-        //    {
-        //        var dirInfo = new DirectoryInfo(fullPath);
-        //        if ((dirInfo.Attributes & FileAttributes.ReadOnly) != 0)
-        //            dirInfo.Attributes = FileAttributes.Directory;
-
-        //        try
-        //        {
-        //            Directory.Delete(fullPath, true);
-        //        }
-        //        catch
-        //        {
-
-        //        }
-        //    }
-
-        //    var dir = new DirectoryInfo(root);
-        //    foreach (DirectoryInfo directory in dir.GetDirectories())
-        //        if (directory.Name != ".svn")
-        //            RemoveSvnDirectories(directory.FullName);
-        //}
-
         #endregion
-
-        ///// <summary>
-        ///// Normalizes the path.
-        ///// </summary>
-        ///// <param name="path">The path.</param>
-        ///// <returns></returns>
-        //private static string NormalizePath(string path)
-        //{
-        //    if (path.StartsWith("/"))
-        //        path = path.Substring(1);
-
-        //    return path;
-        //}
     }
 }

@@ -3,7 +3,9 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:template mode="edit" match="users">
     <div class="head tree_head">
-      <div class="title">Users</div>
+      <div class="title">
+        <xsl:text>Users</xsl:text>
+      </div>
       <div class="viewstate">
 
       </div>
@@ -30,7 +32,9 @@
 
   <xsl:template mode="edit" match="groups">
     <div class="head tree_head">
-      <div class="title">Groups</div>
+      <div class="title">
+        <xsl:text>Groups</xsl:text>
+      </div>
       <div class="viewstate">
 
       </div>
@@ -73,7 +77,7 @@
           <xsl:value-of select="login" />
           <xsl:text>');</xsl:text>
         </xsl:attribute>
-        Save
+        <xsl:text>Save</xsl:text>
       </a>
       <a class="button">
         <xsl:attribute name="href">
@@ -81,14 +85,14 @@
           <xsl:value-of select="login" />
           <xsl:text>','Are you sure you wnat to delete the user?');</xsl:text>
         </xsl:attribute>
-        Delete user
+        <xsl:text>Delete user</xsl:text>
       </a>
     </div>
     <div class="body userdata_body" id="usda_body">
       <table>
         <tr>
           <td>
-            Login
+            <xsl:text>Login</xsl:text>
           </td>
           <td>
             <input name="data_user_login" type="text">
@@ -100,19 +104,20 @@
         </tr>
         <tr>
           <td>
-            Password
+            <xsl:text>Password</xsl:text>
           </td>
           <td>
             <input name="data_user_password" type="password" value="emptystring" />
           </td>
         </tr>
         <tr>
-          <td>Groups</td>
+          <td>
+            <xsl:text>Groups</xsl:text>
+          </td>
           <td>
             <xsl:variable select="groups" name="groups" />
             <xsl:for-each select="//data/contentone/groups/group">
               <xsl:variable select="@name" name="name" />
-
               <input class="checkbox" type="checkbox" name="data_user_groups">
                 <xsl:attribute name="id">
                   <xsl:text>data_user_groups_</xsl:text>
@@ -123,7 +128,7 @@
                 </xsl:attribute>
                 <xsl:if test="$groups/group[@name=$name]">
                   <xsl:attribute name="checked">
-                    checked
+                    <xsl:text>checked</xsl:text>
                   </xsl:attribute>
                 </xsl:if>
               </input>

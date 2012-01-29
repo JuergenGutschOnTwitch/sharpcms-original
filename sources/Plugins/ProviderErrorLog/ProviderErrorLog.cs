@@ -1,12 +1,13 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
 using System.IO;
 using System.Xml;
-using InventIt.SiteSystem.Library;
-using InventIt.SiteSystem.Plugin;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.ProviderErrorLog
 {
     public class ProviderErrorLog : BasePlugin2, IPlugin2
     {
@@ -16,7 +17,7 @@ namespace InventIt.SiteSystem.Providers
 
         public ProviderErrorLog(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         #region IPlugin2 Members
@@ -40,13 +41,13 @@ namespace InventIt.SiteSystem.Providers
 
         private void HandleLog()
         {
-            XmlNode messagesNode = CommonXml.GetNode(_process.XmlData, "messages", EmptyNodeHandling.Ignore);
+            XmlNode messagesNode = CommonXml.GetNode(Process.XmlData, "messages", EmptyNodeHandling.Ignore);
             if (messagesNode == null)
             {
                 return;
             }
 
-            string logFileName = _process.Settings["errorlog/logpath"];
+            string logFileName = Process.Settings["errorlog/logpath"];
 
             XmlNodeList items = messagesNode.SelectNodes("item");
             if (items != null)

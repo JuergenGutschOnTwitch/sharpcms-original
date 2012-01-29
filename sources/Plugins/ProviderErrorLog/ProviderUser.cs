@@ -1,16 +1,17 @@
-//Sharpcms.net is licensed under the open source license GPL - GNU General Public License.
+// sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Collections.Generic;
 using System.Xml;
-using InventIt.SiteSystem.Data.Users;
-using InventIt.SiteSystem.Library;
-using InventIt.SiteSystem.Plugin;
+using Sharpcms.Library.Common;
+using Sharpcms.Library.Plugin;
+using Sharpcms.Library.Process;
+using Sharpcms.Library.Users;
 
-namespace InventIt.SiteSystem.Providers
+namespace Sharpcms.Providers.ProviderErrorLog
 {
     public class ProviderUser : BasePlugin2, IPlugin2
     {
-        private Users cmsUsers;
+        private Users _cmsUsers;
 
         public ProviderUser()
         {
@@ -18,18 +19,12 @@ namespace InventIt.SiteSystem.Providers
 
         public ProviderUser(Process process)
         {
-            _process = process;
+            Process = process;
         }
 
         private Users Users
         {
-            get
-            {
-                if (cmsUsers == null)
-                    cmsUsers = new Users(_process);
-
-                return cmsUsers;
-            }
+            get { return _cmsUsers ?? (_cmsUsers = new Users(Process)); }
         }
 
         #region IPlugin2 Members
@@ -100,21 +95,21 @@ namespace InventIt.SiteSystem.Providers
 
         private void HandleDeleteGroup()
         {
-            Users users = new Users(_process);
-            users.GroupList.Remove(_process.QueryEvents["mainvalue"]);
+            var users = new Users(Process);
+            users.GroupList.Remove(Process.QueryEvents["mainvalue"]);
             users.Save();
         }
 
         private void HandleAddGroup()
         {
-            Users users = new Users(_process);
+            var users = new Users(Process);
 
-            if (users.GroupList[_process.QueryEvents["mainvalue"]] != null)
+            if (users.GroupList[Process.QueryEvents["mainvalue"]] != null)
             {
                 return;
             }
 
-            Group group = users.GroupList.Create(_process.QueryEvents["mainvalue"]);
+            Group group = users.GroupList.Create(Process.QueryEvents["mainvalue"]);
 
             if (group.Name.Length > 0)
             {
@@ -124,14 +119,14 @@ namespace InventIt.SiteSystem.Providers
 
         private void HandleAddUser()
         {
-            Users users = new Users(_process);
+            var users = new Users(Process);
 
-            if (users.UserList[_process.QueryEvents["mainvalue"]] != null)
+            if (users.UserList[Process.QueryEvents["mainvalue"]] != null)
             {
                 return;
             }
 
-            User user = users.UserList.Create(_process.QueryEvents["mainvalue"]);
+            User user = users.UserList.Create(Process.QueryEvents["mainvalue"]);
 
             if (user.Login.Length > 0)
             {
@@ -141,18 +136,18 @@ namespace InventIt.SiteSystem.Providers
 
         private void HandleSaveUser()
         {
-            Users users = new Users(_process);
+            var users = new Users(Process);
 
-            User user = users.UserList[_process.QueryEvents["mainvalue"]];
-            user.Login = _process.QueryData["user_login"];
-            if ("emptystring" != _process.QueryData["user_password"])
+            User user = users.UserList[Process.QueryEvents["mainvalue"]];
+            user.Login = Process.QueryData["user_login"];
+            if ("emptystring" != Process.QueryData["user_password"])
             {
-                user.Password = _process.QueryData["user_password"];
+                user.Password = Process.QueryData["user_password"];
             }
 
             user.GroupList.Clear();
 
-            string groups = _process.QueryData["user_groups"];
+            string groups = Process.QueryData["user_groups"];
             foreach (string groupname in groups.Split(','))
             {
                 user.GroupList.Create(groupname);
@@ -163,16 +158,16 @@ namespace InventIt.SiteSystem.Providers
 
         private void HandleDeleteUser()
         {
-            Users users = new Users(_process);
-            users.UserList.Remove(_process.QueryEvents["mainvalue"]);
+            var users = new Users(Process);
+            users.UserList.Remove(Process.QueryEvents["mainvalue"]);
             users.Save();
         }
 
         private void FrontPage()
         {
             bool redirected = false;
-            object[] results = _process.Plugins.InvokeAll("users", "list_groups", _process.CurrentUser);
-            List<string> userGroups = new List<string>(Common.FlattenToStrings(results));
+            object[] results = Process.Plugins.InvokeAll("users", "list_groups", Process.CurrentUser);
+            var userGroups = new List<string>(Common.FlattenToStrings(results));
 
             foreach (string group in userGroups)
             {
@@ -180,7 +175,7 @@ namespace InventIt.SiteSystem.Providers
                 XmlNode node = null;
                 try
                 {
-                    node = _process.Settings.GetAsNode(xPath);
+                    node = Process.Settings.GetAsNode(xPath);
                 }
                 catch
                 {
@@ -200,24 +195,24 @@ namespace InventIt.SiteSystem.Providers
                 }
 
                 redirected = true;
-                _process.HttpPage.Response.Redirect(frontPage + ".aspx");
+                Process.HttpPage.Response.Redirect(frontPage + ".aspx");
             }
 
             if (!redirected)
             {
-                string defaultFrontPage = _process.Settings["groups/defaultfrontpage"]; //ToDo: ??? (T.Huber 18.06.2009)
+                string defaultFrontPage = Process.Settings["groups/defaultfrontpage"];
             }
         }
 
         private void LoadGroups(ControlList control)
         {
-            Users users = new Users(_process);
+            var users = new Users(Process);
             control["groups"].InnerXml = users.GroupList.ParentNode.InnerXml;
         }
 
         private void LoadUser(ControlList control, string value)
         {
-            Users users = new Users(_process);
+            var users = new Users(Process);
             if (value != null && users.UserList[value] != null)
             {
                 control["user"].InnerXml = users.UserList[value].Node.InnerXml;
@@ -226,8 +221,8 @@ namespace InventIt.SiteSystem.Providers
 
         private void LoadUsers(ControlList control)
         {
-            Users mUsers = new Users(_process);
-            control["users"].InnerXml = mUsers.UserList.ParentNode.InnerXml;
+            var users = new Users(Process);
+            control["users"].InnerXml = users.UserList.ParentNode.InnerXml;
         }
 
         private object InvokeUsers(string action, object[] args)
@@ -265,7 +260,7 @@ namespace InventIt.SiteSystem.Providers
             }
 
             string username = args[0].ToString();
-            List<string> groups = new List<string>();
+            var groups = new List<string>();
 
             User user = Users.UserList[username];
             if (user != null)
