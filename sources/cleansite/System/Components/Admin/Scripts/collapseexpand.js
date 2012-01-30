@@ -1,6 +1,4 @@
-﻿// <reference path="jQuery/jQuery-1.3.min-vsdoc.js" />
-
-// jQeury to Load
+﻿// jQeury to Load
 // http: //www.thomasfrank.se/sessionvars.html
 
 $(document).ready(function() {
