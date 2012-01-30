@@ -36,10 +36,10 @@
         <!--[if IE 7]>
 	      <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/ie.css" />
         <![endif]-->
-        <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery-1.3.2.min.js">
+        <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery-1.7.1.min.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery-ui-1.7.2.custom.min.js">
+        <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery-ui-1.8.17.custom.min.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="System/Components/Admin/Scripts/jquery/jquery.url.packed.js">
