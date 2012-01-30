@@ -30,7 +30,7 @@
         </element>
         <element type="paragraph" publish="false" name="">
           <text>&lt;h2&gt;Open Source Content Management System&amp;nbsp;&lt;/h2&gt;
-&lt;p&gt;This website hosts the open source content management system "sharpcms". It is a CMS developed with the intent to accommodate the following goals:&lt;/p&gt;
+&lt;p&gt;This website hosts the &lt;a href="download/Files/Downloads/cleansite.zip.aspx?download=true"&gt;open &lt;/a&gt;source&lt;a href="show/german/cases.aspx"&gt;content &lt;/a&gt;management &lt;img src="../../../../download/Files/Pictures/barrierearm.png.aspx" alt="" /&gt;"sharpcms". It is a CMS developed with the intent to accommodate the following goals:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Highly flexible content management.&lt;/li&gt;
 &lt;li&gt;Separation between normal usage and development.&lt;/li&gt;
