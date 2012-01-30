@@ -23,8 +23,7 @@
 /*************************************************************************/
 /*                                                                   Basic
 /*************************************************************************/
-*
-{
+* {
     border: 0;
     color: black;
     font: Menu;
@@ -36,19 +35,16 @@
     text-decoration: none;
 }
 
-html
-{
+html {
     font-size: 100.1%;
 }
 
-body
-{
+body {
     background-color: white;
     font-size: 62.5%;
 }
 
-label
-{
+label {
     color: #486c82;
 }
 
@@ -56,8 +52,7 @@ label
 /*************************************************************************/
 /*                                                             Tree (base)
 /*************************************************************************/
-.tree
-{
+.tree {
     background-color: white;
     border: 1px solid #bec7cd;
     border-top: none;
@@ -68,18 +63,15 @@ label
     width: 200px;
 }
 
-.tree b
-{
+.tree b {
     font-weight: bold;
 }
 
-.tree ul
-{
+.tree ul {
     padding-left: 20px;
 }
 
-.tree ul li
-{
+.tree ul li {
     padding-top: 5px;
 }
 
@@ -87,44 +79,38 @@ label
 /*************************************************************************/
 /*                                                             Menu (base)
 /*************************************************************************/
-.menu
-{
+.menu {
     background-color: white;
     border: 1px solid #7697ab;
     padding: 6px;
     float: left;
 }
 
-.menu a, .menu select
-{
+.menu a, .menu select {
     float: left;
 }
 
-.menu ul
-{
+.menu ul {
     margin: 6px;
 }
 
-.menu li
-{
+.menu li {
     margin: 4px;
 }
 
-.top
-{
+.top {
     border-top: none;
 }
 
-.bottom
-{
+.bottom {
+    
 }
 
 
 /*************************************************************************/
 /*                                                             Head (base)
 /*************************************************************************/
-.head
-{
+.head {
     background-color: #e8eef1;
     border: 1px solid #7697ab;
     color: #486c82;
@@ -134,29 +120,25 @@ label
     padding: 6px 4px 4px 8px;
 }
 
-.head div.title
-{
+.head div.title {
     color: #486C82;
     float: left;
     font-weight: bold;
 }
 
-.head div.viewstate
-{
+.head div.viewstate {
     float: right;
     margin-top: -2px;
     margin-right: -5px;
 }
 
-.head div.viewstate p
-{
+.head div.viewstate p {
     color: #486C82;
     cursor: pointer;
     font-weight: bold;
 }
 
-.head div.viewstate p.button
-{
+.head div.viewstate p.button {
     background-color: white;
     border: 1px solid #aeb8bf;
     cursor: pointer;
@@ -165,8 +147,7 @@ label
     text-align: center;
 }
 
-.head div.viewstate p.button:hover
-{
+.head div.viewstate p.button:hover {
     background-color: #96a1a9;
     text-decoration: none;
 }
@@ -174,8 +155,7 @@ label
 /*************************************************************************/
 /*                                                             Body (base)
 /*************************************************************************/
-.body
-{
+.body {
     background-color: white;
     border: 1px solid #7697ab;
     border-top: none;
@@ -183,27 +163,23 @@ label
     padding: 6px 6px 0 6px;
 }
 
-.body table
-{
+.body table {
     border: 1px solid black;
     margin-top: 6px;
     width: 636px;
 }
 
-.body table tr td
-{
+.body table tr td {
     background-color: #e8eef1;
     color: #486c82;
     padding: 6px;
 }
 
-.body table tr td.field
-{
+.body table tr td.field {
     width: 130px;
 }
 
-.body table tr td input
-{
+.body table tr td input {
     margin: 0 5px 0 10px;
 }
 
@@ -211,18 +187,15 @@ label
 /*************************************************************************/
 /*                                                                 Special
 /*************************************************************************/
-a.anchor
-{
+a.anchor {
     float: left;
 }
 
-div.error
-{
+div.error {
     color: red;
 }
 
-a.button
-{
+a.button {
     background-color: white;
     border: 1px solid #aeb8bf;
     cursor: pointer;
@@ -231,8 +204,7 @@ a.button
     text-align: center;
 }
 
-a.button:hover
-{
+a.button:hover {
     background-color: #96a1a9;
     text-decoration: none;
 }
@@ -241,8 +213,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                                    Page
 /*************************************************************************/
-.page
-{
+.page {
     float: left;
     height: 100%;
     width: 100%;
@@ -252,8 +223,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                                  Header
 /*************************************************************************/
-.header
-{
+.header {
     background: #628498 url(     '../images/topbg.gif' ) top left repeat-x;
     color: white;
     float: left;
@@ -261,8 +231,7 @@ a.button:hover
     width: 100%;
 }
 
-.header a img
-{
+.header a img {
     height: 39px;
     width: 121px;
 }
@@ -271,8 +240,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                                 TopNavi
 /*************************************************************************/
-.mainnavi
-{
+.mainnavi {
     background: white url(     '../images/subbg.gif' ) top left repeat-x;
     float: left;
     height: 26px;
@@ -280,50 +248,42 @@ a.button:hover
     width: 100%;
 }
 
-.mainnavi ul
-{
+.mainnavi ul {
     list-style-type: none;
     min-width: 140px;
     padding-top: 5px;
 }
 
-.mainnavi ul li
-{
+.mainnavi ul li {
     float: left;
 }
 
-.mainnavi ul li a
-{
+.mainnavi ul li a {
     color: #486c82;
     font-weight: bold;
     text-decoration: none;
 }
 
-.mainnavi ul li a:hover
-{
+.mainnavi ul li a:hover {
     color: #cfb000;
     text-decoration: none;
 }
 
-.mainnavi ul.left
-{
+.mainnavi ul.left {
     float: left;
     padding-left: 10px;
 }
 
-.mainnavi ul.left li
-{
+.mainnavi ul.left li {
     padding-right: 10px;
 }
 
-.mainnavi ul.right
-{
+.mainnavi ul.right {
     float: right;
     padding-right: 10px;
 }
 
-.mainnavi ul.right li
-{
+.mainnavi ul.right li {
     padding-left: 10px;
 }
 
@@ -331,25 +291,22 @@ a.button:hover
 /*************************************************************************/
 /*                                                                 Content
 /*************************************************************************/
-.content
-{
+.content {
     float: left;
     width: 900px;
 }
 
-.content div.left, .content div.right
-{
+.content div.left, 
+.content div.right {
     margin: 10px 0 10px 10px;
 }
 
-.content div.left
-{
+.content div.left {
     float: left;
     width: 220px;
 }
 
-.content div.right
-{
+.content div.right {
     float: left;
     width: 650px;
 }
@@ -358,8 +315,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                           PageData Head
 /*************************************************************************/
-.pagedata_head
-{
+.pagedata_head {
     width: 636px;
 }
 
@@ -367,8 +323,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                              Admin Menu
 /*************************************************************************/
-.pagedata_menu
-{
+.pagedata_menu {
     width: 636px;
 }
 
@@ -376,8 +331,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                           PageData Body
 /*************************************************************************/
-.pagedata_body
-{
+.pagedata_body {
     width: 636px;
 }
 
@@ -385,34 +339,29 @@ a.button:hover
 /*************************************************************************/
 /*                                                                    Item
 /*************************************************************************/
-.item
-{
+.item {
     padding-bottom: 10px;
 }
 
-.item input
-{
+.item input {
     margin-right: 6px;
 }
 
-.item input.date_day, .item input.date_month
-{
+.item input.date_day, 
+.item input.date_month {
     width: 2em;
 }
 
-.item input.date_year
-{
+.item input.date_year {
     width: 4em;
 }
 
-.item textarea
-{
+.item textarea {
     height: 150px;
     width: 614px;
 }
 
-.item textarea.mceeditor
-{
+.item textarea.mceeditor {
     height: 200px;
 }
 
@@ -420,15 +369,13 @@ a.button:hover
 /*************************************************************************/
 /*                                                                    Tabs
 /*************************************************************************/
-.tab-pane
-{
+.tab-pane {
     float: left;
     margin-top: 10px;
     width: 617px;
 }
 
-.tab-page
-{
+.tab-page {
     float: left;
     margin-bottom: 10px;
     width: 632px;
@@ -438,8 +385,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                          Container Menu
 /*************************************************************************/
-.container_menu
-{
+.container_menu {
     width: 618px;
 }
 
@@ -447,8 +393,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                            Element Head
 /*************************************************************************/
-.element_head
-{
+.element_head {
     background-color: white;
     float: left;
     height: 22px;
@@ -457,21 +402,18 @@ a.button:hover
     width: 630px;
 }
 
-.element_head div.buttons
-{
+.element_head div.buttons {
     float: right;
     text-align: right;
     width: 220px;
 }
 
-.element_head div.buttons a
-{
+.element_head div.buttons a {
     float: right;
     text-align: right;
 }
 
-.element_head div.title
-{
+.element_head div.title {
     color: #8da6b5;
     float: left;
     font-weight: bold;
@@ -482,39 +424,34 @@ a.button:hover
     width: 130px;
 }
 
-
-
-.element_head .name
-{
+.element_head .name {
     float: right;
     padding-left: 6px;
     width: 180px;
 }
 
-.element_head .name label, .element_head .name input
-{
+.element_head .name label, 
+.element_head .name input {
     float: left;
 }
-.element_head .name input
-{
+
+.element_head .name input {
     width: 130px;
 }
 
-.element_head .publish
-{
+.element_head .publish {
     float: right;
     padding-right: 6px;
     text-align: right;
     width: 80px;
 }
 
-.element_head .publish label, .element_head .publish input
-{
+.element_head .publish label, 
+.element_head .publish input {
     text-align: right;
 }
 
-.element_head label
-{
+.element_head label {
     color: #8da6b5;
     font-weight: normal;
     height: 22px;
@@ -523,16 +460,14 @@ a.button:hover
     text-transform: capitalize;
 }
 
-.element_head input
-{
+.element_head input {
     height: 16px;
     padding: 1px 2px 0 2px;
     margin: 0;
     font-size: 12px;
 }
 
-.element_head input.checkbox
-{
+.element_head input.checkbox {
     padding: 0;
     width: 16px;
 }
@@ -541,8 +476,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                            Element Menu
 /*************************************************************************/
-.element_menu
-{
+.element_menu {
     background-color: white;
     border-top: none;
     float: left;
@@ -555,8 +489,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                            Element Body
 /*************************************************************************/
-.element_body
-{
+.element_body {
     background-color: white;
     border: 1px solid #7697ab;
     border-top: none;
@@ -565,8 +498,7 @@ a.button:hover
     width: 618px;
 }
 
-.element_body .button
-{
+.element_body .button {
     background-color: white;
     border: 1px solid #aeb8bf;
     display: inline-block;
@@ -574,15 +506,14 @@ a.button:hover
     text-align: center;
 }
 
-.tab_page_body
-{
+.tab_page_body {
     background-color: white;
     border: 1px solid #7697ab;
     padding: 6px 6px 0 6px;
     width: 618px;
 }
-.tab_page_body textarea
-{
+
+.tab_page_body textarea {
     width: 608px !important;
 }
 
@@ -590,8 +521,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                           UserData Head
 /*************************************************************************/
-.userdata_head
-{
+.userdata_head {
     width: 636px;
 }
 
@@ -599,8 +529,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                           UserData Menu
 /*************************************************************************/
-.right .userdata_menu
-{
+.right .userdata_menu {
     border-top: none;
     width: 636px;
 }
@@ -609,26 +538,22 @@ a.button:hover
 /*************************************************************************/
 /*                                                           UserData Body
 /*************************************************************************/
-.userdata_body
-{
+.userdata_body {
     width: 636px;
 }
 
-.userdata_body table
-{
+.userdata_body table {
     margin-bottom: 7px;
 }
 
-.userdata_body .checkbox
-{
+.userdata_body .checkbox {
     background-color: transparent;
     float: left;
     margin: 0 0 5px 9px;
     width: auto;
 }
 
-.userdata_body label
-{
+.userdata_body label {
     display: block;
     cursor: pointer;
     float: left;
@@ -639,8 +564,7 @@ a.button:hover
     width: 510px;
 }
 
-.userdata_body table tr td
-{
+.userdata_body table tr td {
     padding: 6px;
 }
 
@@ -648,8 +572,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                               Tree Head
 /*************************************************************************/
-.tree_head
-{
+.tree_head {
     width: 208px;
 }
 
@@ -657,8 +580,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                               Tree Menu
 /*************************************************************************/
-.left .tree_menu
-{
+.left .tree_menu {
     border-top: none;
     width: 208px;
 }
@@ -667,16 +589,15 @@ a.button:hover
 /*************************************************************************/
 /*                                                               Tree Body
 /*************************************************************************/
-.tree_body
-{
+.tree_body {
+    
 }
 
 
 /*************************************************************************/
 /*                                                           FileData Menu
 /*************************************************************************/
-.right .filedata_menu
-{
+.right .filedata_menu {
     border-top: none;
     width: 636px;
 }
@@ -685,8 +606,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                         FileData Header
 /*************************************************************************/
-.filedata_head
-{
+.filedata_head {
     width: 636px;
 }
 
@@ -694,14 +614,12 @@ a.button:hover
 /*************************************************************************/
 /*                                                           FileData Body
 /*************************************************************************/
-.filedata_body
-{
+.filedata_body {
     padding: 6px;
     width: 636px;
 }
 
-.filedata_body input
-{
+.filedata_body input {
     width: 40px;
 }
 
@@ -709,8 +627,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                         FolderData Menu
 /*************************************************************************/
-.right .folderdata_menu
-{
+.right .folderdata_menu {
     border-top: none;
     width: 636px;
 }
@@ -719,8 +636,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                       FolderData Header
 /*************************************************************************/
-.folderdata_head
-{
+.folderdata_head {
     width: 636px;
 }
 
@@ -728,8 +644,7 @@ a.button:hover
 /*************************************************************************/
 /*                                                         FolderData Body
 /*************************************************************************/
-.folderdata_body
-{
+.folderdata_body {
     padding: 6px;
     width: 636px;
 }
@@ -738,42 +653,35 @@ a.button:hover
 /*************************************************************************/
 /*                                                                   Login
 /*************************************************************************/
-.login
-{
+.login {
     float: left;
     padding-top: 30px;
     width: 100%;
 }
 
-.login table
-{
+.login table {
     background: white;
     border: 1px solid black;
     margin: 0 auto;
 }
 
-.login table thead
-{
+.login table thead {
     height: 39px;
 }
 
-.login table thead tr td
-{
-    background: #628498 url(     '../Images/topbg.gif' ) top left repeat-x;
+.login table thead tr td {
+    background: #628498 url('../Images/topbg.gif' ) top left repeat-x;
 }
 
-.login table tbody tr td
-{
+.login table tbody tr td {
     padding: 6px;
 }
 
-.login table tbody tr td input
-{
+.login table tbody tr td input {
     height: 1.5em;
 }
 
-.login table tbody tr td input.submit
-{
+.login table tbody tr td input.submit {
     background-color: white;
     height: 2em;
     padding: 0 2px;
@@ -781,8 +689,7 @@ a.button:hover
     width: 80px;
 }
 
-.login table tfoot
-{
+.login table tfoot {
     height: 50px;
 }
 
@@ -790,9 +697,8 @@ a.button:hover
 /*************************************************************************/
 /*                                                                  Choose
 /*************************************************************************/
-.choose .header
-{
-    background: #628498 url(     '../images/topbg.gif' ) top left repeat-x;
+.choose .header {
+    background: #628498 url('../images/topbg.gif' ) top left repeat-x;
     color: white;
     float: left;
     font-size: 18px;
@@ -802,8 +708,7 @@ a.button:hover
     width: 100%;
 }
 
-.choose .content
-{
+.choose .content {
     padding: 10px;
     width: 100%;
 }
@@ -812,55 +717,46 @@ a.button:hover
 /*************************************************************************/
 /*                                                                    Form
 /*************************************************************************/
-input, textarea, select
-{
+input, textarea, select {
     border: 1px solid #bec7cd;
     background-color: white;
 }
 
-input
-{
+input {
     height: 15px;
     padding: 2px;
     width: 200px;
 }
 
-select
-{
+select {
     width: 206px;
-}
-
-select
-{
     font: menu;
 }
 
-input.upload
-{
+input.upload {
     width: 375px;
 }
 
-input.checkbox
-{
+input.checkbox {
     width: 30px;
     margin: 0;
     padding: 2px;
     border: none;
 }
 
-.checkbox_list
-{
+.checkbox_list {
     border: 1px solid #bec7cd;
     background-color: white;
     height: 100px;
     width: 206px;
     overflow: auto;
 }
-.checkbox_list ul
-{
+
+.checkbox_list ul {
     list-style: none none;
 }
-.checkbox_list ul label, .checkbox_list ul input
-{
+
+.checkbox_list ul label, 
+.checkbox_list ul input {
     vertical-align: middle;
 }
