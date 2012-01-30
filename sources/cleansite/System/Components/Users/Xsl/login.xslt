@@ -14,11 +14,7 @@
           <xsl:text>Admin - Sharpcms.net</xsl:text>
         </title>
         <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="stylesheet" href="System/Components/Admin/niftycorners/niftyCorners.css" />
         <script type="text/javascript" src="System/Components/Admin/Scripts/eventhandler.js">
-          <xsl:text> </xsl:text>
-        </script>
-        <script type="text/javascript" src="System/Components/Admin/niftycorners/nifty.js">
           <xsl:text> </xsl:text>
         </script>
       </head>
