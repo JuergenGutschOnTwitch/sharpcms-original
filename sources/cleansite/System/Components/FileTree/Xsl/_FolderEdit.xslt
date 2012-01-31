@@ -9,7 +9,7 @@
         <xsl:value-of select="@path" />
       </div>
       <div class="viewstate">
-        <p id="foda_vs">
+        <p id="foda_vs" class="button">
           <xsl:text>˅</xsl:text>
         </p>
       </div>
