@@ -51,7 +51,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<div id="sitemap">
-			<xsl:for-each select="/data/contentone/sitetree/*[@pageidentifier=$language and @status='open']">
+			<xsl:for-each select="data/contentone/sitetree/*[@pageidentifier=$language and @status='open']">
 				<ul>
 					<xsl:for-each select="*[@status='open']">
 						<li>

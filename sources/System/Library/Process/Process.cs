@@ -345,7 +345,7 @@ namespace Sharpcms.Library.Process
                 bool verified = false;
                 foreach (object result in results)
                 {
-                    if ((bool) result)
+                    if ((bool)result)
                     {
                         verified = true;
                     }
