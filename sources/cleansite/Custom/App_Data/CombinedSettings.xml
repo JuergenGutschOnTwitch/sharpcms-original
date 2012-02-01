@@ -11,7 +11,7 @@
     <containers>
       <item>content</item>
     </containers>
-    <stdpage>show/english/about</stdpage>
+    <stdpage>show/english/start</stdpage>
     <elementlist>
       <paragraph>
         <item name="Header" attribute="header" type="text" />
@@ -62,7 +62,7 @@
     </pagestatus>
   </sitetree>
   <general>
-    <stdprocess>show/english/about</stdprocess>
+    <stdprocess>show/english/start</stdprocess>
     <customrootcomponents>~/Custom/Components</customrootcomponents>
     <systemrootcomponents>~/System/Components</systemrootcomponents>
     <sitedataroot>~/Custom/App_Data</sitedataroot>
@@ -118,7 +118,4 @@
   <users>
     <filename>~/Custom/App_Data/Users.xml</filename>
   </users>
-  <test>
-    <value name="test">aaa</value>
-  </test>
 </settings>

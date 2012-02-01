@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page>
+  <attributes>
+    <pagename>Start</pagename>
+    <name>start</name>
+    <menuname>Start</menuname>
+    <pageidentifier>english/start</pageidentifier>
+    <status>open</status>
+    <template></template>
+    <lastedited></lastedited>
+    <metakeywords></metakeywords>
+    <metadescription></metadescription>
+  </attributes>
+  <containers>
+    <container name="content">
+      <elements>
+        <element type="header" name="" publish="true">
+          <text>Lorem ipsum</text>
+          <headerstyle>Header1</headerstyle>
+          <offset>none</offset>
+        </element>
+        <element type="paragraph" name="" publish="true">
+          <text>&lt;div&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lectus et est fringilla condimentum venenatis non justo. Quisque vel felis et orci semper accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pellentesque turpis tristique dolor hendrerit malesuada. Maecenas ut convallis leo. Nulla in fringilla dui. Praesent lacinia porta ligula eu pellentesque. Vivamus eget erat justo, quis aliquam nisi.&lt;/p&gt;
+&lt;p&gt;Aliquam fringilla varius libero. Suspendisse potenti. Pellentesque vitae felis quis ligula ornare condimentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus hendrerit lorem id quam feugiat volutpat. Praesent diam felis, feugiat nec semper ac, lacinia vitae tellus. Phasellus pharetra erat eget enim mattis gravida. Vestibulum eget urna vitae nunc aliquet cursus. Cras quis nisl odio, quis blandit sem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&lt;/p&gt;
+&lt;p&gt;Morbi enim nisl, molestie vitae pulvinar non, dapibus nec lacus. Praesent sit amet commodo libero. Proin lacinia magna a felis gravida tempor. Nulla non facilisis justo. Vestibulum at nulla magna. Nunc convallis euismod sem, non sollicitudin arcu congue eget. Fusce congue nibh non nibh tempor facilisis. Cras ac nisl dolor, eget egestas quam. Curabitur eget turpis mauris. In tincidunt sapien non velit aliquam non volutpat lacus tempus. Vivamus quis quam lorem, quis fringilla justo. Fusce ut tortor ipsum. Nullam quis felis sit amet ante lobortis placerat. Integer lectus massa, gravida id adipiscing ac, commodo dapibus nunc. Etiam mi ante, pellentesque eu fermentum ut, iaculis sit amet nulla.&lt;/p&gt;
+&lt;p&gt;Morbi in dolor magna. Proin tincidunt purus ac ipsum aliquam tempor. Integer pretium erat a justo pellentesque tempus. Maecenas enim felis, hendrerit eu consectetur convallis, mattis vitae nunc. Nullam a purus nec libero posuere porta non et nisl. Donec sodales ligula sed dui placerat et viverra neque ornare. Fusce semper, ipsum et luctus pulvinar, nisi ipsum posuere tellus, ac consequat augue nunc vitae urna. Cras ut nulla eget purus tincidunt tincidunt. In eu nisl dui, id suscipit magna. Mauris sed orci eu diam tincidunt aliquam at sit amet odio.&lt;/p&gt;
+&lt;p&gt;Quisque justo justo, aliquam quis aliquet sed, eleifend at felis. Vivamus nec eros risus, id luctus magna. Quisque dictum, tortor vel venenatis consequat, elit enim pulvinar nulla, in porttitor odio purus vitae lacus. Donec imperdiet laoreet quam, sed mollis enim pretium ut. Mauris lacus enim, euismod quis condimentum nec, lobortis vitae lorem. Pellentesque justo magna, ornare eu sagittis pretium, ultrices ac enim. Curabitur vel est ac felis luctus pellentesque a id arcu.&lt;/p&gt;
+&lt;/div&gt;</text>
+          <link></link>
+          <picture></picture>
+          <picturepos>Left</picturepos>
+        </element>
+      </elements>
+    </container>
+  </containers>
+</page>

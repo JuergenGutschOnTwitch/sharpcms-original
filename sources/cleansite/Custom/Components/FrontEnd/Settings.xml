@@ -16,7 +16,7 @@
     <containers>
       <item>content</item>
     </containers>
-    <stdpage>english/about</stdpage>
+    <stdpage>english/start</stdpage>
     <elementlist>
       <paragraph>
         <item name="Text" attribute="text" type="tinymce" height="300" />

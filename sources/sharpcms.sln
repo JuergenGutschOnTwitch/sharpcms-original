@@ -61,6 +61,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.Cookies"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.PluginInterface", "System\PluginInterfaces\Sharpcms.PluginInterface.csproj", "{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "sharpcms.org", "sharpcms.org\", "{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{8D3AF0F3-3706-40E7-823E-F1B5E14D113B}|Sharpcms.Core.dll;{033FD7D2-D3F9-4EA7-81E7-EFA959753107}|Sharpcms.Library.dll;{0611BC03-6D92-429E-836D-1FACCFCD7FC1}|Sharpcms.Data.FileTree.dll;{1E4424FF-3B6F-42D4-90C3-44348FB5AF47}|Sharpcms.Data.SiteTree.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/sharpcms.org"
+		Debug.AspNetCompiler.PhysicalPath = "sharpcms.org\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\sharpcms.org\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/sharpcms.org"
+		Release.AspNetCompiler.PhysicalPath = "sharpcms.org\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\sharpcms.org\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "51459"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,6 +184,14 @@ Global
 		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0F97C944-8FAE-4F2B-8B1B-A2B9ACBD4A68}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

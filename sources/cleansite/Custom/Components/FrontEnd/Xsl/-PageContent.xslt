@@ -24,7 +24,9 @@
             <xsl:text>_</xsl:text>
             <xsl:number count="element" />
           </xsl:attribute>
-          <xsl:text>Edit</xsl:text>
+          <span>
+            <xsl:text>Edit</xsl:text>
+          </span>
         </a>
       </div>
     </xsl:if>

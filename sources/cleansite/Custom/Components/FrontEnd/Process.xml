@@ -8,8 +8,6 @@
     <load provider="Page" place="contentone" action="tree" />
     <load provider="Page" place="contenttwo" action="page" />
     <handle provider="Form" />
-    <handle provider="Search" />
-    <load provider="Search" place="search" action="search" />
     <handle provider="Cookies" />
     <load provider="Cookies" place="cookies" action="cookie" />
   </show>
