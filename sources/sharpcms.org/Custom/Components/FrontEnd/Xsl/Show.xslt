@@ -56,10 +56,7 @@
         <xsl:text disable-output-escaping="yes">
           <![CDATA[<!--[if lte IE 7]><link href="Custom/Components/FrontEnd/css/patch_layout_draft.css" rel="stylesheet" type="text/css" /><![endif]-->]]>
         </xsl:text>
-        <script type="text/javascript" src="System/Components/Admin/Scripts/eventhandler.js">
-          <xsl:text> </xsl:text>
-        </script>
-        <script type="text/javascript" src="Custom/Components/FrontEnd/searchhi.js">
+        <script type="text/javascript" src="/Custom/Components/FrontEnd/js/searchhi.js">
           <xsl:text> </xsl:text>
         </script>
         <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
@@ -75,7 +72,19 @@
             <div id="header">
               <div id="head1">
                 <div id="logo">
-                  <xsl:text disable-output-escaping="yes">&lt;a href="#">&lt;img src="Custom/Components/FrontEnd/img/slogo.gif" alt="to frontpage" />&lt;/a></xsl:text>
+                  <a>
+                    <xsl:attribute name="href">
+                      <xsl:text>/</xsl:text>
+                    </xsl:attribute>
+                    <xsl:attribute name="title">
+                      <xsl:text>to frontpage</xsl:text>
+                    </xsl:attribute>
+                    <img>
+                      <xsl:attribute name="src">
+                        <xsl:text>/Custom/Components/FrontEnd/img/slogo.gif</xsl:text>
+                      </xsl:attribute>
+                    </img>
+                  </a>
                 </div>
                 <div id="topmenu">
                   <ul>
@@ -85,13 +94,7 @@
                         <xsl:choose>
                           <xsl:when test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
                             <li>
-                              <a>
-                                <xsl:attribute name="href">
-                                  <xsl:text>javascript:ThrowEvent('logout', '');</xsl:text>
-                                </xsl:attribute>
-                                <span>Log out</span>
-                                <span class="hide"> | </span>
-                              </a>
+                              <xsl:call-template name="LogOut" />
                             </li>
                           </xsl:when>
                           <xsl:otherwise>
@@ -139,13 +142,7 @@
                         <xsl:choose>
                           <xsl:when test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
                             <li>
-                              <a>
-                                <xsl:attribute name="href">
-                                  <xsl:text>javascript:ThrowEvent('logout', '');</xsl:text>
-                                </xsl:attribute>
-                                <span>Abmelden</span>
-                                <span class="hide"> | </span>
-                              </a>
+                              <xsl:call-template name="LogOut" />
                             </li>
                           </xsl:when>
                           <xsl:otherwise>

@@ -29,10 +29,32 @@
       </div>
     </xsl:if>
   </xsl:template>
-  
+
 	<xsl:template mode="show" match="container[@name='content']">
 		<xsl:apply-templates mode="show" select="elements/element" />
 	</xsl:template>
+
+  <xsl:template name="LogOut">
+    <form name="systemform" id="systemform" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="event_main" value="logout" />
+      <input type="hidden" name="event_mainvalue" value="" />
+      <input type="submit" value="Log out">
+        <xsl:attribute name="class">
+          <xsl:text>linkbutton bold</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:choose>
+            <xsl:when test="contains(//data/attributes/pageroot, 'english')">
+              <xsl:text>Log out</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>Abmelden</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:attribute>
+      </input>
+    </form>
+  </xsl:template>
   
   <xsl:template mode="show" match="container[@name='news']">
 		<xsl:apply-templates mode="show" select="elements/element" />
@@ -427,7 +449,7 @@
 				]]></xsl:text>
 			</script>
 			<!-- primary hidden settings -->
-			<input type="hidden" name="event_main" value="" />
+			<input type="hidden" name="event_main" value="submitform" />
 			<input type="hidden" name="event_mainvalue" value="" />
 			<input type="hidden" name="process">
 				<xsl:attribute name="value">
@@ -512,11 +534,7 @@
 					<xsl:text disable-output-escaping="yes"> </xsl:text>
 				</dt>
 				<dd>
-					<input type="button" value="Senden" name="sub" class="but">
-						<xsl:attribute name="onclick">
-							<xsl:text>javascript:if(validate())ThrowEvent('submitform','');</xsl:text>
-						</xsl:attribute>
-					</input>
+					<input type="submit" value="Senden" name="sub" class="but" />
 				</dd>
 			</dl>
 		</form>

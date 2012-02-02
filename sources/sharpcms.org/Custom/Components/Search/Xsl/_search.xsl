@@ -33,7 +33,7 @@
 					</xsl:attribute>
 				</input>
 				<input type="hidden" name="data_start" value="" />
-				<xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
+				<!--<xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
 					<a href="javascript:ThrowEventConfirm('index', '','Are you sure to rebuild index?')">
 						<xsl:attribute name="class">
               <xsl:text>button</xsl:text>
@@ -46,11 +46,19 @@
             </xsl:attribute>
 						<xsl:text>Rebuild Index</xsl:text>
 					</a>
-				</xsl:if>
+				</xsl:if>-->
 				<br />
 				<input type="text" name="data_query" value="{query}" id="s" class="search" />
 				<input type="submit" value="Suchen" class="but" />
 			</form>
+      <xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
+        <form name="systemform" method="post" encType="multipart/form-data">
+          <!-- primary hidden settings -->
+          <input type="hidden" name="event_main" value="index" />
+          <input type="hidden" name="event_mainvalue" value="" />
+          <input type="submit" value="Rebuild Index" class="linkbutton" />
+        </form>
+      </xsl:if>
 		</div>
 	</xsl:template>
 

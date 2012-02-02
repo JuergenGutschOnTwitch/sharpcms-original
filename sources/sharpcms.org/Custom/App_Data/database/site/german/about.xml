@@ -33,6 +33,7 @@
           <picture></picture>
           <picturepos>Left</picturepos>
         </element>
+        <element type="paragraph" name="" publish="false" />
       </elements>
     </container>
   </containers>
