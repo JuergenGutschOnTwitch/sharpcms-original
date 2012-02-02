@@ -8,8 +8,8 @@
     <ProjectGuid>{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sharpcms.Providers.ProviderSearch</RootNamespace>
-    <AssemblyName>Sharpcms.Providers.ProviderSearch</AssemblyName>
+    <RootNamespace>Sharpcms.Providers.Search</RootNamespace>
+    <AssemblyName>Sharpcms.Providers.Search</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>

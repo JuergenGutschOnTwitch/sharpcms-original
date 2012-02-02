@@ -6,7 +6,7 @@ using System.IO;
 using Sharpcms.Library.Plugin;
 using Sharpcms.Library.Process;
 
-namespace Sharpcms.Providers.ProviderSearch
+namespace Sharpcms.Providers.Search
 {
     public class ProviderSearch : BasePlugin2, IPlugin2
     {

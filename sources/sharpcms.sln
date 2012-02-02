@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Data.FileTree", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.Base", "Plugins\ProviderBase\Sharpcms.Providers.Base.csproj", "{2CD5AE1B-2592-4278-AED1-47F68467E849}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.ProviderErrorLog", "Plugins\ProviderErrorLog\Sharpcms.Providers.ProviderErrorLog.csproj", "{334CF88B-303C-4904-B841-147822607BAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.ErrorLog", "Plugins\ProviderErrorLog\Sharpcms.Providers.ErrorLog.csproj", "{334CF88B-303C-4904-B841-147822607BAD}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "cleansite", "cleansite\", "{9DDBB54A-232D-47E4-8172-36BFCAF92BA5}"
 	ProjectSection(WebsiteProperties) = preProject
@@ -48,7 +48,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "cleansite", "cleansite\", "
 		VWDVirtualPath = "/"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.ProviderSearch", "Plugins\ProviderSearch\Sharpcms.Providers.ProviderSearch.csproj", "{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.Search", "Plugins\ProviderSearch\Sharpcms.Providers.Search.csproj", "{AD6A4DDB-1E9F-4720-BDD9-D0D2FD5B44E3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0611BC03-6D92-429E-836D-1FACCFCD7FC1} = {0611BC03-6D92-429E-836D-1FACCFCD7FC1}
 	EndProjectSection

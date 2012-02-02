@@ -13,7 +13,7 @@ using Lucene.Net.Search.Highlight;
 using Sharpcms.Data.SiteTree;
 using Sharpcms.Library.Process;
 
-namespace Sharpcms.Providers.ProviderSearch
+namespace Sharpcms.Providers.Search
 {
     public class Search
     {

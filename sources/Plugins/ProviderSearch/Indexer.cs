@@ -11,7 +11,7 @@ using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 
-namespace Sharpcms.Providers.ProviderSearch
+namespace Sharpcms.Providers.Search
 {
     internal class Rule
     {

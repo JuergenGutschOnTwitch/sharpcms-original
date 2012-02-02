@@ -8,8 +8,8 @@
     <ProjectGuid>{334CF88B-303C-4904-B841-147822607BAD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sharpcms.Providers.ProviderErrorLog</RootNamespace>
-    <AssemblyName>Sharpcms.Providers.ProviderErrorLog</AssemblyName>
+    <RootNamespace>Sharpcms.Providers.ErrorLog</RootNamespace>
+    <AssemblyName>Sharpcms.Providers.ErrorLog</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>

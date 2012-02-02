@@ -7,7 +7,7 @@ using Sharpcms.Library.Common;
 using Sharpcms.Library.Plugin;
 using Sharpcms.Library.Process;
 
-namespace Sharpcms.Providers.ProviderErrorLog
+namespace Sharpcms.Providers.ErrorLog
 {
     public class ProviderErrorLog : BasePlugin2, IPlugin2
     {
