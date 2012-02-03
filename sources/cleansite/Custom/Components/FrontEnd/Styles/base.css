@@ -5,6 +5,7 @@
 #colorSet { color: #686868; } /* Font */
 #colorSet { color: #999; }    /* Border */
 #colorSet { color: #7697ab; } /* Menu */
+#colorSet { color: #617c8c; } /* Selected */
 
 * {
     border: 0;
@@ -122,11 +123,16 @@ span {
     line-height: 30px;
 }
 
-#page #center #menu ul li a:hover span,
-#page #center #menu ul li a.sel span {
-    text-decoration: underline;
+#page #center #menu ul li a.select span {
+    border-bottom: 1px solid #eee;
+    color: #eee;
 }
 
+#page #center #menu ul li a:hover span,
+#page #center #menu ul li a.select:hover span {
+    color: white;
+    border-bottom: 1px solid white;
+}
 
 #page #center #menu ul li a span.hide {
     display: none;
@@ -136,17 +142,9 @@ span {
 /*************************************************************************/
 /*                                                                    Main
 /*************************************************************************/
-#page #center #main {
+#page #center #content {
     background-color: white;
     padding: 10px 14px;
-}
-
-#page #center #main #sidebar {
-    
-}
-
-#page #center #main #content {
-    
 }
 
 
@@ -198,6 +196,31 @@ div.editlink a span {
 
 div.editlink a:hover span {
     color: #7697ab;
+    text-decoration: underline;
+}
+
+
+/*************************************************************************/
+/*                                                                    From
+/*************************************************************************/
+form {
+    display: inline-block;
+}
+
+input.linkbutton {
+    border: none;
+    color: #7697AB;
+    display: block;
+	padding: 0;
+    margin: 0px 4px;
+	font-family: verdana, arial, sans-serif;
+	font-size: 1em;
+    text-decoration: none;
+	background-color: transparent;
+}
+    
+input.linkbutton:hover {
+    cursor: pointer;
     text-decoration: underline;
 }
 

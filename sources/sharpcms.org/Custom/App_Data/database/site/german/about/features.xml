@@ -14,12 +14,12 @@
   <containers>
     <container name="content">
       <elements>
-        <element type="header" publish="false" name="">
+        <element type="header" publish="true" name="">
           <text>Features</text>
           <headerstyle>Header1</headerstyle>
           <offset>1 line</offset>
         </element>
-        <element type="paragraph" publish="false" name="">
+        <element type="paragraph" publish="true" name="">
           <text>&lt;p&gt;Folgendes liefert das sharpcms:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Trennung zwischen dem Kernsystem und der spezifischen Web Site&lt;/li&gt;

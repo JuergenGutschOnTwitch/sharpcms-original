@@ -49,9 +49,6 @@
             <xsl:text>/Custom/Components/FrontEnd/Styles/base.css</xsl:text>
           </xsl:attribute>
         </link>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/eventhandler.js">
-          <xsl:text> </xsl:text>
-        </script>
       </head>
       <body>
         <div id="page">
@@ -73,15 +70,7 @@
               </a>
               <xsl:choose>
                 <xsl:when test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
-                  <a>
-                    <xsl:attribute name="class">
-                      <xsl:text>right</xsl:text>
-                    </xsl:attribute>
-                    <xsl:attribute name="href">
-                      <xsl:text>javascript:ThrowEvent('logout', '');</xsl:text>
-                    </xsl:attribute>
-                    <span>Log out</span>
-                  </a>
+                  <xsl:call-template name="LogOut" />
                 </xsl:when>
                 <xsl:otherwise>
                   <a>
@@ -98,13 +87,8 @@
               </xsl:choose>
             </div>
             <xsl:call-template name="TopMenu" />
-            <div id="main">
-              <div id="sidebar">
-                <xsl:call-template name="SubMenu" />
-              </div>
-              <div id="content">
-                <xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='content']" />
-              </div>
+            <div id="content">
+              <xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='content']" />
             </div>
             <div id="footer">
               <p>

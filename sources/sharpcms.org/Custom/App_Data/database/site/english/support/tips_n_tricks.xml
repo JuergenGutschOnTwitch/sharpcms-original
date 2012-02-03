@@ -14,18 +14,18 @@
   <containers>
     <container name="content">
       <elements>
-        <element type="header">
+        <element type="header" publish="true" name="">
           <text>Tips and tricks</text>
           <headerstyle>Header1</headerstyle>
           <offset>1 line</offset>
         </element>
-        <element type="paragraph">
-          <text>&lt;p&gt;On this page, we plan to add lots of tips&amp;#39;n&amp;#39;tricks to ease your work with sharpcms.&lt;/p&gt;</text>
+        <element type="paragraph" publish="true" name="">
+          <text>&lt;p&gt;On this page, we plan to add lots of tips'n'tricks to ease your work with sharpcms.&lt;/p&gt;</text>
           <link></link>
           <picture></picture>
           <picturepos>Left</picturepos>
         </element>
-        <element type="overview">
+        <element type="overview" publish="true" name="">
           <text></text>
         </element>
       </elements>

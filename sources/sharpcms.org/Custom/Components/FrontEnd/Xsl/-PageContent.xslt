@@ -30,10 +30,6 @@
     </xsl:if>
   </xsl:template>
 
-	<xsl:template mode="show" match="container[@name='content']">
-		<xsl:apply-templates mode="show" select="elements/element" />
-	</xsl:template>
-
   <xsl:template name="LogOut">
     <form name="systemform" id="systemform" method="post" enctype="multipart/form-data">
       <input type="hidden" name="event_main" value="logout" />
@@ -56,12 +52,7 @@
     </form>
   </xsl:template>
   
-  <xsl:template mode="show" match="container[@name='news']">
-		<xsl:apply-templates mode="show" select="elements/element" />
-	</xsl:template>
-  
 	<xsl:template mode="show" match="element[@type='sitemap']">
-    <xsl:call-template name="edit" />
     <xsl:variable name="language">
 			<xsl:choose>
 				<xsl:when test="contains(//data/attributes/pageroot, 'english')">
@@ -157,7 +148,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='block']">
-    <xsl:call-template name="edit" />
     <dl>
 			<xsl:if test="title and not(title='')">
 				<dt>
@@ -228,7 +218,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='gallery']">
-    <xsl:call-template name="edit" />
     <xsl:variable select="folder/@path" name="path" />
 		<xsl:if test="//data/query/data/picture">
 			<img>
@@ -264,7 +253,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='paragraph']">
-    <xsl:call-template name="edit" />
     <xsl:if test="picture and not(picture='')">
 			<img>
 				<xsl:attribute name="src">
@@ -308,7 +296,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='header']">
-    <xsl:call-template name="edit" />
     <xsl:if test="text and not(text='')">
 			<xsl:choose>
 				<xsl:when test="headerstyle='Header1'">
@@ -346,7 +333,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='picture']">
-    <xsl:call-template name="edit" />
     <xsl:if test="picture and not(picture='')">
 			<p>
 				<img style="border:none 0px;">
@@ -370,7 +356,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='iframe']">
-    <xsl:call-template name="edit" />
     <iframe>
 			<xsl:if test="width and not(width='')">
 				<xsl:attribute name="width">
@@ -398,7 +383,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='code']">
-    <xsl:call-template name="edit" />
     <pre>
 			<xsl:if test="not(text = '') and text">
 				<xsl:value-of disable-output-escaping="yes" select="text" />
@@ -407,7 +391,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='form']">
-    <xsl:call-template name="edit" />
     <form name="systemform" id="systemform" method="post" enctype="multipart/form-data">
 			<xsl:attribute name="action">
 				<xsl:value-of select="/data/query/other/process" />
@@ -541,23 +524,12 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='freetext']">
-    <xsl:call-template name="edit" />
     <xsl:if test="not(text = '') and text">
 			<xsl:value-of disable-output-escaping="yes" select="text" />
 		</xsl:if>
 	</xsl:template>
 
-  <xsl:template mode="show" match="element[@type='publishsample']">
-    <xsl:call-template name="edit" />
-    <xsl:if test="@publish = '' or @publish = 'true' or //data/basedata/currentuser/groups/group[contains(., 'admin')]">
-      <xsl:if test="not(text = '') and text">
-        <xsl:value-of disable-output-escaping="yes" select="text" />
-      </xsl:if>
-    </xsl:if>
-  </xsl:template>
-
   <xsl:template mode="show" match="element[@type='rssfeed']">
-    <xsl:call-template name="edit" />
     <xsl:if test="not(url = '') and url">
 			<xsl:if test="document(url)">
 				<xsl:for-each select="document(url)/rss">
@@ -568,7 +540,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='faqhead']">
-    <xsl:call-template name="edit" />
     <xsl:value-of select="text" disable-output-escaping="yes" />
 		<ul>
 			<xsl:for-each select="//element[@type='faq']">
@@ -589,7 +560,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='faq']">
-    <xsl:call-template name="edit" />
     <p class="contentHeader" style="margin-bottom:0px;">
 			<b>
 				<xsl:value-of select="position()-2" />.
@@ -606,7 +576,6 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='overview']">
-    <xsl:call-template name="edit" />
     <xsl:for-each select="/data/contentone/sitetree/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']">
 			<ul class="overview">
 				<xsl:apply-templates mode="overviewlistitems" select="*[@status='open']" />
@@ -614,27 +583,7 @@
 		</xsl:for-each>
 	</xsl:template>
 
-	<xsl:template mode="show" match="*">
-    <xsl:call-template name="edit" />
-    <div>
-			<xsl:attribute name="class">
-				<xsl:text>element-</xsl:text>
-				<xsl:value-of select="@type" />
-			</xsl:attribute>
-			<xsl:for-each select="*">
-				<div>
-					<xsl:attribute name="class">
-						<xsl:text>item-</xsl:text>
-						<xsl:value-of select="name()" />
-					</xsl:attribute>
-					<xsl:value-of select="." />
-				</div>
-			</xsl:for-each>
-		</div>
-	</xsl:template>
-
 	<xsl:template match="*" mode="overviewlistitems">
-    <xsl:call-template name="edit" />
     <li>
 			<xsl:if test="not(@lastedited = '') and @lastedited">
 				<xsl:value-of select="@lastedited" />
@@ -667,5 +616,13 @@
 			<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 		</li>
 	</xsl:template>
-
+  
+  <xsl:template mode="show" match="*">
+    <xsl:for-each select="elements/element">
+      <xsl:call-template name="edit" />
+      <xsl:if test="@publish = '' or @publish = 'true' or //data/basedata/currentuser/groups/group[contains(., 'admin')]">
+        <xsl:apply-templates mode="show" select="." />
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 </xsl:stylesheet>

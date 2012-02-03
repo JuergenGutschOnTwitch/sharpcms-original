@@ -14,12 +14,12 @@
   <containers>
     <container name="content">
       <elements>
-        <element type="header">
+        <element type="header" publish="true" name="">
           <text>Sitemap</text>
           <headerstyle>Header1</headerstyle>
           <offset>1 line</offset>
         </element>
-        <element type="sitemap" />
+        <element type="sitemap" publish="true" name="" />
       </elements>
     </container>
   </containers>

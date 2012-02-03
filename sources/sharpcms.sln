@@ -79,7 +79,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "sharpcms.org", "sharpcms.or
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "51459"
+		VWDPort = "53934"
 		VWDVirtualPath = "/"
 	EndProjectSection
 EndProject

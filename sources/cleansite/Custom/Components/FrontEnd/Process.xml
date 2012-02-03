@@ -3,12 +3,8 @@
 <process>
   <admin />
   <show>
-    <load provider="LoadXml" place="contenttwo" action="changelog" />
     <template name="show" />
     <load provider="Page" place="contentone" action="tree" />
     <load provider="Page" place="contenttwo" action="page" />
-    <handle provider="Form" />
-    <handle provider="Cookies" />
-    <load provider="Cookies" place="cookies" action="cookie" />
   </show>
 </process>

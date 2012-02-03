@@ -14,7 +14,7 @@
   <containers>
     <container name="content">
       <elements>
-        <element type="search" />
+        <element type="search" publish="true" name="" />
       </elements>
     </container>
   </containers>

@@ -14,12 +14,12 @@
   <containers>
     <container name="content">
       <elements>
-        <element type="header" publish="false" name="">
+        <element type="header" publish="true" name="">
           <text>Tips und Tricks</text>
           <headerstyle>Header1</headerstyle>
           <offset>1 line</offset>
         </element>
-        <element type="overview" publish="false" name="">
+        <element type="overview" publish="true" name="">
           <text>Übersicht</text>
         </element>
       </elements>

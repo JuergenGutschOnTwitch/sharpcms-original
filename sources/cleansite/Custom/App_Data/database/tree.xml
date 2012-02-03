@@ -1,6 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tree>
-  <english menuname="English" status="open" pageidentifier="english">
-    <start menuname="Start" pageidentifier="english/start" status="open" template="" pagename="Start" lastedited="" metakeywords="" metadescription="" />
-  </english>
+  <english menuname="English" status="open" pageidentifier="english" template="" pagename="English" lastedited="" metakeywords="" metadescription=""></english>
 </tree>

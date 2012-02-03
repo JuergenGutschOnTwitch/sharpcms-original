@@ -12,7 +12,7 @@
         <eventxmltrue menuname="Kein Gefummel mit URLs mehr" pageidentifier="german/support/tips_und_tricks/eventxmltrue" status="open" pagename="Kein Gefummel mit URLs mehr" lastedited="" metakeywords="event_xml, XML, Seitenstruktur" metadescription="event_xml=true zum anzeigen der XML Seitenstruktur" template="" />
         <leeresxmlnxattribut menuname="Leeres xmlns Attribut entfernen" pageidentifier="german/support/tips_und_tricks/leeresxmlnxattribut" status="open" pagename="Leeres xmlns Attribut entfernen" lastedited="" metakeywords="xmlns, Attribut" metadescription="Leeres xmlns Attribut in HTML Tags unterbinden" template="" />
       </tips_und_tricks>
-      <faq menuname="FAQ" pageidentifier="german/support/faq" status="open" pagename="Fragen und Antworten" lastedited="" metakeywords="" metadescription="" />
+      <faq menuname="FAQ" pageidentifier="german/support/faq" status="open" pagename="Fragen und Antworten" lastedited="" metakeywords="" metadescription="" template="" />
     </support>
     <download menuname="Download" pageidentifier="german/download" status="open" pagename="Download" lastedited="05.01.2008" metakeywords="codeplex, download, sharpcms, source code, binary" metadescription="sharpcms bei codeplex herunterladen" template="" />
     <license menuname="Lizenz" pageidentifier="german/license" status="open" pagename="Lizenz" lastedited="" metakeywords="lizenz, gpl, open source, public" metadescription="die open source lizenz vom sharpcms" template="" />
@@ -27,7 +27,7 @@
     <about menuname="About" status="open" pageidentifier="english/about" pagename="The open source content management system sharpcms" lastedited="" metakeywords="content, management, system, sharpcms, cms, open source, webdevelopment, website" metadescription="sharpcms is a open source content management system, based on XML and XSLT, written in C#" template="">
       <news menuname="News" pageidentifier="english/about/news" status="open" pagename="News" lastedited="" metakeywords="sharpcms, news cms, open source" metadescription="news about sharpcms" template="" />
       <features menuname="Features" status="open" pageidentifier="english/about/features" pagename="Features" lastedited="" template="" metakeywords="" metadescription="" />
-      <demo menuname="Demo" status="hide" pageidentifier="english/about/demo" pagename="Demo" lastedited="" />
+      <demo menuname="Demo" status="hide" pageidentifier="english/about/demo" pagename="Demo" lastedited="" template="" metakeywords="" metadescription="" />
     </about>
     <support menuname="Support" status="open" pageidentifier="english/support" pagename="Support" lastedited="" metakeywords="support, sharpcms, cms, open source, website, asp.net, c#" metadescription="support for sharpcms" template="">
       <tips_n_tricks menuname="Tips and tricks" pageidentifier="english/support/tips_n_tricks" status="open" pagename="Tips'n'tricks" lastedited="" metakeywords="tips, tricks, sharpcms" metadescription="tips and tricks about sharpcms" template="">

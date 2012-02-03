@@ -6,6 +6,10 @@
     <menuname>English</menuname>
     <pageidentifier>english</pageidentifier>
     <status>open</status>
+    <template></template>
+    <lastedited></lastedited>
+    <metakeywords></metakeywords>
+    <metadescription></metadescription>
   </attributes>
   <containers></containers>
 </page>

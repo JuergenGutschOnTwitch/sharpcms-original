@@ -35,14 +35,6 @@
         <item name="Text" attribute="text" type="textarea" />
         <item name="Category" attribute="category" type="text" />
       </coworker>
-      <test>
-        <item name="Name" attribute="name" type="text" />
-        <item name="Email" attribute="email" type="text" />
-        <item name="Role" attribute="role" type="text" />
-        <item name="Picture" attribute="picture" type="choosefile" />
-        <item name="Text" attribute="text" type="textarea" />
-        <item name="Category" attribute="category" type="text" />
-      </test>
       <top>
         <item name="Menu name" attribute="menuname" type="text" />
         <item name="Page name" attribute="pagename" type="text" />

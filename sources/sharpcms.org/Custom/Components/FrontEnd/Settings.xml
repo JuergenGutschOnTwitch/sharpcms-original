@@ -72,9 +72,6 @@
       <freetext>
         <item name="Text" attribute="text" type="textarea" />
       </freetext>
-      <publishsample>
-        <item name="Text" attribute="text" type="textarea" />
-      </publishsample>
       <rssfeed>
         <item name="RssFeed" attribute="url" type="text" />
       </rssfeed>

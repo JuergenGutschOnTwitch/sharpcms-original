@@ -14,12 +14,12 @@
   <containers>
     <container name="content">
       <elements>
-        <element type="header">
+        <element type="header" publish="true" name="">
           <text>Kontakt</text>
           <headerstyle>Header1</headerstyle>
           <offset>none</offset>
         </element>
-        <element type="form">
+        <element type="form" publish="true" name="">
           <subject>Kontaktformular</subject>
           <category-list>
             <item id="Frau_">Frau
