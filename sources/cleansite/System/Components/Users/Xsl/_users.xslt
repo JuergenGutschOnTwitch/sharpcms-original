@@ -67,7 +67,9 @@
         User: <xsl:value-of select="login" />
       </div>
       <div class="viewstate">
-        <p id="usda_vs" class="button">˅</p>
+        <p id="usda_vs" class="button">
+          <xsl:text>˅</xsl:text>
+        </p>
       </div>
     </div>
     <div class="menu userdata_menu">
