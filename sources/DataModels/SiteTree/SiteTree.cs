@@ -283,7 +283,8 @@ namespace Sharpcms.Data.SiteTree
                 // ToDo: secures older websites - goes obsoletet (old)
             }
 
-            page["status"] = "open";
+            // hide if the Page is a Root-Page (for Language) 
+            page["status"] = page.TreeNode.ParentNode != null && page.TreeNode.ParentNode.Name == "tree" ? "hide" : "show";
             page.Save();
         }
 
