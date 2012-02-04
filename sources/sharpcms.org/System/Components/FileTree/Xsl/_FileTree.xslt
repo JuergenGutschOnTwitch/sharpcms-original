@@ -12,17 +12,28 @@
 
       </div>
     </div>
+    <div class="menu tree_menu">
+      <a class="button">
+        <xsl:attribute name="class">
+          <xsl:text>button</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="href">
+          <xsl:text>javascript:ThrowEventNew('addfolder','.','Type the name of the new folder');</xsl:text>
+        </xsl:attribute>
+        <xsl:text>Add new folder</xsl:text>
+      </a>
+    </div>
     <div class="tree tree_body">
-		  <script type="text/javascript">
+      <script type="text/javascript">
         <xsl:text>filetree = new dTree('filetree',true);</xsl:text>
-			  <xsl:apply-templates mode="filetree" select="folder/*">
-				  <xsl:with-param name="current-path" ></xsl:with-param>
-				  <xsl:with-param name="parent" select="-1" />
-			  </xsl:apply-templates>
+        <xsl:apply-templates mode="filetree" select="folder/*">
+          <xsl:with-param name="current-path" ></xsl:with-param>
+          <xsl:with-param name="parent" select="-1" />
+        </xsl:apply-templates>
         <xsl:text>document.write(filetree);</xsl:text>
-		  </script>
-	  </div>
-	</xsl:template>
+      </script>
+    </div>
+  </xsl:template>
 	
 	<xsl:template mode="filetree" match="folder">
 		<xsl:param name="current-path" />

@@ -8,7 +8,7 @@
 	<xsl:template name="TopMenu">
 		<div id="menu">
 			<ul>
-				<xsl:for-each select="data/contentone/sitetree/*[@inpath='true' and @status='open']/*[@status='open']">
+				<xsl:for-each select="data/navigationplace/sitetree/*[@inpath='true' and @status='open']/*[@status='open']">
 					<li>
 						<a>
 							<xsl:attribute name="class">
@@ -54,7 +54,7 @@
 
 	<xsl:template name="SubMenu">
 		<div id="submenu">
-			<xsl:for-each select="data/contentone/sitetree/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']">
+			<xsl:for-each select="data/navigationplace/sitetree/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']">
 				<ul>
 					<xsl:apply-templates mode="submenu" select="*[@status='open']">
 						<xsl:with-param name="path">

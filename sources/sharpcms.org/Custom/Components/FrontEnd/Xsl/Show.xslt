@@ -31,17 +31,17 @@
         <meta http-equiv="Page-Exit" content="blendTrans(Duration=0.1)" />
         <title>
           <xsl:text>sharpcms - </xsl:text>
-          <xsl:value-of select="/data/contenttwo/page/attributes/pagename" />
+          <xsl:value-of select="/data/contentplace/page/attributes/pagename" />
         </title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="keywords">
           <xsl:attribute name="content">
-            <xsl:value-of select="/data/contenttwo/page/attributes/metakeywords" />
+            <xsl:value-of select="/data/contentplace/page/attributes/metakeywords" />
           </xsl:attribute>
         </meta>
         <meta name="description">
           <xsl:attribute name="content">
-            <xsl:value-of select="/data/contenttwo/page/attributes/metadescription" />
+            <xsl:value-of select="/data/contentplace/page/attributes/metadescription" />
           </xsl:attribute>
         </meta>
         <meta name="author" content="Jürgen I. Gutsch (www.gutsch-online.de)" />
@@ -222,7 +222,7 @@
               <div id="col2">
                 <div id="col2_content" class="clearfix">
                   <xsl:call-template name="SubMenu" />
-                  <xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='news']" />
+                  <xsl:apply-templates mode="show" select="/data/contentplace/page/containers/container[@name='news']" />
                   <xsl:text> </xsl:text>
                 </div>
               </div>
@@ -240,7 +240,7 @@
                         </ul>
                       </div>
                     </xsl:if>
-                    <xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='content']" />
+                    <xsl:apply-templates mode="show" select="/data/contentplace/page/containers/container[@name='content']" />
                     <xsl:text> </xsl:text>
                   </div>
                 </div>

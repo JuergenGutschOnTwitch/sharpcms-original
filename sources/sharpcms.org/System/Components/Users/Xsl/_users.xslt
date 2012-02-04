@@ -116,7 +116,7 @@
           </td>
           <td>
             <xsl:variable select="groups" name="groups" />
-            <xsl:for-each select="//data/contentone/groups/group">
+            <xsl:for-each select="//data/navigationplace/groups/group">
               <xsl:variable select="@name" name="name" />
               <input class="checkbox" type="checkbox" name="data_user_groups">
                 <xsl:attribute name="id">

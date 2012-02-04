@@ -33,7 +33,7 @@
             <xsl:text>Choose</xsl:text>
           </div>
           <div class="content">
-            <xsl:apply-templates select="data/contentone/*" mode="choose" />
+            <xsl:apply-templates select="data/navigationplace/*" mode="choose" />
           </div>
         </div>
       </body>

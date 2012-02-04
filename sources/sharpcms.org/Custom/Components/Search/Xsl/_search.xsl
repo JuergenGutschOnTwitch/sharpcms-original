@@ -29,7 +29,7 @@
 				</input>
 				<input type="hidden" name="data_pageidentifier">
 					<xsl:attribute name="value">
-						<xsl:value-of select="//data/contenttwo/page/attributes/pageidentifier" />
+						<xsl:value-of select="//data/contentplace/page/attributes/pageidentifier" />
 					</xsl:attribute>
 				</input>
 				<input type="hidden" name="data_start" value="" />

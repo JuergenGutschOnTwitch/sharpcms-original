@@ -3,7 +3,7 @@
 <process>
   <admin>
     <changelog>
-      <load provider="LoadXml" place="contenttwo" action="changelog" />
+      <load provider="LoadXml" place="contentplace" action="changelog" />
     </changelog>
   </admin>
 </process>

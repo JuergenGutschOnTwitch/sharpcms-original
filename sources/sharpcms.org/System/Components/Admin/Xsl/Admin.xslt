@@ -135,7 +135,7 @@
             <!-- Begin Content -->
             <div class="content">
               <div class="left">
-                <xsl:apply-templates select="data/contentone/*" mode="edit" />
+                <xsl:apply-templates select="data/navigationplace/*" mode="edit" />
               </div>
               <div class="right">
                 <xsl:if test="/data/messages">
@@ -149,7 +149,7 @@
                     </ul>
                   </div>
                 </xsl:if>
-                <xsl:apply-templates select="data/contenttwo/*" mode="edit" />
+                <xsl:apply-templates select="data/contentplace/*" mode="edit" />
               </div>
             </div>
             <!-- End Content -->

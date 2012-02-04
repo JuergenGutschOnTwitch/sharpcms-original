@@ -5,7 +5,9 @@ function ThrowEvent(mainevent, mainvalue) {
 }
 
 function ThrowEventConfirm(mainevent, mainvalue, confirmtext) {
-    if (confirm(confirmtext)) ThrowEvent(mainevent, mainvalue);
+    if (confirm(confirmtext)) {
+        ThrowEvent(mainevent, mainvalue);
+    }
 }
 
 function ThrowEventNew(mainevent, mainvalue, text, suggest) {
@@ -21,8 +23,8 @@ function ThrowEventNew(mainevent, mainvalue, text, suggest) {
 }
 
 function showAndHide(showLayerId, hideLayerId) {
-    setDisplay(showLayerId, "block");
-    setDisplay(hideLayerId, "none");
+    setDisplay(showLayerId, 'block');
+    setDisplay(hideLayerId, 'none');
 }
 
 function setDisplay(whichElement, newValue) {
@@ -54,18 +56,19 @@ function open_editwin(url, name, winWidth, winHeight) {
     if (winWidth == null) winWidth = '500';
     if (winHeight == null) winHeight = '500';
 
-    var editwin = "";
-    editwin = editwin + "width=" + winWidth;
-    editwin = editwin + ",height=" + winHeight;
-    editwin = editwin + ",resizable=yes";
-    editwin = editwin + ",scrollbars=yes";
-    editwin = editwin + ",menubar=no";
-    editwin = editwin + ",toolbar=no";
-    editwin = editwin + ",directories=no";
-    editwin = editwin + ",location=no";
-    editwin = editwin + ",status=no";
-    editwin = editwin + ",top=20";
-    editwin = editwin + ",left=250";
+    var editwin = '';
+    editwin = editwin + 'width=' + winWidth;
+    editwin = editwin + ',height=' + winHeight;
+    editwin = editwin + ',resizable=yes';
+    editwin = editwin + ',scrollbars=yes';
+    editwin = editwin + ',menubar=no';
+    editwin = editwin + ',toolbar=no';
+    editwin = editwin + ',directories=no';
+    editwin = editwin + ',location=no';
+    editwin = editwin + ',status=no';
+    editwin = editwin + ',top=20';
+    editwin = editwin + ',left=250';
+
     var editwinWin = window.open(url, name, editwin);
     editwinWin.focus();
     editwinWin.opener = self;

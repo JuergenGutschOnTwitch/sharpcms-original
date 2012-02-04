@@ -5,7 +5,7 @@
     <script type="text/javascript">
       function copyPage() {
       if (ModalDialog.value != undefined &amp;&amp; ModalDialog.value != "") {
-      ThrowEvent('pagecopyto', '<xsl:value-of select="attributes/pageidentifier" />¤' + ModalDialog.value + '¤' + prompt('Page name:', '<xsl:value-of select="sharpcms:Escape(/data/contenttwo/page/attributes/pagename)" />'));
+      ThrowEvent('pagecopyto', '<xsl:value-of select="attributes/pageidentifier" />¤' + ModalDialog.value + '¤' + prompt('Page name:', '<xsl:value-of select="sharpcms:Escape(/data/contentplace/page/attributes/pagename)" />'));
       }
       ModelDialogRemoveWatch();
       }
@@ -318,7 +318,7 @@
     <xsl:variable name="currentelement" select="." />
     <xsl:variable name="type" select="@type" />
     <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/top/*[name(//*[@currentpage='true']/..)=@filter or not(@filter) ]">
-      <xsl:with-param name="currentelement" select="//data/contenttwo/page/attributes" />
+      <xsl:with-param name="currentelement" select="//data/contentplace/page/attributes" />
       <xsl:with-param name="id">
         <xsl:text>data_attribute</xsl:text>
       </xsl:with-param>

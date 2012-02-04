@@ -4,9 +4,9 @@
   <admin>
     <user>
       <handle provider="User" />
-      <load provider="User" place="contentone" action="users" />
-      <load provider="User" place="contentone" action="groups" />
-      <load provider="User" place="contenttwo" action="user" />
+      <load provider="User" place="navigationplace" action="users" />
+      <load provider="User" place="navigationplace" action="groups" />
+      <load provider="User" place="contentplace" action="user" />
     </user>
   </admin>
   <login>

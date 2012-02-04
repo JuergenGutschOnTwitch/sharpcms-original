@@ -4,7 +4,7 @@
   <admin />
   <show>
     <template name="show" />
-    <load provider="Page" place="contentone" action="tree" />
-    <load provider="Page" place="contenttwo" action="page" />
+    <load provider="Page" place="navigationplace" action="tree" />
+    <load provider="Page" place="contentplace" action="page" />
   </show>
 </process>

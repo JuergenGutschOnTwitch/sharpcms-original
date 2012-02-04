@@ -17,7 +17,7 @@
             <xsl:text>/admin/page/edit/</xsl:text>
             <xsl:value-of select="//data/attributes/pageroot" />
             <xsl:text>/</xsl:text>
-            <xsl:value-of select="/data/contenttwo/page/attributes/name" />
+            <xsl:value-of select="/data/contentplace/page/attributes/name" />
             <xsl:text>.aspx?e=</xsl:text>
             <xsl:text>element_</xsl:text>
             <xsl:number count="container" />
@@ -64,7 +64,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<div id="sitemap">
-			<xsl:for-each select="data/contentone/sitetree/*[@pageidentifier=$language and @status='open']">
+			<xsl:for-each select="data/navigationplace/sitetree/*[@pageidentifier=$language and @status='open']">
 				<ul>
 					<xsl:for-each select="*[@status='open']">
 						<li>
@@ -441,7 +441,7 @@
 			</input>
 			<input type="hidden" name="data_pageidentifier">
 				<xsl:attribute name="value">
-					<xsl:value-of select="/data/contenttwo/page/attributes/pageidentifier" />
+					<xsl:value-of select="/data/contentplace/page/attributes/pageidentifier" />
 				</xsl:attribute>
 			</input>
 			<dl>
@@ -576,7 +576,7 @@
 	</xsl:template>
 
 	<xsl:template mode="show" match="element[@type='overview']">
-    <xsl:for-each select="/data/contentone/sitetree/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']">
+    <xsl:for-each select="/data/navigationplace/sitetree/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']/*[@inpath='true' and @status='open']">
 			<ul class="overview">
 				<xsl:apply-templates mode="overviewlistitems" select="*[@status='open']" />
 			</ul>

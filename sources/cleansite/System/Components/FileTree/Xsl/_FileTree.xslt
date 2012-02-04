@@ -9,8 +9,19 @@
         <xsl:text>Directory</xsl:text>
       </div>
       <div class="viewstate">
-
+        
       </div>
+    </div>
+    <div class="menu tree_menu">
+      <a class="button">
+        <xsl:attribute name="class">
+          <xsl:text>button</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="href">
+          <xsl:text>javascript:ThrowEventNew('addfolder','.','Type the name of the new folder');</xsl:text>
+        </xsl:attribute>
+        <xsl:text>Add new folder</xsl:text>
+      </a>
     </div>
     <div class="tree tree_body">
 		  <script type="text/javascript">

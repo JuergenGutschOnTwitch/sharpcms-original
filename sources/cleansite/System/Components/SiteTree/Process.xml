@@ -4,9 +4,9 @@
   <admin>
     <page>
       <handle provider="Page" />
-      <load provider="Page"  place="contentone" action="tree" />
+      <load provider="Page"  place="navigationplace" action="tree" />
       <edit notnull="true">
-        <load provider="Page" place="contenttwo" action="page" />
+        <load provider="Page" place="contentplace" action="page" />
         <load provider="Page" place="basedata" action="elementlist" />
         <load provider="Page" place="basedata" action="pagestatus" />
         <load provider="Page" place="basedata" action="security" />
@@ -14,7 +14,7 @@
     </page>
     <choose>
       <page>
-        <load provider="Page" place="contentone" action="tree" />
+        <load provider="Page" place="navigationplace" action="tree" />
       </page>
     </choose>
   </admin>

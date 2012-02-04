@@ -3,6 +3,6 @@
 <process>
 	<show>
 		<handle provider="search" />
-		<load provider="Page" place="contenttwo" action="page" />
+		<load provider="Page" place="contentplace" action="page" />
 	</show>
 </process>

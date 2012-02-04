@@ -27,17 +27,17 @@
         </base>
         <title>
           <xsl:text>[template] - </xsl:text>
-          <xsl:value-of select="/data/contenttwo/page/attributes/pagename" />
+          <xsl:value-of select="/data/contentplace/page/attributes/pagename" />
         </title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="keywords">
           <xsl:attribute name="content">
-            <xsl:value-of select="/data/contenttwo/page/attributes/metakeywords" />
+            <xsl:value-of select="/data/contentplace/page/attributes/metakeywords" />
           </xsl:attribute>
         </meta>
         <meta name="description">
           <xsl:attribute name="content">
-            <xsl:value-of select="/data/contenttwo/page/attributes/metadescription" />
+            <xsl:value-of select="/data/contentplace/page/attributes/metadescription" />
           </xsl:attribute>
         </meta>
         <meta name="author" content="[author]" />
@@ -88,7 +88,7 @@
             </div>
             <xsl:call-template name="TopMenu" />
             <div id="content">
-              <xsl:apply-templates mode="show" select="/data/contenttwo/page/containers/container[@name='content']" />
+              <xsl:apply-templates mode="show" select="/data/contentplace/page/containers/container[@name='content']" />
             </div>
             <div id="footer">
               <p>

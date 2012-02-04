@@ -3,10 +3,10 @@
 <process>
   <admin />
   <show>
-    <load provider="LoadXml" place="contenttwo" action="changelog" />
+    <load provider="LoadXml" place="contentplace" action="changelog" />
     <template name="show" />
-    <load provider="Page" place="contentone" action="tree" />
-    <load provider="Page" place="contenttwo" action="page" />
+    <load provider="Page" place="navigationplace" action="tree" />
+    <load provider="Page" place="contentplace" action="page" />
     <handle provider="Form" />
     <handle provider="Search" />
     <load provider="Search" place="search" action="search" />

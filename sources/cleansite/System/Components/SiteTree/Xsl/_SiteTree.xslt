@@ -18,6 +18,17 @@
 
       </div>
     </div>
+    <div class="menu tree_menu">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button</xsl:text>
+        </xsl:attribute>
+			  <xsl:attribute name="href">
+          <xsl:text>javascript:ThrowEventNew('addpage','.','Type the name of the file:');</xsl:text>
+        </xsl:attribute>
+        <xsl:text>Add language</xsl:text>
+		  </a>
+    </div>
     <div class="tree tree_body">
       <script type="text/javascript">
         <xsl:text>sitetree = new dTree('sitetree', false);</xsl:text>
@@ -35,11 +46,6 @@
         <xsl:text>document.write(sitetree);</xsl:text>
       </script>
     </div>
-
-    <!--<a class="button">
-			<xsl:attribute name="href">javascript:ThrowEventNew('addpage','.','Type the name of the file:')</xsl:attribute>			
-			Add language
-		</a>-->
   </xsl:template>
 
   <xsl:template name="SiteTreeElement">
