@@ -12,7 +12,9 @@
   <xsl:template mode="edit" match="sitetree">
     <div class="head tree_head">
       <div class="title">
-        <xsl:text>Sites</xsl:text>
+        <b>
+          <xsl:text>Sites</xsl:text>
+        </b>
       </div>
       <div class="viewstate">
 

@@ -31,8 +31,10 @@
           </xsl:if>
         </title>
         <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Scripts/tree/dtree.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Scripts/jquery/ui.tabs.min.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/tree/dtree.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.custom.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery.ui.selectmenu.js" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.sharpcms.css" />
         <!--[if IE 7]>
 	      <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/ie.css" />
         <![endif]-->
@@ -43,6 +45,9 @@
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.url.packed.js">
+          <xsl:text> </xsl:text>
+        </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.ui.selectmenu.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/tree/dtree.js">
@@ -63,29 +68,8 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/tiny_mce/jquery.tinymce.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript">
-          $(function() {
-            $('textarea.mceeditor').tinymce({
-              script_url : '/System/Components/Admin/Scripts/tiny_mce/tiny_mce.js',
-              
-              theme : 'advanced',
-              plugins : 'sharpcmschooser,fullscreen,spellchecker,safari,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,imagemanager,filemanager',
-
-              theme_advanced_buttons1 : 'fullscreen,formatselect,cleanup,forecolor,bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,image,indent,outdent,bullist,numlist,undo,redo,link,unlink',
-              theme_advanced_buttons2 : 'tablecontrols,|,sharpcmslinkchooser,sharpcmsfilechooser,sharpcmsimagechooser,|,code',
-              theme_advanced_buttons3 : '',
-              theme_advanced_buttons4 : '',
-              theme_advanced_toolbar_location : 'top',
-              theme_advanced_toolbar_align : 'left',
-              theme_advanced_statusbar_location : 'bottom',
-              theme_advanced_resizing : false,
-              
-              content_css : '/System/Components/Admin/Styles/tinystyle.css',
-            });
-
-            $('#tabs').tabs();
-            $('#pada_body_tabs').tabs();
-          });
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/start.js">
+          <xsl:text> </xsl:text>
         </script>
       </head>
       <body>
@@ -107,7 +91,11 @@
             <!-- Begin Header -->
             <div class="header">
               <a href="{/data/basepath}">
-                <img src="System/Components/Admin/Images/logo.gif" />
+                <img>
+                  <xsl:attribute name="src">
+                    <xsl:text>/System/Components/Admin/Images/logo.gif</xsl:text>
+                  </xsl:attribute>
+                </img>
               </a>
             </div>
             <!-- End Header -->

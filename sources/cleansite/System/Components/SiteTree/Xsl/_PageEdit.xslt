@@ -35,13 +35,15 @@
     </input>
     <div class="head pagedata_head">
       <div class="title">
-        <xsl:text>Page data - </xsl:text>
-        <xsl:value-of select="attributes/menuname" />
+        <b>
+          <xsl:text>Page data - </xsl:text>
+          <xsl:value-of select="attributes/menuname" />
+        </b>
       </div>
       <div class="viewstate">
-        <p id="pada_vs" class="button">
+        <a id="pada_vs" class="button expand">
           <xsl:text>˅</xsl:text>
-        </p>
+        </a>
       </div>
     </div>
     <div class="menu pagedata_menu top">
@@ -215,7 +217,7 @@
 
   <xsl:template mode="form" match="*">
     <xsl:call-template name="elementtop" />
-    <div class="element_body">
+    <div>
       <xsl:attribute name="class">
         <xsl:text>element_body</xsl:text>
       </xsl:attribute>
@@ -226,15 +228,26 @@
         <xsl:number count="element" />
         <xsl:text>_body</xsl:text>
       </xsl:attribute>
-      <xsl:variable name="currentelement" select="." />
-      <xsl:variable name="type" select="@type" />
-      <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/*[name()=$type]/*">
-        <xsl:with-param name="currentelement" select="$currentelement" />
-        <xsl:with-param name="id">
-          <xsl:text>data_element_</xsl:text>
-          <xsl:number count="container" />_<xsl:number count="element" />
-        </xsl:with-param>
-      </xsl:apply-templates>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>element_info</xsl:text>
+        </xsl:attribute>
+        
+      </div>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>element_edit</xsl:text>
+        </xsl:attribute>
+        <xsl:variable name="currentelement" select="." />
+        <xsl:variable name="type" select="@type" />
+        <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/*[name()=$type]/*">
+          <xsl:with-param name="currentelement" select="$currentelement" />
+          <xsl:with-param name="id">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />_<xsl:number count="element" />
+          </xsl:with-param>
+        </xsl:apply-templates>
+      </div>
     </div>
   </xsl:template>
 
@@ -653,9 +666,44 @@
       </xsl:attribute>
       <div>
         <xsl:attribute name="class">
-          <xsl:text>title</xsl:text>
+          <xsl:text>name</xsl:text>
         </xsl:attribute>
-        <xsl:value-of select="@type" />
+        <label>
+          <xsl:attribute name="class">
+            <xsl:text>title</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="for">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />
+            <xsl:text>_</xsl:text>
+            <xsl:number count="element" />
+            <xsl:text>_elementtitle</xsl:text>
+          </xsl:attribute>
+          <xsl:value-of select="@type" />
+          <xsl:text>:</xsl:text>
+        </label>
+        <input>
+          <xsl:attribute name="type">
+            <xsl:text>text</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="name">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />
+            <xsl:text>_</xsl:text>
+            <xsl:number count="element" />
+            <xsl:text>_elementtitle</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="id">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />
+            <xsl:text>_</xsl:text>
+            <xsl:number count="element" />
+            <xsl:text>_elementtitle</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="value">
+            <xsl:value-of select="@name" />
+          </xsl:attribute>
+        </input>
       </div>
       <div>
         <xsl:attribute name="class">
@@ -663,7 +711,7 @@
         </xsl:attribute>
         <a>
           <xsl:attribute name="class">
-            <xsl:text>button</xsl:text>
+            <xsl:text>button expand</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="id">
             <xsl:text>element_</xsl:text>
@@ -785,43 +833,6 @@
               <xsl:text>true</xsl:text>
             </xsl:attribute>
           </xsl:if>
-        </input>
-      </div>
-      <div>
-        <xsl:attribute name="class">
-          <xsl:text>name</xsl:text>
-        </xsl:attribute>
-        <label>
-          <xsl:attribute name="for">
-            <xsl:text>data_element_</xsl:text>
-            <xsl:number count="container" />
-            <xsl:text>_</xsl:text>
-            <xsl:number count="element" />
-            <xsl:text>_elementtitle</xsl:text>
-          </xsl:attribute>
-          <xsl:text>Name</xsl:text>
-        </label>
-        <input>
-          <xsl:attribute name="type">
-            <xsl:text>text</xsl:text>
-          </xsl:attribute>
-          <xsl:attribute name="name">
-            <xsl:text>data_element_</xsl:text>
-            <xsl:number count="container" />
-            <xsl:text>_</xsl:text>
-            <xsl:number count="element" />
-            <xsl:text>_elementtitle</xsl:text>
-          </xsl:attribute>
-          <xsl:attribute name="id">
-            <xsl:text>data_element_</xsl:text>
-            <xsl:number count="container" />
-            <xsl:text>_</xsl:text>
-            <xsl:number count="element" />
-            <xsl:text>_elementtitle</xsl:text>
-          </xsl:attribute>
-          <xsl:attribute name="value">
-            <xsl:value-of select="@name" />
-          </xsl:attribute>
         </input>
       </div>
     </div>

@@ -7,7 +7,10 @@
         <item name="Template" attribute="template" type="listtemplate" />
         <item name="Menu name" attribute="menuname" type="text" />
         <item name="Page name" attribute="pagename" type="text" />
-        <item name="Last edited" attribute="lastedited" type="text" />
+        <item name="Created Date" attribute="createddate" type="hidden" />
+        <item name="Created User" attribute="createduser" type="hidden" />
+        <item name="Modified Date" attribute="modifieddate" type="hidden" />
+        <item name="Modified User" attribute="modifieduser" type="hidden" />
         <item name="Keywords" attribute="metakeywords" type="text" />
         <item name="Description" attribute="metadescription" type="textarea" height="50" />
         <item name="Status" attribute="status" type="statuslist" />

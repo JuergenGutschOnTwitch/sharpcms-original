@@ -6,7 +6,9 @@
   <xsl:template  mode="edit" match="filetree">
     <div class="head tree_head">
       <div class="title">
-        <xsl:text>Directory</xsl:text>
+        <b>
+          <xsl:text>Directory</xsl:text>
+        </b>
       </div>
       <div class="viewstate">
         

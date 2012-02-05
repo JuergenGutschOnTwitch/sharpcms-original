@@ -4,7 +4,9 @@
   <xsl:template mode="edit" match="users">
     <div class="head tree_head">
       <div class="title">
-        <xsl:text>Users</xsl:text>
+        <b>
+          <xsl:text>Users</xsl:text>
+        </b>
       </div>
       <div class="viewstate">
 
@@ -33,7 +35,9 @@
   <xsl:template mode="edit" match="groups">
     <div class="head tree_head">
       <div class="title">
-        <xsl:text>Groups</xsl:text>
+        <b>
+          <xsl:text>Groups</xsl:text>
+        </b>
       </div>
       <div class="viewstate">
 
@@ -64,12 +68,15 @@
   <xsl:template mode="edit" match="user">
     <div class="head userdata_head">
       <div class="title">
-        User: <xsl:value-of select="login" />
+        <b>
+          <xsl:text>User: </xsl:text>
+          <xsl:value-of select="login" />
+        </b>
       </div>
       <div class="viewstate">
-        <p id="usda_vs" class="button">
+        <a id="usda_vs" class="button expand">
           <xsl:text>˅</xsl:text>
-        </p>
+        </a>
       </div>
     </div>
     <div class="menu userdata_menu">
