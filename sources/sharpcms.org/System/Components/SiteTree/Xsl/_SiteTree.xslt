@@ -12,7 +12,9 @@
   <xsl:template mode="edit" match="sitetree">
     <div class="head tree_head">
       <div class="title">
-        <xsl:text>Sites</xsl:text>
+        <b>
+          <xsl:text>Sites</xsl:text>
+        </b>
       </div>
       <div class="viewstate">
 
@@ -23,11 +25,11 @@
         <xsl:attribute name="class">
           <xsl:text>button</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="href">
+			  <xsl:attribute name="href">
           <xsl:text>javascript:ThrowEventNew('addpage','.','Type the name of the file:');</xsl:text>
         </xsl:attribute>
         <xsl:text>Add language</xsl:text>
-      </a>
+		  </a>
     </div>
     <div class="tree tree_body">
       <script type="text/javascript">

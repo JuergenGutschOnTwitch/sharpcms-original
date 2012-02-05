@@ -6,10 +6,12 @@
   <xsl:template  mode="edit" match="filetree">
     <div class="head tree_head">
       <div class="title">
-        <xsl:text>Directory</xsl:text>
+        <b>
+          <xsl:text>Directory</xsl:text>
+        </b>
       </div>
       <div class="viewstate">
-
+        
       </div>
     </div>
     <div class="menu tree_menu">
@@ -24,16 +26,16 @@
       </a>
     </div>
     <div class="tree tree_body">
-      <script type="text/javascript">
+		  <script type="text/javascript">
         <xsl:text>filetree = new dTree('filetree',true);</xsl:text>
-        <xsl:apply-templates mode="filetree" select="folder/*">
-          <xsl:with-param name="current-path" ></xsl:with-param>
-          <xsl:with-param name="parent" select="-1" />
-        </xsl:apply-templates>
+			  <xsl:apply-templates mode="filetree" select="folder/*">
+				  <xsl:with-param name="current-path" ></xsl:with-param>
+				  <xsl:with-param name="parent" select="-1" />
+			  </xsl:apply-templates>
         <xsl:text>document.write(filetree);</xsl:text>
-      </script>
-    </div>
-  </xsl:template>
+		  </script>
+	  </div>
+	</xsl:template>
 	
 	<xsl:template mode="filetree" match="folder">
 		<xsl:param name="current-path" />

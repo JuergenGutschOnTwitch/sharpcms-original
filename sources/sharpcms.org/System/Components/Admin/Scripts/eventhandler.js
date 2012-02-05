@@ -68,7 +68,7 @@ function open_editwin(url, name, winWidth, winHeight) {
     editwin = editwin + ',status=no';
     editwin = editwin + ',top=20';
     editwin = editwin + ',left=250';
-
+    
     var editwinWin = window.open(url, name, editwin);
     editwinWin.focus();
     editwinWin.opener = self;

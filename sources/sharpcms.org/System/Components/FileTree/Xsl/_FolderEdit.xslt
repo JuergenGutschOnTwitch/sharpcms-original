@@ -6,12 +6,14 @@
   <xsl:template mode="edit" match="folder">
     <div class="head folderdata_head">
       <div class="title">
-        <xsl:value-of select="@path" />
+        <b>
+          <xsl:value-of select="@path" />
+        </b>
       </div>
       <div class="viewstate">
-        <p id="foda_vs" class="button">
+        <a id="foda_vs" class="button expand">
           <xsl:text>˅</xsl:text>
-        </p>
+        </a>
       </div>
     </div>
     <div class="menu folderdata_menu">

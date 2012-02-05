@@ -6,13 +6,15 @@
   <xsl:template mode="edit" match="file">
     <div class="head filedata_head">
       <div class="title">
-        <xsl:value-of select="@path" />
+        <b>
+          <xsl:value-of select="@path" />
+        </b>
       </div>
       <div class="viewstate">
         <xsl:if test="@mainmimetype='image'">
-          <p id="fida_vs">
+          <a id="fida_vs" class="button expand">
             <xsl:text>˅</xsl:text>
-          </p>
+          </a>
         </xsl:if>
       </div>
     </div>

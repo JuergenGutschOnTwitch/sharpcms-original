@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page>
+  <attributes>
+    <pagename>Start</pagename>
+    <name>start</name>
+    <menuname>Start</menuname>
+    <pageidentifier>german/start</pageidentifier>
+    <status>open</status>
+    <template></template>
+    <createddate></createddate>
+    <createduser></createduser>
+    <modifieddate></modifieddate>
+    <modifieduser></modifieduser>
+    <metakeywords></metakeywords>
+    <metadescription></metadescription>
+  </attributes>
+  <containers>
+    <container name="content">
+      <elements>
+        <element type="header" name="header" publish="true">
+          <text>the header</text>
+          <headerstyle>Header1</headerstyle>
+        </element>
+        <element type="textblock" name="content" publish="true">
+          <text>&lt;p&gt;the content&lt;/p&gt;</text>
+        </element>
+      </elements>
+    </container>
+  </containers>
+</page>
