@@ -44,9 +44,9 @@ namespace Sharpcms.Providers.Base
 
         #endregion
 
-        //ToDo: Is a unused method (T.Huber 18.06.2009)
         public void HandleSubmitForm()
         {
+
         }
     }
 }

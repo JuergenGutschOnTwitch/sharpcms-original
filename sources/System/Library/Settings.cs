@@ -24,7 +24,7 @@ namespace Sharpcms.Library
             _defaultInstance = this;
         }
 
-        public string CustomFullPath //ToDo: is a unused Property (T.Huber 18.06.2009)
+        public string CustomFullPath
         {
             get { return _customFullPath; }
         }

@@ -48,7 +48,7 @@ namespace Sharpcms.Providers.Base
         /// Gets the current page.
         /// </summary>
         /// <value>The current page.</value>
-        public string CurrentPage //ToDo: Is a unused Property (T.Huber 18.06.2009)
+        public string CurrentPage
         {
             get
             {
@@ -263,8 +263,16 @@ namespace Sharpcms.Providers.Base
             string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('_');
             string elementType = Process.QueryData["container_" + elementParts[1]];
+            
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Create(elementType, String.Empty, false);
             currentPage.Save();
+
+            // TODO THU: Only a try
+            string querystring = String.Format("?e=element_{0}_{1}", int.Parse(elementParts[1]), currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Count);
+            string redirectUrl = Process.GetUrl(Process.CurrentProcess, querystring);
+            
+            Process.RedirectUrl = (redirectUrl);
+            // TODO THU: Only a try
         }
 
         /// <summary>

@@ -69,8 +69,6 @@ namespace Sharpcms.Library.Common
             // ToDo: quick hack to handle Danish characters (should be more generic) (old)
             dirtyString = dirtyString.Replace("æ", "ae").Replace("ø", "oe").Replace("å", "aa");
             dirtyString = dirtyString.Replace("Æ", "Ae").Replace("Ø", "Oe").Replace("Å", "Aa");
-
-            // ToDo: quick hack to handle Ohter unsupported characters (T.Huber / 20.06.2009)
             dirtyString = dirtyString.Replace("è", "e").Replace("é", "e").Replace("à", "a");
             dirtyString = dirtyString.Replace("È", "E").Replace("É", "E").Replace("À", "A");
             dirtyString = dirtyString.Replace("ä", "ae").Replace("ö", "oe").Replace("ü", "ue");

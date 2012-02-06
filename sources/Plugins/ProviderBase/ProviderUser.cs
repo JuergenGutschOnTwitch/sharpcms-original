@@ -192,7 +192,7 @@ namespace Sharpcms.Providers.Base
 
             if (!redirected)
             {
-                string defaultFrontPage = Process.Settings["groups/defaultfrontpage"]; //ToDo: ??? (T.Huber 18.06.2009)
+                string defaultFrontPage = Process.Settings["groups/defaultfrontpage"];
             }
         }
 

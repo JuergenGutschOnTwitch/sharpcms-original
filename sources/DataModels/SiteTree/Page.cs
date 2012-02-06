@@ -82,7 +82,6 @@ namespace Sharpcms.Data.SiteTree
                     CommonXml.SetAttributeValue(_treeNode, name, value);
                     break;
             }
-            //m_SiteTree.Save();
         }
 
         public void Save()

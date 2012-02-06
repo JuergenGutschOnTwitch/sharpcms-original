@@ -51,7 +51,7 @@ namespace Sharpcms.Library.Users
             return group;
         }
 
-        public void Remove(int index) //ToDo: Is a unused Method (T.Huber 18.06.2009)
+        public void Remove(int index)
         {
             Group group = this[index];
             ParentNode.RemoveChild(group.Node);

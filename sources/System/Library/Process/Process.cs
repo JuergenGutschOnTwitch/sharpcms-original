@@ -171,7 +171,6 @@ namespace Sharpcms.Library.Process
                 return HttpPage.Session["current_username"].ToString();
             }
         }
-
         // <<<<< Search Mod by Kiho Chang 2008-10-05
 
         private void AddMessage(string message, MessageType messageType, string type)
@@ -204,7 +203,7 @@ namespace Sharpcms.Library.Process
             }
         }
 
-        public void DebugMessage(object message) //ToDo: is a unused Method (T.Huber 18.06.2009)
+        public void DebugMessage(object message)
         {
             DebugMessage(message.ToString());
         }
@@ -292,8 +291,12 @@ namespace Sharpcms.Library.Process
 
         public string GetUrl(string process)
         {
-            string url = string.Format("{0}/{1}.aspx", BasePath, process);
-            return url;
+            return string.Format("{0}/{1}.aspx", BasePath, process);
+        }
+
+        public string GetUrl(string process, string querystring)
+        {
+            return string.Format("{0}/{1}.aspx{2}", BasePath, process, querystring);
         }
 
         private IEnumerable<string> History()
@@ -375,7 +378,7 @@ namespace Sharpcms.Library.Process
                 var httpCookie = HttpPage.Request.Cookies["login_cookie"];
                 if (httpCookie != null)
                 {
-                    var value = httpCookie.Value; //ToDo: ??? (T.Huber / 18.06.2009)
+                    var value = httpCookie.Value;
                     if (value == null || !value.Contains(CookieSeparator))
                     {
                         return false;

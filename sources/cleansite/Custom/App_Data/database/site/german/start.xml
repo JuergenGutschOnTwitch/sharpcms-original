@@ -17,13 +17,15 @@
   <containers>
     <container name="content">
       <elements>
-        <element type="header" name="header" publish="true">
-          <text>the header</text>
-          <headerstyle>Header1</headerstyle>
-        </element>
-        <element type="textblock" name="content" publish="true">
-          <text>&lt;p&gt;the content&lt;/p&gt;</text>
-        </element>
+        <element type="header" name="" publish="false" />
+        <element type="header" name="" publish="false" />
+        <element type="textblock" name="" publish="false" />
+      </elements>
+    </container>
+    <container name="sidebar">
+      <elements>
+        <element type="header" name="" publish="false" />
+        <element type="header" name="" publish="false" />
       </elements>
     </container>
   </containers>

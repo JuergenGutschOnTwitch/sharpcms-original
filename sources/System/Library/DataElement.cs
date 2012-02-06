@@ -21,7 +21,7 @@ namespace Sharpcms.Library
             get { return _xmlNode; }
         }
 
-        public XmlDocument Document //ToDo: Is a unused Property (T.Huber 18.06.2009)
+        public XmlDocument Document
         {
             get { return _xmlNode != null ? _xmlNode.OwnerDocument : null; }
         }

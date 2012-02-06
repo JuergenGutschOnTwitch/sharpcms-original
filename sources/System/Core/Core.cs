@@ -15,9 +15,6 @@ namespace Sharpcms.Core
     {
         public static void Send(Page httpPage)
         {
-            // Counter counter = new Counter();
-            // counter.Start();
-
             PrepareConfiguration(httpPage);
 
             var processHandler = new ProcessHandler();
@@ -26,9 +23,6 @@ namespace Sharpcms.Core
             if (!process.OutputHandledByModule && process.RedirectUrl == null)
             {
                 Parse(httpPage, process);
-
-                // counter.Stop();
-                //  httpPage.Response.Write(string.Format("<!-- {0} ms -->", counter.Milliseconds));
             }
 
             if (process.RedirectUrl != null)

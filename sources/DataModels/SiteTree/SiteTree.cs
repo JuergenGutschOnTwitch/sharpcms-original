@@ -47,6 +47,7 @@ namespace Sharpcms.Data.SiteTree
         public Page GetPage(string path)
         {
             XmlNode pageNode = GetPageNode(path);
+
             return GetPage(pageNode);
         }
 
@@ -145,16 +146,15 @@ namespace Sharpcms.Data.SiteTree
         {
             XmlNodeList xmlNodeList = TreeDocument.SelectNodes("//*[@pageidentifier and not(@pageidentifier = '')]");
 
-            if (xmlNodeList != null)
+            if (xmlNodeList == null) return;
+
+            foreach (XmlNode pageNode in xmlNodeList)
             {
-                foreach (XmlNode pageNode in xmlNodeList)
-                {
-                    string path = CommonXml.GetXPath(pageNode);
-                    Page page = GetPage(path);
-                    page["pageidentifier"] = path;
-                    SavePage(page, false);
-                    CommonXml.SetAttributeValue(pageNode, "pageidentifier", path);
-                }                
+                string path = CommonXml.GetXPath(pageNode);
+                Page page = GetPage(path);
+                page["pageidentifier"] = path;
+                SavePage(page, false);
+                CommonXml.SetAttributeValue(pageNode, "pageidentifier", path);
             }
         }
 
@@ -504,26 +504,29 @@ namespace Sharpcms.Data.SiteTree
         private string GetDocumentDirectory(string path)
         {
             string directory = Path.Combine(_contentRoot, path);
+
             return directory;
         }
 
         private string GetDocumentFilename(XmlNode treeNode)
         {
             string path = CommonXml.GetXPath(treeNode);
+
             return GetDocumentFilename(path);
         }
 
         private string GetDocumentFilename(string fullPath)
         {
             var pagePath = new PagePath(fullPath);
+
             return GetDocumentFilename(pagePath.Path, pagePath.Name);
         }
 
         private string GetDocumentFilename(string path, string name)
         {
             string directory = GetDocumentDirectory(path);
-            string filename = Path.Combine(directory, string.Format(_contentFilenameFormat, name));
-            return filename;
+
+            return Path.Combine(directory, string.Format(_contentFilenameFormat, name));
         }
 
         #endregion
