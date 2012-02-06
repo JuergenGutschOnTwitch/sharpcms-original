@@ -50,6 +50,12 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.ui.selectmenu.js">
           <xsl:text> </xsl:text>
         </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/tiny_mce/jquery.tinymce.js">
+          <xsl:text> </xsl:text>
+        </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/start.js">
+          <xsl:text> </xsl:text>
+        </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/tree/dtree.js">
           <xsl:text> </xsl:text>
         </script>
@@ -63,12 +69,6 @@
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/collapseexpand.js">
-          <xsl:text> </xsl:text>
-        </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/tiny_mce/jquery.tinymce.js">
-          <xsl:text> </xsl:text>
-        </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/start.js">
           <xsl:text> </xsl:text>
         </script>
       </head>
