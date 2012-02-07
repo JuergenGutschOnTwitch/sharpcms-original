@@ -13,4 +13,7 @@
     <handle provider="Cookies" />
     <load provider="Cookies" place="cookies" action="cookie" />
   </show>
+  <sign>
+    <redirect href="login" />
+  </sign>
 </process>

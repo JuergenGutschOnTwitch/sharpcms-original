@@ -80,6 +80,10 @@
                     <xsl:attribute name="href">
                       <xsl:value-of select="/data/basepath" />
                       <xsl:text>/login.aspx</xsl:text>
+                      <xsl:if test="/data/attributes/pagepath != ''">
+                        <xsl:text>?redirect=show/</xsl:text>
+                        <xsl:value-of select="/data/attributes/pagepath" />
+                      </xsl:if>
                     </xsl:attribute>
                     <span>Log in</span>
                   </a>

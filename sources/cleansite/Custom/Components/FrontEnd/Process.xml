@@ -7,4 +7,7 @@
     <load provider="Page" place="navigationplace" action="tree" />
     <load provider="Page" place="contentplace" action="page" />
   </show>
+  <sign>
+    <redirect href="login" />
+  </sign>
 </process>

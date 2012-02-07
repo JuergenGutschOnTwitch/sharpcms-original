@@ -526,6 +526,7 @@ namespace Sharpcms.Providers.Base
             }
 
             Process.Attributes["pageroot"] = pagePath.Split('/')[0];
+            Process.Attributes["pagepath"] = pagePath;
 
             Plugins(page);
 

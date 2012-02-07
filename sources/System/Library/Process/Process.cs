@@ -86,7 +86,7 @@ namespace Sharpcms.Library.Process
                     }
                     else
                     {
-                        httpPage.Response.Redirect(BasePath + "/login.aspx?" + "redirect=" + QueryOther["process"]);
+                        httpPage.Response.Redirect(BasePath + "/login.aspx?redirect=" + QueryOther["process"]);
                     }
                 }
             }
