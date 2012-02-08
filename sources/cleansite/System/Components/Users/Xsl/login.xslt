@@ -57,18 +57,22 @@
               <tbody>
                 <tr>
                   <td>
-                    <xsl:text>Login</xsl:text>
+                    <label for="dataLogin">
+                      <xsl:text>Login</xsl:text>
+                    </label>
                   </td>
                   <td>
-                    <input type="text" name="data_login" />
+                    <input type="text" id="dataLogin" name="data_login" />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <xsl:text>Password</xsl:text>
+                    <label for="dataPassword">
+                      <xsl:text>Password</xsl:text>
+                    </label>
                   </td>
                   <td>
-                    <input type="password" name="data_password" />
+                    <input type="password" id="dataPassword" name="data_password" />
                   </td>
                 </tr>
                 <tr>
