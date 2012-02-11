@@ -12,9 +12,10 @@ namespace Sharpcms.Providers.Search
     {
         public ProviderSearch()
         {
+            Process = null;
         }
 
-        public ProviderSearch(Process process)
+        public ProviderSearch(Process process) : this()
         {
             Process = process;
         }

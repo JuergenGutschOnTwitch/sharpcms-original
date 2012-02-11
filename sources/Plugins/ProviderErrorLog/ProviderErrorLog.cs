@@ -13,9 +13,10 @@ namespace Sharpcms.Providers.ErrorLog
     {
         public ProviderErrorLog()
         {
+            Process = null;
         }
 
-        public ProviderErrorLog(Process process)
+        public ProviderErrorLog(Process process) : this()
         {
             Process = process;
         }
@@ -51,6 +52,7 @@ namespace Sharpcms.Providers.ErrorLog
 
             XmlNodeList items = messagesNode.SelectNodes("item");
             if (items != null)
+            {
                 foreach (XmlNode item in items)
                 {
                     bool writtenToLogFile = false;
@@ -81,6 +83,7 @@ namespace Sharpcms.Providers.ErrorLog
                     File.AppendAllText(logFileName, string.Format("{0};{1};{2}\r\n", DateTime.Now.ToUniversalTime(), errorType, message));
                     CommonXml.SetAttributeValue(item, "writtenToLogFile", "true");
                 }
+            }
         }
     }
 }
