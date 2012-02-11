@@ -37,6 +37,9 @@ namespace Sharpcms.Providers.Search
         /// </summary>
         private int _fromItem;
 
+        /// <summary>
+        /// the SearchQuery
+        /// </summary>
         private string _searchQuery;
 
         private int _startAt;
@@ -63,8 +66,8 @@ namespace Sharpcms.Providers.Search
             string mainVal = _process.QueryData["mainvalue"];
             if (string.IsNullOrEmpty(mainVal))
             {
-                string mStartAt = _process.QueryData["start"];
-                _startAt = string.IsNullOrEmpty(mStartAt) ? 0 : int.Parse(mStartAt);
+                string startAt = _process.QueryData["start"];
+                _startAt = string.IsNullOrEmpty(startAt) ? 0 : int.Parse(startAt);
             }
             else
             {
@@ -103,9 +106,9 @@ namespace Sharpcms.Providers.Search
         {
             get
             {
-                return _total > 0 
-                    ? string.Format("Results <b>{0} - {1}</b> of <b>{2}</b> for <b>{3}</b>. ({4} mili seconds)", _fromItem, _toItem, _total, SearchQuery, _duration.TotalMilliseconds) 
-                    : "No results found";
+				return _total > 0 
+					? string.Format("Results <b>{0} - {1}</b> of <b>{2}</b> for <b>{3}</b>. ({4} mili seconds)", _fromItem, _toItem, _total, SearchQuery, _duration.TotalMilliseconds) 
+					: "No results found";
             }
         }
 
@@ -141,12 +144,12 @@ namespace Sharpcms.Providers.Search
             // parse the query, "text" is the default field to search
             Lucene.Net.Search.Query query = QueryParser.Parse(_searchQuery, "text", analyzer);
 
-            const string containername = "content";
-            Container container = _currentPage.Containers[containername];
-            const string elementResult = "result";
-            const string elementPaging = "paging";
-            const string elementSummary = "summary";
-            const string elementAll = elementResult + elementPaging + elementSummary;
+            const string containerName = "content";
+            Container container = _currentPage.Containers[containerName];
+            const string resultElementName = "result";
+            const string pagingElementName = "paging";
+            const string summaryElementName = "summary";
+            const string allElementNames = resultElementName + pagingElementName + summaryElementName;
             int count = container.Elements.Count;
 
             // Remove previous search result
@@ -154,15 +157,15 @@ namespace Sharpcms.Providers.Search
             {
                 if (container.Elements[i] == null) continue;
 
-                if (elementAll.IndexOf(container.Elements[i].Type, StringComparison.Ordinal) > -1)
+                if (allElementNames.IndexOf(container.Elements[i].Type, StringComparison.Ordinal) > -1)
                 {
                     container.Elements.Remove(i);
                 }
             }
 
-            Element element = container.Elements[0];
-            Element elSummary = container.Elements.Create(elementSummary);
-            element["query"] = _searchQuery;
+            Element queryElement = container.Elements[0];
+            Element element = container.Elements.Create(summaryElementName);
+            queryElement["query"] = _searchQuery;
 
             // search
             Hits hits = searcher.Search(query);
@@ -181,19 +184,19 @@ namespace Sharpcms.Providers.Search
             for (int i = _startFirstAt; i < resultsCount; i++)
             {
                 // get the document from index
-                Document doc = hits.Doc(i);
-                string path = doc.Get("url");
+                Document document = hits.Doc(i);
+                string path = document.Get("url");
 
                 if (path != null)
                 {
-                    string plainText = doc.Get("text");
+                    string plainText = document.Get("text");
 
                     TokenStream tokenStream = analyzer.TokenStream("text", new StringReader(plainText));
                     string text = highlighter.GetBestFragments(tokenStream, plainText, 2, "...");
 
-                    element = container.Elements.Create(elementResult);
-                    element["title"] = doc.Get("title");
-                    element["path"] = _searchPage + path.Replace("\\", "/") + ".aspx";
+                    element = container.Elements.Create(resultElementName);
+                    element["title"] = document.Get("title");
+                    element["path"] = _searchPage + path.Replace("\\", "/") + "/";
                     element["sample"] = string.IsNullOrEmpty(text) ? plainText : text;
                 }
             }
@@ -205,11 +208,15 @@ namespace Sharpcms.Providers.Search
             _toItem = SmallerOf(_startFirstAt + MaxResults, _total);
 
             // result information
-            elSummary.Node.InnerText = Summary;
+            element.Node.InnerText = Summary;
+
             // paging link
-            element = container.Elements.Create(elementPaging);
+            element = container.Elements.Create(pagingElementName);
             element.Node.InnerText = SetPaging();
+            
             _process.SearchContext = _currentPage;
+
+            _currentPage.Save();
         }
 
         /// <summary>
