@@ -46,10 +46,11 @@ body {
 
 label {
     color: #486c82;
+
 }
 
 a, p, b {
-    font-size: 11px !Important;
+    font-size: 11px;
 }
 
 b {
@@ -194,6 +195,11 @@ a.button {
     margin: 0 2px 0 0; 
     padding: 0 7px;    
     text-align: center;
+}
+
+a.delete {
+    color: red !Important;
+    font-weight: bold;
 }
 
 a.button:hover {
@@ -705,7 +711,12 @@ a.expand {
     padding: 6px;
 }
 
+.login table tbody tr td label {
+    font-size: 0.8em;
+}
+
 .login table tbody tr td input {
+    font-size: 0.8em;
     height: 1.5em;
 }
 

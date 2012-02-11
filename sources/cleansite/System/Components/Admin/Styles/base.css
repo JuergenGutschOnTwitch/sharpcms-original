@@ -197,6 +197,11 @@ a.button {
     text-align: center;
 }
 
+a.delete {
+    color: red !Important;
+    font-weight: bold;
+}
+
 a.button:hover {
     background-color: #96a1a9;
     text-decoration: none;
