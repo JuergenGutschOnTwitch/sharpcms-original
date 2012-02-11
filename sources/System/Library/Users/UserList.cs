@@ -30,7 +30,7 @@ namespace Sharpcms.Library.Users
         {
             get
             {
-                //ToDo this is not implementet yet (old)
+                //ToDo this is not implementet yet
                 string xPath = string.Format("user[login='{0}']", Common.Common.CleanToSafeString(name));
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
 

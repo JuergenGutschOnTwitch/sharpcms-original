@@ -86,7 +86,7 @@ namespace Sharpcms.Library
 
         private void Save()
         {
-            //ToDo: should work but has not been testet yet (old)
+            //ToDo: should work but has not been testet yet
             _customSettings.Save(_customFullPath);
         }
     }

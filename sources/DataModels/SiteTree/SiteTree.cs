@@ -4,7 +4,6 @@ using System;
 using System.IO;
 using System.Xml;
 using Sharpcms.Library.Common;
-using Sharpcms.Library.Process;
 
 namespace Sharpcms.Data.SiteTree
 {
@@ -12,7 +11,7 @@ namespace Sharpcms.Data.SiteTree
     {
         private readonly string _contentFilenameFormat;
         private readonly string _contentRoot;
-        private readonly Process _process;
+        private readonly Library.Process.Process _process;
         private readonly XmlDocument _treeDocument;
         private readonly string _treeFilename;
 
@@ -20,7 +19,7 @@ namespace Sharpcms.Data.SiteTree
         /// Initializes a new instance of the <see cref="SiteTree"/> class.
         /// </summary>
         /// <param name="process">The process.</param>
-        public SiteTree(Process process)
+        public SiteTree(Library.Process.Process process)
         {
             _process = process;
             _contentRoot = process.Settings["sitetree/contentRoot"];
@@ -89,6 +88,7 @@ namespace Sharpcms.Data.SiteTree
         {
             //string xPath = NormalizePath(path);
             XmlNode pageNode = CommonXml.GetNode(_treeDocument, path, EmptyNodeHandling.Ignore);
+
             return pageNode;
         }
 
@@ -209,12 +209,16 @@ namespace Sharpcms.Data.SiteTree
             name = name.ToLower();
 
             if (GetPageNode(path + "/" + name) != null)
+            {
                 return GetPage(path + "/" + name); // The requested page already exists.
+}
 
             // Update filesystem
             string pathfile = path;
             if (pathfile == ".")
+            {
                 pathfile = string.Empty;
+            }
 
             CreateFile(pathfile, name, menuName);
 
@@ -274,13 +278,13 @@ namespace Sharpcms.Data.SiteTree
                 foreach (XmlNode xmlNode in xmlNodeContainer.ChildNodes)
                 {
                     Container container = page.Containers[xmlNode.InnerText];
-                    // ToDo: hack to secure content container. (old)
+                    // ToDo: hack to secure content container
                 }                
             }
             else
             {
                 Container container = page.Containers["content"];
-                // ToDo: secures older websites - goes obsoletet (old)
+                // ToDo: secures older websites - goes obsoletet
             }
 
             // hide if the Page is a Root-Page (for Language) 

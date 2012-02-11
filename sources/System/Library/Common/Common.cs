@@ -53,7 +53,7 @@ namespace Sharpcms.Library.Common
 
         public static string CombinePaths(params string[] paths)
         {
-            //ToDo: this is not safe yeat - a stack overflow happened... (old)
+            //ToDo: this is not safe yeat - a stack overflow happened...
             string combinedPath = string.Empty;
 
             for (int i = 1; i < paths.Length; i++)
@@ -66,7 +66,7 @@ namespace Sharpcms.Library.Common
 
         public static string CleanToSafeString(string dirtyString)
         {
-            // ToDo: quick hack to handle Danish characters (should be more generic) (old)
+            // ToDo: quick hack to handle Danish characters (should be more generic)
             dirtyString = dirtyString.Replace("æ", "ae").Replace("ø", "oe").Replace("å", "aa");
             dirtyString = dirtyString.Replace("Æ", "Ae").Replace("Ø", "Oe").Replace("Å", "Aa");
             dirtyString = dirtyString.Replace("è", "e").Replace("é", "e").Replace("à", "a");

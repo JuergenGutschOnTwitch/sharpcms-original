@@ -28,7 +28,7 @@ namespace Sharpcms.Library.Users
 
         public Group this[string name]
         {
-            // ToDo: group is not consistent yet (old)
+            // ToDo: group is not consistent yet
             get
             {
                 string xPath = string.Format("group[@name='{0}']", Common.Common.CleanToSafeString(name));

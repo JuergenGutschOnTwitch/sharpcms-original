@@ -65,7 +65,7 @@ namespace Sharpcms.Core
                 {
                     string output = CommonXml.TransformXsl(process.MainTemplate, process.XmlData, process.Cache);
 
-                    // ToDo: dirty hack (old)
+                    // ToDo: dirty hack
                     string[] badtags = { "<ul />", "<li />", "<h1 />", "<h2 />", "<h3 />", "<div />", "<p />", "<font />", "<b />", "<strong />", "<i />" };
                     
                     output = badtags.Aggregate(output, (current, a) => current.Replace(a, ""));

@@ -13,9 +13,10 @@ namespace Sharpcms.Providers.Base
     {
         public ProviderAdmin()
         {
+            Process = null;
         }
 
-        public ProviderAdmin(Process process)
+        public ProviderAdmin(Process process) : this()
         {
             Process = process;
         }
@@ -91,7 +92,7 @@ namespace Sharpcms.Providers.Base
         private void UpdateSnippets(IEnumerable<string> paths)
         {
             string pathsnippets = Process.Settings["general/customrootcomponents"] + "\\snippets.xslt";
-            // ToDo: should be more generic (old)
+            // ToDo: should be more generic
 
             var stringB = new StringBuilder();
             stringB.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
