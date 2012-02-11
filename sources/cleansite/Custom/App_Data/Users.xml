@@ -4,7 +4,7 @@
   <users>
     <user>
       <groups>
-        <group name="anonymous " />
+        <group name="anonymous" />
       </groups>
       <login>anonymous</login>
     </user>
