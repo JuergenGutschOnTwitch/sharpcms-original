@@ -23,173 +23,163 @@
     			*
     			* @section layout-basics
     			*/
-    *
-    {
+    * {
+        
     }
 
     /* Page margins and background | Randbereiche & Seitenhintergrund */
-    body
-    {
-        padding: 0px;
-        margin: 0px;
-        background-color: #EEEEEE;
+    body {
+        padding: 0;
+        margin: 0;
+        background-color: #eee;
         background-image: url(../img/bg.gif);
         background-repeat: repeat-x;
     }
+    
     /* Layout: Width, Background, Border | Layout: Breite, Hintergrund, Rahmen */
-    #page_margins
-    {
+    #page_margins {
         width: 68.2em;
         margin: 20px auto 0 auto;
     }
-    #page
-    {
-        background-color: #FFFFFF;
-    }
-    #header
-    {
+    
+    #page {
+        background-color: #fff;
     }
     
-    #header #head1
-    {
-        border-top: solid 1px #999999;
-        border-left: solid 1px #999999;
-        border-right: solid 1px #999999;
+    #header {
     }
-    #header #head1 #logo
-    {
+    
+    #header #head1 {
+        border-top: solid 1px #999;
+        border-left: solid 1px #999;
+        border-right: solid 1px #999;
+    }
+    
+    #header #head1 #logo {
         float: left;
     }
-    #header #head1 #topmenu
-    {
+    
+    #header #head1 #topmenu {
         float: right;
     }
     
-   
-    #header #head2
-    {
+    #header #head2 {
         height: 1.7em;
         background-color: #7697AB;
     }
 
-    #header #head3
-    {
-        border-left: solid 1px #999999;
-        border-right: solid 1px #999999;
+    #header #head3 {
+        border-left: solid 1px #999;
+        border-right: solid 1px #999;
         height: 9.15em;
         background-image: url(../img/banner.gif);
         position: relative;
     }
-    #header #head3 .teaser
-    {
+    
+    #header #head3 .teaser {
         position: absolute;
         left: 1em;
         bottom: 0em;
-        color: #999999;
+        color: #999;
         width: 35em;
         font-size:smaller;
     }
 
-    #menu
-    {
+    #menu {
         height: 2.5em;
-        background-color: #7697AB;
+        background-color: #7697ab;
     }
-    #navsubline
-    {
+    
+    #navsubline {
         background-image: url(../pictures/navsubline.png);
         background-repeat: no-repeat;
         height: 15px;
     }
-    #main
-    {
-        border-left: solid 1px #999999;
-        border-right: solid 1px #999999;
+    
+    #main {
+        border-left: solid 1px #999;
+        border-right: solid 1px #999;
     }
 
-    #col1
-    {
-        display:none;
+    #col1 {
+        display: none;
     }
-    #col1_content
-    {
+    
+    #col1_content {
+        
     }
-    #col2
-    {
+    
+    #col2 {
         width: 18em;
         min-height: 300px;
     }
-    #col2_content
-    {
+    
+    #col2_content {
         margin: 1em;
     }
 
-    #col3
-    {
-        margin: 0 18em 0 0 ;
+    #col3 {
+        margin: 0 18em 0 0;
         min-height: 300px;
         padding: 1em;
-        border-right: solid 1px #999999;
+        border-right: solid 1px #999;
     }
-    #col3_content
-    {
+    
+    #col3_content {
+        
     }
 
-    #footer
-    {
-        border-left: solid 1px #999999;
-        border-right: solid 1px #999999;
-        border-bottom: solid 1px #999999;
+    #footer {
+        border-left: solid 1px #999;
+        border-right: solid 1px #999;
+        border-bottom: solid 1px #999;
     }
-    #footer #fo1
-    {
-        display:block;
-        margin-right:18em; 
-        border-right: solid 1px #999999;    
+    
+    #footer #fo1 {
+        display: block;
+        margin-right: 18em; 
+        border-right: solid 1px #999;    
         padding: 1em;   
     }
-    #footer #fo2
-    {
-        display:block;
-        float:right;
+    
+    #footer #fo2 {
+        display: block;
+        float: right;
         width: 16em;
         padding: 1em;
     }
 
-
-    .clear
-    {
+    .clear {
         clear: both;
     }
-    .hide
-    {
+    
+    .hide {
         position: absolute;
         top: -100px;
         left: -100px;
         display: none;
     }
 
-    form input.but
-    {
+    form input.but {
         margin-top: 0.5em;
-        color: #333333;
+        color: #333;
         font-weight: bold;
-        border: 1px solid #999999;
+        border: 1px solid #999;
         padding: 0.1em 0.2em 0.1em 0.2em;
     }
-    form input.search
-    {
+    
+    form input.search {
         margin-top: 0.5em;
-        border: 1px solid #999999;
-        background-color: #FFFFFF;
+        border: 1px solid #999;
+        background-color: #fff;
         font-family: verdana, arial, sans-serif;
         padding: 0.2em;
         width: 15em;
     }
 
-    hr
-    {
-        height: 1px;
-        color: #686868;
+    hr {
+        height: 0;
+        border-width: 0;
+        border-top: 2px solid #686868;
     }
 }
