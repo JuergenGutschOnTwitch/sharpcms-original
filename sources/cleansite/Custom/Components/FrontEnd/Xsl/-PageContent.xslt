@@ -18,7 +18,7 @@
             <xsl:value-of select="//data/attributes/pageroot" />
             <xsl:text>/</xsl:text>
             <xsl:value-of select="/data/contentplace/page/attributes/name" />
-            <xsl:text>.aspx?e=</xsl:text>
+            <xsl:text>/?e=</xsl:text>
             <xsl:text>element_</xsl:text>
             <xsl:number count="container" />
             <xsl:text>_</xsl:text>

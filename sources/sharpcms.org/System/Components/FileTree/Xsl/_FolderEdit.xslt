@@ -45,7 +45,7 @@
         <xsl:attribute name="href">
           <xsl:text>javascript:ModalDialogShow('</xsl:text>
           <xsl:value-of select="/data/basepath" />
-          <xsl:text>/default.aspx?process=admin/choose/folder','ReturnMethodMoveFolder()');</xsl:text>
+          <xsl:text>/?process=admin/choose/folder','ReturnMethodMoveFolder()');</xsl:text>
         </xsl:attribute>
         <xsl:text>Move folder</xsl:text>
       </a>

@@ -49,7 +49,7 @@
     <xsl:text>','admin/file/edit/folder/</xsl:text>
     <xsl:value-of select="$current-path" />
     <xsl:value-of select="@name" />
-    <xsl:text>.aspx','','','System/Components/Admin/Icons/Tree/folder.gif');</xsl:text>
+    <xsl:text>/','','','System/Components/Admin/Icons/Tree/folder.gif');</xsl:text>
 		<xsl:apply-templates mode="filetree" select="*">
 			<xsl:with-param name="current-path">
         <xsl:value-of select="$current-path" />
@@ -72,6 +72,6 @@
     <xsl:text>','admin/file/edit/file/</xsl:text>
     <xsl:value-of select="$current-path" />
     <xsl:value-of select="@name" />
-    <xsl:text>.aspx','','');</xsl:text>
+    <xsl:text>/','','');</xsl:text>
 	</xsl:template>
 </xsl:stylesheet>

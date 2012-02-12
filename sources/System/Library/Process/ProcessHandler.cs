@@ -70,8 +70,8 @@ namespace Sharpcms.Library.Process
                     }
                     else
                     {
-                        string redirectUrl = string.Format("login.aspx?redirect={0}", process.CurrentProcess);
-                        process.HttpPage.Response.Redirect(redirectUrl); // ToDo: is this the way to do it (old)
+                        string redirectUrl = string.Format("login/?redirect={0}", process.CurrentProcess);
+                        process.HttpPage.Response.Redirect(redirectUrl); // ToDo: is this the way to do it
                     }
                 }
             }

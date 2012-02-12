@@ -170,7 +170,7 @@
         <xsl:attribute name="href">
           <xsl:if test="@path">
             <xsl:value-of select="@path" />
-            <xsl:text>.aspx</xsl:text>
+            <xsl:text>/</xsl:text>
           </xsl:if>
           <xsl:if test="@javascript">
             <xsl:text>javascript:</xsl:text>

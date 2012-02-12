@@ -195,7 +195,7 @@ namespace Sharpcms.Providers.ErrorLog
                 }
 
                 redirected = true;
-                Process.HttpPage.Response.Redirect(frontPage + ".aspx");
+                Process.HttpPage.Response.Redirect(frontPage + "/");
             }
 
             if (!redirected)

@@ -25,10 +25,10 @@
               <xsl:choose>
                 <xsl:when test="/data/query/other/redirect and not(/data/query/other/redirect = '')">
                   <xsl:value-of select="/data/query/other/redirect" />
-                  <xsl:text>.aspx</xsl:text>
+                  <xsl:text>/</xsl:text>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:text>admin.aspx</xsl:text>
+                  <xsl:text>admin/</xsl:text>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:attribute>

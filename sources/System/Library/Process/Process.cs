@@ -27,7 +27,7 @@ namespace Sharpcms.Library.Process
         private string _currentProcess = string.Empty;
         private Settings _settings;
         private Dictionary<string, string> _variables;
-        public string MainTemplate; //ToDo: this should be more logical (old)
+        public string MainTemplate; //ToDo: this should be more logical
         public bool OutputHandledByModule;
 
         public Process(Page httpPage, PluginServices pluginServices)
@@ -82,11 +82,11 @@ namespace Sharpcms.Library.Process
                 {
                     if (_settings != null && _settings["messages/loginerror"] != string.Empty)
                     {
-                        httpPage.Response.Redirect(BasePath + "/login.aspx?error=" + httpPage.Server.UrlEncode(_settings["messages/loginerror"]) + "&redirect=" + QueryOther["process"]);
+                        httpPage.Response.Redirect(BasePath + "/login/?error=" + httpPage.Server.UrlEncode(_settings["messages/loginerror"]) + "&redirect=" + QueryOther["process"]);
                     }
                     else
                     {
-                        httpPage.Response.Redirect(BasePath + "/login.aspx?redirect=" + QueryOther["process"]);
+                        httpPage.Response.Redirect(BasePath + "/login/?redirect=" + QueryOther["process"]);
                     }
                 }
             }
@@ -110,8 +110,7 @@ namespace Sharpcms.Library.Process
         }
 
         public string RedirectUrl { get; set; }
-
-
+        
         private bool DebugEnabled
         {
             get { return (HttpPage.Session["enabledebug"] != null && HttpPage.Session["enabledebug"].ToString() == "true"); }
@@ -291,12 +290,12 @@ namespace Sharpcms.Library.Process
 
         public string GetUrl(string process)
         {
-            return string.Format("{0}/{1}.aspx", BasePath, process);
+            return string.Format("{0}/{1}", BasePath, process);
         }
 
         public string GetUrl(string process, string querystring)
         {
-            return string.Format("{0}/{1}.aspx{2}", BasePath, process, querystring);
+            return string.Format("{0}/{1}{2}", BasePath, process, querystring);
         }
 
         private IEnumerable<string> History()

@@ -20,7 +20,7 @@
       <xsl:if test="/data/query/events/mainvalue='openwindow'">
         <xsl:text>open_window ('show/</xsl:text>
         <xsl:value-of select="attributes/pageidentifier" />
-        <xsl:text>.aspx', 'showwebsite');</xsl:text>
+        <xsl:text>/', 'showwebsite');</xsl:text>
       </xsl:if>
     </script>
     <input type="hidden" name="data_pageidentifier">
@@ -83,10 +83,10 @@
         <option value="ThrowEvent('pagemovebottom','{attributes/pageidentifier}');">
           <xsl:text>&#160;&#160;Move Bottom</xsl:text>
         </option>
-        <option value="ModalDialogShow('{/data/basepath}/admin/choose/page.aspx', 'movePage()');">
+        <option value="ModalDialogShow('{/data/basepath}/admin/choose/page/', 'movePage()');">
           <xsl:text>&#160;&#160;Move To</xsl:text>
         </option>
-        <option value="ModalDialogShow('{/data/basepath}/admin/choose/page.aspx', 'copyPage()');">
+        <option value="ModalDialogShow('{/data/basepath}/admin/choose/page/', 'copyPage()');">
           <xsl:text>&#160;&#160;Copy To</xsl:text>
         </option>
         <option disabled="disabled" />
@@ -179,7 +179,13 @@
         <xsl:number level="any" />
       </xsl:attribute>
       <div class="menu container_menu">
-        <a class="button">
+        <a>
+          <xsl:attribute name="class">
+            <xsl:text>button delete</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="title">
+            <xsl:text>This will remove the container</xsl:text>
+          </xsl:attribute>
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEventConfirm('pageremovecontainer','</xsl:text>
             <xsl:number count="container" />
@@ -552,7 +558,7 @@
         <xsl:attribute name="href">
           <xsl:text>javascript:ModalDialogShow('</xsl:text>
           <xsl:value-of select="/data/basepath" />
-          <xsl:text>/default.aspx?process=admin/choose/page','ReturnMethod</xsl:text>
+          <xsl:text>/?process=admin/choose/page','ReturnMethod</xsl:text>
           <xsl:value-of select="$id" />
           <xsl:text>_</xsl:text>
           <xsl:value-of select="@attribute" />
@@ -591,7 +597,7 @@
         <xsl:attribute name="href">
           <xsl:text>javascript:ModalDialogShow('</xsl:text>
           <xsl:value-of select="/data/basepath" />
-          <xsl:text>/default.aspx?process=admin/choose/file','ReturnMethod</xsl:text>
+          <xsl:text>/?process=admin/choose/file','ReturnMethod</xsl:text>
           <xsl:value-of select="$id" />
           <xsl:text>_</xsl:text>
           <xsl:value-of select="@attribute" />
@@ -617,7 +623,7 @@
     </label>
     <div class="item">
       <input type="text" name="{$id}_{@attribute}" value="{$currentelement/*[name()=$attribute]}" />
-      <a class="button" href="javascript:ModalDialogShow('{/data/basepath}/default.aspx?process=admin/choose/folder','ReturnMethod{$id}_{@attribute}()');">
+      <a class="button" href="javascript:ModalDialogShow('{/data/basepath}/?process=admin/choose/folder','ReturnMethod{$id}_{@attribute}()');">
         <xsl:text>Choose</xsl:text>
       </a>
     </div>
@@ -778,7 +784,10 @@
         </a>
         <a>
           <xsl:attribute name="class">
-            <xsl:text>button</xsl:text>
+            <xsl:text>button delete</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="title">
+            <xsl:text>delete the element</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="href">
             <xsl:text>javascript:ThrowEventConfirm('remove','element-</xsl:text>

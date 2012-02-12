@@ -185,7 +185,7 @@ namespace Sharpcms.Providers.Base
                     if (!string.IsNullOrEmpty(frontPage))
                     {
                         redirected = true;
-                        Process.HttpPage.Response.Redirect(frontPage + ".aspx");
+                        Process.HttpPage.Response.Redirect(frontPage + "/");
                     }
                 }
             }

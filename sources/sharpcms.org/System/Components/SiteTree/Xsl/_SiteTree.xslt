@@ -69,7 +69,7 @@
     </span>
     <xsl:text>', 'admin/page/edit/</xsl:text>
     <xsl:value-of select="sharpcms:Escape($current-path)" />
-    <xsl:text>.aspx', '', '');</xsl:text>
+    <xsl:text>/', '', '');</xsl:text>
     <xsl:text> </xsl:text>
     <xsl:for-each select="*">
       <xsl:call-template name="SiteTreeElement">

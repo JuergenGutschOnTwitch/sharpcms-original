@@ -23,7 +23,7 @@
 								<xsl:value-of select="//data/attributes/pageroot" />
 								<xsl:text>/</xsl:text>
 								<xsl:value-of select="name()" />
-								<xsl:text>.aspx</xsl:text>
+								<xsl:text>/</xsl:text>
 							</xsl:attribute>
 							<span>
 								<xsl:value-of select="@menuname" />
@@ -44,7 +44,7 @@
               </xsl:attribute>
               <xsl:attribute name="href">
                 <xsl:value-of select="/data/basepath" />
-                <xsl:text>/admin.aspx</xsl:text>
+                <xsl:text>/admin/</xsl:text>
               </xsl:attribute>
               <span>Administation</span>
               <span class="hide"> | </span>

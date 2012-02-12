@@ -21,7 +21,7 @@
           <li>
             <a>
               <xsl:attribute name="href">
-                <xsl:text>default.aspx?process=admin/user/</xsl:text>
+                <xsl:text>/admin/user/</xsl:text>
                 <xsl:value-of select="login" />
               </xsl:attribute>
               <xsl:value-of select="login" />
