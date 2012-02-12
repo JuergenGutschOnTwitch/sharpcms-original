@@ -23,12 +23,12 @@ namespace Sharpcms.Library.Common
         {
             var includes = new List<string>();
 
-            var doc = new XmlDocument();
-            doc.Load(xsl);
+            var xmlDocument = new XmlDocument();
+            xmlDocument.Load(xsl);
 
-            var manager = new XmlNamespaceManager(doc.NameTable);
+            var manager = new XmlNamespaceManager(xmlDocument.NameTable);
             manager.AddNamespace("xsl", "http://www.w3.org/1999/XSL/Transform");
-            XmlNodeList nodeList = doc.SelectNodes("//xsl:include", manager);
+            XmlNodeList nodeList = xmlDocument.SelectNodes("//xsl:include", manager);
             if (nodeList != null)
             {
                 foreach (XmlNode node in nodeList)
