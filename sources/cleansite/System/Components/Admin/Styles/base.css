@@ -68,16 +68,8 @@ b {
     float: left;
     margin-bottom: 10px;
     min-height: 220px;
-    padding: 10px;
-    width: 200px;
-}
-
-.tree ul {
-    padding-left: 20px;
-}
-
-.tree ul li {
-    padding-top: 5px;
+    padding: 5px;
+    width: 210px;
 }
 
 

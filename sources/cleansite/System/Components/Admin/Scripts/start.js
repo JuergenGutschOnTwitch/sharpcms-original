@@ -23,4 +23,9 @@
     
     // Select
     //$('select').selectmenu();
+
+    // TreeView (Pages)
+    $("#pages").treeview({
+        collapsed: true
+    });
 });
