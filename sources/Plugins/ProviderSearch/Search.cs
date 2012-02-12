@@ -142,7 +142,7 @@ namespace Sharpcms.Providers.Search
             Analyzer analyzer = new StandardAnalyzer();
 
             // parse the query, "text" is the default field to search
-            Lucene.Net.Search.Query query = QueryParser.Parse(_searchQuery, "text", analyzer);
+            var query = QueryParser.Parse(_searchQuery, "text", analyzer);
 
             const string containerName = "content";
             Container container = _currentPage.Containers[containerName];
@@ -290,7 +290,8 @@ namespace Sharpcms.Providers.Search
         {
             try
             {
-                int sa = Convert.ToInt32(_startAt);
+                int startAt = Convert.ToInt32(_startAt);
+
                 // too small starting item, return first page
                 if (_startAt < 0)
                 {
@@ -298,11 +299,7 @@ namespace Sharpcms.Providers.Search
                 }
 
                 // too big starting item, return last page
-                if (_startAt >= _total - 1)
-                {
-                    return LastPageStartsAt;
-                }
-                return sa;
+                return _startAt >= _total - 1 ? LastPageStartsAt : startAt;
             }
             catch
             {
