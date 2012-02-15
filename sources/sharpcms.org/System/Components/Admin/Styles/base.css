@@ -68,16 +68,19 @@ b {
     float: left;
     margin-bottom: 10px;
     min-height: 220px;
-    padding: 10px;
-    width: 200px;
+    padding: 5px;
+    width: 210px;
 }
 
-.tree ul {
-    padding-left: 20px;
+.treeview span,
+.treeview span.hover {
+    color: #486c82;
 }
 
-.tree ul li {
-    padding-top: 5px;
+.treeview span.hover,
+.treeview a:hover span,
+.treeview a.selected span {
+    text-decoration: underline
 }
 
 
@@ -110,6 +113,22 @@ b {
 
 .bottom {
     
+}
+
+
+/*************************************************************************/
+/*                                                        AdminMenu (base)
+/*************************************************************************/
+.adminmenu {
+    margin-bottom: 6px;
+}
+
+.adminmenu a {
+    color: #486c82;
+}
+
+.adminmenu a:hover {
+    text-decoration: underline;
 }
 
 

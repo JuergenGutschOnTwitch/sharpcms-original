@@ -11,15 +11,15 @@
   tinymce.create('tinymce.plugins.SharpcmsChooserPlugin', {
     init: function(ed, url) {
       ed.addCommand('mceInsertLink', function() {
-        ModalDialogShow(basePath + '/default.aspx?process=admin/choose/page', 'ReturnMethodChoosePage()');
+        ModalDialogShow(basePath + '/admin/choose/page', 'ReturnMethodChoosePage()');
       });
 
       ed.addCommand('mceInsertFileLink', function() {
-        ModalDialogShow(basePath + '/default.aspx?process=admin/choose/file', 'ReturnMethodChooseFile()');
+        ModalDialogShow(basePath + '/admin/choose/file', 'ReturnMethodChooseFile()');
       });
 
       ed.addCommand('mceInsertPicture', function() {
-        ModalDialogShow(basePath + '/default.aspx?process=admin/choose/file', 'ReturnMethodChoosePicture()');
+        ModalDialogShow(basePath + '/admin/choose/file', 'ReturnMethodChoosePicture()');
       });
 
       ed.addButton('sharpcmslinkchooser', { title: 'insert Link', cmd: 'mceInsertLink', image: url + '/img/internal_link.png' });
@@ -36,13 +36,13 @@
     },
 
     getInfo: function() {
-			return {
-			  longname: 'sharpcms Chooser',
-				author: 'Thomas Huber',
-				authorurl: 'http://www.klickflupp.ch',
-				infourl: 'http://www.sharpcms.org',
-				version: "1.0"
-			};
+        return {
+            longname: 'sharpcms Chooser',
+            author: 'Thomas Huber',
+            authorurl: 'http://www.klickflupp.ch',
+            infourl: 'http://www.sharpcms.org',
+            version: '1.0'
+        };
     }
   });
 
@@ -51,21 +51,21 @@
 })();
 
 function ReturnMethodChoosePage() {
-    var html = "<a href=\"show/" + ModalDialog.value + ".aspx\">{$selection}</a>";
+    var html = "<a href=\"show/" + ModalDialog.value + "/\">{$selection}</a>";
     tinyMCE.execCommand('mceReplaceContent', false, html);
     tinyMCEPopup.close();
     ModalDialogRemoveWatch();
 }
 
 function ReturnMethodChooseFile() {
-    var html = "<a href=\"download/" + ModalDialog.value + ".aspx?download=true\">{$selection}</a>";
+    var html = "<a href=\"download/" + ModalDialog.value + "/?download=true\">{$selection}</a>";
     tinyMCE.execCommand('mceReplaceContent', false, html);
     tinyMCEPopup.close();
     ModalDialogRemoveWatch();
 }
 
 function ReturnMethodChoosePicture() {
-    var html = "<img src=\"" + basePath + "/download/" + ModalDialog.value + ".aspx?\" />";
+    var html = "<img src=\"" + basePath + "/download/" + ModalDialog.value + "/?\" />";
     tinyMCE.execCommand('mceInsertContent', false, html);
     tinyMCEPopup.close();
     ModalDialogRemoveWatch();

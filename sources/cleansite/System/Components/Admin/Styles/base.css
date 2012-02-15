@@ -72,6 +72,17 @@ b {
     width: 210px;
 }
 
+.treeview span,
+.treeview span.hover {
+    color: #486c82;
+}
+
+.treeview span.hover,
+.treeview a:hover span,
+.treeview a.selected span {
+    text-decoration: underline
+}
+
 
 /*************************************************************************/
 /*                                                             Menu (base)
@@ -102,6 +113,22 @@ b {
 
 .bottom {
     
+}
+
+
+/*************************************************************************/
+/*                                                        AdminMenu (base)
+/*************************************************************************/
+.adminmenu {
+    margin-bottom: 6px;
+}
+
+.adminmenu a {
+    color: #486c82;
+}
+
+.adminmenu a:hover {
+    text-decoration: underline;
 }
 
 

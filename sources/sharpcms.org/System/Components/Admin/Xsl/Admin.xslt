@@ -16,7 +16,12 @@
   <xsl:template match="/">
     <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
-        <base href="{/data/basepath}/" />
+        <base>
+          <xsl:attribute name="href">
+            <xsl:value-of select="/data/basepath" />
+            <xsl:text>/</xsl:text>
+          </xsl:attribute>
+        </base>
         <script type="text/javascript">
           <xsl:text>var basePath = '</xsl:text>
           <xsl:value-of select="/data/basepath" />
@@ -31,9 +36,9 @@
           </xsl:if>
         </title>
         <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/tree/dtree.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.custom.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery.ui.selectmenu.js" />
+        <!--<link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/selectmenu/jquery.ui.selectmenu.css" />-->
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.sharpcms.css" />
         <!--[if IE 7]>
 	      <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/ie.css" />
@@ -47,16 +52,16 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.url.packed.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.ui.selectmenu.js">
+        <!--<script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.ui.selectmenu.js">
           <xsl:text> </xsl:text>
-        </script>
+        </script>-->
         <script type="text/javascript" src="/System/Components/Admin/Scripts/tiny_mce/jquery.tinymce.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/start.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/treeview/jquery.treeview.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/tree/dtree.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/admin.xslt.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/modal.js">

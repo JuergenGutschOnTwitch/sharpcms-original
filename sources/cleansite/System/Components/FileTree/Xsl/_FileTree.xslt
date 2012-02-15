@@ -26,52 +26,62 @@
       </a>
     </div>
     <div class="tree tree_body">
-		  <script type="text/javascript">
-        <xsl:text>filetree = new dTree('filetree',true);</xsl:text>
-			  <xsl:apply-templates mode="filetree" select="folder/*">
-				  <xsl:with-param name="current-path" ></xsl:with-param>
-				  <xsl:with-param name="parent" select="-1" />
-			  </xsl:apply-templates>
-        <xsl:text>document.write(filetree);</xsl:text>
-		  </script>
-	  </div>
+      <ul id="pages" class="filetree">
+        <xsl:apply-templates mode="filetree" select="folder/*">
+          <xsl:with-param name="current-path" />
+        </xsl:apply-templates>
+      </ul>
+    </div>
 	</xsl:template>
-	
-	<xsl:template mode="filetree" match="folder">
+
+  <xsl:template mode="filetree" match="folder">
 		<xsl:param name="current-path" />
-		<xsl:param name="parent" />
-    <xsl:text>filetree.add(</xsl:text>
-    <xsl:value-of select="($parent*-200)+position()" />
-    <xsl:text>,</xsl:text>
-				<xsl:value-of select="$parent" />
-    <xsl:text>,'</xsl:text>
-    <xsl:value-of select="@name" />
-    <xsl:text>','admin/file/edit/folder/</xsl:text>
-    <xsl:value-of select="$current-path" />
-    <xsl:value-of select="@name" />
-    <xsl:text>/','','','System/Components/Admin/Icons/Tree/folder.gif');</xsl:text>
-		<xsl:apply-templates mode="filetree" select="*">
-			<xsl:with-param name="current-path">
-        <xsl:value-of select="$current-path" />
-        <xsl:value-of select="@name" />
-        <xsl:text>/</xsl:text>
-      </xsl:with-param>
-			<xsl:with-param name="parent" select="($parent*-200)+position()" />
-		</xsl:apply-templates>
+    <li>
+      <a>
+        <xsl:attribute name="href">
+          <xsl:text>/admin/file/edit/folder/</xsl:text>
+          <xsl:value-of select="$current-path" />
+          <xsl:value-of select="@name" />
+          <xsl:text>/</xsl:text>
+        </xsl:attribute>
+        <span>
+          <xsl:attribute name="class">
+            <xsl:text>folder</xsl:text>
+          </xsl:attribute>
+          <xsl:value-of select="@name" />
+        </span>
+      </a>
+      <xsl:if test="*">
+        <ul>
+          <xsl:apply-templates mode="filetree" select="*">
+            <xsl:with-param name="current-path">
+              <xsl:value-of select="$current-path" />
+              <xsl:value-of select="@name" />
+              <xsl:text>/</xsl:text>
+            </xsl:with-param>
+          </xsl:apply-templates>
+        </ul>
+      </xsl:if>
+    </li>
 	</xsl:template>
 	
 	<xsl:template mode="filetree" match="file">
-		<xsl:param name="current-path" />
-		<xsl:param name="parent" />
-    <xsl:text>filetree.add(</xsl:text>
-    <xsl:value-of select="($parent*-200)+position()" />
-    <xsl:text>,</xsl:text>
-		<xsl:value-of select="$parent" />
-    <xsl:text>,'</xsl:text>
-    <xsl:value-of select="@name" />
-    <xsl:text>','admin/file/edit/file/</xsl:text>
-    <xsl:value-of select="$current-path" />
-    <xsl:value-of select="@name" />
-    <xsl:text>/','','');</xsl:text>
+    <xsl:param name="current-path" />
+    <li>
+      <a>
+        <xsl:attribute name="href">
+          <xsl:text>/admin/file/edit/file/</xsl:text>
+          <xsl:value-of select="$current-path" />
+          <xsl:value-of select="@name" />
+          <xsl:text>/</xsl:text>
+        </xsl:attribute>
+        <span>
+          <xsl:attribute name="class">
+            <xsl:text>file</xsl:text>
+          </xsl:attribute>
+          <xsl:value-of select="@name" />
+        </span>
+      </a>
+    </li>
 	</xsl:template>
 </xsl:stylesheet>

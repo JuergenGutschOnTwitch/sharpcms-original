@@ -18,13 +18,19 @@
         <title>
           <xsl:text>Choose</xsl:text>
         </title>
-        <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="StyleSheet" href="System/Components/Admin/Scripts/tree/dtree.css" />
-        <script type="text/javascript" src="System/Components/Admin/Scripts/tree/dtree.js">
-          <xsl:text>alert('There is something wrong.');</xsl:text>
+        <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/base.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.1.min.js">
+          <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="System/Components/Admin/Scripts/modal.js">
-          <xsl:text>alert('There is something wrong.');</xsl:text>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/treeview/jquery.treeview.js">
+          <xsl:text> </xsl:text>
+        </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/choose.xslt.js">
+          <xsl:text> </xsl:text>
+        </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/modal.js">
+          <xsl:text> </xsl:text>
         </script>
       </head>
       <body>

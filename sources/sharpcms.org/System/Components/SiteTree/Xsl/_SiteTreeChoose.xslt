@@ -4,46 +4,55 @@
   <xsl:output method="html" />
 
   <xsl:template mode="choose" match="sitetree">
-    <div class="dtree">
-      <script type="text/javascript">
-        <xsl:text>sitetreechoose = new dTree('sitetreechoose',false);</xsl:text>
-        <xsl:for-each select="*">
-          <xsl:call-template name="SiteTreeElementChoose">
-            <xsl:with-param name="current-path">
-              <xsl:value-of select="name()" />
-            </xsl:with-param>
-            <xsl:with-param name="number" select="position()" />
-            <xsl:with-param name="parent" >-1</xsl:with-param>
-          </xsl:call-template>
-        </xsl:for-each>
-        <xsl:text>document.write(sitetreechoose);</xsl:text>
-      </script>
-    </div>
+    <ul id="pages" class="filetree">
+      <xsl:for-each select="*">
+        <xsl:call-template name="SiteTreeElementChoose">
+          <xsl:with-param name="current-path">
+            <xsl:value-of select="name()" />
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:for-each>
+    </ul>
   </xsl:template>
 
   <xsl:template name ="SiteTreeElementChoose">
     <xsl:param name="current-path" />
-    <xsl:param name="number" />
-    <xsl:param name="parent" />
-    <xsl:text>sitetreechoose.add(</xsl:text>
-    <xsl:value-of select="$number" />
-    <xsl:text>,</xsl:text>
-    <xsl:value-of select="$parent" />
-    <xsl:text>,'</xsl:text>
-    <xsl:value-of select="name()" />
-    <xsl:text>','javascript:CloseForm(\'</xsl:text>
-    <xsl:value-of select="$current-path" />
-    <xsl:text>\')','','');</xsl:text>
-    <xsl:for-each select="*">
-      <xsl:call-template name="SiteTreeElementChoose">
-        <xsl:with-param name="current-path">
+    <li>
+      <a>
+        <xsl:attribute name="href">
+          <xsl:text>javascript:CloseForm('</xsl:text>
           <xsl:value-of select="$current-path" />
-          <xsl:text>/</xsl:text>
-          <xsl:value-of select="name()" />
-        </xsl:with-param>
-        <xsl:with-param name="parent" select="$number" />
-        <xsl:with-param name="number" select="($number*-200)+position()" />
-      </xsl:call-template>
-    </xsl:for-each>
+          <xsl:text>');</xsl:text>
+        </xsl:attribute>
+        <span>
+          <xsl:choose>
+            <xsl:when test="*">
+              <xsl:attribute name="class">
+                <xsl:text>folder</xsl:text>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="class">
+                <xsl:text>file</xsl:text>
+              </xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="@menuname" />
+        </span>
+      </a>
+      <xsl:if test="*">
+        <ul>
+          <xsl:for-each select="*">
+            <xsl:call-template name="SiteTreeElementChoose">
+              <xsl:with-param name="current-path">
+                <xsl:value-of select="$current-path" />
+                <xsl:text>/</xsl:text>
+                <xsl:value-of select="name()" />
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+        </ul>
+      </xsl:if>
+    </li>
   </xsl:template>
 </xsl:stylesheet>

@@ -37,7 +37,7 @@
       </a>
       <a class="button">
         <xsl:attribute name="href">
-          <xsl:text>default.aspx?process=download/</xsl:text>
+          <xsl:text>/?process=download/</xsl:text>
           <xsl:value-of select="@path" />&amp;download=true
         </xsl:attribute>
         <xsl:text>Download file</xsl:text>
@@ -46,7 +46,7 @@
         <xsl:attribute name="href">
           <xsl:text>javascript:ModalDialogShow('</xsl:text>
           <xsl:value-of select="/data/basepath" />
-          <xsl:text>/default.aspx?process=admin/choose/folder','ReturnMethodMoveFile()');</xsl:text>
+          <xsl:text>/admin/choose/folder','ReturnMethodMoveFile()');</xsl:text>
         </xsl:attribute>
         <xsl:text>Move file</xsl:text>
       </a>
