@@ -59,7 +59,7 @@ $(document).ready(function () {
 
 
 
-    $('a.button').click(function () {
+    $('a.expand').click(function () {
         var id = this.id;
         if (id != '') {
             if ($('#' + id + '_body').is(':hidden')) {
@@ -72,7 +72,7 @@ $(document).ready(function () {
         }
     });
 
-    $('a.button')
+    $('a.expand')
         .filter('#pada_vs').click(function () {
             if ($('#pada_body').is(':hidden')) {
                 $('#pada_body').slideDown('fast');
