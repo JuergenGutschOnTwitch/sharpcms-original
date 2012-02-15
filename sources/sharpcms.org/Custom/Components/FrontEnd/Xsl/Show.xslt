@@ -102,7 +102,7 @@
                               <a>
                                 <xsl:attribute name="href">
                                   <xsl:value-of select="/data/basepath" />
-                                  <xsl:text>/login.aspx</xsl:text>
+                                  <xsl:text>/login/</xsl:text>
                                   <xsl:if test="/data/attributes/pagepath != ''">
                                     <xsl:text>?redirect=show/</xsl:text>
                                     <xsl:value-of select="/data/attributes/pagepath" />
@@ -117,25 +117,25 @@
                         <!-- End Login (english) -->
 
                         <li>
-                          <a href="show/german/about.aspx">
+                          <a href="show/german/about/">
                             <span>German</span>
                             <span class="hide"> | </span>
                           </a>
                         </li>
                         <li>
-                          <a href="show/english/imprint.aspx">
+                          <a href="show/english/imprint/">
                             <span>Imprint</span>
                             <span class="hide"> | </span>
                           </a>
                         </li>
                         <li>
-                          <a href="show/english/imprint/sitemap.aspx">
+                          <a href="show/english/imprint/sitemap/">
                             <span>Sitemap</span>
                             <span class="hide"> | </span>
                           </a>
                         </li>
                         <li>
-                          <a href="show/english/imprint/contact.aspx">
+                          <a href="show/english/imprint/contact/">
                             <span>Contact</span>
                             <span class="hide"> | </span>
                           </a>
@@ -154,7 +154,7 @@
                               <a>
                                 <xsl:attribute name="href">
                                   <xsl:value-of select="/data/basepath" />
-                                  <xsl:text>/login.aspx</xsl:text>
+                                  <xsl:text>/login/</xsl:text>
                                   <xsl:if test="/data/attributes/pagepath != ''">
                                     <xsl:text>?redirect=show/</xsl:text>
                                     <xsl:value-of select="/data/attributes/pagepath" />
@@ -169,25 +169,25 @@
                         <!-- End Login (german) -->
 
                         <li>
-                          <a href="show/english/about.aspx">
+                          <a href="show/english/about/">
                             <span>English</span>
                             <span class="hide"> | </span>
                           </a>
                         </li>
                         <li>
-                          <a href="show/german/imprint.aspx">
+                          <a href="show/german/imprint/">
                             <span>Impressum</span>
                             <span class="hide"> | </span>
                           </a>
                         </li>
                         <li>
-                          <a href="show/german/imprint/sitemap.aspx">
+                          <a href="show/german/imprint/sitemap/">
                             <span>Sitemap</span>
                             <span class="hide"> | </span>
                           </a>
                         </li>
                         <li>
-                          <a href="show/german/imprint/contact.aspx">
+                          <a href="show/german/imprint/contact/">
                             <span>Kontakt</span>
                             <span class="hide"> | </span>
                           </a>
@@ -273,15 +273,15 @@
                 <p>
                   <xsl:choose>
                     <xsl:when test="contains(//data/attributes/pageroot, 'english')">
-                      <a href="show/english/about.aspx">Start</a> | <a href="show/english/imprint.aspx">Imprint</a> | <a href="show/english/imprint/sitemap.aspx">Sitemap</a> | <a href="show/english/imprint/contact.aspx">Contact</a>
+                      <a href="show/english/about/">Start</a> | <a href="show/english/imprint/">Imprint</a> | <a href="show/english/imprint/sitemap/">Sitemap</a> | <a href="show/english/imprint/contact/">Contact</a>
                     </xsl:when>
                     <xsl:otherwise>
-                      <a href="show/german/about.aspx">Start</a> | <a href="show/german/imprint.aspx">Impressum</a> | <a href="show/german/imprint/sitemap.aspx">Sitemap</a> | <a href="show/german/imprint/contact.aspx">Kontakt</a>
+                      <a href="show/german/about/">Start</a> | <a href="show/german/imprint/">Impressum</a> | <a href="show/german/imprint/sitemap/">Sitemap</a> | <a href="show/german/imprint/contact/">Kontakt</a>
                     </xsl:otherwise>
                   </xsl:choose>
                 </p>
                 <p>
-                  <xsl:text>Powered by</xsl:text>
+                  <xsl:text>Powered by </xsl:text>
                   <a href="http://www.gutsch-online.de/" target="_blank">www.gutsch-online.de</a> and <a href="http://www.klickflupp.ch/" target="_blank">www.klickflupp.ch</a>
                 </p>
                 <div class="clear">

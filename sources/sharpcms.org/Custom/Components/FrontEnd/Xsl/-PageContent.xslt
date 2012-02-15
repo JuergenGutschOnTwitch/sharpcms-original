@@ -18,7 +18,7 @@
             <xsl:value-of select="//data/attributes/pageroot" />
             <xsl:text>/</xsl:text>
             <xsl:value-of select="/data/contentplace/page/attributes/name" />
-            <xsl:text>.aspx?e=</xsl:text>
+            <xsl:text>/?e=</xsl:text>
             <xsl:text>element_</xsl:text>
             <xsl:number count="container" />
             <xsl:text>_</xsl:text>
@@ -72,7 +72,7 @@
 								<xsl:attribute name="href">
 									<xsl:text>show/</xsl:text>
 									<xsl:value-of select="@pageidentifier" />
-									<xsl:text>.aspx</xsl:text>
+									<xsl:text>/</xsl:text>
 								</xsl:attribute>
 								<xsl:value-of select="@pagename" />
 							</a>
@@ -88,7 +88,7 @@
 												<xsl:attribute name="href">
 													<xsl:text>show/</xsl:text>
 													<xsl:value-of select="@pageidentifier" />
-													<xsl:text>.aspx</xsl:text>
+													<xsl:text>/</xsl:text>
 												</xsl:attribute>
 												<xsl:value-of select="@pagename" />
 											</a>
@@ -104,7 +104,7 @@
 																<xsl:attribute name="href">
 																	<xsl:text>show/</xsl:text>
 																	<xsl:value-of select="@pageidentifier" />
-																	<xsl:text>.aspx</xsl:text>
+																	<xsl:text>/</xsl:text>
 																</xsl:attribute>
 																<xsl:value-of select="@pagename" />
 															</a>
@@ -120,7 +120,7 @@
 																				<xsl:attribute name="href">
 																					<xsl:text>show/</xsl:text>
 																					<xsl:value-of select="@pageidentifier" />
-																					<xsl:text>.aspx</xsl:text>
+																					<xsl:text>/</xsl:text>
 																				</xsl:attribute>
 																				<xsl:value-of select="@pagename" />
 																			</a>
@@ -186,7 +186,7 @@
 								</xsl:attribute>
 								<img>
 									<xsl:attribute name="src">
-										<xsl:text>default.aspx?process=download/</xsl:text>
+										<xsl:text>/?process=download/</xsl:text>
 										<xsl:value-of select="picture" />
 										<xsl:text>&amp;width=150</xsl:text>
 									</xsl:attribute>
@@ -199,7 +199,7 @@
 						<xsl:otherwise>
 							<img>
 								<xsl:attribute name="src">
-									<xsl:text>default.aspx?process=download/</xsl:text>
+									<xsl:text>/?process=download/</xsl:text>
 									<xsl:value-of select="picture" />
 									<xsl:text>&amp;height=150</xsl:text>
 								</xsl:attribute>
@@ -222,7 +222,7 @@
 		<xsl:if test="//data/query/data/picture">
 			<img>
 				<xsl:attribute name="src">
-					<xsl:text>default.aspx?process=download/</xsl:text>
+					<xsl:text>/?process=download/</xsl:text>
 					<xsl:value-of select="$path" />
 					<xsl:text>/</xsl:text>
 					<xsl:value-of select="//data/query/data/picture" />
@@ -234,14 +234,14 @@
 		<xsl:for-each select="folder/folder/file[@extension='.jpg']">
 			<a>
 				<xsl:attribute name="href">
-					<xsl:text>default.aspx?process=</xsl:text>
+					<xsl:text>/?process=</xsl:text>
 					<xsl:value-of select="//data/query/other/process" />
 					<xsl:text>&amp;data_picture=</xsl:text>
 					<xsl:value-of select="@name" />
 				</xsl:attribute>
 				<img border="0">
 					<xsl:attribute name="src">
-						<xsl:text>default.aspx?process=download/</xsl:text>
+						<xsl:text>/?process=download/</xsl:text>
 						<xsl:value-of select="$path" />
 						<xsl:text>/</xsl:text>
 						<xsl:value-of select="@name" />
@@ -256,7 +256,7 @@
     <xsl:if test="picture and not(picture='')">
 			<img>
 				<xsl:attribute name="src">
-					<xsl:text>default.aspx?process=download/</xsl:text>
+					<xsl:text>/?process=download/</xsl:text>
 					<xsl:value-of select="picture" />
 				</xsl:attribute>
 				<xsl:attribute name="style">
@@ -285,7 +285,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:attribute name="href">
-							<xsl:text>default.aspx?process=show/</xsl:text>
+							<xsl:text>/?process=show/</xsl:text>
 							<xsl:value-of select="link" />
 						</xsl:attribute>
 					</xsl:otherwise>
@@ -337,7 +337,7 @@
 			<p>
 				<img style="border:none 0px;">
 					<xsl:attribute name="src">
-						<xsl:text>default.aspx?process=download/</xsl:text>
+						<xsl:text>/?process=download/</xsl:text>
 						<xsl:value-of select="picture" />
 					</xsl:attribute>
 					<xsl:attribute name="alt">
@@ -394,7 +394,7 @@
     <form name="systemform" id="systemform" method="post" enctype="multipart/form-data">
 			<xsl:attribute name="action">
 				<xsl:value-of select="/data/query/other/process" />
-				<xsl:text disable-output-escaping="yes">.aspx</xsl:text>
+				<xsl:text disable-output-escaping="yes">/</xsl:text>
 			</xsl:attribute>
 
 			<script type="text/javascript">
@@ -548,7 +548,7 @@
 					<a>
 						<xsl:attribute name="href">
 							<xsl:value-of select="/data/query/other/process" />
-							<xsl:text>.aspx#</xsl:text>
+							<xsl:text>/#</xsl:text>
 							<xsl:value-of select="position()" />
 						</xsl:attribute>
 						<xsl:value-of select="question" />
@@ -594,7 +594,7 @@
 					<xsl:value-of select="/data/query/other/process" />
 					<xsl:text>/</xsl:text>
 					<xsl:value-of select="name()" />
-					<xsl:text>.aspx</xsl:text>
+					<xsl:text>/</xsl:text>
 				</xsl:attribute>
 				<xsl:value-of select="@pagename" />
 			</a>
@@ -608,7 +608,7 @@
 					<xsl:value-of select="/data/query/other/process" />
 					<xsl:text>/</xsl:text>
 					<xsl:value-of select="name()" />
-					<xsl:text>.aspx</xsl:text>
+					<xsl:text>/</xsl:text>
 				</xsl:attribute>
 				Read more
 			</a>

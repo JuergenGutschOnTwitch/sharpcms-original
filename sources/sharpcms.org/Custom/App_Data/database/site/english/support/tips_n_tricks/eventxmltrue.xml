@@ -20,7 +20,7 @@
           <offset>1 line</offset>
         </element>
         <element type="paragraph" publish="true" name="">
-          <text>&lt;p&gt;Instead of adding &amp;amp;event_xml=true or ?event_xml=true to your URLs all the time, download &lt;a href="default.aspx?process=download/files/downloads/view_xml.zip&amp;amp;download=true" target="_blank"&gt;this shortcut&lt;/a&gt; and add it to your toolbar in Internet Explorer.&lt;/p&gt;</text>
+          <text>&lt;p&gt;Instead of adding &amp;amp;event_xml=true or ?event_xml=true to your URLs all the time, download &lt;a href="/?process=download/files/downloads/view_xml.zip&amp;amp;download=true" target="_blank"&gt;this shortcut&lt;/a&gt; and add it to your toolbar in Internet Explorer.&lt;/p&gt;</text>
           <link></link>
           <picture></picture>
           <picturepos>Left</picturepos>

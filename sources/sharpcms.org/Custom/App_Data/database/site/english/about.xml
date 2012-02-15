@@ -21,8 +21,8 @@
         </element>
         <element type="paragraph" publish="true" name="">
           <text>&lt;h2&gt;News&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href="show/english/about/news.aspx"&gt;16/9/2008 - News about sharpcms&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href="show/english/about/news.aspx"&gt;8/26/2008 - Important news about sharpcms&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="show/english/about/news/"&gt;16/9/2008 - News about sharpcms&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="show/english/about/news/"&gt;8/26/2008 - Important news about sharpcms&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;</text>
           <link></link>
           <picture></picture>
