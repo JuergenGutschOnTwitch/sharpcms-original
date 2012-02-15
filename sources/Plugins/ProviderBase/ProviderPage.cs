@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
 using Sharpcms.Data.SiteTree;
@@ -30,7 +31,7 @@ namespace Sharpcms.Providers.Base
         /// Initializes a new instance of the <see cref="ProviderPage"/> class.
         /// </summary>
         /// <param name="process">The process.</param>
-        public ProviderPage(Process process)
+        public ProviderPage(Library.Process.Process process)
         {
             Process = process;
         }
@@ -163,7 +164,6 @@ namespace Sharpcms.Providers.Base
                 case "security":
                     LoadPageSecurity(control);
                     break;
-
             }
         }
 
@@ -263,16 +263,14 @@ namespace Sharpcms.Providers.Base
             string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('_');
             string elementType = Process.QueryData["container_" + elementParts[1]];
-            
-            currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Create(elementType, String.Empty, false);
+
+            int containerId = int.Parse(elementParts[1]);
+            int elementId = currentPage.Containers[containerId - 1].Elements.Count + 1;
+
+            currentPage.Containers[containerId - 1].Elements.Create(elementType, String.Empty, false);
             currentPage.Save();
 
-            // TODO THU: Only a try
-            string querystring = String.Format("?e=element_{0}_{1}", int.Parse(elementParts[1]), currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Count);
-            string redirectUrl = Process.GetUrl(Process.CurrentProcess, querystring);
-            
-            Process.RedirectUrl = (redirectUrl);
-            // TODO THU: Only a try
+            Process.RedirectUrl = GetRedirectUrl(containerId, elementId);
         }
 
         /// <summary>
@@ -280,9 +278,43 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleAddPage()
         {
-            string path = Process.QueryEvents["mainvalue"];
-            string[] pathSplit = path.Split('*');
-            new SiteTree(Process).Create(pathSplit[0], pathSplit[1], pathSplit[1]);
+            var mainvalue = Process.QueryEvents["mainvalue"];
+            var pathSplit = mainvalue.Split('*');
+            var path = pathSplit[0];
+            var pageName = pathSplit[1];
+            
+            var siteTree = new SiteTree(Process);
+            siteTree.Create(path, pageName, pageName);
+
+            Process.RedirectUrl = GetRedirectUrl(String.Format("{0}/{1}", path, pageName));
+        }
+
+        /// <summary>
+        /// Gets the redirect URL.
+        /// </summary>
+        /// <param name="containerId">The container id.</param>
+        /// <param name="elementId">The element id.</param>
+        /// <returns></returns>
+        private string GetRedirectUrl(int containerId, int elementId)
+        {
+            string queryString = string.Empty;
+
+            if (containerId > 0 && elementId > 0)
+            {
+                queryString = String.Format("?e=element_{0}_{1}", containerId, elementId);
+            }
+
+            return Process.GetUrl(Process.CurrentProcess, queryString);
+        }
+
+        /// <summary>
+        /// Gets the redirect URL.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
+        private string GetRedirectUrl(string path)
+        {
+            return Process.GetUrl(String.Format("admin/page/edit/{0}/", path));
         }
 
         /// <summary>
@@ -454,14 +486,17 @@ namespace Sharpcms.Providers.Base
         private void LoadPageStatus(ControlList control)
         {
             XmlNode xmlNode = Process.Settings.GetAsNode("sitetree/pagestatus");
+
             control["pagestatus"] = xmlNode;
         }
-        
+
+        /// <summary>
+        /// Loads the page security.
+        /// </summary>
+        /// <param name="control">The control.</param>
         private void LoadPageSecurity(ControlList control)
         {
-
             var users = new Users(Process);
-
             var userList = new List<User>();
             var groupList = new List<Group>();
             for (int i = 0; i < users.UserList.Count; i++)
@@ -472,6 +507,7 @@ namespace Sharpcms.Providers.Base
                     userList.Add(user);
                 }
             }
+
             for (int i = 0; i < users.GroupList.Count; i++)
             {
                 Group group = users.GroupList[i];
@@ -480,8 +516,7 @@ namespace Sharpcms.Providers.Base
                     groupList.Add(group);
                 }
             }
-
-
+            
             XmlNode security = Process.XmlData.CreateElement("security");
 
             XmlNode xusers = Process.XmlData.CreateElement("users");
@@ -514,16 +549,13 @@ namespace Sharpcms.Providers.Base
         /// <param name="pathTrail">The path trail.</param>
         private void LoadPage(ControlList control, string value, string pathTrail)
         {
-            LoadDay(Process.Content.GetSubControl("basedata")); //ToDo: quick hack not nice (old)
+            LoadDay(Process.Content.GetSubControl("basedata")); //ToDo: quick hack not nice
 
             string pagePath = GetCurrentPage(GetFullPath(value, pathTrail));
 
             Page page = Tree.GetPage(pagePath);
 
-            if (page == null)
-            {
-                return;
-            }
+            if (page == null) return;
 
             Process.Attributes["pageroot"] = pagePath.Split('/')[0];
             Process.Attributes["pagepath"] = pagePath;
@@ -591,12 +623,13 @@ namespace Sharpcms.Providers.Base
                             if (plugin2 != null)
                             {
                                 var iPlugin = availablePlugin.Instance as IPlugin2;
-                                //_process.AddMessage("IPlugin 2");
+
                                 iPlugin.Load(new ControlList(xmlElementNode), action, string.Empty, pathTrail);
                             }
                             else
                             {
-                                IPlugin iPlugin = availablePlugin.Instance;
+                                var iPlugin = availablePlugin.Instance;
+
                                 iPlugin.Load(new ControlList(xmlElementNode), action, pathTrail);
                             }
                         }
@@ -685,7 +718,7 @@ namespace Sharpcms.Providers.Base
 
             string pagePath = GetCurrentPage(GetFullPath(value, pathTrail).Replace("edit/", ""));
 
-            // ToDo: a very dirty hack (old)
+            // ToDo: a very dirty hack
             if (pagePath != string.Empty)
             {
                 SetCurrentPage(control["sitetree"], pagePath.Split('/'));
