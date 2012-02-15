@@ -10,7 +10,11 @@
 .ui-tabs .ui-tabs-panel { background: #e8eef1; border: 1px solid #7697ab; margin-top: -1px; padding: 8px; }
 
 /* jQuery Ui Selectmenu */
+.ui-selectmenu {
+    height: 23px;
+}
 label, select, .ui-select-menu { float: left; margin-right: 10px; }
-select { width: 200px; }		
+.container_menu select { width: 598px; }
+.pagedata_menu select { width: 441px; }
 .wrap span.ui-selectmenu-item-header,
 .wrap ul.ui-selectmenu-menu li a { text-decoration: underline !important; }

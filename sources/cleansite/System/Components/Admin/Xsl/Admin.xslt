@@ -37,7 +37,7 @@
         </title>
         <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/base.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.custom.css" />
-        <!--<link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/selectmenu/jquery.ui.selectmenu.css" />-->
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/selectmenu/jquery.ui.selectmenu.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.sharpcms.css" />
         <!--[if IE 7]>
@@ -52,9 +52,9 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.url.packed.js">
           <xsl:text> </xsl:text>
         </script>
-        <!--<script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.ui.selectmenu.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/selectmenu/jquery.ui.selectmenu.js">
           <xsl:text> </xsl:text>
-        </script>-->
+        </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/tiny_mce/jquery.tinymce.js">
           <xsl:text> </xsl:text>
         </script>

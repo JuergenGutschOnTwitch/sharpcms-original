@@ -22,7 +22,7 @@
     $('#pada_body_tabs').tabs();
     
     // Select
-    //$('select').selectmenu();
+    $('select').selectmenu();
 
     // TreeView (Pages)
     $("#pages").treeview({
