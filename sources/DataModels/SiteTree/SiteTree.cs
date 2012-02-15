@@ -211,7 +211,7 @@ namespace Sharpcms.Data.SiteTree
             if (GetPageNode(path + "/" + name) != null)
             {
                 return GetPage(path + "/" + name); // The requested page already exists.
-}
+            }
 
             // Update filesystem
             string pathfile = path;
@@ -287,8 +287,7 @@ namespace Sharpcms.Data.SiteTree
                 // ToDo: secures older websites - goes obsoletet
             }
 
-            // hide if the Page is a Root-Page (for Language) 
-            page["status"] = page.TreeNode.ParentNode != null && page.TreeNode.ParentNode.Name == "tree" ? "hide" : "show";
+            page["status"] = "show";
             page.Save();
         }
 
