@@ -47,13 +47,13 @@
       </div>
     </div>
     <div class="menu pagedata_menu top">
-      <a class="button" href="javascript:ThrowEvent('save','');">
+      <a class="button" style="width: 29px;" href="javascript:ThrowEvent('save','');">
         <xsl:text>Save</xsl:text>
       </a>
-      <a class="button" href="javascript:ThrowEvent('save','openwindow');">
+      <a class="button" style="width: 87px;" href="javascript:ThrowEvent('save','openwindow');">
         <xsl:text>Save and show</xsl:text>
       </a>
-      <a class="button" href="javascript:ThrowEvent('','openwindow');">
+      <a class="button" style="width: 31px;" href="javascript:ThrowEvent('','openwindow');">
         <xsl:text>Show</xsl:text>
       </a>
       <select name="adminmoreactions" id="adminmoreactions" onChange="eval(adminmoreactions.options[adminmoreactions.selectedIndex].value);">
@@ -148,13 +148,13 @@
       </div>
     </div>
     <div class="menu pagedata_menu bottom">
-      <a class="button" href="javascript:ThrowEvent('save','');">
+      <a class="button" style="width: 29px;" href="javascript:ThrowEvent('save','');">
         <xsl:text>Save</xsl:text>
       </a>
-      <a class="button" href="javascript:ThrowEvent('save','openwindow');">
+      <a class="button" style="width: 87px;" href="javascript:ThrowEvent('save','openwindow');">
         <xsl:text>Save and show</xsl:text>
       </a>
-      <a class="button" href="javascript:ThrowEvent('','openwindow');">
+      <a class="button" style="width: 31px;" href="javascript:ThrowEvent('','openwindow');">
         <xsl:text>Show</xsl:text>
       </a>
     </div>

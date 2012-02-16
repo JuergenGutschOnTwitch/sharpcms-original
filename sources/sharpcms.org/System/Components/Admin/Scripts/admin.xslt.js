@@ -22,10 +22,10 @@
     $('#pada_body_tabs').tabs();
     
     // Select
-    //$('select').selectmenu();
+    $('select').selectmenu();
 
-    // TreeView (Pages)
-    $("#pages").treeview({
+    // TreeView
+    $(".filetree").treeview({
         persist: 'location',
         collapsed: true,
         unique: true

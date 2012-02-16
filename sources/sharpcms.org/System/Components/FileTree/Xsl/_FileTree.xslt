@@ -26,7 +26,7 @@
       </a>
     </div>
     <div class="tree tree_body">
-      <ul id="pages" class="filetree">
+      <ul id="files" class="filetree">
         <xsl:apply-templates mode="filetree" select="folder/*">
           <xsl:with-param name="current-path" />
         </xsl:apply-templates>

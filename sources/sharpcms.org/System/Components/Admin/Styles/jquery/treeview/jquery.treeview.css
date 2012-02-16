@@ -68,7 +68,12 @@
 }
 
 .filetree li { padding: 3px 0 2px 16px; }
-.filetree span.folder, .filetree span.file { padding: 1px 0 1px 16px; display: block; }
+.filetree span.user,
+.filetree span.group,
+.filetree span.folder, 
+.filetree span.file { padding: 1px 0 1px 18px; display: block; }
 .filetree span.folder { background: url(/System/Components/Admin/Images/jquery/treeview/folder.gif) 0 0 no-repeat; }
 .filetree li.expandable span.folder { background: url(/System/Components/Admin/Images/jquery/treeview/folder-closed.gif) 0 0 no-repeat; }
 .filetree span.file { background: url(/System/Components/Admin/Images/jquery/treeview/file.gif) 0 0 no-repeat; }
+.filetree span.user { background: url(/System/Components/Admin/Images/jquery/treeview/user.png) 0 0 no-repeat; }
+.filetree span.group { background: url(/System/Components/Admin/Images/jquery/treeview/group_delete.png) 0 0 no-repeat; }
