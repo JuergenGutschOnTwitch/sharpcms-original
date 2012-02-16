@@ -24,8 +24,8 @@
     // Select
     $('select').selectmenu();
 
-    // TreeView (Pages)
-    $("#pages").treeview({
+    // TreeView
+    $(".filetree").treeview({
         persist: 'location',
         collapsed: true,
         unique: true

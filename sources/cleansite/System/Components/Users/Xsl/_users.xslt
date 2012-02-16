@@ -16,7 +16,7 @@
       <a class="button" href="javascript:ThrowEventNew('adduser','','Type the name of the new user');">Add user</a>
     </div>
     <div class="tree tree_body">
-      <ul>
+      <ul id="users" class="filetree">
         <xsl:for-each select="user">
           <li>
             <a>
@@ -24,7 +24,12 @@
                 <xsl:text>/admin/user/</xsl:text>
                 <xsl:value-of select="login" />
               </xsl:attribute>
-              <xsl:value-of select="login" />
+              <span>
+                <xsl:attribute name="class">
+                  <xsl:text>user</xsl:text>
+                </xsl:attribute>
+                <xsl:value-of select="login" />
+              </span>
             </a>
           </li>
         </xsl:for-each>
@@ -47,17 +52,22 @@
       <a class="button" href="javascript:ThrowEventNew('addgroup','','Type the name of the new group');">Add group</a>
     </div>
     <div class="tree tree_body">
-      <ul>
+      <ul id="groups" class="filetree">
         <xsl:for-each select="group">
           <li>
-            <xsl:value-of select="@name" />
             <a>
               <xsl:attribute name="href">
                 <xsl:text>javascript:ThrowEventConfirm('deletegroup','</xsl:text>
                 <xsl:value-of select="@name" />
                 <xsl:text>','Are you sure you wnat to delete the group?');</xsl:text>
               </xsl:attribute>
-              <xsl:text> Delete</xsl:text>
+              <span>
+                <xsl:attribute name="class">
+                  <xsl:text>group</xsl:text>
+                </xsl:attribute>
+                <xsl:value-of select="@name" />
+                <xsl:text> Delete</xsl:text>
+              </span>
             </a>
           </li>
         </xsl:for-each>

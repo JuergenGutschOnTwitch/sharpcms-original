@@ -32,11 +32,14 @@
 		  </a>
     </div>
     <div class="tree tree_body">
-      <ul id="pages" class="filetree">
+      <ul id="sites" class="filetree">
         <xsl:for-each select="*">
           <xsl:call-template name="SiteTreeElement">
             <xsl:with-param name="current-path">
               <xsl:value-of select="name()" />
+            </xsl:with-param>
+            <xsl:with-param name="isLanguage">
+              <xsl:text>true</xsl:text>
             </xsl:with-param>
           </xsl:call-template>
         </xsl:for-each>
@@ -46,6 +49,7 @@
 
   <xsl:template name="SiteTreeElement">
     <xsl:param name="current-path" />
+    <xsl:param name="isLanguage" />
     <li>
       <a>
         <xsl:attribute name="href">
@@ -55,7 +59,7 @@
         </xsl:attribute>
         <span>
           <xsl:choose>
-            <xsl:when test="*">
+            <xsl:when test="$isLanguage = 'true'">
               <xsl:attribute name="class">
                 <xsl:text>folder</xsl:text>
               </xsl:attribute>
@@ -77,6 +81,9 @@
                 <xsl:value-of select="$current-path" />
                 <xsl:text>/</xsl:text>
                 <xsl:value-of select="name()" />
+              </xsl:with-param>
+              <xsl:with-param name="isLanguage">
+                <xsl:text>false</xsl:text>
               </xsl:with-param>
             </xsl:call-template>
           </xsl:for-each>
