@@ -39,6 +39,11 @@
           <xsl:text>Page data - </xsl:text>
           <xsl:value-of select="attributes/menuname" />
         </b>
+        <xsl:if test="attributes/status = 'hide'">
+          <b class="red">
+            <xsl:text>[hidden]</xsl:text>
+          </b>
+        </xsl:if>
       </div>
       <div class="viewstate">
         <a id="pada_vs" class="button expand">
@@ -238,7 +243,6 @@
         <xsl:attribute name="class">
           <xsl:text>element_info</xsl:text>
         </xsl:attribute>
-        
       </div>
       <div>
         <xsl:attribute name="class">
@@ -355,7 +359,7 @@
       <textarea class="mceeditor" name="{$id}_{@attribute}">
         <xsl:if test="@height">
           <xsl:attribute name="style">
-            <xsl:text>width:614px; height:</xsl:text>
+            <xsl:text>width:618px; height:</xsl:text>
             <xsl:value-of select="@height" />
             <xsl:text>px;</xsl:text>
           </xsl:attribute>
