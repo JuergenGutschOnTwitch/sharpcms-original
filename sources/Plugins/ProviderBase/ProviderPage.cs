@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
 using Sharpcms.Data.SiteTree;
@@ -25,13 +24,14 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         public ProviderPage()
         {
+            Process = null;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProviderPage"/> class.
         /// </summary>
         /// <param name="process">The process.</param>
-        public ProviderPage(Library.Process.Process process)
+        public ProviderPage(Process process) : this()
         {
             Process = process;
         }
@@ -53,7 +53,7 @@ namespace Sharpcms.Providers.Base
         {
             get
             {
-                if (Process.QueryOther["page"] == "")
+                if (Process.QueryOther["page"] == string.Empty)
                 {
                     Process.QueryOther["page"] = Process.Settings["sitetree/stdpage"];
                 }
@@ -301,7 +301,7 @@ namespace Sharpcms.Providers.Base
 
             if (containerId > 0 && elementId > 0)
             {
-                queryString = String.Format("?e=element_{0}_{1}", containerId, elementId);
+                queryString = String.Format("?c={0}&e={1}", containerId, elementId);
             }
 
             return Process.GetUrl(Process.CurrentProcess, queryString);
