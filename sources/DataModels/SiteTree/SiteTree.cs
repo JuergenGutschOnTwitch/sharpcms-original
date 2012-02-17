@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Xml;
 using Sharpcms.Library.Common;
+using Sharpcms.Library.Process;
 
 namespace Sharpcms.Data.SiteTree
 {
@@ -287,7 +288,7 @@ namespace Sharpcms.Data.SiteTree
                 // ToDo: secures older websites - goes obsoletet
             }
 
-            page["status"] = "show";
+            page["status"] = "hide";
             page.Save();
         }
 
