@@ -713,7 +713,7 @@ textarea.mceeditor {
 .messages ul li.Error {
     background-color: red;
     border: 1px solid #486c82;
-    color: #486c82;
+    color: #fff;
 }
 
 .messages ul li.Status {
@@ -727,7 +727,7 @@ textarea.mceeditor {
 .messages ul li.Warning {
     background-color: orange;
     border: 1px solid #486c82;
-    color: #486c82;
+    color: #fff;
 }
 
 .messages ul li.Message {
