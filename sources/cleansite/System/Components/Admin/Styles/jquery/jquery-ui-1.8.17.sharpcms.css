@@ -12,15 +12,13 @@
 /* jQuery Ui Selectmenu */
 .ui-selectmenu { height: 23px; }
 label, select, .ui-select-menu { float: left; margin-right: 10px; }
-.container_menu select { width: 598px; }
-.pagedata_menu select { width: 441px; }
 .wrap span.ui-selectmenu-item-header,
 .wrap ul.ui-selectmenu-menu li a { text-decoration: underline !important; }
 
 .ui-state-default, 
 .ui-widget-content .ui-state-default, 
 .ui-widget-header .ui-state-default {
-    border: 1px solid #a2b4bf;
+    border: 1px solid #b9c7cf;
     background: #d0d9df none;
     color: #555;
 }
@@ -32,12 +30,3 @@ label, select, .ui-select-menu { float: left; margin-right: 10px; }
     background: #a2b4bf none;
     color: #555;
 }
-
-
-#colorSet { color: #486c82; }
-#colorSet { color: #748fa0; }
-#colorSet { color: #a2b4bf; }
-#colorSet { color: #b9c7cf; }
-#colorSet { color: #d0d9df; }
-#colorSet { color: #e7ecee; }
-#colorSet { color: #f4f6f7; }
