@@ -40,9 +40,6 @@
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/selectmenu/jquery.ui.selectmenu.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.sharpcms.css" />
-        <!--[if IE 7]>
-	      <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/ie.css" />
-        <![endif]-->
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.1.min.js">
           <xsl:text> </xsl:text>
         </script>
@@ -125,23 +122,29 @@
             </div>
             <!-- End TopMenu -->
 
+            <!-- Begin admin_menu -->
+            <xsl:if test="/data/messages">
+              <div class="messages">
+                <ul>
+                  <xsl:for-each select="/data/messages/item">
+                    <li>
+                      <xsl:attribute name="class">
+                        <xsl:value-of select="@messagetype" />
+                      </xsl:attribute>
+                      <xsl:value-of select="." />
+                    </li>
+                  </xsl:for-each>
+                </ul>
+              </div>
+            </xsl:if>
+            <!-- End admin_menu -->
+            
             <!-- Begin Content -->
             <div class="content">
               <div class="left">
                 <xsl:apply-templates select="data/navigationplace/*" mode="edit" />
               </div>
               <div class="right">
-                <xsl:if test="/data/messages">
-                  <div class="menu admin_menu">
-                    <ul>
-                      <xsl:for-each select="/data/messages/item">
-                        <li>
-                          <xsl:value-of select="." />
-                        </li>
-                      </xsl:for-each>
-                    </ul>
-                  </div>
-                </xsl:if>
                 <xsl:apply-templates select="data/contentplace/*" mode="edit" />
               </div>
             </div>
