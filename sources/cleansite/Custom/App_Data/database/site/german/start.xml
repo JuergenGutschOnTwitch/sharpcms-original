@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page>
+  <attributes>
+    <pagename>Start</pagename>
+    <name>start</name>
+    <menuname>Start</menuname>
+    <pageidentifier>german/start</pageidentifier>
+    <status>open</status>
+  </attributes>
+  <containers>
+    <container name="content">
+      <elements />
+    </container>
+  </containers>
+</page>
