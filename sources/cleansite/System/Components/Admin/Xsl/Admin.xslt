@@ -83,6 +83,7 @@
             <!-- Begin of primary hidden settings -->
             <input type="hidden" name="event_main" value="" />
             <input type="hidden" name="event_mainvalue" value="" />
+            <input type="hidden" name="event_redirect" value="" />
             <input type="hidden" name="process">
               <xsl:attribute name="value">
                 <xsl:value-of select="data/query/other/process" />
@@ -92,7 +93,7 @@
 
             <!-- Begin Header -->
             <div class="header">
-              <a href="{/data/basepath}">
+              <a href="{/data/basepath}/admin/">
                 <img>
                   <xsl:attribute name="src">
                     <xsl:text>/System/Components/Admin/Images/logo.gif</xsl:text>
