@@ -70,11 +70,24 @@ namespace Sharpcms.Library.Process
                     }
                     else
                     {
-                        string redirectUrl = string.Format("login/?redirect={0}", process.CurrentProcess);
+                        string redirectUrl = GetRedirectUrl(process.CurrentProcess);
+
                         process.HttpPage.Response.Redirect(redirectUrl); // ToDo: is this the way to do it
                     }
                 }
             }
+        }
+
+        private static string GetRedirectUrl(string currentProcess)
+        {
+            var redirectUrl = currentProcess;
+
+            if (redirectUrl.Trim().EndsWith("/"))
+            {
+                redirectUrl = redirectUrl.Remove(redirectUrl.Length - 1, 1);
+            }
+
+            return string.Format("login/?redirect={0}", redirectUrl);
         }
 
         private void LoopThroughProcessOneByOne(XmlNodeList contentNodes, String type, Process process, string[] args)

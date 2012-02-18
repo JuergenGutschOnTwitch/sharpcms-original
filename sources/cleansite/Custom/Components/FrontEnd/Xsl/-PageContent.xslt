@@ -15,9 +15,7 @@
           <xsl:attribute name="href">
             <xsl:value-of select="/data/basepath" />
             <xsl:text>/admin/page/edit/</xsl:text>
-            <xsl:value-of select="//data/attributes/pageroot" />
-            <xsl:text>/</xsl:text>
-            <xsl:value-of select="/data/contentplace/page/attributes/name" />
+            <xsl:value-of select="/data/contentplace/page/attributes/pageidentifier" />
             <xsl:text>/?c=</xsl:text>
             <xsl:number count="element" />
             <xsl:text disable-output-escaping="no">&amp;e=</xsl:text>

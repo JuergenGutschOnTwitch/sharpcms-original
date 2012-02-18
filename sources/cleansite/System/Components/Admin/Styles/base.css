@@ -63,9 +63,8 @@ b {
     border-top: none;
     float: left;
     margin-bottom: 10px;
-    min-height: 220px;
+    min-height: 40px;
     padding: 5px;
-    width: 210px;
 }
 
 .treeview span,
@@ -314,17 +313,16 @@ a.expand:hover {
 /*************************************************************************/
 .content {
     float: left;
-    width: 900px;
 }
 
 .content div.left, 
 .content div.right {
-    margin: 10px 0 10px 10px;
+    margin: 5px;
 }
 
 .content div.left {
     float: left;
-    width: 220px;
+    min-width: 200px;
 }
 
 .content div.right {
@@ -612,8 +610,9 @@ textarea.mceeditor {
 /*************************************************************************/
 /*                                                               Tree Head
 /*************************************************************************/
-.tree_head {
-    width: 218px;
+.left .tree_head {
+    clear: both;
+    width: 100%;
 }
 
 
@@ -622,15 +621,18 @@ textarea.mceeditor {
 /*************************************************************************/
 .left .tree_menu {
     border-top: none;
-    width: 218px;
+    clear: both;
+    width: 100%;
 }
 
 
 /*************************************************************************/
 /*                                                               Tree Body
 /*************************************************************************/
-.tree_body {
-    
+.left .tree_body {
+    padding: 0 0 0 2px !Important;
+    clear: both;
+    width: 100%;
 }
 
 
