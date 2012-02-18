@@ -396,13 +396,13 @@ textarea.mceeditor {
 /*************************************************************************/
 .tab-pane {
     float: left;
-    margin-top: 10px;
-    width: 617px;
+    margin-top: 6px;
+    margin-bottom: 5px;
+    width: 650px;
 }
 
 .tab-page {
     float: left;
-    margin-bottom: 10px;
     width: 632px;
 }
 

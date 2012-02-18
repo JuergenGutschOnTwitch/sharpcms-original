@@ -319,16 +319,25 @@
 	
 	/* Edit Button */
 	#contentcontainer .editlink {
-		text-align:right;
-		padding: 0.2em 0.2em 0.2em 0;
+		text-align: right;
 	}
 	
 	#contentcontainer .editlink a {
 		background-image: none;
-		background-color: #96bfd9;
+		background-color: #7697AB;
 		border: 1px solid #617c8c;
-		color: black;
-		padding: 0.2em 0.3em;
+        margin: 0;
+	    padding: 0 0.2em 0.2em 0.2em;
+		
+	}
+	
+	#contentcontainer .editlink a span {
+	    color: #fff;
+	    font-size: 0.8em;
+	}
+	
+	#contentcontainer .editlink a:hover span {
+	    text-decoration: underline;
 	}
 	
 	.linkbutton {

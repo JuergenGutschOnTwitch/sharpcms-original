@@ -17,9 +17,9 @@
             <xsl:text>/admin/page/edit/</xsl:text>
             <xsl:value-of select="/data/contentplace/page/attributes/pageidentifier" />
             <xsl:text>/?c=</xsl:text>
-            <xsl:number count="element" />
-            <xsl:text disable-output-escaping="no">&amp;e=</xsl:text>
             <xsl:number count="container" />
+            <xsl:text disable-output-escaping="no">&amp;e=</xsl:text>
+            <xsl:number count="element" />
           </xsl:attribute>
           <span>
             <xsl:text>Edit</xsl:text>

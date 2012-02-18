@@ -16,13 +16,14 @@
             <xsl:value-of select="/data/basepath" />
             <xsl:text>/admin/page/edit/</xsl:text>
             <xsl:value-of select="/data/contentplace/page/attributes/pageidentifier" />
-            <xsl:text>/?e=</xsl:text>
-            <xsl:text>element_</xsl:text>
+            <xsl:text>/?c=</xsl:text>
             <xsl:number count="container" />
-            <xsl:text>_</xsl:text>
+            <xsl:text disable-output-escaping="no">&amp;e=</xsl:text>
             <xsl:number count="element" />
           </xsl:attribute>
-          <xsl:text>Edit</xsl:text>
+          <span>
+            <xsl:text>Edit</xsl:text>
+          </span>
         </a>
       </div>
     </xsl:if>
