@@ -21,31 +21,32 @@ $(document).ready(function () {
     }
 
     var cmsElementId = new (function () {
-        var result;
+        var elementId = 0;
         if ($.url.param('e') != null && $.url.param('e') != '') {
-            result = $.url.param('e').split('_');
+            elementId = parseInt($.url.param('e'));
+            if (elementId == null) {
+                elementId = 0;
+            }
         }
 
-        if (result != null && result.length == 3) {
-            return { ContainerId: parseInt(result[1]), ElementId: parseInt(result[2]) };
-        } else {
-            return { ContainerId: '0', ElementId: '0' };
+        var containerId = 0;
+        if ($.url.param('c') != null && $.url.param('c') != '') {
+            containerId = parseInt($.url.param('c'));
+            if (containerId == null) {
+                containerId = 0;
+            }
         }
+
+        return { ContainerId: containerId, ElementId: elementId };
     });
 
     $('.element_body').hide();
 
-    if (cmsElementId.ContainerId != '0' && cmsElementId.ElementId != '0') {
+    if (cmsElementId.ContainerId >= 0 && cmsElementId.ElementId >= 0) {
         var tabId = cmsElementId.ContainerId - 1;
-        if ($('#tabs').tabs().length < tabId) {
-            return;
-        }
+        $('#tabs').tabs('select', tabId);
 
         var baseElementName = '#element_' + cmsElementId.ContainerId + '_' + cmsElementId.ElementId;
-        if ($(baseElementName).length == 0) {
-            return;
-        }
-
         if ($(baseElementName + '_body').is(':hidden')) {
             $(baseElementName + '_body').slideDown('fast');
             $(baseElementName).html('˄');
@@ -53,12 +54,8 @@ $(document).ready(function () {
             $(baseElementName + '_body').slideUp('fast');
             $(baseElementName).html('˅');
         }
-
-        $('#tabs').tabs('select', tabId);
     }
-
-
-
+    
     $('a.expand').click(function () {
         var id = this.id;
         if (id != '') {

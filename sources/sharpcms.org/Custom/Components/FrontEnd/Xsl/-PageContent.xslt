@@ -15,9 +15,7 @@
           <xsl:attribute name="href">
             <xsl:value-of select="/data/basepath" />
             <xsl:text>/admin/page/edit/</xsl:text>
-            <xsl:value-of select="//data/attributes/pageroot" />
-            <xsl:text>/</xsl:text>
-            <xsl:value-of select="/data/contentplace/page/attributes/name" />
+            <xsl:value-of select="/data/contentplace/page/attributes/pageidentifier" />
             <xsl:text>/?e=</xsl:text>
             <xsl:text>element_</xsl:text>
             <xsl:number count="container" />
@@ -64,7 +62,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<div id="sitemap">
-			<xsl:for-each select="data/navigationplace/sitetree/*[@pageidentifier=$language and @status='open']">
+			<xsl:for-each select="/data/navigationplace/sitetree/*[@pageidentifier=$language and @status='open']">
 				<ul>
 					<xsl:for-each select="*[@status='open']">
 						<li>

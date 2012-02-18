@@ -1,22 +1,18 @@
 ﻿/*************************************************************************/
-/*
-/* Colors:
-/*
-/* #628498      mainmenu background
-/*
-/* #486c82      a
-/* #cfb000      a:hover
-/*
-/*              .pagedata_headcolor 
-/*
-/* #96a1a9      .adminmenu a.button:hover
-/* #7697ab      .adminmenu border
-/*              .pagedata_headborder
-/*              .pagedata_body background
-/*
-/* #e8eef1      .pagedata_headbackground
-/* #8da6b5      .element_headdiv.title color
-/*
+/*                                                              New Colors
+/*************************************************************************/
+#colorSet { color: #fff; }
+#colorSet { color: #eee; }
+#colorSet { color: #999; }
+#colorSet { color: #000; }
+#colorSet { color: #486c82; }
+#colorSet { color: #748fa0; }
+#colorSet { color: #a2b4bf; }
+#colorSet { color: #b9c7cf; }
+#colorSet { color: #d0d9df; }
+#colorSet { color: #e7ecee; }
+#colorSet { color: #f4f6f7; }
+#colorSet { color: #cfb000; }
 /*************************************************************************/
 
 
@@ -25,7 +21,7 @@
 /*************************************************************************/
 * {
     border: 0;
-    color: black;
+    color: #000;
     font-family: verdana, arial, sans-serif !Important;
     font-style: normal;
     font-weight: normal;
@@ -63,13 +59,12 @@ b {
 /*************************************************************************/
 .tree {
     background-color: white;
-    border: 1px solid #bec7cd;
+    border: 1px solid #d0d9df;
     border-top: none;
     float: left;
     margin-bottom: 10px;
-    min-height: 220px;
+    min-height: 40px;
     padding: 5px;
-    width: 210px;
 }
 
 .treeview span,
@@ -89,7 +84,7 @@ b {
 /*************************************************************************/
 .menu {
     background-color: white;
-    border: 1px solid #7697ab;
+    border: 1px solid #d0d9df;
     float: left;
     padding: 2px 0 2px 2px;
 }
@@ -123,10 +118,6 @@ b {
     margin-bottom: 6px;
 }
 
-.adminmenu a {
-    color: #486c82;
-}
-
 .adminmenu a:hover {
     text-decoration: underline;
 }
@@ -136,8 +127,8 @@ b {
 /*                                                             Head (base)
 /*************************************************************************/
 .head {
-    background-color: #e8eef1;
-    border: 1px solid #7697ab;
+    background-color: #d0d9df;
+    border: 1px solid #a2b4bf;
     color: #486c82;
     float: left;
     padding: 2px 0 2px 2px;
@@ -166,21 +157,21 @@ b {
 /*                                                             Body (base)
 /*************************************************************************/
 .body {
-    background-color: white;
-    border: 1px solid #7697ab;
+    background-color: #fff;
+    border: 1px solid #d0d9df;
     border-top: none;
     float: left;
     padding: 6px 6px 0 6px;
 }
 
 .body table {
-    border: 1px solid black;
+    border: 1px solid transparent;
     margin-top: 6px;
     width: 636px;
 }
 
 .body table tr td {
-    background-color: #e8eef1;
+    background-color: #d0d9df;
     color: #486c82;
     padding: 6px;
 }
@@ -201,13 +192,15 @@ a.anchor {
     float: left;
 }
 
-div.error {
-    color: red;
+.red,
+.delete,
+.error {
+    color: red !Important;
 }
 
 a.button {
-    background-color: #e8eef1;
-    border: 1px solid #aeb8bf;
+    background-color: #d0d9df;
+    border: 1px solid #b9c7cf;
     cursor: pointer;
     display: inline-block;
     line-height: 23px;
@@ -217,19 +210,23 @@ a.button {
 }
 
 a.delete {
-    color: red !Important;
     font-weight: bold;
 }
 
 a.button:hover {
-    background-color: #96a1a9;
+    background-color: #a2b4bf;
+    border: 1px solid #748fa0;
     text-decoration: none;
 }
 
 a.expand {
-    background-color: #486C82;
-    border-color: #486C82;
-    color: white !Important;
+    background-color: #748fa0;
+    border-color: #486c82;
+    color: #fff !Important;
+}
+
+a.expand:hover {
+    background-color: #486c82;
 }
 
 
@@ -247,8 +244,8 @@ a.expand {
 /*                                                                  Header
 /*************************************************************************/
 .header {
-    background: #628498 url(     '../images/topbg.gif' ) top left repeat-x;
-    color: white;
+    background: #486c82 url('../images/topbg.gif' ) top left repeat-x;
+    color: #fff;
     float: left;
     height: 39px;
     width: 100%;
@@ -264,7 +261,7 @@ a.expand {
 /*                                                                 TopNavi
 /*************************************************************************/
 .mainnavi {
-    background: white url(     '../images/subbg.gif' ) top left repeat-x;
+    background: #fff url('../images/subbg.gif' ) top left repeat-x;
     float: left;
     height: 26px;
     min-width: 300px;
@@ -316,17 +313,16 @@ a.expand {
 /*************************************************************************/
 .content {
     float: left;
-    width: 900px;
 }
 
 .content div.left, 
 .content div.right {
-    margin: 10px 0 10px 10px;
+    margin: 5px;
 }
 
 .content div.left {
     float: left;
-    width: 220px;
+    min-width: 200px;
 }
 
 .content div.right {
@@ -386,7 +382,11 @@ a.expand {
     width: 614px;
 }
 
-.item textarea.mceeditor {
+
+/*************************************************************************/
+/*                                                                    Tabs
+/*************************************************************************/
+textarea.mceeditor {
     height: 200px;
 }
 
@@ -419,7 +419,7 @@ a.expand {
 /*                                                            Element Head
 /*************************************************************************/
 .element_head {
-    background-color: white;
+    background-color: #fff;
     float: left;
     margin-top: 8px;
     padding: 2px 0 2px 0;
@@ -441,7 +441,7 @@ a.expand {
 }
 
 .element_head div.name label {
-    color: #8da6b5;
+    color: #a2b4bf;
     font-weight: bold;
     line-height: 25px;
 }
@@ -452,12 +452,12 @@ a.expand {
 
 .element_head div.name input:focus,
 .element_head div.name input:active {
-    border: 1px solid black;
+    border: 1px solid #000;
 }
 
 .element_head div.publish {
-    background-color: #E8EEF1;
-    border: 1px solid #AEB8BF;
+    background-color: #d0d9df;
+    border: 1px solid #b9c7cf;
     float: right;
     margin: 0 2px 0 0;
     padding: 0;
@@ -465,7 +465,7 @@ a.expand {
 }
 
 .element_head div.publish label {
-    color: black;
+    color: #000;
     display: block;
     line-height: 23px;
     text-align: right;
@@ -499,7 +499,7 @@ a.expand {
 /*                                                            Element Menu
 /*************************************************************************/
 .element_menu {
-    background-color: white;
+    background-color: #fff;
     border-top: none;
     float: left;
     height: 22px;
@@ -516,8 +516,8 @@ a.expand {
 }
 
 .tab_page_body {
-    background-color: white;
-    border: 1px solid #7697ab;
+    background-color: #fff;
+    border: 1px solid #d0d9df;
     padding: 6px 6px 0 6px;
     width: 618px;
 }
@@ -539,8 +539,8 @@ a.expand {
 /*                                                     Element Body (Edit)
 /*************************************************************************/
 .element_edit {
-    background-color: white;
-    border: 1px solid #7697ab;
+    background-color: #fff;
+    border: 1px solid #d0d9df;
     border-top: none;
     padding: 6px 6px 0 6px;
     float: left;
@@ -548,8 +548,8 @@ a.expand {
 }
 
 .element_edit .button {
-    background-color: white;
-    border: 1px solid #aeb8bf;
+    background-color: #fff;
+    border: 1px solid #b9c7cf;
     display: inline-block;
     padding: 1px 4px;
     text-align: center;
@@ -610,8 +610,9 @@ a.expand {
 /*************************************************************************/
 /*                                                               Tree Head
 /*************************************************************************/
-.tree_head {
-    width: 218px;
+.left .tree_head {
+    clear: both;
+    width: 100%;
 }
 
 
@@ -620,15 +621,18 @@ a.expand {
 /*************************************************************************/
 .left .tree_menu {
     border-top: none;
-    width: 218px;
+    clear: both;
+    width: 100%;
 }
 
 
 /*************************************************************************/
 /*                                                               Tree Body
 /*************************************************************************/
-.tree_body {
-    
+.left .tree_body {
+    padding: 0 0 0 2px !Important;
+    clear: both;
+    width: 100%;
 }
 
 
@@ -687,18 +691,52 @@ a.expand {
 
 
 /*************************************************************************/
-/*                                                              Admin Menu
+/*                                                                 Message
 /*************************************************************************/
-.admin_menu {
-    margin: 0 0 10px 0;
-    width: 636px;
+.messages {
+    display: block;
+    float: left;
+    width: 100%;
 }
 
-.admin_menu ul {
+.messages ul {
     list-style-type: none;
+    
 }
 
-.admin_menu ul li {
+.messages ul li {
+    border: 1px solid #486c82;
+    color: #486c82;
+    margin: 10px 10px 0 10px;
+    padding: 10px;
+    display: block;
+}
+
+.messages ul li.Error {
+    background-color: red;
+    border: 1px solid #486c82;
+    color: #fff;
+}
+
+.messages ul li.Status {
+    
+}
+
+.messages ul li.Event {
+    
+}
+
+.messages ul li.Warning {
+    background-color: orange;
+    border: 1px solid #486c82;
+    color: #fff;
+}
+
+.messages ul li.Message {
+    
+}
+
+.messages ul li.Debug {
     
 }
 
@@ -713,8 +751,8 @@ a.expand {
 }
 
 .login table {
-    background: white;
-    border: 1px solid black;
+    background: #fff;
+    border: 1px solid #486c82;
     margin: 0 auto;
 }
 
@@ -723,7 +761,7 @@ a.expand {
 }
 
 .login table thead tr td {
-    background: #628498 url('../Images/topbg.gif' ) top left repeat-x;
+    background: #486c82 url('../Images/topbg.gif' ) top left repeat-x;
 }
 
 .login table tbody tr td {
@@ -756,8 +794,8 @@ a.expand {
 /*                                                                  Choose
 /*************************************************************************/
 .choose .header {
-    background: #628498 url('../images/topbg.gif' ) top left repeat-x;
-    color: white;
+    background: #486c82 url('../images/topbg.gif' ) top left repeat-x;
+    color: #fff;
     float: left;
     height: 39px;
     line-height: 39px;
@@ -775,8 +813,8 @@ a.expand {
 /*                                                                    Form
 /*************************************************************************/
 input, textarea, select {
-    border: 1px solid #bec7cd;
-    background-color: white;
+    border: 1px solid #d0d9df;
+    background-color: #fff;
 }
 
 input {
@@ -802,7 +840,7 @@ input.checkbox {
 }
 
 .checkbox_list {
-    border: 1px solid #bec7cd;
+    border: 1px solid #d0d9df;
     background-color: white;
     height: 100px;
     width: 206px;
