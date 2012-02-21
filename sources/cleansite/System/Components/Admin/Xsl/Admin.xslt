@@ -160,21 +160,28 @@
   <xsl:template mode="topmenu" match="item">
     <li>
       <a>
-        <xsl:attribute name="href">
-          <xsl:if test="@path">
-            <xsl:value-of select="@path" />
-            <xsl:text>/</xsl:text>
-          </xsl:if>
-          <xsl:if test="@javascript">
-            <xsl:text>javascript:</xsl:text>
-            <xsl:value-of select="@javascript" />
-          </xsl:if>
-          <xsl:if test="@event">
-            <xsl:text>javascript:ThrowEvent('</xsl:text>
-            <xsl:value-of select="@event" />
-            <xsl:text>', '');</xsl:text>
-          </xsl:if>
-        </xsl:attribute>
+        <xsl:choose>
+          <xsl:when test="@path">
+            <xsl:attribute name="href">
+              <xsl:value-of select="@path" />
+              <xsl:text>/</xsl:text>
+            </xsl:attribute>
+          </xsl:when>
+          <xsl:when test="@javascript">
+            <xsl:attribute name="href">
+              <xsl:text>javascript:</xsl:text>
+              <xsl:value-of select="@javascript" />
+            </xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute name="class">
+              <xsl:text>hlThrowEvent</xsl:text>
+            </xsl:attribute>
+            <xsl:attribute name="action">
+              <xsl:value-of select="@event" />
+            </xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
         <xsl:value-of select="." />
       </a>
     </li>

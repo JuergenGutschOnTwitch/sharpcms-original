@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sharpcms="urn:my-scripts">
-  <ms:script implements-prefix="sharpcms" xmlns:ms="urn:schemas-microsoft-com:xslt" language="C#" xmlns:sharpcms="urn:my-scripts">
-    <![CDATA[
-      public string Escape(string text) { return text.Replace("'", @"\'"); }
-	  ]]>
-  </ms:script>
-
   <xsl:output method="html" />
 
   <xsl:template mode="edit" match="sitetree">
@@ -23,10 +17,10 @@
     <div class="menu tree_menu">
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button</xsl:text>
+          <xsl:text>button hlAddLanguage</xsl:text>
         </xsl:attribute>
-			  <xsl:attribute name="href">
-          <xsl:text>javascript:ThrowEventNew('addpage','.','Type the name of the file:');</xsl:text>
+			  <xsl:attribute name="value">
+          <xsl:text>.</xsl:text>
         </xsl:attribute>
         <xsl:text>Add language</xsl:text>
 		  </a>
@@ -54,7 +48,7 @@
       <a>
         <xsl:attribute name="href">
           <xsl:text>/admin/page/edit/</xsl:text>
-          <xsl:value-of select="sharpcms:Escape($current-path)" />
+          <xsl:value-of select="$current-path" />
           <xsl:text>/</xsl:text>
         </xsl:attribute>
         <span>
@@ -70,7 +64,7 @@
               </xsl:attribute>
             </xsl:otherwise>
           </xsl:choose>
-          <xsl:value-of select="sharpcms:Escape(@menuname)" />
+          <xsl:value-of select="@menuname" />
         </span>
       </a>
       <xsl:if test="*">

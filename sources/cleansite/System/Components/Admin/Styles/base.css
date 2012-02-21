@@ -67,15 +67,21 @@ b {
     padding: 5px;
 }
 
-.treeview span,
-.treeview span.hover {
+.treeview span {
     color: #486c82;
 }
 
 .treeview span.hover,
+.treeview a.hover span,
 .treeview a:hover span,
+.treeview .last span:hover,
 .treeview a.selected span {
-    text-decoration: underline
+    color: #486c82;
+    text-decoration: underline;
+}
+
+.treeview .last span {
+    cursor: pointer;
 }
 
 
@@ -380,6 +386,10 @@ a.expand:hover {
 .item textarea {
     height: 150px;
     width: 614px;
+}
+
+.item .button {
+    line-height: 17px;
 }
 
 
@@ -707,7 +717,7 @@ textarea.mceeditor {
 .messages ul li {
     border: 1px solid #486c82;
     color: #486c82;
-    margin: 10px 10px 0 10px;
+    margin: 5px 5px 0 5px;
     padding: 10px;
     display: block;
 }
@@ -828,10 +838,10 @@ select {
     font-size: 11px;
 }
 
-input.upload {
-    width: 375px;
-}
 
+/*************************************************************************/
+/*                                                         Form (checkbox)
+/*************************************************************************/
 input.checkbox {
     width: 30px;
     margin: 0;
@@ -842,16 +852,39 @@ input.checkbox {
 .checkbox_list {
     border: 1px solid #d0d9df;
     background-color: white;
-    height: 100px;
-    width: 206px;
+    list-style-type: none;
     overflow: auto;
 }
 
-.checkbox_list ul {
-    list-style: none none;
+.checkbox_list li {
+    display: block;
+    float: left;
+    margin: 3px 0;
+    width: 100%;
 }
 
-.checkbox_list ul label, 
-.checkbox_list ul input {
+.checkbox_list li label, 
+.checkbox_list li input {
+    float: left;
     vertical-align: middle;
+}
+
+
+/*************************************************************************/
+/*                                                         Form (checkbox)
+/*************************************************************************/
+.uploadfield {
+    margin-bottom: 2px;
+}
+
+.uploadfield input.upload {
+    height: inherit;
+    width: 375px;
+}
+
+.uploadfield div a {
+    color: #486C82;
+    cursor: pointer;
+    line-height: 32px;
+    padding-left: 3px;
 }

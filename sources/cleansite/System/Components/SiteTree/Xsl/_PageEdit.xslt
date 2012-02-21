@@ -2,27 +2,6 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sharpcms="urn:my-scripts">
   <xsl:template mode="edit" match="page">
-    <script type="text/javascript">
-      function copyPage() {
-      if (ModalDialog.value != undefined &amp;&amp; ModalDialog.value != "") {
-      ThrowEvent('pagecopyto', '<xsl:value-of select="attributes/pageidentifier" />¤' + ModalDialog.value + '¤' + prompt('Page name:', '<xsl:value-of select="sharpcms:Escape(/data/contentplace/page/attributes/pagename)" />'));
-      }
-      ModelDialogRemoveWatch();
-      }
-
-      function movePage() {
-      if (ModalDialog.value != undefined &amp;&amp; ModalDialog.value != "") {
-      ThrowEvent('pagemove', ModalDialog.value);
-      }
-      ModelDialogRemoveWatch();
-      }
-
-      <xsl:if test="/data/query/events/mainvalue='openwindow'">
-        <xsl:text>open_window ('show/</xsl:text>
-        <xsl:value-of select="attributes/pageidentifier" />
-        <xsl:text>/', 'showwebsite');</xsl:text>
-      </xsl:if>
-    </script>
     <input type="hidden" name="data_pageidentifier">
       <xsl:attribute name="value">
         <xsl:value-of select="attributes/pageidentifier" />
@@ -52,50 +31,75 @@
       </div>
     </div>
     <div class="menu pagedata_menu top">
-      <a class="button" style="width: 29px;" href="javascript:ThrowEvent('save','');">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button btnSave</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="style">
+          <xsl:text>width: 29px;</xsl:text>
+        </xsl:attribute>
         <xsl:text>Save</xsl:text>
       </a>
-      <a class="button" style="width: 87px;" href="javascript:ThrowEvent('save','openwindow');">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button btnSaveAndShow</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="style">
+          <xsl:text>width: 87px;</xsl:text>
+        </xsl:attribute>
         <xsl:text>Save and show</xsl:text>
       </a>
-      <a class="button" style="width: 31px;" href="javascript:ThrowEvent('','openwindow');">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button btnShow</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="style">
+          <xsl:text>width: 31px;</xsl:text>
+        </xsl:attribute>
         <xsl:text>Show</xsl:text>
       </a>
-      <select name="adminmoreactions" id="adminmoreactions" onChange="eval(adminmoreactions.options[adminmoreactions.selectedIndex].value);">
+      <select id="adminmoreactions">
         <option value="">
           <xsl:text>More actions...</xsl:text>
-      </option>
-        <option value="ThrowEventConfirm('removepage', '{attributes/pageidentifier}', 'Do you want to delete the page?');">
+        </option>
+        <option action="removepage" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Delete page</xsl:text>
         </option>
-        <option value="ThrowEventNew('addpage','{attributes/pageidentifier}','Type the name of the new page:');">
+        <option action="addpage" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Add subpage</xsl:text>
         </option>
-        <option value="ThrowEventNew('pagecreatcontainer','','Type the name of the new container:');">
+        <option action="pagecreatcontainer">
           <xsl:text>&#160;&#160;Add container</xsl:text>
         </option>
         <option disabled="disabled" />
         <option disabled="disabled">Move</option>
-        <option value="ThrowEvent('pagemoveup','{attributes/pageidentifier}');">
+        <option action="pagemoveup" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move up</xsl:text>
         </option>
-        <option value="ThrowEvent('pagemovedown','{attributes/pageidentifier}');">
+        <option action="pagemovedown" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move down</xsl:text>
         </option>
-        <option value="ThrowEvent('pagemovetop','{attributes/pageidentifier}');">
+        <option action="pagemovetop" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move Top</xsl:text>
         </option>
-        <option value="ThrowEvent('pagemovebottom','{attributes/pageidentifier}');">
+        <option action="pagemovebottom" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move Bottom</xsl:text>
         </option>
-        <option value="ModalDialogShow('{/data/basepath}/admin/choose/page/', 'movePage()');">
+        <option action="movepage" value="{/data/basepath}">
           <xsl:text>&#160;&#160;Move To</xsl:text>
         </option>
-        <option value="ModalDialogShow('{/data/basepath}/admin/choose/page/', 'copyPage()');">
+        <option action="copypage">
+          <xsl:attribute name="value">
+            <xsl:value-of select="/data/basepath" />
+            <xsl:text>;;</xsl:text>
+            <xsl:value-of select="attributes/pageidentifier" />
+            <xsl:text>;;</xsl:text>
+            <xsl:value-of select="/data/contentplace/page/attributes/pagename" />
+          </xsl:attribute>
           <xsl:text>&#160;&#160;Copy To</xsl:text>
         </option>
         <option disabled="disabled" />
-        <option value="ThrowEvent('setstandardpage', '');">
+        <option action="setstandardpage">
           <xsl:text>Set as default page</xsl:text>
         </option>
       </select>
@@ -153,13 +157,31 @@
       </div>
     </div>
     <div class="menu pagedata_menu bottom">
-      <a class="button" style="width: 29px;" href="javascript:ThrowEvent('save','');">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button btnSave</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="style">
+          <xsl:text>width: 29px;</xsl:text>
+        </xsl:attribute>
         <xsl:text>Save</xsl:text>
       </a>
-      <a class="button" style="width: 87px;" href="javascript:ThrowEvent('save','openwindow');">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button btnSaveAndShow</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="style">
+          <xsl:text>width: 87px;</xsl:text>
+        </xsl:attribute>
         <xsl:text>Save and show</xsl:text>
       </a>
-      <a class="button" style="width: 31px;" href="javascript:ThrowEvent('','openwindow');">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button btnShow</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="style">
+          <xsl:text>width: 31px;</xsl:text>
+        </xsl:attribute>
         <xsl:text>Show</xsl:text>
       </a>
     </div>
@@ -186,23 +208,19 @@
       <div class="menu container_menu">
         <a>
           <xsl:attribute name="class">
-            <xsl:text>button delete</xsl:text>
+            <xsl:text>button delete hlRemoveContrainer</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="title">
             <xsl:text>This will remove the container</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEventConfirm('pageremovecontainer','</xsl:text>
+          <xsl:attribute name="value">
             <xsl:number count="container" />
-            <xsl:text>','This will remove the container.\n\nAre you sure?');</xsl:text>
           </xsl:attribute>
           <xsl:text>X</xsl:text>
         </a>
         <select>
-          <xsl:attribute name="onChange">
-            <xsl:text>ThrowEvent('addelement','text_</xsl:text>
-            <xsl:number count="container" />
-            <xsl:text>');</xsl:text>
+          <xsl:attribute name="class">
+            <xsl:text>addelement</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="name">
             <xsl:text>data_container_</xsl:text>
@@ -275,8 +293,8 @@
       </xsl:choose>
       <xsl:text> the current Page</xsl:text>
     </label>
-    <div class="checkbox_list">
-      <ul>
+    <div class="item">
+      <ul class="checkbox_list">
         <xsl:for-each select="//data/basedata/security/groups/*">
           <li>
             <input type="checkbox" value="user1" class="checkbox">
@@ -538,12 +556,6 @@
     <xsl:param name="currentelement" />
     <xsl:param name="id" />
     <xsl:variable select="@attribute" name="attribute" />
-    <script type="text/javascript">
-      function ReturnMethod<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />() {
-        document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
-        ModalDialogRemoveWatch();
-      }
-    </script>
     <label>
       <xsl:value-of select="@name" />
     </label>
@@ -558,15 +570,16 @@
           <xsl:value-of select="$currentelement/*[name()=$attribute]" />
         </xsl:attribute>
       </input>
-      <a class="button">
-        <xsl:attribute name="href">
-          <xsl:text>javascript:ModalDialogShow('</xsl:text>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button hlChoosePage</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
           <xsl:value-of select="/data/basepath" />
-          <xsl:text>/?process=admin/choose/page','ReturnMethod</xsl:text>
+          <xsl:text>;;</xsl:text>
           <xsl:value-of select="$id" />
-          <xsl:text>_</xsl:text>
+          <xsl:text>;;</xsl:text>
           <xsl:value-of select="@attribute" />
-          <xsl:text>()');</xsl:text>
         </xsl:attribute>
         <xsl:text>Choose</xsl:text>
       </a>
@@ -577,12 +590,6 @@
     <xsl:param name="currentelement" />
     <xsl:param name="id" />
     <xsl:variable select="@attribute" name="attribute" />
-    <script type="text/javascript">
-      function ReturnMethod<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />() {
-        document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
-        ModalDialogRemoveWatch();
-      }
-    </script>
     <label>
       <xsl:value-of select="@name" />
     </label>
@@ -597,15 +604,16 @@
           <xsl:value-of select="$currentelement/*[name()=$attribute]" />
         </xsl:attribute>
       </input>
-      <a class="button">
-        <xsl:attribute name="href">
-          <xsl:text>javascript:ModalDialogShow('</xsl:text>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button hlChooseFile</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
           <xsl:value-of select="/data/basepath" />
-          <xsl:text>/?process=admin/choose/file','ReturnMethod</xsl:text>
+          <xsl:text>;;</xsl:text>
           <xsl:value-of select="$id" />
-          <xsl:text>_</xsl:text>
+          <xsl:text>;;</xsl:text>
           <xsl:value-of select="@attribute" />
-          <xsl:text>()');</xsl:text>
         </xsl:attribute>
         <xsl:text>Choose</xsl:text>
       </a>
@@ -616,18 +624,22 @@
     <xsl:param name="currentelement" />
     <xsl:param name="id" />
     <xsl:variable select="@attribute" name="attribute" />
-    <script type="text/javascript">
-      function ReturnMethod<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />() {
-        document.systemform.<xsl:value-of select="$id" />_<xsl:value-of select="@attribute" />.value = ModalDialog.value;
-        ModalDialogRemoveWatch();
-      }
-    </script>
     <label>
       <xsl:value-of select="@name" />
     </label>
     <div class="item">
       <input type="text" name="{$id}_{@attribute}" value="{$currentelement/*[name()=$attribute]}" />
-      <a class="button" href="javascript:ModalDialogShow('{/data/basepath}/?process=admin/choose/folder','ReturnMethod{$id}_{@attribute}()');">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button hlChooseFolder</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:value-of select="/data/basepath" />
+          <xsl:text>;;</xsl:text>
+          <xsl:value-of select="$id" />
+          <xsl:text>;;</xsl:text>
+          <xsl:value-of select="@attribute" />
+        </xsl:attribute>
         <xsl:text>Choose</xsl:text>
       </a>
     </div>
@@ -736,69 +748,59 @@
         </a>
         <a>
           <xsl:attribute name="class">
-            <xsl:text>button</xsl:text>
+            <xsl:text>button hlMoveElementTop</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEvent('movetop','element-</xsl:text>
+          <xsl:attribute name="value">
             <xsl:number count="container" />
-            <xsl:text>-</xsl:text>
+            <xsl:text>;;</xsl:text>
             <xsl:number count="element" />
-            <xsl:text>');</xsl:text>
           </xsl:attribute>
           <xsl:text>Top</xsl:text>
         </a>
         <a>
           <xsl:attribute name="class">
-            <xsl:text>button</xsl:text>
+            <xsl:text>button hlMoveElementDown</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEvent('movedown','element-</xsl:text>
+          <xsl:attribute name="value">
             <xsl:number count="container" />
-            <xsl:text>-</xsl:text>
+            <xsl:text>;;</xsl:text>
             <xsl:number count="element" />
-            <xsl:text>');</xsl:text>
           </xsl:attribute>
           <xsl:text>Down</xsl:text>
         </a>
         <a>
           <xsl:attribute name="class">
-            <xsl:text>button</xsl:text>
+            <xsl:text>button hlMoveElementUp</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEvent('moveup','element-</xsl:text>
+          <xsl:attribute name="value">
             <xsl:number count="container" />
-            <xsl:text>-</xsl:text>
+            <xsl:text>;;</xsl:text>
             <xsl:number count="element" />
-            <xsl:text>');</xsl:text>
           </xsl:attribute>
           <xsl:text>Up</xsl:text>
         </a>
         <a>
           <xsl:attribute name="class">
-            <xsl:text>button</xsl:text>
+            <xsl:text>button hlCopyElement</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEvent('copy','element-</xsl:text>
+          <xsl:attribute name="value">
             <xsl:number count="container" />
-            <xsl:text>-</xsl:text>
+            <xsl:text>;;</xsl:text>
             <xsl:number count="element" />
-            <xsl:text>');</xsl:text>
           </xsl:attribute>
           <xsl:text>Copy</xsl:text>
         </a>
         <a>
           <xsl:attribute name="class">
-            <xsl:text>button delete</xsl:text>
+            <xsl:text>button delete hlRemoveElement</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="title">
             <xsl:text>delete the element</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="href">
-            <xsl:text>javascript:ThrowEventConfirm('remove','element-</xsl:text>
+          <xsl:attribute name="value">
             <xsl:number count="container" />
-            <xsl:text>-</xsl:text>
+            <xsl:text>;;</xsl:text>
             <xsl:number count="element" />
-            <xsl:text>','Are you sure you want to delete this element?');</xsl:text>
           </xsl:attribute>
           <xsl:text>X</xsl:text>
         </a>
