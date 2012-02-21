@@ -83,6 +83,7 @@
             <!-- Begin of primary hidden settings -->
             <input type="hidden" name="event_main" value="" />
             <input type="hidden" name="event_mainvalue" value="" />
+            <input type="hidden" name="event_redirect" value="" />
             <input type="hidden" name="process">
               <xsl:attribute name="value">
                 <xsl:value-of select="data/query/other/process" />
@@ -92,7 +93,7 @@
 
             <!-- Begin Header -->
             <div class="header">
-              <a href="{/data/basepath}">
+              <a href="{/data/basepath}/admin/">
                 <img>
                   <xsl:attribute name="src">
                     <xsl:text>/System/Components/Admin/Images/logo.gif</xsl:text>
@@ -159,21 +160,28 @@
   <xsl:template mode="topmenu" match="item">
     <li>
       <a>
-        <xsl:attribute name="href">
-          <xsl:if test="@path">
-            <xsl:value-of select="@path" />
-            <xsl:text>/</xsl:text>
-          </xsl:if>
-          <xsl:if test="@javascript">
-            <xsl:text>javascript:</xsl:text>
-            <xsl:value-of select="@javascript" />
-          </xsl:if>
-          <xsl:if test="@event">
-            <xsl:text>javascript:ThrowEvent('</xsl:text>
-            <xsl:value-of select="@event" />
-            <xsl:text>', '');</xsl:text>
-          </xsl:if>
-        </xsl:attribute>
+        <xsl:choose>
+          <xsl:when test="@path">
+            <xsl:attribute name="href">
+              <xsl:value-of select="@path" />
+              <xsl:text>/</xsl:text>
+            </xsl:attribute>
+          </xsl:when>
+          <xsl:when test="@javascript">
+            <xsl:attribute name="href">
+              <xsl:text>javascript:</xsl:text>
+              <xsl:value-of select="@javascript" />
+            </xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute name="class">
+              <xsl:text>hlThrowEvent</xsl:text>
+            </xsl:attribute>
+            <xsl:attribute name="action">
+              <xsl:value-of select="@event" />
+            </xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
         <xsl:value-of select="." />
       </a>
     </li>

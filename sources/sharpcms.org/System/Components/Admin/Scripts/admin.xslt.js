@@ -22,6 +22,7 @@
     // Tabs
     $('#tabs').tabs();
     $('#pada_body_tabs').tabs();
+    $('#usda_body_tabs').tabs();
 
 
     // Select

@@ -15,12 +15,12 @@
       </div>
     </div>
     <div class="menu tree_menu">
-      <a class="button">
+      <a>
         <xsl:attribute name="class">
-          <xsl:text>button</xsl:text>
+          <xsl:text>button hlAddFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="href">
-          <xsl:text>javascript:ThrowEventNew('addfolder','.','Type the name of the new folder');</xsl:text>
+        <xsl:attribute name="value">
+          <xsl:text>.</xsl:text>
         </xsl:attribute>
         <xsl:text>Add new folder</xsl:text>
       </a>

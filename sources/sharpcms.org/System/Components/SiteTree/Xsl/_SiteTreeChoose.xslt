@@ -19,10 +19,11 @@
     <xsl:param name="current-path" />
     <li>
       <a>
-        <xsl:attribute name="href">
-          <xsl:text>javascript:CloseForm('</xsl:text>
+        <xsl:attribute name="class">
+          <xsl:text>hlCloseForm</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
           <xsl:value-of select="$current-path" />
-          <xsl:text>');</xsl:text>
         </xsl:attribute>
         <span>
           <xsl:choose>

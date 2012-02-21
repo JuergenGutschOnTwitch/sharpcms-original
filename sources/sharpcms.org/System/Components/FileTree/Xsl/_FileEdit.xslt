@@ -19,44 +19,45 @@
       </div>
     </div>
     <div class="menu filedata_menu">
-      <a class="button">
-        <xsl:attribute name="href">
-          <xsl:text>javascript:ThrowEventConfirm('removefile','</xsl:text>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button hlRemoveFile</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
           <xsl:value-of select="@path" />
-          <xsl:text>','Do you want to delete the file?');</xsl:text>
         </xsl:attribute>
         <xsl:text>Delete file</xsl:text>
       </a>
-      <a class="button">
-        <xsl:attribute name="href">
-          <xsl:text>javascript:ThrowEventNew('renamefile','</xsl:text>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button hlRenameFile</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
           <xsl:value-of select="@path" />
-          <xsl:text>','Write the new name');</xsl:text>
         </xsl:attribute>
         <xsl:text>Rename file</xsl:text>
       </a>
-      <a class="button">
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button</xsl:text>
+        </xsl:attribute>
         <xsl:attribute name="href">
           <xsl:text>/?process=download/</xsl:text>
           <xsl:value-of select="@path" />&amp;download=true
         </xsl:attribute>
         <xsl:text>Download file</xsl:text>
       </a>
-      <a class="button">
-        <xsl:attribute name="href">
-          <xsl:text>javascript:ModalDialogShow('</xsl:text>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button hlMoveFile</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
           <xsl:value-of select="/data/basepath" />
-          <xsl:text>/admin/choose/folder','ReturnMethodMoveFile()');</xsl:text>
+          <xsl:text>;;</xsl:text>
+          <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Move file</xsl:text>
       </a>
-      <script language="JavaScript">
-        function ReturnMethodMoveFile() {
-        tmpValue = ModalDialog.value;
-        ModalDialogRemoveWatch();
-        ThrowEvent('movefile','<xsl:value-of select="@path" />*' +tmpValue);
-        }
-      </script>
     </div>
     <xsl:if test="@mainmimetype='image'">
       <div class="body filedata_body" id="fida_body">
@@ -92,7 +93,10 @@
               <xsl:text>px</xsl:text>
             </td>
             <td>
-              <a class="button" href="javascript:ThrowEvent('doresize','');">
+              <a>
+                <xsl:attribute name="class">
+                  <xsl:text>button hlResizeFile</xsl:text>
+                </xsl:attribute>
                 <xsl:text>Resize</xsl:text>
               </a>
             </td>
