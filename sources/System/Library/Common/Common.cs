@@ -272,6 +272,11 @@ namespace Sharpcms.Library.Common
             throw new ArgumentException("The combined path does not begin with the root path.");
         }
 
+        public static string ParseFilePath(string path)
+        {
+            return path.Replace("/", "\\");
+        }
+
         private static bool PathIsUnderRoot(string path)
         {
             return PathIsUnderRoot(Settings.DefaultInstance.RootPath, path);

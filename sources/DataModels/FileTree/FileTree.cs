@@ -44,6 +44,8 @@ namespace Sharpcms.Data.FileTree
         public void CreateFolder(string path, string name)
         {
             name = Common.CleanToSafeString(name);
+            path = Common.ParseFilePath(path);
+
             string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path, name);
             Directory.CreateDirectory(combinedPath);
         }
