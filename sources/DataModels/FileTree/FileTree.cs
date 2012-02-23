@@ -44,7 +44,7 @@ namespace Sharpcms.Data.FileTree
         public void CreateFolder(string path, string name)
         {
             name = Common.CleanToSafeString(name);
-            path = Common.ParseFilePath(path);
+            path = Common.FormatFilePath(path);
 
             string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path, name);
             Directory.CreateDirectory(combinedPath);
@@ -113,115 +113,149 @@ namespace Sharpcms.Data.FileTree
             HttpResponse response = _process.HttpPage.Response;
 
             var fileInfo = new FileInfo(Path.Combine(_rootFilesPath, filename));
-            if (fileInfo.FullName.StartsWith(_rootFilesPath))
+            if (!fileInfo.FullName.StartsWith(_rootFilesPath)) return;
+
+            if (fileInfo.Exists)
             {
-                if (fileInfo.Exists)
+                response.Clear();
+
+                var currentFile = fileInfo.FullName;
+                if (Common.IsValidImage(currentFile) && HasImageRenderProperties())
                 {
-                    response.Clear();
-                    string currentFile = fileInfo.FullName;
+                    currentFile = RenderImage(fileInfo);
+                }
 
-                    int width;
-                    int.TryParse(_process.QueryOther["width"], out width);
+                // Send file to browser
+                var file = new FileInfo(currentFile);
+                if (_process.QueryOther["download"] == "true")
+                {
+                    response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+                }
+                else
+                {
+                    response.AddHeader("Content-Disposition", "filename=" + file.Name);
+                }
 
-                    int height;
-                    int.TryParse(_process.QueryOther["height"], out height);
+                response.AddHeader("Content-Length", file.Length.ToString(CultureInfo.InvariantCulture));
+                response.AddHeader("Content-Type", Common.GetMimeType(file.Extension));
 
-                    int radius;
-                    int.TryParse(_process.QueryOther["radius"], out radius);
+                response.Cache.SetExpires(DateTime.Now + new TimeSpan(7, 0, 0, 0));
+                response.Cache.SetCacheability(HttpCacheability.Public);
 
-                    int borderwidth;
-                    int.TryParse(_process.QueryOther["borderwidth"], out borderwidth);
+                response.WriteFile(currentFile);
+                response.Flush();
+                response.End();
+            }
+        }
 
-                    string bordercolor = ("#" + _process.QueryOther["bordercolor"]);
+        private bool HasImageRenderProperties()
+        {
+            int borderwidth;
+            bool hasBoderWidth = int.TryParse(_process.QueryOther["borderwidth"], out borderwidth);
 
-                    bool isFixed = _process.QueryOther["fixed"] == "true";
-                    if (width > 0 || height > 0 || radius >= 0)
+            string bordercolor;
+            bool hasBordercolor = Common.TryParseCssColor(_process.QueryOther["bordercolor"], out bordercolor);
+
+            int height;
+            bool hasHeight = int.TryParse(_process.QueryOther["height"], out height);
+
+            int radius;
+            bool hasRadius = int.TryParse(_process.QueryOther["radius"], out radius);
+
+            int width;
+            bool hasWidth = int.TryParse(_process.QueryOther["width"], out width);
+            
+            return hasBoderWidth || hasBordercolor || hasHeight || hasRadius || hasWidth;
+        }
+
+        private string RenderImage(FileInfo fileInfo)
+        {
+            int width;
+            bool hasWidth = int.TryParse(_process.QueryOther["width"], out width);
+
+            int height;
+            bool hasHeight = int.TryParse(_process.QueryOther["height"], out height);
+
+            int radius;
+            bool hasRadius = int.TryParse(_process.QueryOther["radius"], out radius);
+
+            int borderwidth;
+            bool hasBoderWidth = int.TryParse(_process.QueryOther["borderwidth"], out borderwidth);
+
+            string bordercolor;
+            bool hasBordercolor = Common.TryParseCssColor(_process.QueryOther["bordercolor"], out bordercolor);
+
+            bool isFixed = _process.QueryOther["fixed"] == "true";
+            if ((hasWidth && width > 0) 
+                || (hasHeight && height > 0) 
+                || (hasRadius && radius >= 0))
+            {
+                string newFilename = string.Format("{0}_{1}x{2}r{3}", fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height, radius);
+
+                if (hasBoderWidth && hasBordercolor)
+                {
+                    newFilename += ("bw" + borderwidth + "bc" + bordercolor);
+                }
+
+                newFilename += ("_" + isFixed + ".png");
+
+                if (fileInfo.Directory != null)
+                {
+                    string thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs", newFilename);
+
+                    var rerender = new DateTime(2006, 9, 25);
+                    FileInfo thumbInfo = null;
+                    if (File.Exists(thumbnailFile))
                     {
-                        Bitmap bitmap = null;
-                        string newFilename = string.Format("{0}_{1}x{2}r{3}", fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height, radius);
-
-                        if (borderwidth > 0 && Regex.IsMatch(bordercolor, @"[#]([0-9]|[a-f]|[A-F]){6}\b"))
-                        {
-                            newFilename += ("bw" + borderwidth + "bc" + bordercolor);
-                        }
-
-                        newFilename += ("_" + isFixed + ".png");
-
-                        if (fileInfo.Directory != null)
-                        {
-                            string thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs",
-                                                                       newFilename);
-
-                            var rerender = new DateTime(2006, 9, 25);
-                            FileInfo thumbInfo = null;
-                            if (File.Exists(thumbnailFile))
-                                thumbInfo = new FileInfo(thumbnailFile);
-
-                            if (thumbInfo == null || thumbInfo.LastWriteTime < fileInfo.LastWriteTime || rerender > thumbInfo.LastWriteTime)
-                            {
-                                bitmap = new Bitmap(fileInfo.FullName);
-                                if (fileInfo.Extension.ToLower() == ".gif")
-                                {
-                                    var realBitmap = new Bitmap(bitmap.Width, bitmap.Height);
-                                    for (int x = 0; x < bitmap.Width; x++)
-                                    {
-                                        for (int y = 0; y < bitmap.Height; y++)
-                                        {
-                                            realBitmap.SetPixel(x, y, bitmap.GetPixel(x, y));
-                                        }
-                                    }
-
-                                    bitmap.Dispose();
-                                    bitmap = realBitmap;
-                                }
-
-                                bitmap = ResizeOrCropImage(bitmap, width, height, isFixed);
-                                bitmap = RoundImageVertex(bitmap, radius, borderwidth, bordercolor);
-                            }
-                            else
-                            {
-                                currentFile = thumbnailFile;
-                            }
-
-                            if (bitmap != null)
-                            {
-                                if (!Directory.Exists(fileInfo.Directory + @"\thumbs"))
-                                {
-                                    Directory.CreateDirectory(fileInfo.Directory + @"\thumbs");
-                                }
-
-                                var eps = new EncoderParameters(1);
-                                eps.Param[0] = new EncoderParameter(Encoder.Quality, 95L);
-                                ImageCodecInfo ici = GetEncoderInfo("image/png");
-                                bitmap.Save(thumbnailFile, ici, eps);
-                                bitmap.Dispose();
-                                currentFile = thumbnailFile;
-                            }
-                        }
+                        thumbInfo = new FileInfo(thumbnailFile);
                     }
 
-                    // Send image to browser
-                    var file = new FileInfo(currentFile);
-                    if (_process.QueryOther["download"] == "true")
+                    Bitmap bitmap;
+                    if (thumbInfo == null || thumbInfo.LastWriteTime < fileInfo.LastWriteTime || rerender > thumbInfo.LastWriteTime)
                     {
-                        response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+                        bitmap = new Bitmap(fileInfo.FullName);
+                        if (fileInfo.Extension.ToLower() == ".gif")
+                        {
+                            var realBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+                            for (int x = 0; x < bitmap.Width; x++)
+                            {
+                                for (int y = 0; y < bitmap.Height; y++)
+                                {
+                                    realBitmap.SetPixel(x, y, bitmap.GetPixel(x, y));
+                                }
+                            }
+
+                            bitmap.Dispose();
+                            bitmap = realBitmap;
+                        }
+
+                        bitmap = ResizeOrCropImage(bitmap, width, height, isFixed);
+                        bitmap = RoundImageVertex(bitmap, radius, borderwidth, bordercolor);
                     }
                     else
                     {
-                        response.AddHeader("Content-Disposition", "filename=" + file.Name);
+                        return thumbnailFile;
                     }
 
-                    response.AddHeader("Content-Length", file.Length.ToString(CultureInfo.InvariantCulture));
-                    response.AddHeader("Content-Type", Common.GetMimeType(file.Extension));
+                    if (bitmap != null)
+                    {
+                        if (!Directory.Exists(fileInfo.Directory + @"\thumbs"))
+                        {
+                            Directory.CreateDirectory(fileInfo.Directory + @"\thumbs");
+                        }
 
-                    response.Cache.SetExpires(DateTime.Now + new TimeSpan(7, 0, 0, 0));
-                    response.Cache.SetCacheability(HttpCacheability.Public);
+                        var eps = new EncoderParameters(1);
+                        eps.Param[0] = new EncoderParameter(Encoder.Quality, 95L);
+                        ImageCodecInfo ici = GetEncoderInfo("image/png");
+                        bitmap.Save(thumbnailFile, ici, eps);
+                        bitmap.Dispose();
 
-                    response.WriteFile(currentFile);
-                    response.Flush();
-                    response.End();
+                        return thumbnailFile;
+                    }
                 }
             }
+
+            return fileInfo.FullName;
         }
 
         private static Bitmap ResizeOrCropImage(Image bitmap, int width, int height, bool isFixed)
