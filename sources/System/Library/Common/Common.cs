@@ -1,8 +1,10 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Sharpcms.Library.Plugin;
 
 namespace Sharpcms.Library.Common
@@ -272,7 +274,7 @@ namespace Sharpcms.Library.Common
             throw new ArgumentException("The combined path does not begin with the root path.");
         }
 
-        public static string ParseFilePath(string path)
+        public static string FormatFilePath(string path)
         {
             return path.Replace("/", "\\");
         }
@@ -346,6 +348,37 @@ namespace Sharpcms.Library.Common
                 final[offset + 1] = originalString.Substring(offsets[offset] + pattern.Length);
             }
             return final;
+        }
+
+        public static bool TryParseCssColor(string value, out string cssColor)
+        {
+            value = string.Format("#{0}", value);
+            if (Regex.IsMatch(value, @"[#]([0-9]|[a-f]|[A-F]){6}\b"))
+            {
+                cssColor = value;
+
+                return true;
+            }
+
+            cssColor = string.Empty;
+
+            return false;
+        }
+
+        public static bool IsValidImage(string imagePath)
+        {
+            try
+            {
+                Image image = Image.FromFile(imagePath);
+
+                image.Dispose();
+            }
+            catch (OutOfMemoryException)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
