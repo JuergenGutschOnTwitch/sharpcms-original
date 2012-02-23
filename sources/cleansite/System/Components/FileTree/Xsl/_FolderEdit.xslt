@@ -49,15 +49,26 @@
           <xsl:text>button hlMoveFolder</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="name">
-          <xsl:value-of select="/data/basepath" />
-          <xsl:text>;;</xsl:text>
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Move folder</xsl:text>
       </a>
     </div>
-    <div class="body folderdata_body" id="foda_body">
-      <xsl:call-template name="upload" />
+    <div class="tab-pane" id="foda_body" style="float: left;">
+      <div id="usda_body_tabs">
+        <ul>
+          <li>
+            <a href="#ptabs1">
+              <xsl:text>Upload</xsl:text>
+            </a>
+          </li>
+        </ul>
+        <div id="ptabs1" class="tab-page">
+          <div class="tab_page_body">
+            <xsl:call-template name="upload" />
+          </div>
+        </div>
+      </div>
     </div>
   </xsl:template>
 

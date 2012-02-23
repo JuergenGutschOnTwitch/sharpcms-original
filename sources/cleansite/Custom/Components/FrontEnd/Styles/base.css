@@ -55,6 +55,14 @@ span {
     font-size: 1.3em;
 }
 
+a {
+    color: #7697ab;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 
 /*************************************************************************/
 /*                                                                    Page

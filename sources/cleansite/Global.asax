@@ -8,12 +8,17 @@
         string currentURL = HttpContext.Current.Request.Path.ToLower();
         
         if (httpContext.Request.ApplicationPath == null) return;
-        
-        string processpath = currentURL.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').ToLower();
 
-        if (!File.Exists(httpContext.Server.MapPath(currentURL.Substring(currentURL.LastIndexOf("/", StringComparison.Ordinal) + 1))))
+        string file = httpContext.Server.MapPath(currentURL.Substring(currentURL.LastIndexOf("/", StringComparison.Ordinal) + 1));
+        if (!File.Exists(file))
         {
-            httpContext.RewritePath("~/default.aspx?process=" + processpath.Replace(".aspx", "") + "&" + httpContext.Request.ServerVariables["QUERY_STRING"]);
+            string path = currentURL.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').ToLower().Replace(".aspx", "");
+            string querystring = httpContext.Request.ServerVariables["QUERY_STRING"];
+            string rewritePath = String.IsNullOrEmpty(querystring) 
+                ? String.Format("~/default.aspx?process={0}", path) 
+                : String.Format("~/default.aspx?process={0}&{1}", path, querystring); 
+            
+            httpContext.RewritePath(rewritePath);
         }
     }
 

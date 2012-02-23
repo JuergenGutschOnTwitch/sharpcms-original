@@ -33,7 +33,7 @@
     <div class="menu pagedata_menu top">
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button btnSave</xsl:text>
+          <xsl:text>button hlSave</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="style">
           <xsl:text>width: 29px;</xsl:text>
@@ -42,7 +42,7 @@
       </a>
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button btnSaveAndShow</xsl:text>
+          <xsl:text>button hlSaveAndShow</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="style">
           <xsl:text>width: 87px;</xsl:text>
@@ -51,7 +51,7 @@
       </a>
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button btnShow</xsl:text>
+          <xsl:text>button hlShow</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="style">
           <xsl:text>width: 31px;</xsl:text>
@@ -85,13 +85,11 @@
         <option action="pagemovebottom" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move Bottom</xsl:text>
         </option>
-        <option action="movepage" value="{/data/basepath}">
+        <option action="movepage">
           <xsl:text>&#160;&#160;Move To</xsl:text>
         </option>
         <option action="copypage">
           <xsl:attribute name="value">
-            <xsl:value-of select="/data/basepath" />
-            <xsl:text>;;</xsl:text>
             <xsl:value-of select="attributes/pageidentifier" />
             <xsl:text>;;</xsl:text>
             <xsl:value-of select="/data/contentplace/page/attributes/pagename" />
@@ -159,7 +157,7 @@
     <div class="menu pagedata_menu bottom">
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button btnSave</xsl:text>
+          <xsl:text>button hlSave</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="style">
           <xsl:text>width: 29px;</xsl:text>
@@ -168,7 +166,7 @@
       </a>
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button btnSaveAndShow</xsl:text>
+          <xsl:text>button hlSaveAndShow</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="style">
           <xsl:text>width: 87px;</xsl:text>
@@ -177,7 +175,7 @@
       </a>
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button btnShow</xsl:text>
+          <xsl:text>button hlShow</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="style">
           <xsl:text>width: 31px;</xsl:text>
@@ -575,8 +573,6 @@
           <xsl:text>button hlChoosePage</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="value">
-          <xsl:value-of select="/data/basepath" />
-          <xsl:text>;;</xsl:text>
           <xsl:value-of select="$id" />
           <xsl:text>;;</xsl:text>
           <xsl:value-of select="@attribute" />
@@ -609,8 +605,6 @@
           <xsl:text>button hlChooseFile</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="value">
-          <xsl:value-of select="/data/basepath" />
-          <xsl:text>;;</xsl:text>
           <xsl:value-of select="$id" />
           <xsl:text>;;</xsl:text>
           <xsl:value-of select="@attribute" />
@@ -634,8 +628,6 @@
           <xsl:text>button hlChooseFolder</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="value">
-          <xsl:value-of select="/data/basepath" />
-          <xsl:text>;;</xsl:text>
           <xsl:value-of select="$id" />
           <xsl:text>;;</xsl:text>
           <xsl:value-of select="@attribute" />

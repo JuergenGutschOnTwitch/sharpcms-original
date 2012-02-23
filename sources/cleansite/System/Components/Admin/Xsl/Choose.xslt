@@ -26,10 +26,7 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/treeview/jquery.treeview.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/choose.xslt.js">
-          <xsl:text> </xsl:text>
-        </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/modal.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/eventhandler.js">
           <xsl:text> </xsl:text>
         </script>
       </head>
