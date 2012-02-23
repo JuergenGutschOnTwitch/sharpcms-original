@@ -175,10 +175,14 @@ namespace Sharpcms.Providers.Base
         private void HandleSetStandardPage()
         {
             string newDefault = Process.QueryData["pageidentifier"].Trim();
+            string redirect = Process.QueryEvents["redirect"];
+
             if (newDefault.Length > 0)
             {
                 Process.Settings["sitetree/stdpage"] = newDefault;
             }
+
+            Process.RedirectUrl = Process.GetUrl(Process.CurrentProcess);
         }
 
         /// <summary>
@@ -187,10 +191,12 @@ namespace Sharpcms.Providers.Base
         private void HandlePageRemoveContainer()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string query = Process.QueryEvents["mainvalue"];
-
-            currentPage.Containers.Remove(int.Parse(query) - 1);
+            string mainValueQueryEvent = Process.QueryEvents["mainvalue"];
+            
+            currentPage.Containers.Remove(int.Parse(mainValueQueryEvent) - 1);
             currentPage.Save();
+
+            Process.RedirectUrl = Process.CurrentProcess;
         }
 
         /// <summary>
@@ -200,10 +206,15 @@ namespace Sharpcms.Providers.Base
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
             string query = Process.QueryEvents["mainvalue"];
+
             query = Common.CleanToSafeString(query).ToLower();
 
             Container container = currentPage.Containers[query];
             currentPage.Save();
+
+            int containerId = currentPage.Containers.Index(query);
+
+            Process.RedirectUrl = GetRedirectUrl(containerId, 0);
         }
 
         /// <summary>
@@ -212,6 +223,8 @@ namespace Sharpcms.Providers.Base
         private void HandlePageMoveUp()
         {
             new SiteTree(Process).MoveUp(Process.QueryData["pageidentifier"]);
+
+            Process.RedirectUrl = Process.CurrentProcess;
         }
 
         /// <summary>
@@ -220,6 +233,8 @@ namespace Sharpcms.Providers.Base
         private void HandlePageMoveDown()
         {
             new SiteTree(Process).MoveDown(Process.QueryData["pageidentifier"]);
+
+            Process.RedirectUrl = Process.CurrentProcess;
         }
 
         /// <summary>
@@ -228,6 +243,8 @@ namespace Sharpcms.Providers.Base
         private void HandlePageMoveTop()
         {
             new SiteTree(Process).MoveTop(Process.QueryData["pageidentifier"]);
+
+            Process.RedirectUrl = Process.CurrentProcess;
         }
 
         /// <summary>
@@ -236,6 +253,8 @@ namespace Sharpcms.Providers.Base
         private void HandlePageMoveBottom()
         {
             new SiteTree(Process).MoveBottom(Process.QueryData["pageidentifier"]);
+
+            Process.RedirectUrl = Process.CurrentProcess;
         }
 
         /// <summary>
@@ -243,7 +262,18 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandlePageCopy()
         {
-            new SiteTree(Process).CopyTo(Process.QueryEvents["mainvalue"]);
+            string mainValueQueryEvent = Process.QueryEvents["mainvalue"];
+
+            new SiteTree(Process).CopyTo(mainValueQueryEvent);
+
+            string[] pathArray = mainValueQueryEvent.Split('¤');
+            string path = string.Empty;
+            for (int i = 1; i < pathArray.Length; i++)
+            {
+                path += (pathArray[i] + "/");
+            }
+            path = path.Substring(0, path.Length - 1);
+            Process.RedirectUrl = GetRedirectUrl(path);
         }
 
         /// <summary>
@@ -251,8 +281,48 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandlePageMove()
         {
-            new SiteTree(Process).Move(Process.QueryData["pageidentifier"], Process.QueryEvents["mainvalue"]);
+            string mainValueQueryEvent = Process.QueryEvents["mainvalue"];
+            string pageidentifierQueryData = Process.QueryData["pageidentifier"];
+
+
+            new SiteTree(Process).Move(Process.QueryData["pageidentifier"], mainValueQueryEvent);
+
+            Process.RedirectUrl = GetRedirectUrl(mainValueQueryEvent);
         }
+
+
+
+
+        /// <summary>
+        /// Gets the redirect URL.
+        /// </summary>
+        /// <param name="containerId">The container id.</param>
+        /// <param name="elementId">The element id.</param>
+        /// <returns></returns>
+        private string GetRedirectUrl(int containerId, int elementId)
+        {
+            string queryString = string.Empty;
+
+            if (containerId >= 0 && elementId >= 0)
+            {
+                queryString = String.Format("?c={0}&e={1}", containerId, elementId);
+            }
+
+            return Process.GetUrl(Process.CurrentProcess, queryString);
+        }
+
+        /// <summary>
+        /// Gets the redirect URL.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
+        private string GetRedirectUrl(string path)
+        {
+            return Process.GetUrl(String.Format("admin/page/edit/{0}/", path));
+        }
+
+
+
 
         /// <summary>
         /// Handles the add element.
@@ -260,8 +330,8 @@ namespace Sharpcms.Providers.Base
         private void HandleAddElement()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string element = Process.QueryEvents["mainvalue"];
-            string[] elementParts = element.Split('_');
+            string query = Process.QueryEvents["mainvalue"];
+            string[] elementParts = query.Split('_');
             string elementType = Process.QueryData["container_" + elementParts[1]];
 
             int containerId = int.Parse(elementParts[1]);
@@ -287,34 +357,6 @@ namespace Sharpcms.Providers.Base
             siteTree.Create(path, pageName, pageName);
 
             Process.RedirectUrl = GetRedirectUrl(String.Format("{0}/{1}", path, pageName));
-        }
-
-        /// <summary>
-        /// Gets the redirect URL.
-        /// </summary>
-        /// <param name="containerId">The container id.</param>
-        /// <param name="elementId">The element id.</param>
-        /// <returns></returns>
-        private string GetRedirectUrl(int containerId, int elementId)
-        {
-            string queryString = string.Empty;
-
-            if (containerId > 0 && elementId > 0)
-            {
-                queryString = String.Format("?c={0}&e={1}", containerId, elementId);
-            }
-
-            return Process.GetUrl(Process.CurrentProcess, queryString);
-        }
-
-        /// <summary>
-        /// Gets the redirect URL.
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns></returns>
-        private string GetRedirectUrl(string path)
-        {
-            return Process.GetUrl(String.Format("admin/page/edit/{0}/", path));
         }
 
         /// <summary>

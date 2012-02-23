@@ -392,6 +392,17 @@ a.expand:hover {
     line-height: 17px;
 }
 
+.item fieldset {
+    border: 1px solid #d0d9dF;
+    background-color: white;
+    padding: 6px;
+}
+
+.item .message {
+    background-color: #d0d9dF;
+    padding: 6px;
+}
+
 
 /*************************************************************************/
 /*                                                                    Tabs

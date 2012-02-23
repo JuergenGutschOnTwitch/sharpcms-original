@@ -1,13 +1,9 @@
-﻿// jQeury to Load
-// http: //www.thomasfrank.se/sessionvars.html
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     if (sessvars.vs == null) {
         sessvars.vs = { pada_: 'collapse', fida_: 'expand', foda_: 'expand', usda_: 'expand' };
     }
 
-    var sessvar;
-    for (sessvar in sessvars.vs) {
+    for (var sessvar in sessvars.vs) {
         if (document.getElementById(sessvar + 'body') != null && document.getElementById(sessvar + 'vs') != null) {
             if (sessvars.vs[sessvar] == 'expand') {
                 $('#' + sessvar + 'body').show();

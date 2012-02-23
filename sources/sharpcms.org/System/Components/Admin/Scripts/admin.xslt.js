@@ -1,4 +1,10 @@
-﻿$(function () {
+﻿var baseUrl;
+
+$(function () {
+    // Common Variables
+    baseUrl = $('head base').attr('href');
+
+
     // TinyMCE
     $('textarea.mceeditor').tinymce({
         script_url: '/System/Components/Admin/Scripts/tiny_mce/tiny_mce.js',
@@ -15,6 +21,7 @@
         theme_advanced_statusbar_location: 'bottom',
         theme_advanced_resizing: false,
 
+        relative_urls: false,
         content_css: '/System/Components/Admin/Styles/tiny_mce/tinystyle.css'
     });
 
@@ -22,17 +29,14 @@
     // Tabs
     $('#tabs').tabs();
     $('#pada_body_tabs').tabs();
+    $('#fida_body_tabs').tabs();
+    $('#foda_body_tabs').tabs();
     $('#usda_body_tabs').tabs();
 
 
     // Select
-    $('.container_menu select').selectmenu({
-        width: 598
-    });
-
-    $('.pagedata_menu select').selectmenu({
-        width: 441
-    });
+    $('.container_menu select').selectmenu({ width: 598 });
+    $('.pagedata_menu select').selectmenu({ width: 441 });
 
 
     // TreeView
@@ -40,5 +44,5 @@
         persist: 'location',
         collapsed: true,
         unique: true
-    });
+    });    
 });

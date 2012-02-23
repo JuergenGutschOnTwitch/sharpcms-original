@@ -22,11 +22,6 @@
             <xsl:text>/</xsl:text>
           </xsl:attribute>
         </base>
-        <script type="text/javascript">
-          <xsl:text>var basePath = '</xsl:text>
-          <xsl:value-of select="/data/basepath" />
-          <xsl:text>';</xsl:text>
-        </script>
         <title>
           <xsl:text>Admin - Sharpcms.net</xsl:text>
           <xsl:if test="/data/currentuser/basedata">
@@ -61,13 +56,10 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/admin.xslt.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/modal.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/sessvars/sessvars.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/sessvars.js">
-          <xsl:text> </xsl:text>
-        </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/eventhandler.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/sharpcms.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/collapseexpand.js">

@@ -7,6 +7,7 @@
     <div class="head filedata_head">
       <div class="title">
         <b>
+          <xsl:text>Path: </xsl:text>
           <xsl:value-of select="@path" />
         </b>
       </div>
@@ -52,64 +53,81 @@
           <xsl:text>button hlMoveFile</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="value">
-          <xsl:value-of select="/data/basepath" />
-          <xsl:text>;;</xsl:text>
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Move file</xsl:text>
       </a>
     </div>
     <xsl:if test="@mainmimetype='image'">
-      <div class="body filedata_body" id="fida_body">
-        <img>
-          <xsl:attribute name="src">
-            <xsl:text>?process=download/</xsl:text>
-            <xsl:value-of select="@path" />
-            <xsl:choose>
-              <xsl:when test="/data/query/other/width">
-                <xsl:text>&amp;width=</xsl:text>
-                <xsl:value-of select="/data/query/other/width" />
-              </xsl:when>
-              <xsl:when test="/data/query/other/height">
-                <xsl:text>&amp;height=</xsl:text>
-                <xsl:value-of select="/data/query/other/height" />
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:text>&amp;width=400&amp;height=400</xsl:text>
-              </xsl:otherwise>
-            </xsl:choose>
-          </xsl:attribute>
-        </img>
-        <table>
-          <tr>
-            <td class="field">
-              <xsl:text>Width: </xsl:text>
-              <input type="text" name="width" maxlength="5" />
-              <xsl:text>px</xsl:text>
-            </td>
-            <td class="field">
-              <xsl:text>Height: </xsl:text>
-              <input type="text" name="height" maxlength="5" />
-              <xsl:text>px</xsl:text>
-            </td>
-            <td>
-              <a>
-                <xsl:attribute name="class">
-                  <xsl:text>button hlResizeFile</xsl:text>
-                </xsl:attribute>
-                <xsl:text>Resize</xsl:text>
+      <div class="tab-pane" id="fida_body" style="float: left;">
+        <div id="fida_body_tabs">
+          <ul>
+            <li>
+              <a href="#ptabs1">
+                <xsl:text>File Data</xsl:text>
               </a>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3">
-              <strong>
-                <xsl:text>NB:</xsl:text>
-              </strong>
-              <xsl:text>The resized image will be placed in the thumbs folder.</xsl:text>
-            </td>
-          </tr>
-        </table>
+            </li>
+          </ul>
+          <div id="ptabs1" class="tab-page">
+            <div class="tab_page_body">
+              <label>
+                <xsl:text>View</xsl:text>
+              </label>
+              <div class="item">
+                <img>
+                  <xsl:attribute name="src">
+                    <xsl:text>?process=download/</xsl:text>
+                    <xsl:value-of select="@path" />
+                    <xsl:choose>
+                      <xsl:when test="/data/query/other/width">
+                        <xsl:text>&amp;width=</xsl:text>
+                        <xsl:value-of select="/data/query/other/width" />
+                      </xsl:when>
+                      <xsl:when test="/data/query/other/height">
+                        <xsl:text>&amp;height=</xsl:text>
+                        <xsl:value-of select="/data/query/other/height" />
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:text>&amp;width=400&amp;height=400</xsl:text>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:attribute>
+                </img>
+              </div>
+              <label>
+                <xsl:text>Resize</xsl:text>
+              </label>
+              <div class="item">
+                <fieldset>
+                  <label>
+                    <xsl:text>Width</xsl:text>
+                  </label>
+                  <div class="item">
+                    <input type="text" name="width" maxlength="5" />
+                  </div>
+                  <label>
+                    <xsl:text>Height</xsl:text>
+                  </label>
+                  <div class="item">
+                    <input type="text" name="height" maxlength="5" />
+                  </div>
+                  <a>
+                    <xsl:attribute name="class">
+                      <xsl:text>button hlResizeFile</xsl:text>
+                    </xsl:attribute>
+                    <xsl:text>Resize</xsl:text>
+                  </a>
+                </fieldset>
+                <div class="message">
+                  <strong>
+                    <xsl:text>Info:</xsl:text>
+                  </strong>
+                  <xsl:text>The resized image will be placed in the thumbs folder.</xsl:text>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </xsl:if>
   </xsl:template>

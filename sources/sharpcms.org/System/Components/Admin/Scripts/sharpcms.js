@@ -2,10 +2,11 @@
     // Variables
     var splitters = (';;');
 
-    // Buttons
-    var $btnSave = $('.btnSave');
-    var $btnSaveAndShow = $('.btnSaveAndShow');
-    var $btnShow = $('.btnShow');
+    // Hyperlinks (Commonactions)
+    var $hlSave = $('.hlSave');
+    var $hlSaveAndShow = $('.hlSaveAndShow');
+    var $hlShow = $('.hlShow');
+    var $hlCloseForm = $('.hlCloseForm');
 
     // Hyperlinks (Pages)
     var $hlRemoveContrainer = $('.hlRemoveContrainer');
@@ -41,26 +42,26 @@
     var $hlChooseFile = $('.hlChooseFile');
     var $hlChooseFolder = $('.hlChooseFolder');
 
-    $btnSave.live().click(function () {
+    $hlSave.live().click(function () {
         ThrowEvent('save', '');
     });
 
-    $btnSaveAndShow.live().click(function () {
+    $hlSaveAndShow.live().click(function () {
         ThrowEvent('save', 'openwindow');
     });
 
-    $btnShow.live().live().click(function () {
+    $hlShow.live().live().click(function () {
         ThrowEvent('', 'openwindow');
     });
 
     $hlRemoveContrainer.live().click(function () {
-        var containerId = $(this).attr('value');
+        var containerId = $(this).attr('value'); // container
 
         ThrowEventConfirm('pageremovecontainer', containerId, 'This will remove the container.\n\nAre you sure?');
     });
 
     $hlRemoveElement.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters);
+        var attributeValue = $(this).attr('value').split(splitters); // container / element
         var containerId = attributeValue[0];
         var elementId = attributeValue[1];
 
@@ -68,7 +69,7 @@
     });
 
     $hlMoveElementTop.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters);
+        var attributeValue = $(this).attr('value').split(splitters); // container / element
         var containerId = attributeValue[0];
         var elementId = attributeValue[1];
 
@@ -76,7 +77,7 @@
     });
 
     $hlMoveElementDown.live().click(function () {
-        var atrributeValue = $(this).attr('value').split(splitters);
+        var atrributeValue = $(this).attr('value').split(splitters); // container / element
         var containerId = atrributeValue[0];
         var elementId = atrributeValue[1];
 
@@ -84,7 +85,7 @@
     });
 
     $hlMoveElementUp.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters);
+        var attributeValue = $(this).attr('value').split(splitters); // container / element
         var containerId = attributeValue[0];
         var elementId = attributeValue[1];
 
@@ -92,7 +93,7 @@
     });
 
     $hlCopyElement.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters);
+        var attributeValue = $(this).attr('value').split(splitters); // container / element
         var containerId = attributeValue[0];
         var elementId = attributeValue[1];
 
@@ -100,57 +101,63 @@
     });
 
     $hlAddLanguage.live().click(function () {
-        var attributeValue = $(this).attr('value');
+        var pageidentifier = $(this).attr('value'); // {attributes/pageidentifier}
 
-        ThrowEventNew('addpage', attributeValue, 'Type the name of the new page:');
+        ThrowEventNew('addpage', pageidentifier, 'Type the name of the new page:');
     });
 
     $hlChoosePage.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters); // {/data/basepath} / $id / @attribute
+        var attributeValue = $(this).attr('value').split(splitters); // $id / @attribute
+        var id = attributeValue[0];
+        var attribute = attributeValue[1];
 
-        ModalDialogShow(attributeValue[0] + '/admin/choose/page', 'ReturnMethodChoosePage("' + attributeValue[1] + '", "' + attributeValue[2] + '")');
+        ModalDialogShow('admin/choose/page', 'ReturnMethodChoosePage("' + id + '", "' + attribute + '")');
     });
 
     $hlChooseFile.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters); // {/data/basepath} / $id / @attribute
-
-        ModalDialogShow(attributeValue[0] + '/admin/choose/file', 'ReturnMethodChooseFile("' + attributeValue[1] + '", "' + attributeValue[2] + '")');
+        var attributeValue = $(this).attr('value').split(splitters); // $id / @attribute
+        var id = attributeValue[0];
+        var attribute = attributeValue[1];
+        
+        ModalDialogShow('admin/choose/file', 'ReturnMethodChooseFile("' + id + '", "' + attribute + '")');
     });
 
     $hlChooseFolder.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters); // {/data/basepath} / $id / @attribute
+        var attributeValue = $(this).attr('value').split(splitters); // $id / @attribute
+        var id = attributeValue[0];
+        var attribute = attributeValue[1];
 
-        ModalDialogShow(attributeValue[0] + '/admin/choose/folder', 'ReturnMethodChooseFolder("' + attributeValue[1] + '", "' + attributeValue[2] + '")');
+        ModalDialogShow('admin/choose/folder', 'ReturnMethodChooseFolder("' + id + '", "' + attribute + '")');
     });
 
     $hlThrowEvent.live().click(function () {
-        var attributeAction = $(this).attr('action'); // @event
+        var event = $(this).attr('action'); // @event
 
-        ThrowEvent(attributeAction, '');
+        ThrowEvent(event, '');
     });
 
     $hlUploadFile.live().click(function () {
-        var attributeValue = $(this).attr('value'); // @path
+        var path = $(this).attr('value'); // @path
 
-        ThrowEvent('uploadfile', attributeValue, 'Type the name of the new folder:');
+        ThrowEvent('uploadfile', path, 'Type the name of the new folder:');
     });
 
     $hlRemoveFile.live().click(function () {
-        var attributeValue = $(this).attr('value'); // @path
+        var path = $(this).attr('value'); // @path
 
-        ThrowEventConfirm('removefile', attributeValue, 'Do you want to delete the file?');
+        ThrowEventConfirm('removefile', path, 'Do you want to delete the file?');
     });
 
     $hlRenameFile.live().click(function () {
-        var attributeValue = $(this).attr('value'); // @path
+        var path = $(this).attr('value'); // @path
 
-        ThrowEventNew('renamefile', attributeValue, 'Write the new name');
+        ThrowEventNew('renamefile', path, 'Write the new name');
     });
 
     $hlMoveFile.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters); // {/data/basepath} / @path    
+        var path = $(this).attr('value'); // @path    
 
-        ModalDialogShow(attributeValue[0] + '/admin/choose/folder', 'ReturnMethodMoveFile("' + attributeValue[1] + '")');
+        ModalDialogShow('admin/choose/folder', 'ReturnMethodMoveFile("' + path + '")');
     });
 
     $hlResizeFile.live().click(function () {
@@ -158,32 +165,32 @@
     });
 
     $hlAddFolder.live().click(function () {
-        var attributeValue = $(this).attr('value'); // @path
+        var path = $(this).attr('value'); // @path
 
-        ThrowEventNew('addfolder', attributeValue, 'Type the name of the new folder');
+        ThrowEventNew('addfolder', path, 'Type the name of the new folder');
     });
 
     $hlRemoveFolder.live().click(function () {
-        var attributeValue = $(this).attr('value'); // @path    
+        var path = $(this).attr('value'); // @path    
 
-        ThrowEventConfirm('removefolder', attributeValue, 'Do you want to delete the folder?');
+        ThrowEventConfirm('removefolder', path, 'Do you want to delete the folder?');
     });
 
     $hlRenameFolder.live().click(function () {
-        var attributeValue = $(this).attr('value'); // @path
+        var path = $(this).attr('value'); // @path
 
-        ThrowEventNew('renamefolder', attributeValue, 'Write the new name');
+        ThrowEventNew('renamefolder', path, 'Write the new name');
     });
 
     $hlMoveFolder.live().click(function () {
-        var attributeValue = $(this).attr('value').split(splitters); // {/data/basepath} / @path
+        var path = $(this).attr('value'); // @path
 
-        ModalDialogShow(attributeValue[0] + '/admin/choose/folder', 'ReturnMethodMoveFolder("' + attributeValue[1] + '")');
+        ModalDialogShow('admin/choose/folder', 'ReturnMethodMoveFolder("' + path + '")');
     });
 
     $hlMoreFiles.live().click(function () {
-        var attributeValue = $(this).attr('value'); // $currentlevel
-        var level = parseInt(attributeValue) + 1;
+        var currentlevel = $(this).attr('value'); // $currentlevel
+        var level = parseInt(currentlevel) + 1;
 
         ShowAndHide('file_' + level, 'showlink_' + level);
     });
@@ -194,14 +201,14 @@
 
     $hlSaveUser.live().click(function () {
         var attributeValue = $(this).attr('value'); // login
-        
+
         ThrowEvent('saveuser', attributeValue);
     });
 
-    $hlDeleteUser.live().click(function() {
-        var attributeValue = $(this).attr('value'); // login
-        
-        ThrowEventConfirm('deleteuser', attributeValue, 'Are you sure you wnat to delete the user?');
+    $hlDeleteUser.live().click(function () {
+        var login = $(this).attr('value'); // login
+
+        ThrowEventConfirm('deleteuser', login, 'Are you sure you wnat to delete the user?');
     });
 
     $hlAddGroup.live().click(function () {
@@ -209,9 +216,9 @@
     });
 
     $hlDeleteGroup.live().click(function () {
-        var attributeValue = $(this).attr('value'); // @name
+        var name = $(this).attr('value'); // @name
 
-        ThrowEventConfirm('deletegroup', attributeValue, 'Are you sure you wnat to delete the group?');
+        ThrowEventConfirm('deletegroup', name, 'Are you sure you wnat to delete the group?');
     });
 
     $('#adminmoreactions').change(function () {
@@ -233,9 +240,9 @@
         } else if (attributeAction == 'pagemovebottom') {
             ThrowEvent(attributeAction, attributeValue[0]);
         } else if (attributeAction == 'movepage') {
-            ModalDialogShow(attributeValue[0] + '/admin/choose/page/', 'MovePage()');
+            ModalDialogShow('admin/choose/page/', 'MovePage()');
         } else if (attributeAction == 'copypage') {
-            ModalDialogShow(attributeValue[0] + '/admin/choose/page/', 'CopyPage("' + attributeValue[1] + '","' + attributeValue[2] + '")');
+            ModalDialogShow('admin/choose/page/', 'CopyPage("' + attributeValue[0] + '","' + attributeValue[1] + '")');
         } else if (attributeAction == 'setstandardpage') {
             ThrowEvent('setstandardpage', '');
         }
@@ -245,6 +252,12 @@
         var containerId = $(this).attr('name').replace('data_container_', '');
 
         ThrowEvent('addelement', 'text_' + containerId);
+    });
+
+    $hlCloseForm.live().click(function () {
+        var attributeName = $(this).attr('value'); // $current-path + @name || $current-path
+
+        CloseForm(attributeName);
     });
 });
 
@@ -261,6 +274,27 @@ function CopyPage(pageidentifier, pagename) {
         ThrowEvent('pagecopyto', pageidentifier + '¤' + ModalDialog.value + '¤' + prompt('Page name:', pagename));
     }
 
+    ModalDialogRemoveWatch();
+}
+
+function ReturnMethodTinyMceChoosePage() {
+    var html = '<a href="' + baseUrl + 'show/' + ModalDialog.value + '/">{$selection}</a>';
+    tinyMCE.execCommand('mceReplaceContent', false, html);
+    tinyMCEPopup.close();
+    ModalDialogRemoveWatch();
+}
+
+function ReturnMethodTinyMceChooseFile() {
+    var html = '<a href="' + baseUrl + 'download/' + ModalDialog.value + '?download=true">{$selection}</a>';
+    tinyMCE.execCommand('mceReplaceContent', false, html);
+    tinyMCEPopup.close();
+    ModalDialogRemoveWatch();
+}
+
+function ReturnMethodTinyMceChoosePicture() {
+    var html = '<img src="' + baseUrl + 'download/' + ModalDialog.value + '" />';
+    tinyMCE.execCommand('mceInsertContent', false, html);
+    tinyMCEPopup.close();
     ModalDialogRemoveWatch();
 }
 
@@ -378,4 +412,44 @@ function open_editwin(url, name, winWidth, winHeight) {
     var editwinWin = window.open(url, name, editwin);
     editwinWin.focus();
     editwinWin.opener = self;
+}
+
+var ModalDialogWindow;
+var ModalDialogInterval;
+var ModalDialog = new Object;
+
+ModalDialog.value = '';
+ModalDialog.eventhandler = '';
+
+function CloseForm(response) {
+    window.opener.ModalDialog.value = response;
+    window.close();
+}
+
+function ModalDialogMaintainFocus() {
+    try {
+        if (ModalDialogWindow.closed) {
+            window.clearInterval(ModalDialogInterval);
+            eval(ModalDialog.eventhandler);
+            return;
+        }
+        ModalDialogWindow.focus();
+    }
+    catch (everything) { }
+}
+
+function ModalDialogRemoveWatch() {
+    ModalDialog.value = '';
+    ModalDialog.eventhandler = '';
+}
+
+function ModalDialogShow(path, eventHandler) {
+    ModalDialogRemoveWatch();
+    ModalDialog.eventhandler = eventHandler;
+
+    var args = 'width=450,height=525,left=125,top=100,toolbar=0,location=0,status=0,menubar=0,scrollbars=1,resizable=1';
+
+    ModalDialogWindow = window.open(baseUrl + path, '', args);
+    ModalDialogWindow.focus();
+    ModalDialogInterval = window.setInterval('ModalDialogMaintainFocus()', 5);
 }
