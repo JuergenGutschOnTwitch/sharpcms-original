@@ -28,7 +28,9 @@ namespace Sharpcms.Data.SiteTree
                 string xPath = string.Format("container[@name='{0}']", name);
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
                 if (node != null)
+                {
                     return new Container(node);
+                }
 
                 node = Document.CreateElement("container");
                 XmlAttribute typeAttribute = Document.CreateAttribute("name");
@@ -51,6 +53,26 @@ namespace Sharpcms.Data.SiteTree
             {
                 ParentNode.RemoveChild(node);
             }
+        }
+
+        public int Index(string containerName)
+        {
+            string xPath = string.Format("container");
+            XmlNodeList nodes = ParentNode.SelectNodes(xPath);
+            int i = 0;
+            if (nodes != null)
+            {
+                foreach (XmlNode node in nodes)
+                {
+                    i++;
+                    if (node.Attributes != null && node.Attributes["name"].Value == containerName)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return 0;
         }
     }
 }
