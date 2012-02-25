@@ -67,20 +67,20 @@ namespace Sharpcms.Providers.Base
         {
             foreach (string dir in paths)
             {
-                var dirInfo = new DirectoryInfo(dir);
-                foreach (DirectoryInfo subdirinfo in dirInfo.GetDirectories())
+                var directoryInfo = new DirectoryInfo(dir);
+                foreach (DirectoryInfo subDirectoryInfo in directoryInfo.GetDirectories())
                 {
-                    if (Directory.Exists(Common.CombinePaths(subdirinfo.FullName, "Plugins")))
+                    if (Directory.Exists(Common.CombinePaths(subDirectoryInfo.FullName, "Plugins")))
                     {
-                        var pluginDirInfo = new DirectoryInfo(Common.CombinePaths(subdirinfo.FullName, "Plugins"));
-                        foreach (FileInfo fileinfo in pluginDirInfo.GetFiles())
+                        var pluginDirectoryInfo = new DirectoryInfo(Common.CombinePaths(subDirectoryInfo.FullName, "Plugins"));
+                        foreach (FileInfo fileInfo in pluginDirectoryInfo.GetFiles())
                         {
-                            if (fileinfo.Extension == ".dll" || fileinfo.Extension == ".pdb")
+                            if (fileInfo.Extension == ".dll" || fileInfo.Extension == ".pdb")
                             {
-                                string destination = Common.CombinePaths(Process.Root, "Bin", fileinfo.Name);
-                                if (!File.Exists(destination) || fileinfo.LastWriteTime != File.GetLastWriteTime(destination))
+                                string destination = Common.CombinePaths(Process.Root, "Bin", fileInfo.Name);
+                                if (!File.Exists(destination) || fileInfo.LastWriteTime != File.GetLastWriteTime(destination))
                                 {
-                                    File.Copy(fileinfo.FullName, Common.CombinePaths(Process.Root, "Bin", fileinfo.Name), true);
+                                    File.Copy(fileInfo.FullName, Common.CombinePaths(Process.Root, "Bin", fileInfo.Name), true);
                                 }
                             }
                         }
@@ -94,27 +94,32 @@ namespace Sharpcms.Providers.Base
             string pathsnippets = Process.Settings["general/customrootcomponents"] + "\\snippets.xslt";
             // ToDo: should be more generic
 
-            var stringB = new StringBuilder();
-            stringB.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-            stringB.AppendLine("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+            stringBuilder.AppendLine("");
+            stringBuilder.AppendLine("<xsl:stylesheet");
+            stringBuilder.AppendLine("    version=\"1.0\"");
+            stringBuilder.AppendLine("    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
+            stringBuilder.AppendLine("    xmlns=\"http://www.w3.org/1999/xhtml\">");
+
             foreach (string dir in paths)
             {
-                var dirinfo = new DirectoryInfo(dir);
+                var directoryInfo = new DirectoryInfo(dir);
 
-                foreach (DirectoryInfo subdirinfo in dirinfo.GetDirectories())
+                foreach (DirectoryInfo subDirectoryInfo in directoryInfo.GetDirectories())
                 {
-                    if (subdirinfo.Name != ".svn")
+                    if (subDirectoryInfo.Name != ".svn")
                     {
-                        if (Directory.Exists(Common.CombinePaths(subdirinfo.FullName, "Xsl")))
+                        if (Directory.Exists(Common.CombinePaths(subDirectoryInfo.FullName, "Xsl")))
                         {
-                            var xslDirInfo = new DirectoryInfo(Common.CombinePaths(subdirinfo.FullName, "Xsl"));
-                            foreach (FileInfo fileinfo in xslDirInfo.GetFiles())
+                            var xslDirectoryInfo = new DirectoryInfo(Common.CombinePaths(subDirectoryInfo.FullName, "Xsl"));
+                            foreach (FileInfo fileInfo in xslDirectoryInfo.GetFiles())
                             {
-                                if ((fileinfo.Extension == ".xslt" || fileinfo.Extension == ".xsl") && fileinfo.Name[0] == '_')
+                                if ((fileInfo.Extension == ".xslt" || fileInfo.Extension == ".xsl") && fileInfo.Name[0] == '_')
                                 {
-                                    if (dirinfo.Parent != null)
+                                    if (directoryInfo.Parent != null)
                                     {
-                                        stringB.AppendLine("<xsl:include href=\"..\\..\\" + dirinfo.Parent.Name + "\\" + dirinfo.Name + "\\" + subdirinfo.Name + "\\" + xslDirInfo.Name + "\\" + fileinfo.Name + "\"/>");
+                                        stringBuilder.AppendLine("<xsl:include href=\"..\\..\\" + directoryInfo.Parent.Name + "\\" + directoryInfo.Name + "\\" + subDirectoryInfo.Name + "\\" + xslDirectoryInfo.Name + "\\" + fileInfo.Name + "\"/>");
                                     }
                                 }
                             }
@@ -122,8 +127,10 @@ namespace Sharpcms.Providers.Base
                     }
                 }
             }
-            stringB.AppendLine("</xsl:stylesheet>");
-            File.WriteAllText(pathsnippets, stringB.ToString(), Encoding.UTF8);
+
+            stringBuilder.AppendLine("</xsl:stylesheet>");
+
+            File.WriteAllText(pathsnippets, stringBuilder.ToString(), Encoding.UTF8);
         }
 
         private void LoadMenu(ControlList control)

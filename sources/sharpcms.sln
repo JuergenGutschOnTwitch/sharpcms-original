@@ -4,9 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalResources", "ExternalResources", "{A64D4D86-9DD0-4DB4-8737-EFB53C1F96A6}"
 	ProjectSection(SolutionItems) = preProject
 		resources\Highlighter.Net.dll = resources\Highlighter.Net.dll
-		resources\Interop.SHDocVw.dll = resources\Interop.SHDocVw.dll
 		resources\Lucene.Net.dll = resources\Lucene.Net.dll
-		resources\Microsoft.mshtml.dll = resources\Microsoft.mshtml.dll
 		resources\WatiN.Core.dll = resources\WatiN.Core.dll
 	EndProjectSection
 EndProject

@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
 <tree>
   <german menuname="German" status="open" pageidentifier="german">
     <about menuname="Start" pageidentifier="german/about" status="open" pagename="Das Open Source Content Management System sharpcms" lastedited="25.09.2007" metakeywords="sharpcms, content management, content management system, cms, xml, xslt" metadescription="sharpcms ist ein Open Source Content Management System das auf XML und XSLT basiert und complett in C# geschrieben ist" template="">

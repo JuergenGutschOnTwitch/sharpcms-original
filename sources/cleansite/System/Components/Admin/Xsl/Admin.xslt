@@ -4,12 +4,13 @@
 	version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/1999/xhtml">
+
   <xsl:output
-		  method="html"
-		  doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-		  doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-		  omit-xml-declaration="yes"
-		  indent="yes" />
+		method="html"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		omit-xml-declaration="yes"
+		indent="yes" />
 
   <xsl:include href="..\..\..\..\Custom\Components\Snippets.xslt" />
 
@@ -23,7 +24,7 @@
           </xsl:attribute>
         </base>
         <title>
-          <xsl:text>Admin - Sharpcms.net</xsl:text>
+          <xsl:text>Admin - sharpcms</xsl:text>
           <xsl:if test="/data/currentuser/basedata">
             <xsl:text> [</xsl:text>
             <xsl:value-of select="/data/currentuser/basedata" />
@@ -60,6 +61,9 @@
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/sharpcms.js">
+          <xsl:text> </xsl:text>
+        </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/_sharpcms.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/collapseexpand.js">
@@ -131,7 +135,7 @@
               </div>
             </xsl:if>
             <!-- End admin_menu -->
-            
+
             <!-- Begin Content -->
             <div class="content">
               <div class="left">

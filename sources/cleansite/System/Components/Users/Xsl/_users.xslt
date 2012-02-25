@@ -1,6 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet
+	version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+  <xsl:output
+		method="html"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		omit-xml-declaration="yes"
+		indent="yes" />
+  
   <xsl:template mode="edit" match="users">
     <div class="head tree_head">
       <div class="title">
@@ -9,7 +20,7 @@
         </b>
       </div>
       <div class="viewstate">
-
+        <xsl:text> </xsl:text>
       </div>
     </div>
     <div class="menu tree_menu">
