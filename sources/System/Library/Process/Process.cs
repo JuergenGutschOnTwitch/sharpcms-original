@@ -16,10 +16,10 @@ namespace Sharpcms.Library.Process
     {
         private const string CookieSeparator = "cookieseparator";
         private readonly string _basePath;
-        public readonly XmlItemList Attributes;
-        public readonly ControlList Content;
         public readonly Page HttpPage;
         public readonly PluginServices Plugins;
+        public readonly ControlList Content;
+        public readonly XmlItemList Attributes;
         public readonly XmlItemList QueryData;
         public readonly XmlItemList QueryEvents;
         public readonly XmlItemList QueryOther;
@@ -67,8 +67,8 @@ namespace Sharpcms.Library.Process
             Content["sessionid"].InnerText = httpPage.Server.UrlEncode(httpPage.Session.LCID.ToString(CultureInfo.InvariantCulture));
             Content["ip"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["REMOTE_ADDR"]);
 
-            QueryData = new XmlItemList(CommonXml.GetNode(xmlNode, "query/data", EmptyNodeHandling.CreateNew));
             Attributes = new XmlItemList(CommonXml.GetNode(xmlNode, "attributes", EmptyNodeHandling.CreateNew));
+            QueryData = new XmlItemList(CommonXml.GetNode(xmlNode, "query/data", EmptyNodeHandling.CreateNew));
             QueryEvents = new XmlItemList(CommonXml.GetNode(xmlNode, "query/events", EmptyNodeHandling.CreateNew));
             QueryOther = new XmlItemList(CommonXml.GetNode(xmlNode, "query/other", EmptyNodeHandling.CreateNew));
 
@@ -231,6 +231,7 @@ namespace Sharpcms.Library.Process
             ControlList baseData = Content.GetSubControl("basedata");
 
             baseData["pageviewcount"].InnerText = PageViewCount().ToString(CultureInfo.InvariantCulture);
+            baseData["defaultpage"].InnerText = Settings["sitetree/stdpage"];
 
             foreach (string pageInHistory in History())
             {
