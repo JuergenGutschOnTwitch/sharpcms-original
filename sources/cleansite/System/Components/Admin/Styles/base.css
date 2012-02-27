@@ -715,50 +715,22 @@ textarea.mceeditor {
 /*                                                                 Message
 /*************************************************************************/
 .messages {
-    display: block;
     float: left;
-    width: 100%;
+    width: 100%
 }
 
-.messages ul {
-    list-style-type: none;
-    
+.messages div {
+    margin: 6px 6px 0 6px;
+    padding: 6px;
 }
 
-.messages ul li {
-    border: 1px solid #486c82;
-    color: #486c82;
-    margin: 5px 5px 0 5px;
-    padding: 10px;
-    display: block;
+.messages div p {
+    font-size: 11px;
+    line-height: 16px;
 }
 
-.messages ul li.Error {
-    background-color: red;
-    border: 1px solid #486c82;
-    color: #fff;
-}
-
-.messages ul li.Status {
-    
-}
-
-.messages ul li.Event {
-    
-}
-
-.messages ul li.Warning {
-    background-color: orange;
-    border: 1px solid #486c82;
-    color: #fff;
-}
-
-.messages ul li.Message {
-    
-}
-
-.messages ul li.Debug {
-    
+.messages div p strong {
+    font-weight: bold;
 }
 
 
@@ -790,11 +762,11 @@ textarea.mceeditor {
 }
 
 .login table tbody tr td label {
-    font-size: 0.8em;
+    font-size: 1.2em;
 }
 
 .login table tbody tr td input {
-    font-size: 0.8em;
+    font-size: 1.2em;
     height: 1.5em;
 }
 

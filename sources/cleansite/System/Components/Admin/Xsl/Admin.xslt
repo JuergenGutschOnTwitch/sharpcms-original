@@ -122,16 +122,32 @@
             <!-- Begin admin_menu -->
             <xsl:if test="/data/messages">
               <div class="messages">
-                <ul>
                   <xsl:for-each select="/data/messages/item">
-                    <li>
-                      <xsl:attribute name="class">
-                        <xsl:value-of select="@messagetype" />
-                      </xsl:attribute>
-                      <xsl:value-of select="." />
-                    </li>
+                    <xsl:choose>
+                      <xsl:when test="@messagetype = 'Error'">
+                        <div class="ui-state-error ui-corner-all">
+                          <p>
+                            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;">
+                              <xsl:text> </xsl:text>
+                            </span>
+                            <strong>Alert: </strong>
+                            <xsl:value-of select="normalize-space(.)" />
+                          </p>
+                        </div>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <div class="ui-state-highlight ui-corner-all">
+                          <p>
+                            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;">
+                              <xsl:text> </xsl:text>
+                            </span>
+                            <strong>Alert: </strong>
+                            <xsl:value-of select="normalize-space(.)" />
+                          </p>
+                        </div>
+                      </xsl:otherwise>
+                    </xsl:choose>
                   </xsl:for-each>
-                </ul>
               </div>
             </xsl:if>
             <!-- End admin_menu -->
