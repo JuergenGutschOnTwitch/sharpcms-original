@@ -61,7 +61,7 @@
         </b>
       </div>
       <div class="viewstate">
-
+        <xsl:text> </xsl:text>
       </div>
     </div>
     <div class="menu tree_menu">
