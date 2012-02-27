@@ -12,7 +12,7 @@ namespace Sharpcms.Data.SiteTree
     {
         private readonly string _contentFilenameFormat;
         private readonly string _contentRoot;
-        private readonly Library.Process.Process _process;
+        private readonly Process _process;
         private readonly XmlDocument _treeDocument;
         private readonly string _treeFilename;
 
@@ -20,7 +20,7 @@ namespace Sharpcms.Data.SiteTree
         /// Initializes a new instance of the <see cref="SiteTree"/> class.
         /// </summary>
         /// <param name="process">The process.</param>
-        public SiteTree(Library.Process.Process process)
+        public SiteTree(Process process)
         {
             _process = process;
             _contentRoot = process.Settings["sitetree/contentRoot"];
