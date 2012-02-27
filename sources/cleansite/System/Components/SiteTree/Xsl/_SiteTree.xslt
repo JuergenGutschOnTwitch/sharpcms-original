@@ -64,16 +64,32 @@
           <xsl:choose>
             <xsl:when test="$isLanguage = 'true'">
               <xsl:attribute name="class">
-                <xsl:text>folder</xsl:text>
+                <xsl:choose>
+                  <xsl:when test="/data/basedata/defaultpage = $current-path">
+                    <xsl:text>home</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>folder</xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
               </xsl:attribute>
             </xsl:when>
             <xsl:otherwise>
               <xsl:attribute name="class">
-                <xsl:text>file</xsl:text>
+                <xsl:choose>
+                  <xsl:when test="/data/basedata/defaultpage = $current-path">
+                    <xsl:text>home</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>file</xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
               </xsl:attribute>
             </xsl:otherwise>
           </xsl:choose>
           <xsl:value-of select="@menuname" />
+          <xsl:text> / </xsl:text>
+          <xsl:value-of select="@status" />
         </span>
       </a>
       <xsl:if test="*">
