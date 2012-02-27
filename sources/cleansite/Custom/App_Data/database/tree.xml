@@ -1,8 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<tree>
-  <german menuname="German" pageidentifier="german" status="open" template="" pagename="German" createddate="" createduser="" modifieddate="" modifieduser="" metakeywords="" metadescription="">
-    <start menuname="Start" pageidentifier="german/start" status="open" template="" pagename="Start" createddate="" createduser="" modifieddate="" modifieduser="" metakeywords="" metadescription="" />
-    <about menuname="About" pageidentifier="german/about" status="hide" />
-    <imprint menuname="Imprint" pageidentifier="german/imprint" status="hide" />
-  </german>
-</tree>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<tree />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <xsl:stylesheet
 	version="1.0"
@@ -412,13 +412,10 @@
               <xsl:value-of select="@height" />
               <xsl:text>px;</xsl:text>
             </xsl:if>
-            <xsl:if test="$id='data_attribute'">
-              <xsl:text>width:</xsl:text>
-              <xsl:text>634px;</xsl:text>
-            </xsl:if>
           </xsl:attribute>
         </xsl:if>
         <xsl:value-of select="$currentelement/*[name()=$attribute]" />
+        <xsl:text> </xsl:text>
       </textarea>
     </div>
   </xsl:template>
