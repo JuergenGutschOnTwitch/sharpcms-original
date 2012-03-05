@@ -1,13 +1,18 @@
-﻿var baseUrl;
+﻿$(function () {
+    var $pages = $("#pages");
+    var $hlCloseForm = $('.hlCloseForm');
 
-$(function () {
-    // Common Variables
-    baseUrl = $('head base').attr('href');
-    
     // TreeView (Pages)
-    $("#pages").treeview({
+    $pages.treeview({
         persist: 'location',
         collapsed: true,
         unique: true
+    });
+
+    // Hyperlink (close Form)
+    $hlCloseForm.live().click(function () {
+        var path = $(this).attr('value'); // $current-path + @name || $current-path
+
+        closeModalDialog(path);
     });
 });

@@ -132,7 +132,7 @@
       </a>
     </div>
     <div class="tab-pane" id="usda_body" style="float: left;">
-      <div id="usda_body_tabs">
+      <div id="usda_body_tabs" class="tabs">
         <ul>
           <li>
             <a href="#ptabs1">

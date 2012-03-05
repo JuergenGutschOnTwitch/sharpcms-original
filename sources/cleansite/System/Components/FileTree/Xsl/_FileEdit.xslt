@@ -21,11 +21,16 @@
         </b>
       </div>
       <div class="viewstate">
-        <xsl:if test="@mainmimetype='image'">
-          <a id="fida_vs" class="button expand">
-            <xsl:text>˅</xsl:text>
-          </a>
-        </xsl:if>
+        <xsl:choose>
+          <xsl:when test="@mainmimetype='image'">
+            <a id="fida_vs" class="button expand">
+              <xsl:text>˅</xsl:text>
+            </a>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text> </xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </div>
     </div>
     <div class="menu filedata_menu">
@@ -69,7 +74,7 @@
     </div>
     <xsl:if test="@mainmimetype='image'">
       <div class="tab-pane" id="fida_body" style="float: left;">
-        <div id="fida_body_tabs">
+        <div id="fida_body_tabs" class="tabs">
           <ul>
             <li>
               <a href="#ptabs1">

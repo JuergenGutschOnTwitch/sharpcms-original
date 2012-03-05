@@ -48,6 +48,7 @@
         </xsl:for-each>
       </ul>
     </div>
+    <xsl:call-template name="hiddenparts" />
   </xsl:template>
 
   <xsl:template name="SiteTreeElement">
@@ -60,6 +61,11 @@
           <xsl:value-of select="$current-path" />
           <xsl:text>/</xsl:text>
         </xsl:attribute>
+        <xsl:if test="@status = 'hide'">
+          <xsl:attribute name="title">
+            <xsl:text>This Page is hidden</xsl:text>
+          </xsl:attribute>
+        </xsl:if>
         <span>
           <xsl:choose>
             <xsl:when test="$isLanguage = 'true'">
@@ -88,9 +94,10 @@
             </xsl:otherwise>
           </xsl:choose>
           <xsl:value-of select="@menuname" />
-          <xsl:text> / </xsl:text>
-          <xsl:value-of select="@status" />
         </span>
+        <xsl:if test="@status = 'hide'">
+          <img class="icon-hiddenpage" src="/System/Components/Admin/Images/icon-hiddenpage.png" />
+        </xsl:if>
       </a>
       <xsl:if test="*">
         <ul>
@@ -109,5 +116,24 @@
         </ul>
       </xsl:if>
     </li>
+  </xsl:template>
+
+  <xsl:template name="hiddenparts">
+    <div id="choosePageDialog" class="choose" title="Choose Page">
+      <div class="content">
+        <ul id="pages" class="filetree">
+          <xsl:for-each select="*">
+            <xsl:call-template name="SiteTreeElementChoose">
+              <xsl:with-param name="current-path">
+                <xsl:value-of select="name()" />
+              </xsl:with-param>
+              <xsl:with-param name="isLanguage">
+                <xsl:text>true</xsl:text>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+        </ul>
+      </div>
+    </div>
   </xsl:template>
 </xsl:stylesheet>

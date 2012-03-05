@@ -16,6 +16,7 @@
     <div class="head folderdata_head">
       <div class="title">
         <b>
+          <xsl:text>Path: </xsl:text>
           <xsl:value-of select="@path" />
         </b>
       </div>
@@ -64,7 +65,7 @@
       </a>
     </div>
     <div class="tab-pane" id="foda_body" style="float: left;">
-      <div id="usda_body_tabs">
+      <div id="usda_body_tabs" class="tabs">
         <ul>
           <li>
             <a href="#ptabs1">

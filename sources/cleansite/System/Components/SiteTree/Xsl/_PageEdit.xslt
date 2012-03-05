@@ -29,11 +29,6 @@
           <xsl:text>Page data - </xsl:text>
           <xsl:value-of select="attributes/menuname" />
         </b>
-        <xsl:if test="attributes/status = 'hide'">
-          <b class="red">
-            <xsl:text>[hidden]</xsl:text>
-          </b>
-        </xsl:if>
       </div>
       <div class="viewstate">
         <a id="pada_vs" class="button expand">
@@ -73,6 +68,9 @@
         <option value="">
           <xsl:text>More actions...</xsl:text>
         </option>
+        <option action="setstandardpage">
+          <xsl:text>&#160;&#160;Set as default page</xsl:text>
+        </option>
         <option action="removepage" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Delete page</xsl:text>
         </option>
@@ -83,7 +81,7 @@
           <xsl:text>&#160;&#160;Add container</xsl:text>
         </option>
         <option disabled="disabled" />
-        <option disabled="disabled">Move</option>
+        <option disabled="disabled">Move / Copy</option>
         <option action="pagemoveup" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move up</xsl:text>
         </option>
@@ -107,14 +105,10 @@
           </xsl:attribute>
           <xsl:text>&#160;&#160;Copy To</xsl:text>
         </option>
-        <option disabled="disabled" />
-        <option action="setstandardpage">
-          <xsl:text>Set as default page</xsl:text>
-        </option>
       </select>
     </div>
     <div class="tab-pane" id="pada_body" style="float: left;">
-      <div id="pada_body_tabs">
+      <div id="pada_body_tabs" class="tabs">
         <ul>
           <li>
             <a href="#ptabs1">
@@ -158,7 +152,7 @@
       </div>
     </div>
     <div id="tabpagecontent" class="tab-pane" style="float: left;">
-      <div id="tabs">
+      <div class="tabs">
         <ul>
           <xsl:apply-templates mode="tab" select="containers/container" />
         </ul>
@@ -205,6 +199,18 @@
         </xsl:attribute>
         <xsl:value-of select="@name" />
       </a>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>delete hlRemoveContrainer</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="title">
+          <xsl:text>This will remove the container</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:number count="@name" />
+        </xsl:attribute>
+        <xsl:text>X</xsl:text>
+      </a>
     </li>
   </xsl:template>
 
@@ -215,18 +221,6 @@
         <xsl:number level="any" />
       </xsl:attribute>
       <div class="menu container_menu">
-        <a>
-          <xsl:attribute name="class">
-            <xsl:text>button delete hlRemoveContrainer</xsl:text>
-          </xsl:attribute>
-          <xsl:attribute name="title">
-            <xsl:text>This will remove the container</xsl:text>
-          </xsl:attribute>
-          <xsl:attribute name="value">
-            <xsl:number count="container" />
-          </xsl:attribute>
-          <xsl:text>X</xsl:text>
-        </a>
         <select>
           <xsl:attribute name="class">
             <xsl:text>addelement</xsl:text>
@@ -253,39 +247,9 @@
     </div>
   </xsl:template>
 
-  <xsl:template mode="form" match="*">
-    <xsl:call-template name="elementtop" />
-    <div>
-      <xsl:attribute name="class">
-        <xsl:text>element_body</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="id">
-        <xsl:text>element_</xsl:text>
-        <xsl:number count="container" />
-        <xsl:text>_</xsl:text>
-        <xsl:number count="element" />
-        <xsl:text>_body</xsl:text>
-      </xsl:attribute>
-      <div>
-        <xsl:attribute name="class">
-          <xsl:text>element_info</xsl:text>
-        </xsl:attribute>
-      </div>
-      <div>
-        <xsl:attribute name="class">
-          <xsl:text>element_edit</xsl:text>
-        </xsl:attribute>
-        <xsl:variable name="currentelement" select="." />
-        <xsl:variable name="type" select="@type" />
-        <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/*[name()=$type]/*">
-          <xsl:with-param name="currentelement" select="$currentelement" />
-          <xsl:with-param name="id">
-            <xsl:text>data_element_</xsl:text>
-            <xsl:number count="container" />_<xsl:number count="element" />
-          </xsl:with-param>
-        </xsl:apply-templates>
-      </div>
-    </div>
+  <xsl:template mode="form" match="element">
+    <xsl:call-template name="elementhead" />
+    <xsl:call-template name="elementbody" />
   </xsl:template>
 
   <xsl:template name="security">
@@ -674,17 +638,17 @@
     </div>
   </xsl:template>
 
-  <xsl:template name="elementtop">
+  <xsl:template name="elementhead">
     <div>
+      <xsl:attribute name="class">
+        <xsl:text>menu element_head</xsl:text>
+      </xsl:attribute>
       <xsl:attribute name="id">
         <xsl:text>element_</xsl:text>
         <xsl:number count="container" />
         <xsl:text>_</xsl:text>
         <xsl:number count="element" />
         <xsl:text>_anchor</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="class">
-        <xsl:text>menu element_head</xsl:text>
       </xsl:attribute>
       <div>
         <xsl:attribute name="class">
@@ -849,6 +813,41 @@
             </xsl:attribute>
           </xsl:if>
         </input>
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="elementbody">
+    <div>
+      <xsl:attribute name="class">
+        <xsl:text>element_body</xsl:text>
+      </xsl:attribute>
+      <xsl:attribute name="id">
+        <xsl:text>element_</xsl:text>
+        <xsl:number count="container" />
+        <xsl:text>_</xsl:text>
+        <xsl:number count="element" />
+        <xsl:text>_body</xsl:text>
+      </xsl:attribute>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>element_info</xsl:text>
+        </xsl:attribute>
+        <xsl:text> </xsl:text>
+      </div>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>element_edit</xsl:text>
+        </xsl:attribute>
+        <xsl:variable name="currentelement" select="." />
+        <xsl:variable name="type" select="@type" />
+        <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/*[name()=$type]/*">
+          <xsl:with-param name="currentelement" select="$currentelement" />
+          <xsl:with-param name="id">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />_<xsl:number count="element" />
+          </xsl:with-param>
+        </xsl:apply-templates>
       </div>
     </div>
   </xsl:template>

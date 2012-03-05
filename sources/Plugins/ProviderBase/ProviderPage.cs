@@ -45,23 +45,6 @@ namespace Sharpcms.Providers.Base
             get { return _siteTree ?? (_siteTree = new SiteTree(Process)); }
         }
 
-        /// <summary>
-        /// Gets the current page.
-        /// </summary>
-        /// <value>The current page.</value>
-        public string CurrentPage
-        {
-            get
-            {
-                if (Process.QueryOther["page"] == string.Empty)
-                {
-                    Process.QueryOther["page"] = Process.Settings["sitetree/stdpage"];
-                }
-
-                return Process.QueryOther["page"];
-            }
-        }
-
         #region IPlugin2 Members
 
         /// <summary>
@@ -527,9 +510,7 @@ namespace Sharpcms.Providers.Base
         /// <param name="control">The control.</param>
         private void LoadPageStatus(ControlList control)
         {
-            XmlNode xmlNode = Process.Settings.GetAsNode("sitetree/pagestatus");
-
-            control["pagestatus"] = xmlNode;
+            control["pagestatus"] = Process.Settings.GetAsNode("sitetree/pagestatus");
         }
 
         /// <summary>
@@ -559,28 +540,28 @@ namespace Sharpcms.Providers.Base
                 }
             }
             
-            XmlNode security = Process.XmlData.CreateElement("security");
+            XmlNode elementSecurity = Process.XmlData.CreateElement("security");
 
-            XmlNode xusers = Process.XmlData.CreateElement("users");
+            XmlNode elementUsers = Process.XmlData.CreateElement("users");
             foreach (User user in userList)
             {
                 XmlNode xuser = Process.XmlData.CreateElement("user");
                 xuser.AppendChild(Process.XmlData.CreateTextNode(user.Login));
-                xusers.AppendChild(xuser);
+                elementUsers.AppendChild(xuser);
             }
 
-            XmlNode xgroups = Process.XmlData.CreateElement("groups");
+            XmlNode elementGroups = Process.XmlData.CreateElement("groups");
             foreach (Group group in groupList)
             {
-                XmlNode xgroup = Process.XmlData.CreateElement("group");
-                xgroup.AppendChild(Process.XmlData.CreateTextNode(group.Name));
-                xgroups.AppendChild(xgroup);
+                XmlNode elementGroup = Process.XmlData.CreateElement("group");
+                elementGroup.AppendChild(Process.XmlData.CreateTextNode(group.Name));
+                elementGroups.AppendChild(elementGroup);
             }
 
-            security.AppendChild(xusers);
-            security.AppendChild(xgroups);
+            elementSecurity.AppendChild(elementUsers);
+            elementSecurity.AppendChild(elementGroups);
 
-            control["security"] = security;
+            control["security"] = elementSecurity;
         }
 
         /// <summary>
@@ -601,11 +582,13 @@ namespace Sharpcms.Providers.Base
 
             Process.Attributes["pageroot"] = pagePath.Split('/')[0];
             Process.Attributes["pagepath"] = pagePath;
-
+            
             Plugins(page);
 
             control["page"] = page.Node;
+
             Process.Content["templates"] = Process.Settings.GetAsNode("templates");
+
             if (page["template"] != "" && Process.CurrentProcess.Split('/')[0].ToLower() != "admin")
             {
                 Process.MainTemplate = Process.Settings["templates/" + page["template"]];
