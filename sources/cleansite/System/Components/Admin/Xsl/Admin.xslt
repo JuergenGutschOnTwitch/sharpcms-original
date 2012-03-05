@@ -32,14 +32,15 @@
           </xsl:if>
         </title>
         <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.custom.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.18.custom.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/selectmenu/jquery.ui.selectmenu.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.sharpcms.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.18.sharpcms.css" />
+        <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/admin.css" />
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.1.min.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-ui-1.8.17.custom.min.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-ui-1.8.18.custom.min.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.url.packed.js">
@@ -54,13 +55,13 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/treeview/jquery.treeview.js">
           <xsl:text> </xsl:text>
         </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/sharpcms.js">
+          <xsl:text> </xsl:text>
+        </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/admin.xslt.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/sessvars/sessvars.js">
-          <xsl:text> </xsl:text>
-        </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/sharpcms.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/_sharpcms.js">

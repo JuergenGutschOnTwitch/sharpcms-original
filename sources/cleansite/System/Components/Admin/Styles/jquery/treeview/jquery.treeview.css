@@ -6,7 +6,7 @@
 
 .treeview ul {
 	background-color: white;
-	margin-top: 4px;
+	margin-top: 0;
 }
 
 .treeview .hitarea {
@@ -20,19 +20,19 @@
 /* fix for IE6 */
 * html .hitarea {
 	display: inline;
-	float:none;
+	float: none;
 }
 
 .treeview li { 
 	margin: 0;
-	padding: 3px 0pt 3px 16px;
+	padding: 3px 0 3px 16px;
 }
 
 .treeview a.selected {
 	background-color: #eee;
 }
 
-#treecontrol { margin: 1em 0; display: none; }
+#treecontrol { margin: 1px 0; display: none; }
 
 .treeview .hover { color: red; cursor: pointer; }
 
@@ -67,13 +67,20 @@
 	display: block;
 }
 
-.filetree li { padding: 3px 0 2px 16px; }
+.filetree a {
+    font-size: 11px;
+    line-height: 15px;
+}
+
+.filetree li { padding: 1px 0 2px 16px; }
 .filetree span.user,
 .filetree span.group,
 .filetree span.folder, 
-.filetree span.file { padding: 1px 0 1px 18px; display: block; }
-.filetree span.folder { background: url(/System/Components/Admin/Images/jquery/treeview/folder.gif) 0 0 no-repeat; }
-.filetree li.expandable span.folder { background: url(/System/Components/Admin/Images/jquery/treeview/folder-closed.gif) 0 0 no-repeat; }
-.filetree span.file { background: url(/System/Components/Admin/Images/jquery/treeview/file.gif) 0 0 no-repeat; }
-.filetree span.user { background: url(/System/Components/Admin/Images/jquery/treeview/user.png) 0 0 no-repeat; }
-.filetree span.group { background: url(/System/Components/Admin/Images/jquery/treeview/group_delete.png) 0 0 no-repeat; }
+.filetree span.file,
+.filetree span.home { padding: 1px 0 3px 18px; display: block; }
+.filetree span.folder { background: url(/System/Components/Admin/Images/icons/folder.png) 0 0 no-repeat; }
+.filetree li.expandable span.folder { background: url(/System/Components/Admin/Images/icons/folder.png) 0 0 no-repeat; }
+.filetree span.file { background: url(/System/Components/Admin/Images/icons/page_white.png) 0 0 no-repeat; }
+.filetree span.home { background: url(/System/Components/Admin/Images/icons/house.png) 0 0 no-repeat; }
+.filetree span.user { background: url(/System/Components/Admin/Images/icons/user.png) 0 0 no-repeat; }
+.filetree span.group { background: url(/System/Components/Admin/Images/icons/group_delete.png) 0 0 no-repeat; }

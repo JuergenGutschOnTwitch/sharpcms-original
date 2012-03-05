@@ -36,13 +36,17 @@ html {
 }
 
 body {
-    background-color: white;
+    background-color: #f4f6f7;
     font-size: 62.5%;
 }
 
 label {
     color: #486c82;
 
+}
+
+a {
+    cursor: pointer;
 }
 
 a, p, b {
@@ -134,7 +138,7 @@ b {
 /*************************************************************************/
 .head {
     background-color: #d0d9df;
-    border: 1px solid #a2b4bf;
+    border: 1px solid #b9c7cf;
     color: #486c82;
     float: left;
     padding: 2px 0 2px 2px;
@@ -229,6 +233,7 @@ a.expand {
     background-color: #748fa0;
     border-color: #486c82;
     color: #fff !Important;
+    font-weight: bold;
 }
 
 a.expand:hover {
@@ -405,7 +410,7 @@ a.expand:hover {
 
 
 /*************************************************************************/
-/*                                                                    Tabs
+/*                                                               MceEditor
 /*************************************************************************/
 textarea.mceeditor {
     height: 200px;
@@ -425,6 +430,25 @@ textarea.mceeditor {
 .tab-page {
     float: left;
     width: 632px;
+}
+
+ul.ui-tabs-nav li a.delete {
+    background-color: #d0d9df;
+    border: 1px solid #b9c7cf !Important;
+    cursor: pointer !Important;
+    display: none;
+    font-weight: bold;
+    margin: 2px 2px 0 0;
+    padding: 1px 3px !Important;
+}
+
+ul.ui-tabs-nav li a.delete:hover {
+    background-color: #a2b4bf;
+    border: 1px solid #748fa0 !Important;
+}
+
+ul.ui-tabs-nav li.ui-tabs-selected a.delete {
+    display: inherit;
 }
 
 
@@ -784,25 +808,6 @@ textarea.mceeditor {
 
 
 /*************************************************************************/
-/*                                                                  Choose
-/*************************************************************************/
-.choose .header {
-    background: #486c82 url('../images/topbg.gif' ) top left repeat-x;
-    color: #fff;
-    float: left;
-    height: 39px;
-    line-height: 39px;
-    padding-left: 10px;
-    width: 100%;
-}
-
-.choose .content {
-    padding: 10px;
-    width: 100%;
-}
-
-
-/*************************************************************************/
 /*                                                                    Form
 /*************************************************************************/
 input, textarea, select {
@@ -870,4 +875,17 @@ input.checkbox {
     cursor: pointer;
     line-height: 32px;
     padding-left: 3px;
+}
+
+
+/*************************************************************************/
+/*                                                        Hidden Page Mark
+/*************************************************************************/
+.icon-hiddenpage {
+    top: -10px;
+    left: 8px;
+    position: relative;
+    margin-bottom: -9px;
+    height: 7px;
+    width: 7px;
 }
