@@ -1,10 +1,4 @@
 ﻿$(function () {
-    $('#choosePageDialog').dialog({
-        modal: true
-    });
-});
-
-$(function () {
     // Hyperlinks (Commonactions)
     var $hlSave = $('.hlSave');
     var $hlSaveAndShow = $('.hlSaveAndShow');
@@ -17,7 +11,7 @@ $(function () {
     var $hlMoveElementDown = $('.hlMoveElementDown');
     var $hlMoveElementUp = $('.hlMoveElementUp');
     var $hlCopyElement = $('.hlCopyElement');
-    var $hlAddLanguage = $('.hlAddLanguage');
+    var $hlAddPage = $('.hlAddPage');
     var $hlThrowEvent = $('.hlThrowEvent');
 
     // Hyperlinks (Files)
@@ -45,7 +39,7 @@ $(function () {
     var $hlChooseFolder = $('.hlChooseFolder');
 
     $hlSave.live().click(function () {
-        Sharpcms.Actions.ThrowEvent('save', '', '');
+        Sharpcms.Actions.SavePage();
     });
 
     $hlSaveAndShow.live().click(function () {
@@ -57,55 +51,50 @@ $(function () {
     });
 
     $hlRemoveContrainer.live().click(function () {
-        var containerId = $(this).attr('value'); // container
+        var containerId = $(this).attr('containerId');
 
-        Sharpcms.Actions.ThrowEventConfirm('pageremovecontainer', containerId, 'This will remove the container.\n\nAre you sure?');
+        Sharpcms.Actions.RemovePageContainer(containerId);
     });
 
     $hlRemoveElement.live().click(function () {
-        var attributeValue = $(this).attr('value').split(Sharpcms.Common.Splitters); // container / element
-        var containerId = attributeValue[0];
-        var elementId = attributeValue[1];
+        var containerId = $(this).attr('containerId');
+        var elementId = $(this).attr('elementId');
 
-        Sharpcms.Actions.ThrowEventConfirm('remove', 'element-' + containerId + '-' + elementId, 'Are you sure you want to delete this element?');
+        Sharpcms.Actions.RemoveElement(containerId, elementId);
     });
 
     $hlMoveElementTop.live().click(function () {
-        var attributeValue = $(this).attr('value').split(Sharpcms.Common.Splitters); // container / element
-        var containerId = attributeValue[0];
-        var elementId = attributeValue[1];
+        var containerId = $(this).attr('containerId');
+        var elementId = $(this).attr('elementId');
 
-        Sharpcms.Actions.ThrowEvent('movetop', 'element-' + containerId + '-' + elementId, '');
+        Sharpcms.Actions.MoveElementTop(containerId, elementId);
     });
 
     $hlMoveElementDown.live().click(function () {
-        var atrributeValue = $(this).attr('value').split(Sharpcms.Common.Splitters); // container / element
-        var containerId = atrributeValue[0];
-        var elementId = atrributeValue[1];
+        var containerId = $(this).attr('containerId');
+        var elementId = $(this).attr('elementId');
 
-        Sharpcms.Actions.ThrowEvent('movedown', 'element-' + containerId + '-' + elementId, '');
+        Sharpcms.Actions.MoveElementDown(containerId, elementId);
     });
 
     $hlMoveElementUp.live().click(function () {
-        var attributeValue = $(this).attr('value').split(Sharpcms.Common.Splitters); // container / element
-        var containerId = attributeValue[0];
-        var elementId = attributeValue[1];
+        var containerId = $(this).attr('containerId');
+        var elementId = $(this).attr('elementId');
 
-        Sharpcms.Actions.ThrowEvent('moveup', 'element-' + containerId + '-' + elementId, '');
+        Sharpcms.Actions.MoveElementUp(containerId, elementId);
     });
 
     $hlCopyElement.live().click(function () {
-        var attributeValue = $(this).attr('value').split(Sharpcms.Common.Splitters); // container / element
-        var containerId = attributeValue[0];
-        var elementId = attributeValue[1];
+        var containerId = $(this).attr('containerId');
+        var elementId = $(this).attr('elementId');
 
-        Sharpcms.Actions.ThrowEvent('copy', 'element-' + containerId + '-' + elementId, '');
+        Sharpcms.Actions.CopyElement(containerId, elementId);
     });
 
-    $hlAddLanguage.live().click(function () {
-        var pageidentifier = $(this).attr('value'); // {attributes/pageidentifier}
+    $hlAddPage.live().click(function () {
+        var pageId = $(this).attr('pageId');
 
-        Sharpcms.Actions.ThrowEventNew('addpage', pageidentifier, 'Type the name of the new page:');
+        Sharpcms.Actions.AddPage(pageId);
     });
 
     $hlChoosePage.live().click(function () {
@@ -133,9 +122,9 @@ $(function () {
     });
 
     $hlThrowEvent.live().click(function () {
-        var event = $(this).attr('action'); // @event
+        var action = $(this).attr('action');
 
-        Sharpcms.Actions.ThrowEvent(event, '', '');
+        Sharpcms.Actions.ThrowEvent(action, '', '');
     });
 
     $hlUploadFile.live().click(function () {
@@ -228,33 +217,33 @@ $(function () {
         var attributeAction = $('#adminmoreactions :selected').attr('action');
         var attributeValue = $('#adminmoreactions :selected').attr('value').split(Sharpcms.Common.Splitters);
 
-        if (attributeAction == 'removepage') {
-            Sharpcms.Actions.ThrowEventConfirm(attributeAction, attributeValue[0], 'Do you want to delete the page?');
-        } else if (attributeAction == 'addpage') {
-            Sharpcms.Actions.ThrowEventNew(attributeAction, attributeValue[0], 'Type the name of the new page:');
-        } else if (attributeAction == 'pagecreatcontainer') {
-            Sharpcms.Actions.ThrowEventNew(attributeAction, '', 'Type the name of the new container:');
-        } else if (attributeAction == 'pagemoveup') {
-            Sharpcms.Actions.ThrowEvent(attributeAction, attributeValue[0], '');
-        } else if (attributeAction == 'pagemovedown') {
-            Sharpcms.Actions.ThrowEvent(attributeAction, attributeValue[0], '');
-        } else if (attributeAction == 'pagemovetop') {
-            Sharpcms.Actions.ThrowEvent(attributeAction, attributeValue[0], '');
-        } else if (attributeAction == 'pagemovebottom') {
-            Sharpcms.Actions.ThrowEvent(attributeAction, attributeValue[0], '');
-        } else if (attributeAction == 'movepage') {
+        if (attributeAction == Sharpcms.ActionType.RemovePage) {
+            Sharpcms.Actions.RemovePage(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.AddPage) {
+            Sharpcms.Actions.AddPage(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.CreatePageContainer) {
+            Sharpcms.Actions.CreatePageContainer();
+        } else if (attributeAction == Sharpcms.ActionType.MovePageUp) {
+            Sharpcms.Actions.MovePageUp(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.MovePageDown) {
+            Sharpcms.Actions.MovePageDown(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.MovePageTop) {
+            Sharpcms.Actions.MovePageTop(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.MovePageBottom) {
+            Sharpcms.Actions.MovePageBottom(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.MovePage) {
             Sharpcms.Actions.MovePage();
-        } else if (attributeAction == 'copypage') {
+        } else if (attributeAction == Sharpcms.ActionType.CopyPage) {
             //Sharpcms.ModalDialog.Show('admin/choose/page/', 'Sharpcms.Actions.CopyPage("' + attributeValue[0] + '","' + attributeValue[1] + '")');
-        } else if (attributeAction == 'setstandardpage') {
-            Sharpcms.Actions.ThrowEvent('setstandardpage', '', '');
+        } else if (attributeAction == Sharpcms.ActionType.SetAsStartPage) {
+            Sharpcms.Actions.SetAsStartPage();
         }
     });
 
     $('.addelement').change(function () {
         var containerId = $(this).attr('name').replace('data_container_', '');
 
-        Sharpcms.Actions.ThrowEvent('addelement', 'text_' + containerId, '');
+        Sharpcms.Actions.AddElement(containerId);
     });
 
     // TinyMCE
@@ -276,6 +265,9 @@ $(function () {
         relative_urls: false,
         content_css: '/System/Components/Admin/Styles/tiny_mce/tinystyle.css'
     });
+
+    // Dialogs
+    $('.choose').hide();
 
     // Tabs
     $('.tabs').tabs();

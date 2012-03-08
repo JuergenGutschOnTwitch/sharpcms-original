@@ -14,6 +14,22 @@
 
   <xsl:template mode="choose" match="sitetree">
     <ul id="pages" class="filetree">
+      <li>
+        <a>
+          <xsl:attribute name="class">
+            <xsl:text>hlCloseDialog</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="value">
+            <xsl:text>.</xsl:text>
+          </xsl:attribute>
+          <span>
+            <xsl:attribute name="class">
+              <xsl:text>folder</xsl:text>
+            </xsl:attribute>
+            <xsl:text>..</xsl:text>
+          </span>
+        </a>
+      </li>
       <xsl:for-each select="*">
         <xsl:call-template name="SiteTreeElementChoose">
           <xsl:with-param name="current-path">
@@ -33,7 +49,7 @@
     <li>
       <a>
         <xsl:attribute name="class">
-          <xsl:text>hlCloseForm</xsl:text>
+          <xsl:text>hlCloseDialog</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="value">
           <xsl:value-of select="$current-path" />

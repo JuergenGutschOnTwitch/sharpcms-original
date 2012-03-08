@@ -69,16 +69,16 @@
           <xsl:text>More actions...</xsl:text>
         </option>
         <option action="setstandardpage">
-          <xsl:text>&#160;&#160;Set as default page</xsl:text>
+          <xsl:text>&#160;&#160;Set as Start Page</xsl:text>
         </option>
         <option action="removepage" value="{attributes/pageidentifier}">
-          <xsl:text>&#160;&#160;Delete page</xsl:text>
+          <xsl:text>&#160;&#160;Delete Page</xsl:text>
         </option>
         <option action="addpage" value="{attributes/pageidentifier}">
-          <xsl:text>&#160;&#160;Add subpage</xsl:text>
+          <xsl:text>&#160;&#160;Add Subpage</xsl:text>
         </option>
         <option action="pagecreatcontainer">
-          <xsl:text>&#160;&#160;Add container</xsl:text>
+          <xsl:text>&#160;&#160;Add Container</xsl:text>
         </option>
         <option disabled="disabled" />
         <option disabled="disabled">Move / Copy</option>
@@ -94,10 +94,10 @@
         <option action="pagemovebottom" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move Bottom</xsl:text>
         </option>
-        <option action="movepage">
+        <option action="pagemove">
           <xsl:text>&#160;&#160;Move To</xsl:text>
         </option>
-        <option action="copypage">
+        <option action="pagecopyto">
           <xsl:attribute name="value">
             <xsl:value-of select="attributes/pageidentifier" />
             <xsl:text>;;</xsl:text>
@@ -206,8 +206,8 @@
         <xsl:attribute name="title">
           <xsl:text>This will remove the container</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
-          <xsl:number count="@name" />
+        <xsl:attribute name="containerId">
+          <xsl:number count="container" />
         </xsl:attribute>
         <xsl:text>X</xsl:text>
       </a>
@@ -714,9 +714,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementTop</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="containerId">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="elementId">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Top</xsl:text>
@@ -725,9 +726,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementDown</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="containerId">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="elementId">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Down</xsl:text>
@@ -736,9 +738,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementUp</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="containerId">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="elementId">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Up</xsl:text>
@@ -747,9 +750,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlCopyElement</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="containerId">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="elementId">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Copy</xsl:text>
@@ -761,9 +765,10 @@
           <xsl:attribute name="title">
             <xsl:text>delete the element</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="containerId">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="elementId">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>X</xsl:text>

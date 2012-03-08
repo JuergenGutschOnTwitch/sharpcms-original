@@ -91,16 +91,46 @@ function closeModalDialog(response) {
             }
         }
 
-        function movePage() {
-            showModalDialog('admin/choose/page/', throwMovePageEvent);
+        function setAsStartPage() {
+            throwEvent(Sharpcms.ActionType.SetAsStartPage, '', '');
         }
 
-        function throwMovePageEvent() {
-            if (dialogBox.value != undefined && dialogBox.value != '') {
-                throwEvent(Sharpcms.ActionType.MovePage, dialogBox.value, '');
-            }
+        function movePage() {
+            $('#choosePageDialog').dialog(function () { $(this).modal = true; });
+            $('.hlCloseDialog').live().click(function() {
+                $('.choose').dialog('close');
+                
+                var path = $(this).attr('value'); // @path
+                throwEvent(Sharpcms.ActionType.MovePage, path, '');
+            });
+        }
 
-            resetModalDialog();
+        function movePageUp(pageId) {
+            throwEvent(Sharpcms.ActionType.MovePageUp, pageId, '');
+        }
+        
+        function movePageDown(pageId) {
+            throwEvent(Sharpcms.ActionType.MovePageDown, pageId, '');
+        }
+
+        function movePageTop(pageId) {
+            throwEvent(Sharpcms.ActionType.MovePageTop, pageId, '');
+        }
+
+        function movePageBottom(pageId) {
+            throwEvent(Sharpcms.ActionType.MovePageBottom, pageId, '');
+        }
+
+        function createPageContainer() {
+            throwEventNew(Sharpcms.ActionType.CreatePageContainer, '', 'Type the name of the new container:');
+        }
+
+        function removePageContainer(containerId) {
+            throwEventConfirm(Sharpcms.ActionType.RemovePageContainer, containerId, 'This will remove the container.\n\nAre you sure?');
+        }
+
+        function addPage(pageId) {
+            throwEventNew(Sharpcms.ActionType.AddPage, pageId, 'Type the name of the new page:');
         }
 
         var copyPagePromptMessage = 'Page name:';
@@ -110,6 +140,42 @@ function closeModalDialog(response) {
             }
 
             resetModalDialog();
+        }
+        
+        function removePage(pageId) {
+            throwEventConfirm(Sharpcms.ActionType.RemovePage, pageId, 'Do you want to delete the page?');
+        }
+
+        function savePage() {
+            throwEvent(Sharpcms.ActionType.SavePage, '', '');
+        }
+
+        function addElement(containerId) {
+            throwEvent(Sharpcms.ActionType.AddElement, 'text_' + containerId, '');
+        }
+
+        function removeElement(containerId, elementId) {
+            throwEventConfirm(Sharpcms.ActionType.RemoveElement, 'element-' + containerId + '-' + elementId, 'Are you sure you want to delete this element?');
+        }
+
+        function moveElementUp(containerId, elementId) {
+            throwEvent(Sharpcms.ActionType.MoveElementUp, 'element-' + containerId + '-' + elementId, '');
+        }
+
+        function moveElementDown(containerId, elementId) {
+            throwEvent(Sharpcms.ActionType.MoveElementDown, 'element-' + containerId + '-' + elementId, '');
+        }
+
+        function moveElementTop(containerId, elementId) {
+            throwEvent(Sharpcms.ActionType.MoveElementTop, 'element-' + containerId + '-' + elementId, '');
+        }
+        
+        function moveElementBottom(containerId, elementId) {
+            throwEvent(Sharpcms.ActionType.MoveElementBottom, 'element-' + containerId + '-' + elementId, '');
+        }
+
+        function copyElement(containerId, elementId) {
+            throwEvent(Sharpcms.ActionTypeCopy, 'element-' + containerId + '-' + elementId, '');
         }
 
         function openWindow(url, name) {
@@ -134,8 +200,32 @@ function closeModalDialog(response) {
         init();
 
         return {
+            AddPage: addPage,
+            RemovePage: removePage,
+            SavePage: savePage,
+            SetAsStartPage: setAsStartPage,
+            
             MovePage: movePage,
+            MovePageUp: movePageUp,
+            MovePageDown: movePageDown,
+            MovePageTop: movePageTop,
+            MovePageBottom: movePageBottom,
+            
             CopyPage: copyPage,
+            
+            CreatePageContainer: createPageContainer,
+            RemovePageContainer: removePageContainer,
+            
+            AddElement: addElement,
+            RemoveElement: removeElement,
+
+            MoveElementUp: moveElementUp,
+            MoveElementDown: moveElementDown,
+            MoveElementTop: moveElementTop,
+            MoveElementBottom: moveElementBottom,
+
+            CopyElement: copyElement,
+
             ThrowEvent: throwEvent,
             ThrowEventNew: throwEventNew,
             ThrowEventConfirm: throwEventConfirm,
@@ -148,8 +238,31 @@ function closeModalDialog(response) {
             Common: common(),
             Actions: actions(),
             ActionType: {
+                AddPage: 'addpage',
+                RemovePage: 'removepage',
+                SavePage: 'save',
+                SetAsStartPage: 'setstandardpage',
+                
                 MovePage: 'pagemove',
-                CopyPage: 'pagecopyto'
+                MovePageUp: 'pagemoveup',
+                MovePageDown: 'pagemovedown',
+                MovePageTop: 'pagemovetop',
+                MovePageBottom: 'pagemovebottom',
+                
+                CopyPage: 'pagecopyto',
+                
+                CreatePageContainer: 'pagecreatcontainer',
+                RemovePageContainer: 'pageremovecontainer',
+                
+                AddElement: 'addelement',
+                RemoveElement: 'remove',
+                
+                MoveElementUp: 'moveup',
+                MoveElementDown: 'movedown',
+                MoveElementTop: 'movetop',
+                MoveElementBottom: 'movebottom',
+                
+                CopyElement: 'copy'
             }
         }
     });

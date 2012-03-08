@@ -26,9 +26,9 @@
     <div class="menu tree_menu">
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button hlAddLanguage</xsl:text>
+          <xsl:text>button hlAddPage</xsl:text>
         </xsl:attribute>
-			  <xsl:attribute name="value">
+			  <xsl:attribute name="pageId">
           <xsl:text>.</xsl:text>
         </xsl:attribute>
         <xsl:text>Add language</xsl:text>
@@ -122,6 +122,22 @@
     <div id="choosePageDialog" class="choose" title="Choose Page">
       <div class="content">
         <ul id="pages" class="filetree">
+          <li>
+            <a>
+              <xsl:attribute name="class">
+                <xsl:text>hlCloseDialog</xsl:text>
+              </xsl:attribute>
+              <xsl:attribute name="value">
+                <xsl:text>.</xsl:text>
+              </xsl:attribute>
+              <span>
+                <xsl:attribute name="class">
+                  <xsl:text>folder</xsl:text>
+                </xsl:attribute>
+                <xsl:text>..</xsl:text>
+              </span>
+            </a>
+          </li>
           <xsl:for-each select="*">
             <xsl:call-template name="SiteTreeElementChoose">
               <xsl:with-param name="current-path">
