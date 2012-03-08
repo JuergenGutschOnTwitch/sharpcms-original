@@ -314,7 +314,11 @@ namespace Sharpcms.Library.Common
 
             XmlNode xmlNode = null;
             if (emptyNode != EmptyNodeHandling.ForceCreateNew)
-                xmlNode = fromXmlNode.SelectSingleNode(pathParts[0]);
+            {
+                xmlNode = pathParts[0] == string.Empty 
+                    ? fromXmlNode 
+                    : fromXmlNode.SelectSingleNode(pathParts[0]);
+            }
             else
             {
                 if (fromXmlNode.OwnerDocument != null)
