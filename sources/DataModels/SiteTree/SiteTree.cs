@@ -87,7 +87,6 @@ namespace Sharpcms.Data.SiteTree
         /// <returns></returns>
         private XmlNode GetPageNode(string path)
         {
-            //string xPath = NormalizePath(path);
             XmlNode pageNode = CommonXml.GetNode(_treeDocument, path, EmptyNodeHandling.Ignore);
 
             return pageNode;
@@ -101,6 +100,7 @@ namespace Sharpcms.Data.SiteTree
         public bool Exists(string path)
         {
             XmlNode pageNode = GetPageNode(path);
+
             return pageNode != null;
         }
 
@@ -447,7 +447,10 @@ namespace Sharpcms.Data.SiteTree
         public void Move(string path, string newParentPath)
         {
             Page page = GetPage(path);
-            Page newParent = GetPage(newParentPath);
+            Page newParent = GetPage(newParentPath == "." 
+                ? string.Empty 
+                : newParentPath);
+
             Move(page, newParent);
         }
 
@@ -485,7 +488,7 @@ namespace Sharpcms.Data.SiteTree
                 }
                 catch
                 {
-                    /* Ignore errors */
+                    
                 }
 
                 Save();
