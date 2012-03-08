@@ -247,7 +247,9 @@ namespace Sharpcms.Providers.Base
         {
             string mainValueQueryEvent = Process.QueryEvents["mainvalue"];
 
-            new SiteTree(Process).CopyTo(mainValueQueryEvent);
+            var siteTree = new SiteTree(Process);
+            
+            siteTree.CopyTo(mainValueQueryEvent);
 
             string[] pathArray = mainValueQueryEvent.Split('¤');
             string path = string.Empty;
@@ -255,6 +257,7 @@ namespace Sharpcms.Providers.Base
             {
                 path += (pathArray[i] + "/");
             }
+
             path = path.Substring(0, path.Length - 1);
             Process.RedirectUrl = GetRedirectUrl(path);
         }
@@ -264,17 +267,15 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandlePageMove()
         {
-            string mainValueQueryEvent = Process.QueryEvents["mainvalue"];
-            string pageidentifierQueryData = Process.QueryData["pageidentifier"];
+            string newParentPath = Process.QueryEvents["mainvalue"];
+            string path = Process.QueryData["pageidentifier"];
 
+            var siteTree = new SiteTree(Process);
 
-            new SiteTree(Process).Move(Process.QueryData["pageidentifier"], mainValueQueryEvent);
+            siteTree.Move(path, newParentPath);
 
-            Process.RedirectUrl = GetRedirectUrl(mainValueQueryEvent);
+            Process.RedirectUrl = GetRedirectUrl(path);
         }
-
-
-
 
         /// <summary>
         /// Gets the redirect URL.
@@ -303,10 +304,7 @@ namespace Sharpcms.Providers.Base
         {
             return Process.GetUrl(String.Format("admin/page/edit/{0}/", path));
         }
-
-
-
-
+        
         /// <summary>
         /// Handles the add element.
         /// </summary>
