@@ -157,12 +157,15 @@
             <div class="content">
               <div class="left">
                 <xsl:apply-templates select="data/navigationplace/*" mode="edit" />
+                <xsl:text> </xsl:text>
               </div>
               <div class="right">
                 <xsl:apply-templates select="data/contentplace/*" mode="edit" />
+                <xsl:text> </xsl:text>
               </div>
               <div class="hidden">
                 <xsl:apply-templates select="data/navigationplace/*" mode="choose" />
+                <xsl:text> </xsl:text>
               </div>
             </div>
             <!-- End Content -->
