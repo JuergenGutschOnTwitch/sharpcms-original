@@ -37,7 +37,7 @@
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.18.sharpcms.css" />
         <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/admin.css" />
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.1.min.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.2.min.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-ui-1.8.18.custom.min.js">
@@ -160,6 +160,9 @@
               </div>
               <div class="right">
                 <xsl:apply-templates select="data/contentplace/*" mode="edit" />
+              </div>
+              <div class="hidden">
+                <xsl:apply-templates select="data/navigationplace/*" mode="choose" />
               </div>
             </div>
             <!-- End Content -->
