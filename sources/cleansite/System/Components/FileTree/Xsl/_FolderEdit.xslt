@@ -31,7 +31,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlRemoveFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Delete folder</xsl:text>
@@ -40,7 +40,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlRenameFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Rename folder</xsl:text>
@@ -49,7 +49,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlAddFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Add subfolder</xsl:text>
@@ -58,7 +58,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlMoveFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="name">
+        <xsl:attribute name="path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Move folder</xsl:text>
@@ -98,7 +98,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlUploadFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Upload</xsl:text>
@@ -124,7 +124,7 @@
           <xsl:attribute name="class">
             <xsl:text>hlMoreFiles</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="currentlevel">
             <xsl:value-of select ="$currentlevel" />
           </xsl:attribute>
           <xsl:text>More files...</xsl:text>

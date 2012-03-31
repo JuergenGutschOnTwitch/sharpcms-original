@@ -7,7 +7,7 @@
 .ui-tabs .ui-tabs-nav li a { cursor: pointer; color: #748fa0; font-weight: bold; padding: 2px 5px 3px 5px; text-transform: capitalize; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected { border-bottom: 0; margin: 1px -3px -2px 0; top: -2px; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a { color: #486c82; }
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {cursor: default; padding: 4px 8px 3px 8px; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: default; padding: 4px 8px 3px 8px; }
 .ui-tabs .ui-tabs-panel { background: #e7ecee; border: 1px solid #d0d9df; margin-top: -1px; padding: 8px; }
 
 

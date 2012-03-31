@@ -12,6 +12,29 @@
 		omit-xml-declaration="yes"
 		indent="yes" />
 
+  <xsl:template mode="show" match="element[@type='picture']">
+    <xsl:if test="picture and not(picture='')">
+      <p>
+        <img style="border:none 0px;">
+          <xsl:attribute name="src">
+            <xsl:text>/?process=download/</xsl:text>
+            <xsl:value-of select="picture" />
+          </xsl:attribute>
+          <xsl:attribute name="alt">
+            <xsl:value-of select="alttext" />
+          </xsl:attribute>
+        </img>
+        <xsl:if test="not(text = '') and text">
+          <br />
+          <xsl:value-of select="text" />
+        </xsl:if>
+      </p>
+    </xsl:if>
+    <p>
+      <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+    </p>
+  </xsl:template>
+
   <xsl:template name="edit">
     <xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
       <div>

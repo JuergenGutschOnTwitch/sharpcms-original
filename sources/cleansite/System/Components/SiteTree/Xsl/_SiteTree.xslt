@@ -48,7 +48,6 @@
         </xsl:for-each>
       </ul>
     </div>
-    <xsl:call-template name="hiddenparts" />
   </xsl:template>
 
   <xsl:template name="SiteTreeElement">
@@ -116,40 +115,5 @@
         </ul>
       </xsl:if>
     </li>
-  </xsl:template>
-
-  <xsl:template name="hiddenparts">
-    <div id="choosePageDialog" class="choose" title="Choose Page">
-      <div class="content">
-        <ul id="pages" class="filetree">
-          <li>
-            <a>
-              <xsl:attribute name="class">
-                <xsl:text>hlCloseDialog</xsl:text>
-              </xsl:attribute>
-              <xsl:attribute name="value">
-                <xsl:text>.</xsl:text>
-              </xsl:attribute>
-              <span>
-                <xsl:attribute name="class">
-                  <xsl:text>folder</xsl:text>
-                </xsl:attribute>
-                <xsl:text>..</xsl:text>
-              </span>
-            </a>
-          </li>
-          <xsl:for-each select="*">
-            <xsl:call-template name="SiteTreeElementChoose">
-              <xsl:with-param name="current-path">
-                <xsl:value-of select="name()" />
-              </xsl:with-param>
-              <xsl:with-param name="isLanguage">
-                <xsl:text>true</xsl:text>
-              </xsl:with-param>
-            </xsl:call-template>
-          </xsl:for-each>
-        </ul>
-      </div>
-    </div>
   </xsl:template>
 </xsl:stylesheet>

@@ -8,7 +8,6 @@
     <containers>
       <item>content</item>
     </containers>
-    <stdpage>english/start</stdpage>
     <elementlist>
       <header>
         <item name="Text" attribute="text" type="text" />

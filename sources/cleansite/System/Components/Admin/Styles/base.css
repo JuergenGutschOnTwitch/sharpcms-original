@@ -208,6 +208,10 @@ a.anchor {
     color: red !Important;
 }
 
+.hidden {
+    display: none;
+}
+
 a.button {
     background-color: #d0d9df;
     border: 1px solid #b9c7cf;
@@ -275,7 +279,7 @@ a.expand:hover {
     background: #fff url('../images/subbg.gif' ) top left repeat-x;
     float: left;
     height: 26px;
-    min-width: 300px;
+    min-width: 320px;
     width: 100%;
 }
 
@@ -744,7 +748,7 @@ ul.ui-tabs-nav li.ui-tabs-selected a.delete {
 }
 
 .messages div {
-    margin: 6px 6px 0 6px;
+    margin: 5px 5px 0 5px;
     padding: 6px;
 }
 

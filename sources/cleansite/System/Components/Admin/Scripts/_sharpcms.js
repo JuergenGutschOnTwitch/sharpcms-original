@@ -35,21 +35,3 @@ function ReturnMethodMoveFolder(path) {
     Sharpcms.ModalDialog.Reset();
     Sharpcms.Actions.ThrowEvent('movefolder', path + '*' + modalDialogValue, '');
 }
-
-function ReturnMethodChoosePage(id, attribute) {
-    $('[name="' + id + '_' + attribute + '"]').val(Sharpcms.ModalDialog.DialogBox.value);
-
-    Sharpcms.ModalDialog.Reset();
-}
-
-function ReturnMethodChooseFile(id, attribute) {
-    $('[name="' + id + '_' + attribute + '"]').val(Sharpcms.ModalDialog.DialogBox.value);
-
-    Sharpcms.ModalDialog.Reset();
-}
-
-function ReturnMethodChooseFolder(id, attribute) {
-    $('[name="' + id + '_' + attribute + '"]').val(Sharpcms.ModalDialog.DialogBox.value);
-
-    Sharpcms.ModalDialog.Reset();
-}

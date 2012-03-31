@@ -38,7 +38,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlRemoveFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Delete file</xsl:text>
@@ -47,7 +47,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlRenameFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Rename file</xsl:text>
@@ -66,7 +66,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlMoveFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Move file</xsl:text>

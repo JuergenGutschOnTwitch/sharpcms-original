@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <users>
   <users>
     <user>
@@ -11,6 +10,7 @@
     <user>
       <groups>
         <group name="admin" />
+        <group name="anonymous" />
       </groups>
       <login>admin</login>
       <password>1156371652</password>

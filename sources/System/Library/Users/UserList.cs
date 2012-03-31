@@ -46,10 +46,10 @@ namespace Sharpcms.Library.Users
         public User Create(string login)
         {
             XmlNode node = Document.CreateElement("user");
-            ParentNode.AppendChild(node);
-            var user = new User(node) {Login = login};
 
-            return user;
+            ParentNode.AppendChild(node);
+
+            return new User(node) {Login = login};
         }
 
         public void Remove(int index)

@@ -102,7 +102,7 @@
         var id = attributeValue[0];
         var attribute = attributeValue[1];
 
-        //Sharpcms.ModalDialog.Show('admin/choose/page', 'ReturnMethodChoosePage("' + id + '", "' + attribute + '")');
+        Sharpcms.Actions.ChoosePage(id, attribute);
     });
 
     $hlChooseFile.live().click(function () {
@@ -110,7 +110,7 @@
         var id = attributeValue[0];
         var attribute = attributeValue[1];
 
-        //Sharpcms.ModalDialog.Show('admin/choose/file', 'ReturnMethodChooseFile("' + id + '", "' + attribute + '")');
+        Sharpcms.Actions.ChooseFile(id, attribute);
     });
 
     $hlChooseFolder.live().click(function () {
@@ -118,7 +118,7 @@
         var id = attributeValue[0];
         var attribute = attributeValue[1];
 
-        //Sharpcms.ModalDialog.Show('admin/choose/folder', 'ReturnMethodChooseFolder("' + id + '", "' + attribute + '")');
+        Sharpcms.Actions.ChooseFolder(id, attribute);
     });
 
     $hlThrowEvent.live().click(function () {
@@ -128,59 +128,59 @@
     });
 
     $hlUploadFile.live().click(function () {
-        var path = $(this).attr('value'); // @path
+        var path = $(this).attr('path');
 
-        Sharpcms.Actions.ThrowEvent('uploadfile', path, 'Type the name of the new folder:', '');
+        Sharpcms.Actions.UploadFile(path);
     });
 
     $hlRemoveFile.live().click(function () {
-        var path = $(this).attr('value'); // @path
+        var path = $(this).attr('path');
 
-        Sharpcms.Actions.ThrowEventConfirm('removefile', path, 'Do you want to delete the file?');
+        Sharpcms.Actions.RemoveFile(path);
     });
 
     $hlRenameFile.live().click(function () {
-        var path = $(this).attr('value'); // @path
+        var path = $(this).attr('path');
 
-        Sharpcms.Actions.ThrowEventNew('renamefile', path, 'Write the new name');
+        Sharpcms.Actions.RenameFile(path);
     });
 
     $hlMoveFile.live().click(function () {
-        var path = $(this).attr('value'); // @path    
+        var path = $(this).attr('path');
 
-        //Sharpcms.ModalDialog.Show('admin/choose/folder', 'ReturnMethodMoveFile("' + path + '")');
+        Sharpcms.Actions.MoveFile(path);
     });
 
     $hlResizeFile.live().click(function () {
-        Sharpcms.Actions.ThrowEvent('doresize', '', '');
+        Sharpcms.Actions.ResizeImage();
     });
 
     $hlAddFolder.live().click(function () {
-        var path = $(this).attr('value'); // @path
+        var path = $(this).attr('path');
 
-        Sharpcms.Actions.ThrowEventNew('addfolder', path, 'Type the name of the new folder');
+        Sharpcms.Actions.AddFolder(path);
     });
 
     $hlRemoveFolder.live().click(function () {
-        var path = $(this).attr('value'); // @path    
+        var path = $(this).attr('path');
 
-        Sharpcms.Actions.ThrowEventConfirm('removefolder', path, 'Do you want to delete the folder?');
+        Sharpcms.Actions.RemoveFolder(path);
     });
 
     $hlRenameFolder.live().click(function () {
-        var path = $(this).attr('value'); // @path
+        var path = $(this).attr('path');
 
-        Sharpcms.Actions.ThrowEventNew('renamefolder', path, 'Write the new name');
+        Sharpcms.Actions.RenameFolder(path);
     });
 
     $hlMoveFolder.live().click(function () {
-        var path = $(this).attr('value'); // @path
+        var path = $(this).attr('path');
 
-        //Sharpcms.ModalDialog.Show('admin/choose/folder', 'ReturnMethodMoveFolder("' + path + '")');
+        Sharpcms.Actions.MoveFolder(path);
     });
 
     $hlMoreFiles.live().click(function () {
-        var currentlevel = $(this).attr('value'); // $currentlevel
+        var currentlevel = $(this).attr('currentlevel');
         var level = parseInt(currentlevel) + 1;
 
         $('#file_' + level).show();
@@ -188,29 +188,29 @@
     });
 
     $hlAddUser.live().click(function () {
-        Sharpcms.Actions.ThrowEventNew('adduser', '', 'Type the name of the new user');
+        Sharpcms.Actions.AddUser();
     });
 
     $hlSaveUser.live().click(function () {
-        var attributeValue = $(this).attr('value'); // login
+        var userName = $(this).attr('userName');
 
-        Sharpcms.Actions.ThrowEvent('saveuser', attributeValue, '');
+        Sharpcms.Actions.SaveUser(userName);
     });
 
     $hlDeleteUser.live().click(function () {
-        var login = $(this).attr('value'); // login
+        var userName = $(this).attr('userName');
 
-        Sharpcms.Actions.ThrowEventConfirm('deleteuser', login, 'Are you sure you wnat to delete the user?');
+        Sharpcms.Actions.DeleteUser(userName);
     });
 
     $hlAddGroup.live().click(function () {
-        Sharpcms.Actions.ThrowEventNew('addgroup', '', 'Type the name of the new group');
+        Sharpcms.Actions.AddGroup();
     });
 
     $hlDeleteGroup.live().click(function () {
-        var name = $(this).attr('value'); // @name
+        var groupName = $(this).attr('groupName');
 
-        Sharpcms.Actions.ThrowEventConfirm('deletegroup', name, 'Are you sure you wnat to delete the group?');
+        Sharpcms.Actions.DeleteGroup(groupName);
     });
 
     $('#adminmoreactions').change(function () {
@@ -234,6 +234,7 @@
         } else if (attributeAction == Sharpcms.ActionType.MovePage) {
             Sharpcms.Actions.MovePage();
         } else if (attributeAction == Sharpcms.ActionType.CopyPage) {
+            Sharpcms.Actions.CopyPage(attributeValue[0], attributeValue[1]);
             //Sharpcms.ModalDialog.Show('admin/choose/page/', 'Sharpcms.Actions.CopyPage("' + attributeValue[0] + '","' + attributeValue[1] + '")');
         } else if (attributeAction == Sharpcms.ActionType.SetAsStartPage) {
             Sharpcms.Actions.SetAsStartPage();
@@ -277,9 +278,31 @@
     $('.container_menu select').selectmenu({ width: 624 });
 
     // TreeView
-    $('.filetree').treeview({
-        persist: 'location',
-        collapsed: true,
-        unique: false
+    $('.filetree').treeview({ persist: 'location', collapsed: true, unique: false });
+
+    // Dirty Hack :-)
+    $(window).resize(function () {
+        setContentWidth();
     });
+
+    $('.treeview li').live().click(function () {
+        setContentWidth();
+    });
+
+    function setContentWidth() {
+        var leftWidth = $('div.content div.left').width();
+        var rightWidth = $('div.content div.right').width();
+
+        $('div.header').css('min-width', parseInt(leftWidth) + parseInt(rightWidth) + 20);
+        $('div.mainnavi').css('min-width', parseInt(leftWidth) + parseInt(rightWidth) + 20);
+        $('div.content').css('min-width', parseInt(leftWidth) + parseInt(rightWidth) + 20);
+
+        if ($(document).width() <= parseInt(leftWidth) + parseInt(rightWidth) + 20) {
+            $('.messages').css('width', parseInt(leftWidth) + parseInt(rightWidth) + 20);
+        } else {
+            $('.messages').css('width', '100%');
+        }
+    }
+
+    setContentWidth();
 });

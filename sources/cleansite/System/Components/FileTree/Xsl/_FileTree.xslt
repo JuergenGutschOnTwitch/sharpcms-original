@@ -28,10 +28,10 @@
         <xsl:attribute name="class">
           <xsl:text>button hlAddFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="path">
           <xsl:text>.</xsl:text>
         </xsl:attribute>
-        <xsl:text>Add new folder</xsl:text>
+        <xsl:text>Add folder</xsl:text>
       </a>
     </div>
     <div class="tree tree_body">

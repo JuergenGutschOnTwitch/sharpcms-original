@@ -11,5 +11,8 @@
   <xsl:include href="..\..\System\Components\SiteTree\Xsl\_PageEdit.xslt" />
   <xsl:include href="..\..\System\Components\SiteTree\Xsl\_SiteTree.xslt" />
   <xsl:include href="..\..\System\Components\SiteTree\Xsl\_SiteTreeChoose.xslt" />
-  <xsl:include href="..\..\System\Components\Users\Xsl\_users.xslt" />
+  <xsl:include href="..\..\System\Components\Users\Xsl\_UserEdit.xslt" />
+  <xsl:include href="..\..\System\Components\Users\Xsl\_UserTree.xslt" />
+  <xsl:include href="..\..\System\Components\Users\Xsl\_GroupTree.xslt" />
+  <xsl:include href="..\..\System\Components\Users\Xsl\_UserTreeChoose.xslt" />
 </xsl:stylesheet>

@@ -96,15 +96,44 @@ function closeModalDialog(response) {
         }
 
         function movePage() {
-            $('#choosePageDialog').dialog(function () { $(this).modal = true; });
+            $('#choosePageDialog').dialog({ modal: true });
             $('.hlCloseDialog').live().click(function() {
                 $('.choose').dialog('close');
                 
-                var path = $(this).attr('value'); // @path
+                var path = $(this).attr('path');
                 throwEvent(Sharpcms.ActionType.MovePage, path, '');
             });
         }
 
+        function moveFolder(fromPath) {
+            $('#chooseFileDialog').dialog({ modal: true });
+            $('.hlCloseDialog').live().click(function() {
+                $('.choose').dialog('close');
+                
+                var toPath = $(this).attr('path');
+                throwEvent(Sharpcms.ActionType.MoveFolder, fromPath + '*' + toPath, '');
+            });
+        }
+
+        function moveFile(fromPath) {
+            $('#chooseFileDialog').dialog({ modal: true });
+            $('.hlCloseDialog').live().click(function() {
+                $('.choose').dialog('close');
+                
+                var toPath = $(this).attr('path');
+                throwEvent(Sharpcms.ActionType.MoveFile, fromPath + '*' + toPath, '');
+            });
+        }
+
+        var copyPagePromptMessage = 'Page name:';
+        function copyPage(pageId, pageName) {
+            if (dialogBox.value != undefined && dialogBox.value != '') {
+                throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + dialogBox.value + '¤' + prompt(copyPagePromptMessage, pageName, ''));
+            }
+
+            resetModalDialog();
+        }
+        
         function movePageUp(pageId) {
             throwEvent(Sharpcms.ActionType.MovePageUp, pageId, '');
         }
@@ -133,15 +162,6 @@ function closeModalDialog(response) {
             throwEventNew(Sharpcms.ActionType.AddPage, pageId, 'Type the name of the new page:');
         }
 
-        var copyPagePromptMessage = 'Page name:';
-        function copyPage(pageidentifier, pagename) {
-            if (dialogBox.value != undefined && dialogBox.value != '') {
-                throwEvent(Sharpcms.ActionType.CopyPage, pageidentifier + '¤' + dialogBox.value + '¤' + prompt(copyPagePromptMessage, pagename, ''));
-            }
-
-            resetModalDialog();
-        }
-        
         function removePage(pageId) {
             throwEventConfirm(Sharpcms.ActionType.RemovePage, pageId, 'Do you want to delete the page?');
         }
@@ -178,6 +198,94 @@ function closeModalDialog(response) {
             throwEvent(Sharpcms.ActionTypeCopy, 'element-' + containerId + '-' + elementId, '');
         }
 
+        function addUser() {
+            throwEventNew(Sharpcms.ActionType.AddUser, '', 'Type the name of the new user');
+        }
+
+        function saveUser(unserName) {
+            throwEvent(Sharpcms.ActionType.SaveUser, unserName, '');
+        }
+
+        function deleteUser(userName) {
+            throwEventConfirm(Sharpcms.ActionType.DeleteUser, userName, 'Are you sure you wnat to delete the user?');
+        }
+
+        function addGroup() {
+            throwEventNew(Sharpcms.ActionType.AddGroup, '', 'Type the name of the new group');
+        }
+
+        function deleteGroup(groupName) {
+            throwEventConfirm(Sharpcms.ActionType.DeleteGroup, groupName, 'Are you sure you wnat to delete the group?');
+        }
+
+        function addFolder(path) {
+            throwEventNew(Sharpcms.ActionType.AddFolder, path, 'Type the name of the new folder');
+        }
+        
+        function removeFolder(path) {
+            throwEventConfirm(Sharpcms.ActionType.RemoveFolder, path, 'Do you want to delete the folder?');
+        }
+
+        function renameFolder(path) {
+            throwEventNew(Sharpcms.ActionType.RenameFolder, path, 'Write the new name');
+        }
+
+        function resizeImage() {
+            throwEvent(Sharpcms.ActionType.ResizeImage, '', '');
+        }
+
+        function uploadFile(path) {
+            throwEvent(Sharpcms.ActionType.UploadFile, path, 'Type the name of the new folder:', '');
+        }
+
+        function removeFile(path) {
+            throwEventConfirm(Sharpcms.ActionType.RemoveFile, path, 'Do you want to delete the file?');
+        }
+
+        function renameFile(path) {
+            throwEventNew(Sharpcms.ActionType.RenameFile, path, 'Write the new name');
+        }
+        
+        function choosePage(id, attribute) {
+            $('#choosePageDialog').dialog({ modal: true });
+            $('.hlCloseDialog').live().click(function() {
+                $('.choose').dialog('close');
+                
+                var path = $(this).attr('path');
+                $('[name="' + id + '_' + attribute + '"]').val(path);
+            });
+        }
+        
+        function chooseFile(id, attribute) {
+            $('#chooseFileDialog').dialog({ modal: true });
+            $('.hlCloseDialog').live().click(function() {
+                $('.choose').dialog('close');
+                
+                var path = $(this).attr('path');
+                $('[name="' + id + '_' + attribute + '"]').val(path);
+            });
+        }
+        
+        function chooseFolder(id, attribute) {
+            $('#chooseFolderDialog').dialog({ modal: true });
+            $('.hlCloseDialog').live().click(function() {
+                $('.choose').dialog('close');
+                
+                var path = $(this).attr('path');
+                $('[name="' + id + '_' + attribute + '"]').val(path);
+            });
+        }
+        
+        function chooseImage(id, attribute) {
+            $('#chooseImageDialog').dialog({ modal: true });
+            $('.hlCloseDialog').live().click(function() {
+                $('.choose').dialog('close');
+                
+                var path = $(this).attr('path');
+                $('[name="' + id + '_' + attribute + '"]').val(path);
+            });
+        }
+
         function openWindow(url, name) {
             var editwin = '';
             editwin += 'width=500';
@@ -200,32 +308,69 @@ function closeModalDialog(response) {
         init();
 
         return {
+            
+            // Pages
             AddPage: addPage,
             RemovePage: removePage,
             SavePage: savePage,
             SetAsStartPage: setAsStartPage,
-            
             MovePage: movePage,
             MovePageUp: movePageUp,
             MovePageDown: movePageDown,
             MovePageTop: movePageTop,
             MovePageBottom: movePageBottom,
-            
             CopyPage: copyPage,
+            ChoosePage: choosePage,
             
+
+            // Container
             CreatePageContainer: createPageContainer,
             RemovePageContainer: removePageContainer,
             
+
+            // Elements
             AddElement: addElement,
             RemoveElement: removeElement,
-
             MoveElementUp: moveElementUp,
             MoveElementDown: moveElementDown,
             MoveElementTop: moveElementTop,
             MoveElementBottom: moveElementBottom,
-
             CopyElement: copyElement,
 
+
+            // User
+            AddUser: addUser,
+            SaveUser: saveUser,
+            DeleteUser: deleteUser,
+            
+
+            // Groups
+            AddGroup: addGroup,
+            DeleteGroup: deleteGroup,
+
+
+            // Files
+            UploadFile: uploadFile,
+            RemoveFile: removeFile,
+            RenameFile: renameFile,
+            MoveFile: moveFile,
+            ChooseFile: chooseFile,
+            
+            
+            // Folders
+            AddFolder: addFolder,
+            RenameFolder: renameFolder,
+            RemoveFolder: removeFolder,
+            MoveFolder: moveFolder,
+            ChooseFolder: chooseFolder,
+
+
+            // Images
+            ResizeImage: resizeImage,
+            ChooseImage: chooseImage,
+
+
+            // Other
             ThrowEvent: throwEvent,
             ThrowEventNew: throwEventNew,
             ThrowEventConfirm: throwEventConfirm,
@@ -238,31 +383,65 @@ function closeModalDialog(response) {
             Common: common(),
             Actions: actions(),
             ActionType: {
+                
+                // Pages
                 AddPage: 'addpage',
                 RemovePage: 'removepage',
                 SavePage: 'save',
                 SetAsStartPage: 'setstandardpage',
-                
                 MovePage: 'pagemove',
                 MovePageUp: 'pagemoveup',
                 MovePageDown: 'pagemovedown',
                 MovePageTop: 'pagemovetop',
                 MovePageBottom: 'pagemovebottom',
-                
                 CopyPage: 'pagecopyto',
+                ChoosePage: '',
                 
+
+                // Container
                 CreatePageContainer: 'pagecreatcontainer',
                 RemovePageContainer: 'pageremovecontainer',
                 
+
+                // Elements
                 AddElement: 'addelement',
                 RemoveElement: 'remove',
-                
                 MoveElementUp: 'moveup',
                 MoveElementDown: 'movedown',
                 MoveElementTop: 'movetop',
                 MoveElementBottom: 'movebottom',
+                CopyElement: 'copy',
                 
-                CopyElement: 'copy'
+
+                // User
+                AddUser: 'adduser',
+                SaveUser: 'saveuser',
+                DeleteUser: 'deleteuser',
+                
+
+                // Groups
+                AddGroup: 'addgroup',
+                DeleteGroup: 'deletegroup',
+                
+
+                // Files
+                UploadFile: 'uploadfile',
+                RemoveFile: 'removefile',
+                RenameFile: 'renamefile',
+                MoveFile: 'movefile',
+                ChooseFile: '',
+
+
+                // Folders
+                AddFolder: 'addfolder',
+                RenameFolder: 'renamefolder',
+                RemoveFolder: 'removefolder',
+                MoveFolder: 'movefolder',
+                ChooseFolder: '',
+
+                // Images
+                ResizeImage: 'doresize',
+                ChooseImage: ''
             }
         }
     });

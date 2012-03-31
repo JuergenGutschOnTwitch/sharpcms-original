@@ -12,44 +12,34 @@
 		omit-xml-declaration="yes"
 		indent="yes" />
   
-  <xsl:template  mode="choose" match="filetree">
-    <ul id="pages" class="filetree">
-      <xsl:apply-templates mode="filetreechoose" select="folder/*">
-        <xsl:with-param name="current-path" />
-      </xsl:apply-templates>
-    </ul>
-	</xsl:template>
+  <xsl:template mode="choose" match="filetree">
+    <div id="chooseFileDialog" class="choose" title="Choose File">
+      <ul id="pages" class="filetree">
+        <xsl:apply-templates mode="filetreechoose" select="folder/*">
+          <xsl:with-param name="current-path" />
+        </xsl:apply-templates>
+      </ul>
+    </div>
+  </xsl:template>
 
   <xsl:template mode="filetreechoose" match="folder">
     <xsl:param name="current-path" />
     <li>
-      <xsl:choose>
-        <xsl:when test="/data/query/other/process = 'admin/choose/folder'">
-          <a>
-            <xsl:attribute name="class">
-              <xsl:text>hlCloseForm</xsl:text>
-            </xsl:attribute>
-            <xsl:attribute name="value">
-              <xsl:value-of select="$current-path" />
-              <xsl:value-of select="@name" />
-            </xsl:attribute>
-            <span>
-              <xsl:attribute name="class">
-                <xsl:text>folder</xsl:text>
-              </xsl:attribute>
-              <xsl:value-of select="@name" />
-            </span>
-          </a>
-        </xsl:when>
-        <xsl:otherwise>
-          <span>
-            <xsl:attribute name="class">
-              <xsl:text>folder</xsl:text>
-            </xsl:attribute>
-            <xsl:value-of select="@name" />
-          </span>
-        </xsl:otherwise>
-      </xsl:choose>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>hlCloseDialog</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="path">
+          <xsl:value-of select="$current-path" />
+          <xsl:value-of select="@name" />
+        </xsl:attribute>
+        <span>
+          <xsl:attribute name="class">
+            <xsl:text>folder</xsl:text>
+          </xsl:attribute>
+          <xsl:value-of select="@name" />
+        </span>
+      </a>
       <xsl:if test="*">
         <ul>
           <xsl:apply-templates mode="filetreechoose" select="*">
@@ -71,9 +61,9 @@
         <xsl:when test="/data/query/other/process = 'admin/choose/file'">
           <a>
             <xsl:attribute name="class">
-              <xsl:text>hlCloseForm</xsl:text>
+              <xsl:text>hlCloseDialog</xsl:text>
             </xsl:attribute>
-            <xsl:attribute name="value">
+            <xsl:attribute name="path">
               <xsl:value-of select="$current-path" />
               <xsl:value-of select="@name" />
             </xsl:attribute>
