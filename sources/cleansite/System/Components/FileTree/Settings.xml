@@ -7,7 +7,7 @@
   <admin>
     <menu>
       <left>
-        <item path="admin/file" weight="10">Files</item>
+        <item path="admin/file" weight="20">Files</item>
       </left>
     </menu>
   </admin>

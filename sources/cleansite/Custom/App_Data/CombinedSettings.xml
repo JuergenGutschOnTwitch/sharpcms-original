@@ -65,9 +65,9 @@
       <item event="update" weight="998">Update system</item>
       <item event="clear" weight="997">Clear cache</item>
       <item path="admin/changelog" weight="22">Changelog</item>
-      <item path="admin/file" weight="10">Files</item>
-      <item path="admin/page" weight="0">Pages</item>
-      <item path="admin/user" weight="20">Users</item>
+      <item path="admin/page" weight="10">Pages</item>
+      <item path="admin/file" weight="20">Files</item>
+      <item path="admin/user" weight="30">Users</item>
     </menu>
   </admin>
   <common>

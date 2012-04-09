@@ -7,8 +7,8 @@
 
   <xsl:output
 		method="html"
-		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+		doctype-public="-//W3C//DTD XHTML 1.1//EN"
 		omit-xml-declaration="yes"
 		indent="yes" />
   

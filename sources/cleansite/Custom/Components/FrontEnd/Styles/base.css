@@ -65,120 +65,123 @@ a:hover {
 
 
 /*************************************************************************/
-/*                                                                    Page
+/*                                                                  Center
 /*************************************************************************/
-#page {
-    
-}
-
-#page #center {
-    background-color: #999;
+#center {
     margin: 20px auto 0 auto;
-    padding: 1px;
     width: 800px;
 }
 
 
 /*************************************************************************/
-/*                                                                  Header
+/*                                                           Center / Page
 /*************************************************************************/
-#page #center #header {
-    height: 29px;
+#page {
+    background-color: #999;
+    float: left;
+    padding: 1px;
+    width: 100%;
+}
+
+
+/*************************************************************************/
+/*                                                  Center / Page / Header
+/*************************************************************************/
+#header {
     background-color: white;
+    float: left;
+    width: 100%;
 }
 
-#page #center #header a {
-    
-}
-
-#page #center #header a span {
+#header a span {
     color: #7697ab;
     font-size: 1em;
-    margin: 2px 4px;
+    margin-right: 3px;
 }
 
-#page #center #header a:hover span {
+#header a:hover span {
     text-decoration: underline;
 }
 
 
 /*************************************************************************/
-/*                                                              Navigation
+/*                                              Center / Page / Navigation
 /*************************************************************************/
-#page #center #menu {
+#menu {
     background-color: #7697ab;
-    margin: 0 -1px 0 -1px;
+    float: left;
+    width: 100%;
 }
 
-#page #center #menu ul {
+#menu ul {
     list-style-type: none;
-    position: relative;
-    padding: 0 0 0 15px;
+    padding: 0 0 0 14px;
 }
 
-#page #center #menu ul li {
+#menu ul li {
     display: inline;
     margin: 0 14px 0 0;
 }
 
-#page #center #menu ul li a {
-    
-}
-
-#page #center #menu ul li a span {
+#menu ul li a span {
     color: white;
     font-weight: bold;
     line-height: 30px;
 }
 
-#page #center #menu ul li a.select span {
+#menu ul li a.select span {
     border-bottom: 1px solid #eee;
     color: #eee;
 }
 
-#page #center #menu ul li a:hover span,
-#page #center #menu ul li a.select:hover span {
-    color: white;
+#menu ul li a:hover span,
+#menu ul li a.select:hover span {
     border-bottom: 1px solid white;
-}
-
-#page #center #menu ul li a span.hide {
-    display: none;
+    color: white;
 }
 
 
 /*************************************************************************/
-/*                                                                    Main
+/*                                     Center / Page / Container / Content
 /*************************************************************************/
-#page #center #content {
+#container {
     background-color: white;
-    padding: 10px 14px;
+    float: left;
+    width: 100%;
+}
+
+/*************************************************************************/
+/*                                     Center / Page / Container / Content
+/*************************************************************************/
+#content {
+    padding: 14px;
 }
 
 
 /*************************************************************************/
 /*                                                                  Footer
 /*************************************************************************/
-#page #center #footer {
+#footer {
     background-color: white;
-    height: 30px;
+    float: left;
+    width: 100%;
 }
 
-#page #center #footer p {
+#footer p {
     font-size: 1em;
-    text-align: center;
     line-height: 30px;
+    text-align: center;
 }
 
-#page #center #footer p a {
+#footer p a {
     
 }
 
-#page #center #footer p a span {
+#footer p a span {
     font-size: 1em;
 }
 
-#page #center #footer p a:hover span {
+#footer p a:hover span {
     color: #7697ab;
     text-decoration: underline;
 }
@@ -188,9 +191,9 @@ a:hover {
 /*                                                                     CMS
 /*************************************************************************/
 div.editlink {
-    float: right;
     background-color: #eee;
     border: 1px solid #999;
+    float: right;
 }
 
 div.editlink a {
@@ -216,15 +219,15 @@ form {
 }
 
 input.linkbutton {
+	background-color: transparent;
     border: none;
     color: #7697AB;
     display: block;
-	padding: 0;
-    margin: 0px 4px;
 	font-family: verdana, arial, sans-serif;
 	font-size: 1em;
+    margin: 0px 4px;
+	padding: 0;
     text-decoration: none;
-	background-color: transparent;
 }
     
 input.linkbutton:hover {

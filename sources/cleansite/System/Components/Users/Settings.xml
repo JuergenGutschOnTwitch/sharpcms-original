@@ -10,7 +10,7 @@
   <admin>
     <menu>
       <left>
-        <item path="admin/user" weight="20">Users</item>
+        <item path="admin/user" weight="30">Users</item>
       </left>
     </menu>
   </admin>

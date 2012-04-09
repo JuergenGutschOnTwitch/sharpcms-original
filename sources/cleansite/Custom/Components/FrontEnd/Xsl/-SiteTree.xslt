@@ -6,11 +6,11 @@
 	xmlns="http://www.w3.org/1999/xhtml">
 
   <xsl:output
-    method="html"
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-    doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-    omit-xml-declaration="yes"
-    indent="yes" />
+		method="html"
+		doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+		doctype-public="-//W3C//DTD XHTML 1.1//EN"
+		omit-xml-declaration="yes"
+		indent="yes" />
 
   <xsl:template name="TopMenu">
     <div id="menu">
@@ -18,13 +18,11 @@
         <xsl:for-each select="data/navigationplace/sitetree/*[@inpath='true' and @status='open']/*[@status='open']">
           <li>
             <a>
-              <xsl:attribute name="class">
-                <xsl:choose>
-                  <xsl:when test="@inpath='true'">
-                    <xsl:text>select</xsl:text>
-                  </xsl:when>
-                </xsl:choose>
-              </xsl:attribute>
+              <xsl:if test="@inpath='true'">
+                <xsl:attribute name="class">
+                  <xsl:text>select</xsl:text>
+                </xsl:attribute>
+              </xsl:if>
               <xsl:attribute name="href">
                 <xsl:text>show/</xsl:text>
                 <xsl:value-of select="//data/attributes/pageroot" />
@@ -35,26 +33,22 @@
               <span>
                 <xsl:value-of select="@menuname" />
               </span>
-              <span class="hide"> | </span>
             </a>
           </li>
         </xsl:for-each>
         <xsl:if test="//data/basedata/currentuser/groups/group[contains(., 'admin')]">
           <li>
             <a>
-              <xsl:attribute name="class">
-                <xsl:choose>
-                  <xsl:when test="@inpath='true'">
-                    <xsl:text>select</xsl:text>
-                  </xsl:when>
-                </xsl:choose>
-              </xsl:attribute>
+              <xsl:if test="@inpath='true'">
+                <xsl:attribute name="class">
+                  <xsl:text>select</xsl:text>
+                </xsl:attribute>
+              </xsl:if>                
               <xsl:attribute name="href">
                 <xsl:value-of select="/data/basepath" />
                 <xsl:text>/admin/</xsl:text>
               </xsl:attribute>
               <span>Administation</span>
-              <span class="hide"> | </span>
             </a>
           </li>
         </xsl:if>

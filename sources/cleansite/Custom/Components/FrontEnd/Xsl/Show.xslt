@@ -7,8 +7,8 @@
 
   <xsl:output
 		method="html"
-		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+		doctype-public="-//W3C//DTD XHTML 1.1//EN"
 		omit-xml-declaration="yes"
 		indent="yes" />
 
@@ -16,8 +16,8 @@
   <xsl:include href="-SiteTree.xslt" />
   <xsl:include href="..\..\Snippets.xslt" />
 
-  <xsl:template match="/" xmlns="http://www.w3.org/1999/xhtml">
-    <html xml:lang="de" lang="de" xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:template match="/">
+    <html>
       <head>
         <base>
           <xsl:attribute name="href">
@@ -51,8 +51,8 @@
         </link>
       </head>
       <body>
-        <div id="page">
-          <div id="center">
+        <div id="center">
+          <div id="page">
             <div id="header">
               <a>
                 <xsl:attribute name="class">
@@ -91,8 +91,11 @@
               </xsl:choose>
             </div>
             <xsl:call-template name="TopMenu" />
-            <div id="content">
-              <xsl:apply-templates mode="show" select="/data/contentplace/page/containers/container[@name='content']" />
+            <div id ="container">
+              <div id="content">
+                <xsl:apply-templates mode="show" select="/data/contentplace/page/containers/container[@name='content']" />
+                <xsl:text> </xsl:text>
+              </div>
             </div>
             <div id="footer">
               <p>
