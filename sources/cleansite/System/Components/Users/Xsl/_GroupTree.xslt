@@ -39,7 +39,7 @@
               <xsl:attribute name="class">
                 <xsl:text>hlDeleteGroup</xsl:text>
               </xsl:attribute>
-              <xsl:attribute name="groupName">
+              <xsl:attribute name="data-groupName">
                 <xsl:value-of select="@name" />
               </xsl:attribute>
               <span>

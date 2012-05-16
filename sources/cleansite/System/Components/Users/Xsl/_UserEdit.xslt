@@ -31,7 +31,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlSaveUser</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="userName">
+        <xsl:attribute name="data-userName">
           <xsl:value-of select="login" />
         </xsl:attribute>
         <xsl:text>Save</xsl:text>
@@ -40,7 +40,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlDeleteUser</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="userName">
+        <xsl:attribute name="data-userName">
           <xsl:value-of select="login" />
         </xsl:attribute>
         <xsl:text>Delete user</xsl:text>

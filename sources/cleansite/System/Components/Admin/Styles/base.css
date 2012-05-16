@@ -886,10 +886,9 @@ input.checkbox {
 /*                                                        Hidden Page Mark
 /*************************************************************************/
 .icon-hiddenpage {
-    top: -10px;
-    left: 8px;
-    position: relative;
-    margin-bottom: -9px;
     height: 7px;
+    margin-top: -11px;
+    margin-left: 9px;
+    position: absolute;
     width: 7px;
 }

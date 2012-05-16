@@ -196,7 +196,7 @@
             <xsl:attribute name="class">
               <xsl:text>hlThrowEvent</xsl:text>
             </xsl:attribute>
-            <xsl:attribute name="action">
+            <xsl:attribute name="data-action">
               <xsl:value-of select="@event" />
             </xsl:attribute>
           </xsl:otherwise>

@@ -28,7 +28,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlAddPage</xsl:text>
         </xsl:attribute>
-			  <xsl:attribute name="pageId">
+			  <xsl:attribute name="data-pageId">
           <xsl:text>.</xsl:text>
         </xsl:attribute>
         <xsl:text>Add language</xsl:text>

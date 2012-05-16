@@ -28,7 +28,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlAddFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="path">
+        <xsl:attribute name="data-path">
           <xsl:text>.</xsl:text>
         </xsl:attribute>
         <xsl:text>Add folder</xsl:text>
