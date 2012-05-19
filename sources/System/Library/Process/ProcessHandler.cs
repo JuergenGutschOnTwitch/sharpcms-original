@@ -40,6 +40,7 @@ namespace Sharpcms.Library.Process
         private IPlugin GetProvider(string name)
         {
             AvailablePlugin plugin = _plugins.AvailablePlugins.Find(name);
+
             return plugin != null ? plugin.Instance : null;
         }
 
@@ -174,7 +175,6 @@ namespace Sharpcms.Library.Process
                             ControlList control = process.Content.GetSubControl(CommonXml.GetAttributeValue(contentNode, "place"));
                             string action = CommonXml.GetAttributeValue(contentNode, "action");
                             string value = GetValue(contentNode, process);
-
                             string pathTrail = JoinPath(Common.Common.RemoveOne(args));
                             if (provider is IPlugin2)
                             {
@@ -185,7 +185,6 @@ namespace Sharpcms.Library.Process
                                 provider.Load(control, action, pathTrail);
                             }
                             break;
-
                         case "handle":
                             string mainEvent = process.QueryEvents["main"];
                             if (mainEvent != "")

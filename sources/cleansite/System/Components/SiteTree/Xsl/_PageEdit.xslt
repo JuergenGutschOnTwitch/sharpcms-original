@@ -5,12 +5,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/1999/xhtml">
 
-  <xsl:output
-		method="html"
-		doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
-		doctype-public="-//W3C//DTD XHTML 1.1//EN"
-		omit-xml-declaration="yes"
-		indent="yes" />
+  <xsl:output method="html" encoding="utf-8" indent="yes" />
   
   <xsl:template mode="edit" match="page">
     <input type="hidden" name="data_pageidentifier">
@@ -206,7 +201,7 @@
         <xsl:attribute name="title">
           <xsl:text>This will remove the container</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="data-containerId">
+        <xsl:attribute name="data-containerid">
           <xsl:number count="container" />
         </xsl:attribute>
         <xsl:text>X</xsl:text>
@@ -714,10 +709,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementTop</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="data-containerId">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
           </xsl:attribute>
-          <xsl:attribute name="data-elementId">
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Top</xsl:text>
@@ -726,10 +721,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementDown</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="data-containerId">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
           </xsl:attribute>
-          <xsl:attribute name="data-elementId">
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Down</xsl:text>
@@ -738,10 +733,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementUp</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="data-containerId">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
           </xsl:attribute>
-          <xsl:attribute name="data-elementId">
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Up</xsl:text>
@@ -750,10 +745,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlCopyElement</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="data-containerId">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
           </xsl:attribute>
-          <xsl:attribute name="data-elementId">
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Copy</xsl:text>
@@ -765,10 +760,10 @@
           <xsl:attribute name="title">
             <xsl:text>delete the element</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="data-containerId">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
           </xsl:attribute>
-          <xsl:attribute name="data-elementId">
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>X</xsl:text>

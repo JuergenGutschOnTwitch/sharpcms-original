@@ -5,12 +5,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/1999/xhtml">
 
-  <xsl:output
-		method="html"
-		doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
-		doctype-public="-//W3C//DTD XHTML 1.1//EN"
-		omit-xml-declaration="yes"
-		indent="yes" />
+  <xsl:output method="html" encoding="utf-8" indent="yes" />
   
   <xsl:template match="/">
     <html>
@@ -36,7 +31,6 @@
               <xsl:choose>
                 <xsl:when test="/data/query/other/redirect and not(/data/query/other/redirect = '')">
                   <xsl:value-of select="/data/query/other/redirect" />
-                  <xsl:text>/</xsl:text>
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:text>admin/</xsl:text>

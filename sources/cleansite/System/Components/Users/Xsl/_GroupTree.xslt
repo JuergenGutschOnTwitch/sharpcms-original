@@ -5,12 +5,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/1999/xhtml">
 
-  <xsl:output
-		method="html"
-		doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
-		doctype-public="-//W3C//DTD XHTML 1.1//EN"
-		omit-xml-declaration="yes"
-		indent="yes" />
+  <xsl:output method="html" encoding="utf-8" indent="yes" />
 
   <xsl:template mode="edit" match="groups">
     <div class="head tree_head">
@@ -39,7 +34,7 @@
               <xsl:attribute name="class">
                 <xsl:text>hlDeleteGroup</xsl:text>
               </xsl:attribute>
-              <xsl:attribute name="data-groupName">
+              <xsl:attribute name="data-groupname">
                 <xsl:value-of select="@name" />
               </xsl:attribute>
               <span>

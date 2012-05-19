@@ -76,17 +76,18 @@ namespace Sharpcms.Library.Process
 
             ConfigureDebugging();
             LoginByCookie();
+            
             if (QueryEvents["main"] == "login")
             {
                 if (!Login(QueryData["login"], QueryData["password"]))
                 {
                     if (_settings != null && _settings["messages/loginerror"] != string.Empty)
                     {
-                        httpPage.Response.Redirect(BasePath + "/login/?error=" + httpPage.Server.UrlEncode(_settings["messages/loginerror"]) + "&redirect=" + QueryOther["process"]);
+                        httpPage.Response.Redirect(GetErrorUrl(httpPage.Server.UrlEncode(_settings["messages/loginerror"])));
                     }
                     else
                     {
-                        httpPage.Response.Redirect(BasePath + "/login/?redirect=" + QueryOther["process"]);
+                        httpPage.Response.Redirect(GetRedirectUrl());
                     }
                 }
             }
@@ -110,7 +111,31 @@ namespace Sharpcms.Library.Process
         }
 
         public string RedirectUrl { get; set; }
-        
+
+        private string GetRedirectUrl()
+        {
+            var redirectUrl = QueryOther["process"];
+
+            if (redirectUrl.Trim().EndsWith("/"))
+            {
+                redirectUrl = redirectUrl.Remove(redirectUrl.Length - 1, 1);
+            }
+
+            return string.Format("{0}login/?redirect={1}", BasePath, redirectUrl);
+        }
+
+        private string GetErrorUrl(string loginError)
+        {
+            var redirectUrl = QueryOther["process"];
+
+            if (redirectUrl.Trim().EndsWith("/"))
+            {
+                redirectUrl = redirectUrl.Remove(redirectUrl.Length - 1, 1);
+            }
+
+            return string.Format("{0}login/?error={1}&redirect={2}", BasePath, loginError, redirectUrl);
+        }
+
         private bool DebugEnabled
         {
             get { return (HttpPage.Session["enabledebug"] != null && HttpPage.Session["enabledebug"].ToString() == "true"); }

@@ -5,16 +5,27 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/1999/xhtml">
 
-  <xsl:output
-		method="html"
-		doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
-		doctype-public="-//W3C//DTD XHTML 1.1//EN"
-		omit-xml-declaration="yes"
-		indent="yes" />
+  <xsl:output method="html" encoding="utf-8" indent="yes" />
   
   <xsl:template mode="choose" match="filetree">
     <div id="chooseFileDialog" class="choose" title="Choose File">
       <ul id="pages" class="filetree">
+        <li>
+          <a>
+            <xsl:attribute name="class">
+              <xsl:text>hlCloseDialog</xsl:text>
+            </xsl:attribute>
+            <xsl:attribute name="path">
+              <xsl:text>.</xsl:text>
+            </xsl:attribute>
+            <span>
+              <xsl:attribute name="class">
+                <xsl:text>folder</xsl:text>
+              </xsl:attribute>
+              <xsl:text>..</xsl:text>
+            </span>
+          </a>
+        </li>
         <xsl:apply-templates mode="filetreechoose" select="folder/*">
           <xsl:with-param name="current-path" />
         </xsl:apply-templates>

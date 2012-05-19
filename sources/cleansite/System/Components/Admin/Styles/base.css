@@ -790,12 +790,12 @@ ul.ui-tabs-nav li.ui-tabs-selected a.delete {
 }
 
 .login table tbody tr td label {
-    font-size: 1.2em;
+    font-size: .8em;
 }
 
 .login table tbody tr td input {
-    font-size: 1.2em;
-    height: 1.5em;
+    font-size: .8em;
+    height: 1.4em;
 }
 
 .login table tbody tr td input.submit {

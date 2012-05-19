@@ -5,12 +5,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/1999/xhtml">
 
-  <xsl:output
-		method="html"
-		doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
-		doctype-public="-//W3C//DTD XHTML 1.1//EN"
-		omit-xml-declaration="yes"
-		indent="yes" />
+  <xsl:output method="html" encoding="utf-8" indent="yes" />
 
   <xsl:template mode="edit" match="user">
     <div class="head userdata_head">
@@ -31,7 +26,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlSaveUser</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="data-userName">
+        <xsl:attribute name="data-username">
           <xsl:value-of select="login" />
         </xsl:attribute>
         <xsl:text>Save</xsl:text>
@@ -40,7 +35,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlDeleteUser</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="data-userName">
+        <xsl:attribute name="data-username">
           <xsl:value-of select="login" />
         </xsl:attribute>
         <xsl:text>Delete user</xsl:text>

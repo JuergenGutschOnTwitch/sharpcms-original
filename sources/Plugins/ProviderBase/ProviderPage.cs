@@ -65,22 +65,22 @@ namespace Sharpcms.Providers.Base
             switch (mainEvent)
             {
                 case "remove":
-                    HandleRemove();
+                    HandleRemoveElement();
                     break;
                 case "save":
                     HandleSave();
                     break;
                 case "moveup":
-                    HandleMoveUp();
+                    HandleMoveElementUp();
                     break;
                 case "copy":
-                    HandleCopy();
+                    HandleCopyElement();
                     break;
                 case "movetop":
-                    HandleMoveTop();
+                    HandleMoveElementTop();
                     break;
                 case "movedown":
-                    HandleMoveDown();
+                    HandleMoveElementDown();
                     break;
                 case "removepage":
                     HandleRemovePage();
@@ -313,8 +313,7 @@ namespace Sharpcms.Providers.Base
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
             string query = Process.QueryEvents["mainvalue"];
             string[] elementParts = query.Split('_');
-            string elementType = Process.QueryData["container_" + elementParts[1]];
-
+            string elementType = elementParts[0];
             int containerId = int.Parse(elementParts[1]);
             int elementId = currentPage.Containers[containerId - 1].Elements.Count + 1;
 
@@ -432,13 +431,9 @@ namespace Sharpcms.Providers.Base
         /// <summary>
         /// Handles the remove.
         /// </summary>
-        private void HandleRemove()
+        private void HandleRemoveElement()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            if (currentPage == null)
-            {
-                throw new NotImplementedException();
-            }
             string element = Process.QueryEvents["mainvalue"];
             string[] elementParts = element.Split('-');
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Remove(int.Parse(elementParts[2]) - 1);
@@ -448,7 +443,7 @@ namespace Sharpcms.Providers.Base
         /// <summary>
         /// Handles the copy.
         /// </summary>
-        private void HandleCopy()
+        private void HandleCopyElement()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
             string element = Process.QueryEvents["mainvalue"];
@@ -460,7 +455,7 @@ namespace Sharpcms.Providers.Base
         /// <summary>
         /// Handles the move top.
         /// </summary>
-        private void HandleMoveTop()
+        private void HandleMoveElementTop()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
             string element = Process.QueryEvents["mainvalue"];
@@ -472,7 +467,7 @@ namespace Sharpcms.Providers.Base
         /// <summary>
         /// Handles the move up.
         /// </summary>
-        private void HandleMoveUp()
+        private void HandleMoveElementUp()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
             string element = Process.QueryEvents["mainvalue"];
@@ -484,7 +479,7 @@ namespace Sharpcms.Providers.Base
         /// <summary>
         /// Handles the move down.
         /// </summary>
-        private void HandleMoveDown()
+        private void HandleMoveElementDown()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
             string element = Process.QueryEvents["mainvalue"];

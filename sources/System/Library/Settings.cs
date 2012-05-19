@@ -49,17 +49,12 @@ namespace Sharpcms.Library
         {
             get
             {
-                XmlNode settingsNode = CommonXml.GetNode(_combinedSettings.SelectSingleNode("settings"), path,
-                                                         EmptyNodeHandling.CreateNew);
-
+                XmlNode settingsNode = CommonXml.GetNode(_combinedSettings.SelectSingleNode("settings"), path, EmptyNodeHandling.CreateNew);
                 string value = settingsNode.InnerText;
 
-                if (relativePathHandling == RelativePathHandling.ConvertToAbsolute)
-                {
-                    return ConvertPath(value);
-                }
-
-                return value;
+                return relativePathHandling == RelativePathHandling.ConvertToAbsolute 
+                    ? ConvertPath(value) 
+                    : value;
             }
             set
             {
@@ -78,9 +73,12 @@ namespace Sharpcms.Library
         private string ConvertPath(string relativePath)
         {
             if (!relativePath.StartsWith("~/"))
+            {
                 return relativePath;
+            }
 
             relativePath = relativePath.Substring(2);
+            
             return Common.Common.CombinePaths(RootPath, relativePath.Replace('/', '\\'));
         }
 

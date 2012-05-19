@@ -57,8 +57,8 @@
     });
 
     $hlRemoveElement.live().click(function () {
-        var containerId = $(this).data('containerId');
-        var elementId = $(this).data('elementId');
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.RemoveElement(containerId, elementId);
     });
@@ -71,28 +71,28 @@
     });
 
     $hlMoveElementDown.live().click(function () {
-        var containerId = $(this).data('containerId');
-        var elementId = $(this).data('elementId');
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.MoveElementDown(containerId, elementId);
     });
 
     $hlMoveElementUp.live().click(function () {
-        var containerId = $(this).data('containerId');
-        var elementId = $(this).data('elementId');
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.MoveElementUp(containerId, elementId);
     });
 
     $hlCopyElement.live().click(function () {
-        var containerId = $(this).data('containerId');
-        var elementId = $(this).data('elementId');
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.CopyElement(containerId, elementId);
     });
 
     $hlAddPage.live().click(function () {
-        var pageId = $(this).data('pageId');
+        var pageId = $(this).data('pageid');
 
         Sharpcms.Actions.AddPage(pageId);
     });
@@ -192,13 +192,13 @@
     });
 
     $hlSaveUser.live().click(function () {
-        var userName = $(this).data('userName');
+        var userName = $(this).data('username');
 
         Sharpcms.Actions.SaveUser(userName);
     });
 
     $hlDeleteUser.live().click(function () {
-        var userName = $(this).data('userName');
+        var userName = $(this).data('username');
 
         Sharpcms.Actions.DeleteUser(userName);
     });
@@ -249,9 +249,10 @@
     });
 
     $('.addelement').change(function () {
+        var elementType = $(this).find('option:selected').val();
         var containerId = $(this).data('name').replace('data_container_', '');
 
-        Sharpcms.Actions.AddElement(containerId);
+        Sharpcms.Actions.AddElement(containerId, elementType);
     });
 
     // TinyMCE

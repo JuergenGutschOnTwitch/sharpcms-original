@@ -170,8 +170,8 @@ function closeModalDialog(response) {
             throwEvent(Sharpcms.ActionType.SavePage, '', '');
         }
 
-        function addElement(containerId) {
-            throwEvent(Sharpcms.ActionType.AddElement, 'text_' + containerId, '');
+        function addElement(containerId, elementType) {
+            throwEvent(Sharpcms.ActionType.AddElement, elementType + '_' + containerId, '');
         }
 
         function removeElement(containerId, elementId) {

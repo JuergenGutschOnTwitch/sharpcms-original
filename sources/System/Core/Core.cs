@@ -18,7 +18,7 @@ namespace Sharpcms.Core
             PrepareConfiguration(httpPage);
 
             var processHandler = new ProcessHandler();
-            Process process = processHandler.Run(httpPage);
+            var process = processHandler.Run(httpPage);
 
             if (!process.OutputHandledByModule && process.RedirectUrl == null)
             {
