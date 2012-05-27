@@ -24,22 +24,34 @@ namespace Sharpcms.Data.SiteTree
 
         public ContainerList Containers
         {
-            get { return _containers; }
+            get
+            {
+                return _containers;
+            }
         }
 
         public XmlNode TreeNode
         {
-            get { return _treeNode; }
+            get
+            {
+                return _treeNode;
+            }
         }
 
         public string Name
         {
-            get { return this["name"]; }
+            get
+            {
+                return this["name"];
+            }
         }
 
         public string PageIdentifier
         {
-            get { return CommonXml.GetXPath(_treeNode); }
+            get
+            {
+                return CommonXml.GetXPath(_treeNode);
+            }
         }
 
         public string this[string name]
@@ -62,14 +74,15 @@ namespace Sharpcms.Data.SiteTree
         public XmlNode GetAttribute(string name)
         {
             string xPath = string.Format("attributes/{0}", name);
-            return GetNode(xPath, EmptyNodeHandling.CreateNew);
+            XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.CreateNew);
+
+            return xmlNode;
         }
 
         private void CopyInfoFromTree()
         {
             this["name"] = _treeNode.Name;
             this["menuname"] = CommonXml.GetAttributeValue(_treeNode, "menuname");
-            this["pagename"] = CommonXml.GetAttributeValue(_treeNode, "pagename");
             this["pageidentifier"] = CommonXml.GetXPath(_treeNode);
             this["status"] = CommonXml.GetAttributeValue(_treeNode, "status");
         }
@@ -78,7 +91,7 @@ namespace Sharpcms.Data.SiteTree
         {
             switch (name)
             {
-                case "pagename":
+                case "name":
                     _siteTree.Rename(this, value);
                     break;
                 default:

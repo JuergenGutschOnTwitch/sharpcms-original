@@ -24,12 +24,18 @@ namespace Sharpcms.Data.SiteTree
 
         public string Path
         {
-            get { return _path; }
+            get
+            {
+                return _path;
+            }
         }
 
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                return _name;
+            }
         }
     }
 }
