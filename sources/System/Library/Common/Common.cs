@@ -22,7 +22,7 @@ namespace Sharpcms.Library.Common
         {
             if (args != null && args.Length > 1)
             {
-                var argsNew = new string[args.Length - 1];
+                string[] argsNew = new string[args.Length - 1];
                 for (int i = 1; i < args.Length; i++)
                 {
                     argsNew[i - 1] = args[i];
@@ -37,7 +37,7 @@ namespace Sharpcms.Library.Common
         {
             if (args != null && args.Length > 1)
             {
-                var argsNew = new string[args.Length - 1];
+                string[] argsNew = new string[args.Length - 1];
                 for (int i = 0; i < args.Length - 1; i++)
                 {
                     argsNew[i] = args[i];
@@ -50,7 +50,9 @@ namespace Sharpcms.Library.Common
 
         public static bool StringArrayContains(string[] args, string value)
         {
-            return args.Any(currentValue => currentValue == value);
+            bool contains = args.Any(currentValue => currentValue == value);
+
+            return contains;
         }
 
         public static string CombinePaths(params string[] paths)
@@ -108,7 +110,7 @@ namespace Sharpcms.Library.Common
                 }
             }
 
-            var cleanString = new string(originalChars);
+            string cleanString = new string(originalChars);
 
             // Remove double underscores
             bool doubleUnderscoresRemoved = true;
@@ -116,6 +118,7 @@ namespace Sharpcms.Library.Common
             {
                 string beforeRemoval = cleanString;
                 cleanString = cleanString.Replace("__", "_");
+
                 if (cleanString == beforeRemoval)
                 {
                     doubleUnderscoresRemoved = false;
@@ -139,6 +142,7 @@ namespace Sharpcms.Library.Common
             }
 
             Directory.Delete(absolutePath, true);
+
             return true;
         }
 
@@ -156,13 +160,14 @@ namespace Sharpcms.Library.Common
             }
 
             File.Delete(absolutePath);
+
             return true;
         }
 
         public static bool MoveFile(string path, string newContainingDirectory)
         {
-            string sourceAbsolutePath = CheckedCombinePaths(path);
-            string newContainingDirectoryAbsolutePath = CheckedCombinePaths(newContainingDirectory);
+            string sourceAbsolutePath = CheckedCombinePath(path);
+            string newContainingDirectoryAbsolutePath = CheckedCombinePath(newContainingDirectory);
 
             if (!File.Exists(sourceAbsolutePath))
             {
@@ -188,8 +193,8 @@ namespace Sharpcms.Library.Common
 
         public static bool MoveDirectory(string path, string newContainingDirectory)
         {
-            string sourceAbsolutePath = CheckedCombinePaths(path);
-            string newContainingDirectoryAbsolutePath = CheckedCombinePaths(newContainingDirectory);
+            string sourceAbsolutePath = CheckedCombinePath(path);
+            string newContainingDirectoryAbsolutePath = CheckedCombinePath(newContainingDirectory);
 
             if (!Directory.Exists(sourceAbsolutePath))
             {
@@ -220,7 +225,7 @@ namespace Sharpcms.Library.Common
 
         public static void CopyDirectory(string srcPath, string destPath, bool recursive)
         {
-            CopyDirectory(new DirectoryInfo(CheckedCombinePaths(srcPath)), new DirectoryInfo(CheckedCombinePaths(destPath)), recursive);
+            CopyDirectory(new DirectoryInfo(CheckedCombinePath(srcPath)), new DirectoryInfo(CheckedCombinePath(destPath)), recursive);
         }
 
         private static void CopyDirectory(DirectoryInfo srcPath, DirectoryInfo destPath, bool recursive)
@@ -254,14 +259,14 @@ namespace Sharpcms.Library.Common
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private static string CheckedCombinePaths(string path)
+        private static string CheckedCombinePath(string path)
         {
             return CheckedCombinePaths(Settings.DefaultInstance.RootPath, path);
         }
 
         public static string CheckedCombinePaths(string root, params string[] paths)
         {
-            var allPaths = new string[paths.Length + 1];
+            string[] allPaths = new string[paths.Length + 1];
             allPaths[0] = root;
             paths.CopyTo(allPaths, 1);
 
@@ -292,12 +297,14 @@ namespace Sharpcms.Library.Common
         public static bool PathIsInSite(string path)
         {
             string absolutePath = CombinePaths(Settings.DefaultInstance.RootPath, path);
+
             return PathIsUnderRoot(Settings.DefaultInstance.RootPath, absolutePath);
         }
 
         public static string GetMainMimeType(string extension)
         {
             string mimeType = GetMimeType(extension);
+
             return !string.IsNullOrEmpty(mimeType) ? mimeType.Substring(0, mimeType.IndexOf('/')) : string.Empty;
         }
 
@@ -309,6 +316,7 @@ namespace Sharpcms.Library.Common
             }
 
             string mimeType = Settings.DefaultInstance["common/mimetypes/" + extension];
+
             return mimeType != string.Empty ? mimeType : Settings.DefaultInstance["mimetypes/defaulttype"];
         }
 
@@ -316,7 +324,7 @@ namespace Sharpcms.Library.Common
         {
             int offset = 0;
             int index = 0;
-            var offsets = new int[originalString.Length + 1];
+            int[] offsets = new int[originalString.Length + 1];
 
             while (index < originalString.Length)
             {
@@ -332,7 +340,7 @@ namespace Sharpcms.Library.Common
                 }
             }
 
-            var final = new string[offset + 1];
+            string[] final = new string[offset + 1];
             if (offset == 0)
             {
                 final[0] = originalString;

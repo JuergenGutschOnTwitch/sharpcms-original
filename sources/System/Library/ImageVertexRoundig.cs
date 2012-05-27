@@ -10,43 +10,45 @@ namespace Sharpcms.Library
     {
         public static Image RoundedRectangle(Image imgPhoto, int radius)
         {
-            using (Image imgin = imgPhoto)
+            using (Image image = imgPhoto)
             {
-                var bmPhoto = new Bitmap(imgin.Width, imgin.Height);
-                Graphics grPhoto = Graphics.FromImage(bmPhoto);
-                grPhoto.Clear(Color.Transparent);
-                Brush brush = new TextureBrush(imgin);
-                FillRoundedRectangle(grPhoto, new Rectangle(1, 1, imgin.Width - 3, imgin.Height - 3), (radius*2), brush);
-                grPhoto.Dispose();
+                Bitmap bitmap = new Bitmap(image.Width, image.Height);
+                Graphics graphics = Graphics.FromImage(bitmap);
+                graphics.Clear(Color.Transparent);
 
-                return bmPhoto;
+                Brush brush = new TextureBrush(image);
+                FillRoundedRectangle(graphics, new Rectangle(1, 1, image.Width - 3, image.Height - 3), (radius*2), brush);
+                
+                graphics.Dispose();
+
+                return bitmap;
             }
         }
 
         public static Image RoundedRectangle(Image imgPhoto, int radius, int borderWidth, string borderColor)
         {
-            using (Image imgin = imgPhoto)
+            using (Image image = imgPhoto)
             {
-                var bmPhoto = new Bitmap(imgin.Width, imgin.Height);
-                Graphics grPhoto = Graphics.FromImage(bmPhoto);
-                grPhoto.Clear(Color.Transparent);
-                Brush brush = new TextureBrush(imgin);
-                var tempPen = new Pen(GetColorFromArgb(borderColor), borderWidth);
+                Bitmap bitmap = new Bitmap(image.Width, image.Height);
+                Graphics graphics = Graphics.FromImage(bitmap);
+                graphics.Clear(Color.Transparent);
 
-                FillRoundedRectangle(grPhoto, new Rectangle(1, 1, imgin.Width - 3, imgin.Height - 3), (radius*2), brush);
-                DrawRoundedRectangle(grPhoto, new Rectangle(1, 1, imgin.Width - 3, imgin.Height - 3), (radius*2),
-                                     tempPen);
+                Brush brush = new TextureBrush(image);
+                Pen pen = new Pen(GetColorFromArgb(borderColor), borderWidth);
 
-                grPhoto.Dispose();
+                FillRoundedRectangle(graphics, new Rectangle(1, 1, image.Width - 3, image.Height - 3), (radius*2), brush);
+                DrawRoundedRectangle(graphics, new Rectangle(1, 1, image.Width - 3, image.Height - 3), (radius*2), pen);
 
-                return bmPhoto;
+                graphics.Dispose();
+
+                return bitmap;
             }
         }
 
         // http://forums.asp.net/p/942160/1128861.aspx
         private static void FillRoundedRectangle(Graphics grPhoto, Rectangle r, int d, Brush b)
         {
-            Graphics tempPhoto = grPhoto;
+            Graphics graphics = grPhoto;
             int tempInt = d/2;
 
             // Create points that define polygon.
@@ -64,8 +66,8 @@ namespace Sharpcms.Library
             // Define fill mode.
             const FillMode newFillMode = FillMode.Winding;
 
-            tempPhoto.SmoothingMode = SmoothingMode.Default;
-            tempPhoto.FillPolygon(b, points, newFillMode);
+            graphics.SmoothingMode = SmoothingMode.Default;
+            graphics.FillPolygon(b, points, newFillMode);
 
             // anti alias distorts fill so remove it.
             SmoothingMode mode = grPhoto.SmoothingMode;

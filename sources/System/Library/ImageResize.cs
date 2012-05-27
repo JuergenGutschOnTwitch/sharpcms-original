@@ -42,22 +42,22 @@ namespace Sharpcms.Library
             const int sourceY = 0;
             const int destX = -1;
             const int destY = -1;
-            var destWidth = (int) (sourceWidth*nPercent);
-            var destHeight = (int) (sourceHeight*nPercent);
+            int destWidth = (int) (sourceWidth*nPercent);
+            int destHeight = (int) (sourceHeight*nPercent);
 
-            var bmPhoto = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
-            bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
+            Bitmap bitmap = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
+            bitmap.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
-            Graphics grPhoto = Graphics.FromImage(bmPhoto);
-            grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-            grPhoto.DrawImage(imgPhoto,
+            Graphics graphics = Graphics.FromImage(bitmap);
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.DrawImage(imgPhoto,
                               new Rectangle(destX, destY, destWidth + 2, destHeight + 2),
                               new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
                               GraphicsUnit.Pixel);
 
-            grPhoto.Dispose();
-            return bmPhoto;
+            graphics.Dispose();
+
+            return bitmap;
         }
 
         public static Image ConstrainProportions(Image imgPhoto, int size, Dimensions dimension)
@@ -80,22 +80,22 @@ namespace Sharpcms.Library
                     break;
             }
 
-            var destWidth = (int) (sourceWidth*nPercent);
-            var destHeight = (int) (sourceHeight*nPercent);
+            int destWidth = (int) (sourceWidth*nPercent);
+            int destHeight = (int) (sourceHeight*nPercent);
 
-            var bmPhoto = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
-            bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
+            Bitmap bitmap = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
+            bitmap.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
-            Graphics grPhoto = Graphics.FromImage(bmPhoto);
-            grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-            grPhoto.DrawImage(imgPhoto,
+            Graphics graphics = Graphics.FromImage(bitmap);
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.DrawImage(imgPhoto,
                               new Rectangle(destX, destY, destWidth + 2, destHeight + 2),
                               new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
                               GraphicsUnit.Pixel);
 
-            grPhoto.Dispose();
-            return bmPhoto;
+            graphics.Dispose();
+
+            return bitmap;
         }
 
         public static Image FixedSize(Image imgPhoto, int width, int height, Color color)
@@ -123,22 +123,23 @@ namespace Sharpcms.Library
                 destY = (int) Math.Round((height - (sourceHeight*nPercent))/2, 0);
             }
 
-            var destWidth = (int) Math.Round(sourceWidth*nPercent);
-            var destHeight = (int) Math.Round(sourceHeight*nPercent);
+            int destWidth = (int) Math.Round(sourceWidth*nPercent);
+            int destHeight = (int) Math.Round(sourceHeight*nPercent);
 
-            var bmPhoto = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-            bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
+            Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            bitmap.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
-            Graphics grPhoto = Graphics.FromImage(bmPhoto);
-            grPhoto.Clear(color);
-            grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            grPhoto.DrawImage(imgPhoto,
+            Graphics graphics = Graphics.FromImage(bitmap);
+            graphics.Clear(color);
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.DrawImage(imgPhoto,
                               new Rectangle(destX, destY, destWidth, destHeight),
                               new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
                               GraphicsUnit.Pixel);
-            grPhoto.Dispose();
 
-            return bmPhoto;
+            graphics.Dispose();
+
+            return bitmap;
         }
 
         public static Image Crop(Image imgPhoto, int width, int height, AnchorPosition anchor)
@@ -186,22 +187,22 @@ namespace Sharpcms.Library
                 }
             }
 
-            var destWidth = (int) (sourceWidth*nPercent);
-            var destHeight = (int) (sourceHeight*nPercent);
+            int destWidth = (int) (sourceWidth*nPercent);
+            int destHeight = (int) (sourceHeight*nPercent);
 
-            var bmPhoto = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-            bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
+            Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            bitmap.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
 
-            Graphics grPhoto = Graphics.FromImage(bmPhoto);
-            grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-            grPhoto.DrawImage(imgPhoto,
+            Graphics graphics = Graphics.FromImage(bitmap);
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.DrawImage(imgPhoto,
                               new Rectangle(destX, destY, destWidth + 2, destHeight + 2),
                               new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
                               GraphicsUnit.Pixel);
 
-            grPhoto.Dispose();
-            return bmPhoto;
+            graphics.Dispose();
+
+            return bitmap;
         }
     }
 }

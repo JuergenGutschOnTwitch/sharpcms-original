@@ -1,44 +1,4 @@
-﻿/* ModalDialog */
-var dialogBoxWindow;
-var dialogBoxInterval;
-var dialogBox = new Object;
-
-function maintainModalDialogFocus() {
-    try {
-        if (dialogBoxWindow.closed) {
-            window.clearInterval(dialogBoxInterval);
-            eval(dialogBox.eventhandler);
-            return;
-        }
-
-        dialogBoxWindow.focus();
-    }
-    catch (everything) { }
-}
-
-function resetModalDialog() {
-    dialogBox.value = '';
-    dialogBox.eventhandler = '';
-}
-
-function showModalDialog(path, eventHandler) {
-    resetModalDialog();
-    dialogBox.eventhandler = eventHandler;
-
-    var args = 'width=450,height=525,left=125,top=100,toolbar=0,location=0,status=0,menubar=0,scrollbars=1,resizable=1';
-
-    dialogBoxWindow = window.open(Sharpcms.Common.BaseUrl + path, '', args);
-    dialogBoxWindow.focus();
-    dialogBoxInterval = window.setInterval('maintainModalDialogFocus()', 5);
-}
-
-function closeModalDialog(response) {
-    window.opener.dialogBox.value = response;
-    window.close();
-}
-/* ModalDialog */
-
-(function ($) {
+﻿(function ($) {
     function common() {
         var baseUrl;
         var splitters;
@@ -99,39 +59,40 @@ function closeModalDialog(response) {
             $('#choosePageDialog').dialog({ modal: true });
             $('.hlCloseDialog').live().click(function() {
                 $('.choose').dialog('close');
-                
-                var path = $(this).attr('path');
-                throwEvent(Sharpcms.ActionType.MovePage, path, '');
+
+                var destinaltionPath = $(this).data('path');
+                throwEvent(Sharpcms.ActionType.MovePage, destinaltionPath, '');
             });
         }
 
-        function moveFolder(fromPath) {
+        function moveFolder(sourcePath) {
             $('#chooseFileDialog').dialog({ modal: true });
             $('.hlCloseDialog').live().click(function() {
                 $('.choose').dialog('close');
-                
-                var toPath = $(this).attr('path');
-                throwEvent(Sharpcms.ActionType.MoveFolder, fromPath + '*' + toPath, '');
+
+                var destinaltionPath = $(this).data('path');
+                throwEvent(Sharpcms.ActionType.MoveFolder, sourcePath + '*' + destinaltionPath, '');
             });
         }
 
-        function moveFile(fromPath) {
+        function moveFile(sourcePath) {
             $('#chooseFileDialog').dialog({ modal: true });
             $('.hlCloseDialog').live().click(function() {
                 $('.choose').dialog('close');
-                
-                var toPath = $(this).attr('path');
-                throwEvent(Sharpcms.ActionType.MoveFile, fromPath + '*' + toPath, '');
+
+                var destinaltionPath = $(this).data('path');
+                throwEvent(Sharpcms.ActionType.MoveFile, sourcePath + '*' + destinaltionPath, '');
             });
         }
 
-        var copyPagePromptMessage = 'Page name:';
         function copyPage(pageId, pageName) {
-            if (dialogBox.value != undefined && dialogBox.value != '') {
-                throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + dialogBox.value + '¤' + prompt(copyPagePromptMessage, pageName, ''));
-            }
+            $('#choosePageDialog').dialog({ modal: true });
+            $('.hlCloseDialog').live().click(function() {
+                $('.choose').dialog('close');
 
-            resetModalDialog();
+                var destinaltionPath = $(this).data('path');
+                throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + destinaltionPath + '¤' + pageName);
+            });
         }
         
         function movePageUp(pageId) {
@@ -195,7 +156,7 @@ function closeModalDialog(response) {
         }
 
         function copyElement(containerId, elementId) {
-            throwEvent(Sharpcms.ActionTypeCopy, 'element-' + containerId + '-' + elementId, '');
+            throwEvent(Sharpcms.ActionType.CopyElement, 'element-' + containerId + '-' + elementId, '');
         }
 
         function addUser() {
@@ -250,8 +211,8 @@ function closeModalDialog(response) {
             $('#choosePageDialog').dialog({ modal: true });
             $('.hlCloseDialog').live().click(function() {
                 $('.choose').dialog('close');
-                
-                var path = $(this).attr('path');
+
+                var path = $(this).data('path');
                 $('[name="' + id + '_' + attribute + '"]').val(path);
             });
         }
@@ -260,8 +221,8 @@ function closeModalDialog(response) {
             $('#chooseFileDialog').dialog({ modal: true });
             $('.hlCloseDialog').live().click(function() {
                 $('.choose').dialog('close');
-                
-                var path = $(this).attr('path');
+
+                var path = $(this).data('path');
                 $('[name="' + id + '_' + attribute + '"]').val(path);
             });
         }
@@ -270,8 +231,8 @@ function closeModalDialog(response) {
             $('#chooseFolderDialog').dialog({ modal: true });
             $('.hlCloseDialog').live().click(function() {
                 $('.choose').dialog('close');
-                
-                var path = $(this).attr('path');
+
+                var path = $(this).data('path');
                 $('[name="' + id + '_' + attribute + '"]').val(path);
             });
         }
@@ -281,7 +242,7 @@ function closeModalDialog(response) {
             $('.hlCloseDialog').live().click(function() {
                 $('.choose').dialog('close');
                 
-                var path = $(this).attr('path');
+                var path = $(this).data('path');
                 $('[name="' + id + '_' + attribute + '"]').val(path);
             });
         }

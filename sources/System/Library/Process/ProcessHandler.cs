@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -19,10 +20,10 @@ namespace Sharpcms.Library.Process
         public Process Run(Page httpPage)
         {
             _plugins = new PluginServices();
-            var process = new Process(httpPage, _plugins);
+            Process process = new Process(httpPage, _plugins);
             _plugins.InvokeAll("system", "init");
 
-            var xmlDocument = process.Cache["process"] as XmlDocument;
+            XmlDocument xmlDocument = process.Cache["process"] as XmlDocument;
             if (xmlDocument != null)
             {
                 XmlNode xmlNode = xmlDocument.DocumentElement;
@@ -81,7 +82,7 @@ namespace Sharpcms.Library.Process
 
         private static string GetRedirectUrl(string currentProcess)
         {
-            var redirectUrl = currentProcess;
+            string redirectUrl = currentProcess;
 
             if (redirectUrl.Trim().EndsWith("/"))
             {
@@ -152,10 +153,10 @@ namespace Sharpcms.Library.Process
                                     break;
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception exception)
                         {
-                            MailStackTrace(process, e);
-                            process.AddMessage(e);
+                            MailStackTrace(process, exception);
+                            process.AddMessage(exception);
                         }
                     }
                 }
@@ -187,7 +188,7 @@ namespace Sharpcms.Library.Process
                             break;
                         case "handle":
                             string mainEvent = process.QueryEvents["main"];
-                            if (mainEvent != "")
+                            if (mainEvent != string.Empty)
                             {
                                 provider.Handle(mainEvent);
                             }
@@ -199,7 +200,7 @@ namespace Sharpcms.Library.Process
 
         private static string GetValue(XmlNode contentNode, Process process)
         {
-            var value = new StringBuilder(CommonXml.GetAttributeValue(contentNode, "value"));
+            StringBuilder value = new StringBuilder(CommonXml.GetAttributeValue(contentNode, "value"));
             if (value.ToString() == string.Empty)
             {
                 // No value is specified. Maybe a variable was requested?
@@ -237,7 +238,11 @@ namespace Sharpcms.Library.Process
 
         private static string JoinPath(string[] args)
         {
-            return args != null ? string.Join("/", args) : string.Empty;
+            string path = args != null 
+                ? string.Join("/", args) 
+                : string.Empty;
+
+            return path;
         }
 
         private static void MailStackTrace(Process process, Exception exception)
@@ -245,16 +250,16 @@ namespace Sharpcms.Library.Process
             // Try sending an email with the stack trace
             try
             {
-                if (process.Settings["site/stacktrace/recipient"] != "")
+                if (process.Settings["site/stacktrace/recipient"] != string.Empty)
                 {
-                    var mail = new MailMessage();
+                    MailMessage mail = new MailMessage();
                     mail.To.Add(process.Settings["site/stacktrace/recipient"]);
                     mail.From = new MailAddress(process.Settings["site/stacktrace/sender"]);
                     mail.IsBodyHtml = false;
                     mail.Body = FormatStackTrace(process.Settings["site/stacktrace/body"], exception, process);
                     mail.Subject = FormatStackTrace(process.Settings["site/stacktrace/subject"], exception, process);
 
-                    var smtpClient = new SmtpClient(process.Settings["mail/smtp"]);
+                    SmtpClient smtpClient = new SmtpClient(process.Settings["mail/smtp"]);
                     if (process.Settings["mail/smtpuser"] != string.Empty)
                     {
                         smtpClient.Credentials = new NetworkCredential(process.Settings["mail/smtpuser"], process.Settings["mail/smtppass"]);
@@ -270,7 +275,7 @@ namespace Sharpcms.Library.Process
 
         private static string FormatStackTrace(string original, Exception exception, Process process)
         {
-            var lines = new List<string>(original.Trim().Split('\n'));
+            List<string> lines = new List<string>(original.Trim().Split('\n'));
             for (int i = 0; i < lines.Count; i++)
             {
                 lines[i] = lines[i].Trim();
@@ -285,14 +290,7 @@ namespace Sharpcms.Library.Process
             output = output.Replace("{domain}", process.HttpPage.Request.Url.Host);
             output = output.Replace("{process}", process.CurrentProcess);
             output = output.Replace("{user}", process.CurrentUser);
-
-            var requestParams = new List<string>();
-            foreach (string key in process.HttpPage.Request.Params.Keys)
-            {
-                requestParams.Add(string.Format("{0} = {1}", key, process.HttpPage.Request.Params[key]));
-            }
-
-            output = output.Replace("{params}", string.Join("\n", requestParams.ToArray()));
+            output = output.Replace("{params}", string.Join("\n", (from string key in process.HttpPage.Request.Params.Keys select string.Format("{0} = {1}", key, process.HttpPage.Request.Params[key])).ToArray()));
 
             return output;
         }

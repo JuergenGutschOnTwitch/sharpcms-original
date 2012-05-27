@@ -2,7 +2,7 @@
 
 <settings>
   <templates>
-    <login>~/System/Components/Users/Xsl/login.xslt</login>
+    <login>~/System/Components/Users/Xsl/Login.xslt</login>
   </templates>
   <users>
     <filename>~/Custom/App_Data/Users.xml</filename>
@@ -10,7 +10,7 @@
   <admin>
     <menu>
       <left>
-        <item path="admin/user" weight="20">Users</item>
+        <item path="admin/user" weight="30">Users</item>
       </left>
     </menu>
   </admin>

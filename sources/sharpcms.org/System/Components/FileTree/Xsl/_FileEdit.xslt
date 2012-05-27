@@ -16,11 +16,16 @@
         </b>
       </div>
       <div class="viewstate">
-        <xsl:if test="@mainmimetype='image'">
-          <a id="fida_vs" class="button expand">
-            <xsl:text>˅</xsl:text>
-          </a>
-        </xsl:if>
+        <xsl:choose>
+          <xsl:when test="@mainmimetype='image'">
+            <a id="fida_vs" class="button expand">
+              <xsl:text>˅</xsl:text>
+            </a>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text> </xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
       </div>
     </div>
     <div class="menu filedata_menu">
@@ -28,7 +33,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlRemoveFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Delete file</xsl:text>
@@ -37,7 +42,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlRenameFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Rename file</xsl:text>
@@ -56,7 +61,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlMoveFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Move file</xsl:text>
@@ -64,7 +69,7 @@
     </div>
     <xsl:if test="@mainmimetype='image'">
       <div class="tab-pane" id="fida_body" style="float: left;">
-        <div id="fida_body_tabs">
+        <div id="fida_body_tabs" class="tabs">
           <ul>
             <li>
               <a href="#ptabs1">
@@ -124,7 +129,7 @@
                 </fieldset>
                 <div class="message">
                   <strong>
-                    <xsl:text>Info:</xsl:text>
+                    <xsl:text>Info: </xsl:text>
                   </strong>
                   <xsl:text>The resized image will be placed in the thumbs folder.</xsl:text>
                 </div>

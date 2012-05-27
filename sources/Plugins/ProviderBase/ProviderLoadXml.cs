@@ -8,9 +8,7 @@ namespace Sharpcms.Providers.Base
 {
     public class ProviderLoadXml : BasePlugin2, IPlugin2
     {
-        public ProviderLoadXml()
-        {
-        }
+        public ProviderLoadXml() { }
 
         public ProviderLoadXml(Process process)
         {
@@ -21,7 +19,10 @@ namespace Sharpcms.Providers.Base
 
         public new string Name
         {
-            get { return "LoadXml"; }
+            get
+            {
+                return "LoadXml";
+            }
         }
 
         public new void Handle(string mainEvent)
@@ -36,10 +37,13 @@ namespace Sharpcms.Providers.Base
 
         public new void Load(ControlList control, string action, string value, string pathTrail)
         {
-            var doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument();
             doc.Load(Process.Settings["loadxml/" + action]);
 
-            if (doc.DocumentElement != null) control[action].InnerXml = doc.DocumentElement.InnerXml;
+            if (doc.DocumentElement != null)
+            {
+                control[action].InnerXml = doc.DocumentElement.InnerXml;
+            }
         }
 
         #endregion

@@ -10,7 +10,7 @@
   <xsl:include href="..\..\..\..\Custom\Components\Snippets.xslt" />
 
   <xsl:template match="/">
-    <html xmlns="http://www.w3.org/1999/xhtml">
+    <html>
       <head>
         <base>
           <xsl:attribute name="href">
@@ -19,7 +19,7 @@
           </xsl:attribute>
         </base>
         <title>
-          <xsl:text>Admin - Sharpcms.net</xsl:text>
+          <xsl:text>Admin - sharpcms</xsl:text>
           <xsl:if test="/data/currentuser/basedata">
             <xsl:text> [</xsl:text>
             <xsl:value-of select="/data/currentuser/basedata" />
@@ -27,14 +27,15 @@
           </xsl:if>
         </title>
         <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.custom.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.18.custom.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/selectmenu/jquery.ui.selectmenu.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.17.sharpcms.css" />
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.1.min.js">
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.8.18.sharpcms.css" />
+        <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/admin.css" />
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.2.min.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-ui-1.8.17.custom.min.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-ui-1.8.18.custom.min.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.url.packed.js">
@@ -49,13 +50,16 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/treeview/jquery.treeview.js">
           <xsl:text> </xsl:text>
         </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/sharpcms.js">
+          <xsl:text> </xsl:text>
+        </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/admin.xslt.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/sessvars/sessvars.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/sharpcms.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/_sharpcms.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/collapseexpand.js">
@@ -114,27 +118,49 @@
             <!-- Begin admin_menu -->
             <xsl:if test="/data/messages">
               <div class="messages">
-                <ul>
                   <xsl:for-each select="/data/messages/item">
-                    <li>
-                      <xsl:attribute name="class">
-                        <xsl:value-of select="@messagetype" />
-                      </xsl:attribute>
-                      <xsl:value-of select="." />
-                    </li>
+                    <xsl:choose>
+                      <xsl:when test="@messagetype = 'Error'">
+                        <div class="ui-state-error ui-corner-all">
+                          <p>
+                            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;">
+                              <xsl:text> </xsl:text>
+                            </span>
+                            <strong>Alert: </strong>
+                            <xsl:value-of select="normalize-space(.)" />
+                          </p>
+                        </div>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <div class="ui-state-highlight ui-corner-all">
+                          <p>
+                            <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;">
+                              <xsl:text> </xsl:text>
+                            </span>
+                            <strong>Alert: </strong>
+                            <xsl:value-of select="normalize-space(.)" />
+                          </p>
+                        </div>
+                      </xsl:otherwise>
+                    </xsl:choose>
                   </xsl:for-each>
-                </ul>
               </div>
             </xsl:if>
             <!-- End admin_menu -->
-            
+
             <!-- Begin Content -->
             <div class="content">
               <div class="left">
                 <xsl:apply-templates select="data/navigationplace/*" mode="edit" />
+                <xsl:text> </xsl:text>
               </div>
               <div class="right">
                 <xsl:apply-templates select="data/contentplace/*" mode="edit" />
+                <xsl:text> </xsl:text>
+              </div>
+              <div class="hidden">
+                <xsl:apply-templates select="data/navigationplace/*" mode="choose" />
+                <xsl:text> </xsl:text>
               </div>
             </div>
             <!-- End Content -->
@@ -165,7 +191,7 @@
             <xsl:attribute name="class">
               <xsl:text>hlThrowEvent</xsl:text>
             </xsl:attribute>
-            <xsl:attribute name="action">
+            <xsl:attribute name="data-action">
               <xsl:value-of select="@event" />
             </xsl:attribute>
           </xsl:otherwise>

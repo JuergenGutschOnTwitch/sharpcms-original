@@ -13,9 +13,7 @@ namespace Sharpcms.Providers.ErrorLog
     {
         private Users _cmsUsers;
 
-        public ProviderUser()
-        {
-        }
+        public ProviderUser() { }
 
         public ProviderUser(Process process)
         {
@@ -24,7 +22,12 @@ namespace Sharpcms.Providers.ErrorLog
 
         private Users Users
         {
-            get { return _cmsUsers ?? (_cmsUsers = new Users(Process)); }
+            get
+            {
+                Users users = _cmsUsers ?? (_cmsUsers = new Users(Process));
+
+                return users;
+            }
         }
 
         #region IPlugin2 Members
@@ -95,51 +98,44 @@ namespace Sharpcms.Providers.ErrorLog
 
         private void HandleDeleteGroup()
         {
-            var users = new Users(Process);
+            Users users = new Users(Process);
             users.GroupList.Remove(Process.QueryEvents["mainvalue"]);
             users.Save();
         }
 
         private void HandleAddGroup()
         {
-            var users = new Users(Process);
-
-            if (users.GroupList[Process.QueryEvents["mainvalue"]] != null)
+            Users users = new Users(Process);
+            if (users.GroupList[Process.QueryEvents["mainvalue"]] == null)
             {
-                return;
-            }
-
-            Group group = users.GroupList.Create(Process.QueryEvents["mainvalue"]);
-
-            if (group.Name.Length > 0)
-            {
-                users.Save();
+                Group group = users.GroupList.Create(Process.QueryEvents["mainvalue"]);
+                if (group.Name.Length > 0)
+                {
+                    users.Save();
+                }
             }
         }
 
         private void HandleAddUser()
         {
-            var users = new Users(Process);
-
-            if (users.UserList[Process.QueryEvents["mainvalue"]] != null)
+            Users users = new Users(Process);
+            if (users.UserList[Process.QueryEvents["mainvalue"]] == null)
             {
-                return;
-            }
-
-            User user = users.UserList.Create(Process.QueryEvents["mainvalue"]);
-
-            if (user.Login.Length > 0)
-            {
-                users.Save();
+                User user = users.UserList.Create(Process.QueryEvents["mainvalue"]);
+                if (user.Login.Length > 0)
+                {
+                    users.Save();
+                }
             }
         }
 
         private void HandleSaveUser()
         {
-            var users = new Users(Process);
+            Users users = new Users(Process);
 
             User user = users.UserList[Process.QueryEvents["mainvalue"]];
             user.Login = Process.QueryData["user_login"];
+
             if ("emptystring" != Process.QueryData["user_password"])
             {
                 user.Password = Process.QueryData["user_password"];
@@ -158,7 +154,7 @@ namespace Sharpcms.Providers.ErrorLog
 
         private void HandleDeleteUser()
         {
-            var users = new Users(Process);
+            Users users = new Users(Process);
             users.UserList.Remove(Process.QueryEvents["mainvalue"]);
             users.Save();
         }
@@ -167,7 +163,7 @@ namespace Sharpcms.Providers.ErrorLog
         {
             bool redirected = false;
             object[] results = Process.Plugins.InvokeAll("users", "list_groups", Process.CurrentUser);
-            var userGroups = new List<string>(Common.FlattenToStrings(results));
+            List<string> userGroups = new List<string>(Common.FlattenToStrings(results));
 
             foreach (string group in userGroups)
             {
@@ -194,25 +190,19 @@ namespace Sharpcms.Providers.ErrorLog
                     continue;
                 }
 
-                redirected = true;
                 Process.HttpPage.Response.Redirect(frontPage + "/");
-            }
-
-            if (!redirected)
-            {
-                string defaultFrontPage = Process.Settings["groups/defaultfrontpage"];
             }
         }
 
         private void LoadGroups(ControlList control)
         {
-            var users = new Users(Process);
+            Users users = new Users(Process);
             control["groups"].InnerXml = users.GroupList.ParentNode.InnerXml;
         }
 
         private void LoadUser(ControlList control, string value)
         {
-            var users = new Users(Process);
+            Users users = new Users(Process);
             if (value != null && users.UserList[value] != null)
             {
                 control["user"].InnerXml = users.UserList[value].Node.InnerXml;
@@ -221,7 +211,7 @@ namespace Sharpcms.Providers.ErrorLog
 
         private void LoadUsers(ControlList control)
         {
-            var users = new Users(Process);
+            Users users = new Users(Process);
             control["users"].InnerXml = users.UserList.ParentNode.InnerXml;
         }
 
@@ -249,6 +239,7 @@ namespace Sharpcms.Providers.ErrorLog
             string password = args[1].ToString();
 
             User user = Users.UserList[username];
+
             return user != null && user.CheckPassword(password);
         }
 
@@ -260,7 +251,7 @@ namespace Sharpcms.Providers.ErrorLog
             }
 
             string username = args[0].ToString();
-            var groups = new List<string>();
+            List<string> groups = new List<string>();
 
             User user = Users.UserList[username];
             if (user != null)

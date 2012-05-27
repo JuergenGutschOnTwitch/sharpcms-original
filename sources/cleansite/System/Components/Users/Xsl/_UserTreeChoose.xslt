@@ -16,7 +16,7 @@
               <xsl:attribute name="class">
                 <xsl:text>hlCloseDialog</xsl:text>
               </xsl:attribute>
-              <xsl:attribute name="value">
+              <xsl:attribute name="data-user">
                 <xsl:value-of select="login" />
               </xsl:attribute>
               <span>

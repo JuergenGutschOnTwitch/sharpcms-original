@@ -13,7 +13,7 @@ namespace Sharpcms.Library
     {
         private static string[] GetConfigFileNames(string fileName, IEnumerable<string> paths)
         {
-            var processFiles = new List<string>();
+            List<string> processFiles = new List<string>();
 
             foreach (string path in paths)
             {
@@ -34,21 +34,25 @@ namespace Sharpcms.Library
 
         private static bool FilesChanged(IEnumerable<string> fileNames, Cache cache)
         {
+            bool success = false;
+
             foreach (string fileName in fileNames)
             {
                 if (cache["changed_" + fileName] == null)
                 {
-                    return true;
+                    success = true;
                 }
-
-                var cacheChanged = (DateTime) cache["changed_" + fileName];
-                if (cacheChanged != File.GetLastWriteTime(fileName))
+                else
                 {
-                    return true;
+                    DateTime cacheChanged = (DateTime)cache["changed_" + fileName];
+                    if (cacheChanged != File.GetLastWriteTime(fileName))
+                    {
+                        success = true;
+                    }
                 }
             }
 
-            return false;
+            return success;
         }
 
         public static void CombineProcessTree(string[] paths, Cache cache)
@@ -56,13 +60,14 @@ namespace Sharpcms.Library
             string[] fileNames = GetConfigFileNames("Process.xml", paths);
             if (FilesChanged(fileNames, cache))
             {
-                var combinedProcess = new XmlDocument();
+                XmlDocument combinedProcess = new XmlDocument();
                 combinedProcess.AppendChild(combinedProcess.CreateElement("process"));
 
                 foreach (string fileName in fileNames)
                 {
-                    var xmlDocument = new XmlDocument();
+                    XmlDocument xmlDocument = new XmlDocument();
                     xmlDocument.Load(fileName);
+
                     CommonXml.MergeXml(combinedProcess, xmlDocument, "load", "handle");
                     cache["changed_" + fileName] = File.GetLastWriteTime(fileName);
                 }
@@ -76,13 +81,14 @@ namespace Sharpcms.Library
             string[] fileNames = GetConfigFileNames("Settings.xml", paths);
             if (FilesChanged(fileNames, cache))
             {
-                var combinedSettings = new XmlDocument();
+                XmlDocument combinedSettings = new XmlDocument();
                 combinedSettings.AppendChild(combinedSettings.CreateElement("settings"));
 
                 foreach (string fileName in fileNames)
                 {
-                    var xmlDocument = new XmlDocument();
+                    XmlDocument xmlDocument = new XmlDocument();
                     xmlDocument.Load(fileName);
+
                     CommonXml.MergeXml(combinedSettings, xmlDocument, "item");
                     cache["changed_" + fileName] = File.GetLastWriteTime(fileName);
                 }

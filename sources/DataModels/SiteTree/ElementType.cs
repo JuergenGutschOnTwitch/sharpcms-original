@@ -7,9 +7,7 @@ namespace Sharpcms.Data.SiteTree
 {
     public class ElementType : DataElement
     {
-        public ElementType(XmlNode node) : base(node)
-        {
-        }
+        public ElementType(XmlNode node) : base(node) { }
 
         public string FriendlyName
         {

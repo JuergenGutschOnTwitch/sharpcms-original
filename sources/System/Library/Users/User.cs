@@ -17,23 +17,37 @@ namespace Sharpcms.Library.Users
 
         public GroupList GroupList
         {
-            get { return _groupList; }
+            get
+            {
+                return _groupList;
+            }
         }
 
         public string Login
         {
-            get { return CommonXml.GetNode(Node, "login").InnerText; }
-            set { CommonXml.GetNode(Node, "login").InnerText = Common.Common.CleanToSafeString(value); }
+            get
+            {
+                return CommonXml.GetNode(Node, "login").InnerText;
+            }
+            set
+            {
+                CommonXml.GetNode(Node, "login").InnerText = Common.Common.CleanToSafeString(value);
+            }
         }
 
         public string Password
         {
-            set { CommonXml.GetNode(Node, "password").InnerText = Common.Common.CleanToSafeString(value).GetHashCode().ToString(CultureInfo.InvariantCulture); }
+            set
+            {
+                CommonXml.GetNode(Node, "password").InnerText = Common.Common.CleanToSafeString(value).GetHashCode().ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         public bool CheckPassword(string password)
         {
-            return CommonXml.GetNode(Node, "password").InnerText == Common.Common.CleanToSafeString(password).GetHashCode().ToString(CultureInfo.InvariantCulture);
+            bool validPassword = CommonXml.GetNode(Node, "password").InnerText == Common.Common.CleanToSafeString(password).GetHashCode().ToString(CultureInfo.InvariantCulture);
+
+            return validPassword;
         }
     }
 }

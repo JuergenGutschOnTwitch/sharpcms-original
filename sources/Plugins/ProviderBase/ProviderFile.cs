@@ -11,14 +11,12 @@ namespace Sharpcms.Providers.Base
 {
     public class ProviderFile : BasePlugin2, IPlugin2
     {
-        private FileTree _siteTree;
+        private FileTree _fileTree;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProviderFile"/> class.
         /// </summary>
-        public ProviderFile()
-        {
-        }
+        public ProviderFile() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProviderFile"/> class.
@@ -35,7 +33,12 @@ namespace Sharpcms.Providers.Base
         /// <value>The tree.</value>
         private FileTree Tree
         {
-            get { return _siteTree ?? (_siteTree = new FileTree(Process)); }
+            get
+            {
+                FileTree fileTree = _fileTree ?? (_fileTree = new FileTree(Process));
+
+                return fileTree;
+            }
         }
 
         #region IPlugin2 Members
@@ -118,11 +121,10 @@ namespace Sharpcms.Providers.Base
         /// <param name="value">The value.</param>
         private void LoadDownload(string value)
         {
-            if (!string.IsNullOrEmpty(value))
-            {
-                Process.OutputHandledByModule = true;
-                Tree.SendToBrowser(value);
-            }
+            if (string.IsNullOrEmpty(value)) return;
+
+            Process.OutputHandledByModule = true;
+            Tree.SendToBrowser(value);
         }
 
         /// <summary>
@@ -130,11 +132,11 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleMoveFolder()
         {
-            string[] par = Process.QueryEvents["mainvalue"].Split('*');
-            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
+            string[] parameters = Process.QueryEvents["mainvalue"].Split('*');
+            if (parameters.Length == 2 && parameters[1].Length > 0 && parameters[0].Length > 0)
             {
-                var filetree = new FileTree(Process);
-                filetree.MoveFolder(par[0], par[1]);
+                FileTree filetree = new FileTree(Process);
+                filetree.MoveFolder(parameters[0], parameters[1]);
             }
         }
 
@@ -143,11 +145,11 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleMoveFile()
         {
-            string[] par = Process.QueryEvents["mainvalue"].Split('*');
-            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
+            string[] parameters = Process.QueryEvents["mainvalue"].Split('*');
+            if (parameters.Length == 2 && parameters[1].Length > 0 && parameters[0].Length > 0)
             {
-                var filetree = new FileTree(Process);
-                filetree.MoveFile(par[0], par[1]);
+                FileTree filetree = new FileTree(Process);
+                filetree.MoveFile(parameters[0], parameters[1]);
             }
         }
 
@@ -156,11 +158,11 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleRenameFolder()
         {
-            string[] par = Process.QueryEvents["mainvalue"].Split('*');
-            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
+            string[] parameters = Process.QueryEvents["mainvalue"].Split('*');
+            if (parameters.Length == 2 && parameters[1].Length > 0 && parameters[0].Length > 0)
             {
-                var filetree = new FileTree(Process);
-                filetree.RenameFolder(par[0], par[1]);
+                FileTree filetree = new FileTree(Process);
+                filetree.RenameFolder(parameters[0], parameters[1]);
             }
         }
 
@@ -169,11 +171,11 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleRenameFile()
         {
-            string[] par = Process.QueryEvents["mainvalue"].Split('*');
-            if (par.Length == 2 && par[1].Length > 0 && par[0].Length > 0)
+            string[] parameters = Process.QueryEvents["mainvalue"].Split('*');
+            if (parameters.Length == 2 && parameters[1].Length > 0 && parameters[0].Length > 0)
             {
-                var filetree = new FileTree(Process);
-                filetree.RenameFile(par[0], par[1]);
+                FileTree filetree = new FileTree(Process);
+                filetree.RenameFile(parameters[0], parameters[1]);
             }
         }
 
@@ -184,7 +186,7 @@ namespace Sharpcms.Providers.Base
         {
             string path = Process.QueryEvents["mainvalue"];
 
-            var filetree = new FileTree(Process);
+            FileTree filetree = new FileTree(Process);
             filetree.DeleteFolder(path);
         }
 
@@ -195,7 +197,7 @@ namespace Sharpcms.Providers.Base
         {
             string path = Process.QueryEvents["mainvalue"];
 
-            var filetree = new FileTree(Process);
+            FileTree filetree = new FileTree(Process);
             filetree.DeleteFile(path);
         }
 
@@ -206,7 +208,8 @@ namespace Sharpcms.Providers.Base
         {
             string query = Process.QueryEvents["mainvalue"];
             string[] list = query.Split('*');
-            var filetree = new FileTree(Process);
+
+            FileTree filetree = new FileTree(Process);
             filetree.CreateFolder(list[0], list[1]);
         }
 
@@ -216,7 +219,8 @@ namespace Sharpcms.Providers.Base
         private void HandleUpload()
         {
             string query = Process.QueryEvents["mainvalue"];
-            var fileTree = new FileTree(Process);
+
+            FileTree fileTree = new FileTree(Process);
             fileTree.SaveUploadedFiles(query);
         }
 

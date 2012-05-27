@@ -17,18 +17,20 @@ namespace Sharpcms.Providers.Search
     {
         public readonly string Name;
         public readonly string Type;
-        public readonly string Xpath;
+        public readonly string XPath;
 
-        public Rule(string n, string t, string x)
+        public Rule(string name, string type, string xPath)
         {
-            Name = n;
-            Type = t;
-            Xpath = x;
+            Name = name;
+            Type = type;
+            XPath = xPath;
         }
 
         public override string ToString()
         {
-            return String.Format("Rule '{0}', Type '{1}', XPath '{2}'", Name, Type, Xpath);
+            string result = String.Format("Rule '{0}', Type '{1}', XPath '{2}'", Name, Type, XPath);
+
+            return result;
         }
     }
 
@@ -37,10 +39,10 @@ namespace Sharpcms.Providers.Search
         public readonly Rule Rule;
         public readonly string Value;
 
-        public RuleValue(Rule r, string v)
+        public RuleValue(Rule rule, string value)
         {
-            Rule = r;
-            Value = v;
+            Rule = rule;
+            Value = value;
         }
     }
 
@@ -58,17 +60,26 @@ namespace Sharpcms.Providers.Search
 
         public ArrayList Rules
         {
-            get { return _rules; }
+            get
+            {
+                return _rules;
+            }
         }
 
         public string XPath
         {
-            get { return _xPath; }
+            get
+            {
+                return _xPath;
+            }
         }
 
         public string Key
         {
-            get { return _key; }
+            get
+            {
+                return _key;
+            }
         }
 
         private void AddRule(Rule rule)
@@ -78,12 +89,14 @@ namespace Sharpcms.Providers.Search
 
         public void AddRule(string name, string type, string xPath)
         {
-            AddRule(new Rule(name, type, xPath));
+            Rule newRule = new Rule(name, type, xPath);
+
+            AddRule(newRule);
         }
 
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendFormat("DocItem: Key '{0}' XPath '{1}'" + Environment.NewLine, Key, XPath);
             stringBuilder.Append("Rules:" + Environment.NewLine);
 
@@ -111,37 +124,51 @@ namespace Sharpcms.Providers.Search
 
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                return _name;
+            }
         }
 
         private string Namespace
         {
-            get { return _namespace; }
+            get
+            {
+                return _namespace;
+            }
         }
 
         public ArrayList GlobalRules
         {
-            get { return _globalRules; }
+            get
+            {
+                return _globalRules;
+            }
         }
 
         public ArrayList DocItems
         {
-            get { return _docItems; }
+            get
+            {
+                return _docItems;
+            }
         }
 
-        private void AddGlobalRule(Rule r)
+        private void AddGlobalRule(Rule rule)
         {
-            _globalRules.Add(r);
+            _globalRules.Add(rule);
         }
 
         public void AddGlobalRule(string name, string type, string xpath)
         {
-            AddGlobalRule(new Rule(name, type, xpath));
+            Rule newGlobalRule = new Rule(name, type, xpath);
+
+            AddGlobalRule(newGlobalRule);
         }
 
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendFormat("RuleSet for document type '{0}', namespace '{1}'" + Environment.NewLine, Name, Namespace);
             stringBuilder.Append("Global rules:" + Environment.NewLine);
 
@@ -161,7 +188,7 @@ namespace Sharpcms.Providers.Search
 
         public DocItem AddDocItem(string xp, string key)
         {
-            var addDocItem = new DocItem(xp, key);
+            DocItem addDocItem = new DocItem(xp, key);
 
             _docItems.Add(addDocItem);
 
@@ -171,7 +198,6 @@ namespace Sharpcms.Providers.Search
 
     public class Indexer
     {
-        private const string Rules = "";
         private readonly ArrayList _fileList = new ArrayList();
         private readonly string _indexName;
         private readonly ArrayList _ruleSets;
@@ -188,18 +214,22 @@ namespace Sharpcms.Providers.Search
             _messageStringBuilder = new StringBuilder();
         }
 
-        public Indexer(string name) : this(name, false)
-        {
-        }
+        public Indexer(string name) : this(name, false) { }
 
         public string DocRootDirectory
         {
-            get { return _docRootDirectory; }
+            get
+            {
+                return _docRootDirectory;
+            }
         }
 
         public string ProcMessage
         {
-            get { return _messageStringBuilder.ToString(); }
+            get
+            {
+                return _messageStringBuilder.ToString();
+            }
         }
 
         /// <summary>
@@ -242,25 +272,25 @@ namespace Sharpcms.Providers.Search
 
         public void LoadRules(string filename)
         {
-            var xPathDocument = new XPathDocument(new StreamReader(filename));
-            XPathNavigator pathNavigator = xPathDocument.CreateNavigator();
-            XPathNodeIterator xPathNodeIterator = pathNavigator.Select("/rules/doctype");
+            XPathDocument pathDocument = new XPathDocument(new StreamReader(filename));
+            XPathNavigator pathNavigator = pathDocument.CreateNavigator();
+            XPathNodeIterator pathNodeIterator = pathNavigator.Select("/rules/doctype");
 
-            while (xPathNodeIterator.MoveNext())
+            while (pathNodeIterator.MoveNext())
             {
-                if (xPathNodeIterator.Current != null)
+                if (pathNodeIterator.Current != null)
                 {
-                    XPathNavigator clone = xPathNodeIterator.Current.Clone();
-                    string root = clone.GetAttribute("root", Rules);
-                    string nameSpace = clone.GetAttribute("namespace", Rules);
-                    var ruleSet = new RuleSet(root, nameSpace);
+                    XPathNavigator clone = pathNodeIterator.Current.Clone();
+                    string root = clone.GetAttribute("root", string.Empty);
+                    string nameSpace = clone.GetAttribute("namespace", string.Empty);
+                    RuleSet ruleSet = new RuleSet(root, nameSpace);
                     XPathNodeIterator riter = clone.Select("rule");
 
                     while (riter.MoveNext())
                     {
                         if (riter.Current != null)
                         {
-                            ruleSet.AddGlobalRule(riter.Current.GetAttribute("field", Rules), riter.Current.GetAttribute("type", Rules), riter.Current.GetAttribute("xpath", Rules));
+                            ruleSet.AddGlobalRule(riter.Current.GetAttribute("field", string.Empty), riter.Current.GetAttribute("type", string.Empty), riter.Current.GetAttribute("xpath", string.Empty));
                         }
                     }
 
@@ -271,15 +301,15 @@ namespace Sharpcms.Providers.Search
                         if (riter.Current != null)
                         {
                             XPathNavigator xPathNavigator = riter.Current.Clone();
-                            string xpath = xPathNavigator.GetAttribute("xpath", Rules);
-                            string key = xPathNavigator.GetAttribute("key", Rules);
+                            string xpath = xPathNavigator.GetAttribute("xpath", string.Empty);
+                            string key = xPathNavigator.GetAttribute("key", string.Empty);
                             DocItem docItem = ruleSet.AddDocItem(xpath, key);
                             XPathNodeIterator diter = xPathNavigator.Select("rule");
                             while (diter.MoveNext())
                             {
                                 if (diter.Current != null)
                                 {
-                                    docItem.AddRule(diter.Current.GetAttribute("field", Rules), diter.Current.GetAttribute("type", Rules), diter.Current.GetAttribute("xpath", Rules));
+                                    docItem.AddRule(diter.Current.GetAttribute("field", string.Empty), diter.Current.GetAttribute("type", string.Empty), diter.Current.GetAttribute("xpath", string.Empty));
                                 }
                             }
                         }
@@ -328,18 +358,20 @@ namespace Sharpcms.Providers.Search
 
         public void IndexDocument(string fname)
         {
-            var arrayList = new ArrayList { fname };
+            ArrayList arrayList = new ArrayList { fname };
             IndexDocuments(arrayList);
         }
 
         public ArrayList IndexDocuments()
         {
-            return IndexDocuments(_fileList);
+            ArrayList arrayList = IndexDocuments(_fileList);
+
+            return arrayList;
         }
 
         public ArrayList IndexDocuments(ArrayList fnames)
         {
-            var failures = new ArrayList();
+            ArrayList failures = new ArrayList();
  
             // create index if it doesn't exist
              IndexModifier writer = File.Exists(Path.Combine(_indexName, "segments")) 
@@ -355,10 +387,11 @@ namespace Sharpcms.Providers.Search
                         _messageStringBuilder.AppendFormat("Indexing file: {0}\n", fname);
                     }
 
-                    var xPathDocument = new XPathDocument(new StreamReader(fname));
-                    XPathNavigator xPathNavigator = xPathDocument.CreateNavigator();
-                    xPathNavigator.MoveToFirstChild();
-                    string docname = xPathNavigator.Name;
+                    XPathDocument pathDocument = new XPathDocument(new StreamReader(fname));
+                    XPathNavigator pathNavigator = pathDocument.CreateNavigator();
+                    pathNavigator.MoveToFirstChild();
+
+                    string docname = pathNavigator.Name;
 
                     if (_verbose)
                     {
@@ -374,37 +407,37 @@ namespace Sharpcms.Providers.Search
                                 _messageStringBuilder.Append("Found matching ruleset, indexing.\n");
                             }
 
-                            xPathNavigator.MoveToRoot();
+                            pathNavigator.MoveToRoot();
 
                             // first thing is to read and cache global fields
                             // these are duped for each document found
-                            var globals = new ArrayList();
+                            ArrayList globals = new ArrayList();
                             foreach (Rule rule in ruleSet.GlobalRules)
                             {
-                                XPathExpression xPathExpression = xPathNavigator.Compile(rule.Xpath);
-                                XPathNodeIterator iter = xPathNavigator.Select(xPathExpression);
-                                while (iter.MoveNext())
+                                XPathExpression pathExpression = pathNavigator.Compile(rule.XPath);
+                                XPathNodeIterator pathNodeIterator = pathNavigator.Select(pathExpression);
+                                while (pathNodeIterator.MoveNext())
                                 {
                                     if (_verbose)
                                     {
-                                        _messageStringBuilder.AppendFormat("Found field '{0}' value '{1}'\n", rule.Name, iter.Current.Value);
+                                        _messageStringBuilder.AppendFormat("Found field '{0}' value '{1}'\n", rule.Name, pathNodeIterator.Current.Value);
                                     }
 
-                                    globals.Add(new RuleValue(rule, iter.Current.Value));
+                                    globals.Add(new RuleValue(rule, pathNodeIterator.Current.Value));
                                 }
                             }
 
                             // ok, all globals cached. now to index documents
 
-                            xPathNavigator.MoveToRoot();
+                            pathNavigator.MoveToRoot();
                             foreach (DocItem docItem in ruleSet.DocItems)
                             {
-                                XPathExpression docex = xPathNavigator.Compile(docItem.XPath);
-                                XPathNodeIterator diter = xPathNavigator.Select(docex);
+                                XPathExpression pathExpression = pathNavigator.Compile(docItem.XPath);
+                                XPathNodeIterator pathNodeIterator = pathNavigator.Select(pathExpression);
 
-                                while (diter.MoveNext())
+                                while (pathNodeIterator.MoveNext())
                                 {
-                                    XPathNavigator dn = diter.Current.Clone();
+                                    XPathNavigator clone = pathNodeIterator.Current.Clone();
 
                                     if (_verbose)
                                     {
@@ -412,18 +445,18 @@ namespace Sharpcms.Providers.Search
                                     }
 
                                     // now compute key
-                                    string key = "";
-                                    if (docItem.Key != "")
+                                    string key = string.Empty;
+                                    if (docItem.Key != string.Empty)
                                     {
                                         //key = dn.Evaluate(doc.Key).ToString();
 
-                                        object result = dn.Evaluate(docItem.Key);
-                                        var iterator = result as XPathNodeIterator;
-                                        if (iterator != null)
+                                        object result = clone.Evaluate(docItem.Key);
+                                        XPathNodeIterator nodeIterator = result as XPathNodeIterator;
+                                        if (nodeIterator != null)
                                         {
-                                            while (iterator.MoveNext())
+                                            while (nodeIterator.MoveNext())
                                             {
-                                                key = iterator.Current.ToString();
+                                                key = nodeIterator.Current.ToString();
                                             }
                                         }
                                         else
@@ -444,7 +477,7 @@ namespace Sharpcms.Providers.Search
                                     // delete if document exists
                                     DeleteDocument(writer, key);
 
-                                    var ludoc = new Document();
+                                    Document ludoc = new Document();
 
                                     AddKeyField(ludoc, key);
                                     AddNameField(ludoc, ruleSet.Name);
@@ -453,8 +486,8 @@ namespace Sharpcms.Providers.Search
                                     Rule ruleText = null;
                                     foreach (Rule rule in docItem.Rules)
                                     {
-                                        XPathExpression expr = dn.Compile(rule.Xpath);
-                                        XPathNodeIterator iter = dn.Select(expr);
+                                        XPathExpression expr = clone.Compile(rule.XPath);
+                                        XPathNodeIterator iter = clone.Select(expr);
                                         while (iter.MoveNext())
                                         {
                                             string textVal = parseHtml(iter.Current.Value);
@@ -529,6 +562,7 @@ namespace Sharpcms.Providers.Search
             html = HttpContext.Current.Server.HtmlDecode(html);
             html = HttpContext.Current.Server.HtmlDecode(html);
             html = Regex.Replace(html, @"<([^>]|\s)*>", " "); //replace all HTML 
+
             return html;
         }
     }

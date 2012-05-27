@@ -12,7 +12,10 @@ namespace Sharpcms.Providers.Cookies
     {
         public new string Name
         {
-            get { return "Cookies"; }
+            get
+            {
+                return "Cookies";
+            }
         }
 
         public ProviderCookies()
@@ -49,7 +52,7 @@ namespace Sharpcms.Providers.Cookies
             {
                 if (Process.Settings["general/cookies"].Contains("," + key + ","))
                 {
-                    var cookie = new HttpCookie(key, Process.HttpPage.Request.QueryString[key]) { Expires = DateTime.Now.AddDays(1) };
+                    HttpCookie cookie = new HttpCookie(key, Process.HttpPage.Request.QueryString[key]) { Expires = DateTime.Now.AddDays(1) };
                     HttpContext.Current.Response.Cookies.Add(cookie);
                 }
             }
@@ -68,29 +71,28 @@ namespace Sharpcms.Providers.Cookies
 
         private void LoadCookies(ControlList control)
         {
+            XmlItemList cookieData = new XmlItemList(CommonXml.GetNode(control.ParentNode, "items", EmptyNodeHandling.CreateNew));
+
+            foreach (string key in Process.HttpPage.Response.Cookies.Keys)
             {
-                var cookieData = new XmlItemList(CommonXml.GetNode(control.ParentNode, "items", EmptyNodeHandling.CreateNew));
-                foreach (string key in Process.HttpPage.Response.Cookies.Keys)
+                if (Process.Settings["general/cookies"].Contains("," + key + ","))
                 {
-                    if (Process.Settings["general/cookies"].Contains("," + key + ","))
+                    HttpCookie httpCookie = Process.HttpPage.Response.Cookies[key];
+                    if (httpCookie != null)
                     {
-                        HttpCookie httpCookie = Process.HttpPage.Response.Cookies[key];
-                        if (httpCookie != null)
-                        {
-                            cookieData[key.Replace(".", "")] = HttpUtility.UrlEncode(httpCookie.Value);
-                        }
+                        cookieData[key.Replace(".", string.Empty)] = HttpUtility.UrlEncode(httpCookie.Value);
                     }
                 }
+            }
 
-                foreach (string key in Process.HttpPage.Request.Cookies.Keys)
+            foreach (string key in Process.HttpPage.Request.Cookies.Keys)
+            {
+                if (Process.Settings["general/cookies"].Contains("," + key + ",") && string.IsNullOrEmpty(cookieData[key.Replace(".", string.Empty)]))
                 {
-                    if (Process.Settings["general/cookies"].Contains("," + key + ",") && string.IsNullOrEmpty(cookieData[key.Replace(".", "")]))
+                    HttpCookie httpCookie = Process.HttpPage.Request.Cookies[key];
+                    if (httpCookie != null)
                     {
-                        HttpCookie httpCookie = Process.HttpPage.Request.Cookies[key];
-                        if (httpCookie != null)
-                        {
-                            cookieData[key.Replace(".", "")] = HttpUtility.UrlEncode(httpCookie.Value);
-                        }
+                        cookieData[key.Replace(".", string.Empty)] = HttpUtility.UrlEncode(httpCookie.Value);
                     }
                 }
             }

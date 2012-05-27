@@ -13,7 +13,7 @@
 
         if (!File.Exists(file))
         {
-            string path = currentURL.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').Replace(".aspx", "");
+            string path = currentURL.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').Replace(".aspx", string.Empty);
             string querystring = httpContext.Request.ServerVariables["QUERY_STRING"];
             string rewritePath = String.IsNullOrEmpty(querystring)
                 ? String.Format("~/default.aspx?process={0}", path)

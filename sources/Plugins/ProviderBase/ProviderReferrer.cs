@@ -7,9 +7,7 @@ namespace Sharpcms.Providers.Base
 {
     public class ProvicerReferrer : BasePlugin2, IPlugin2
     {
-        public ProvicerReferrer()
-        {
-        }
+        public ProvicerReferrer() { }
 
         public ProvicerReferrer(Process process)
         {
@@ -20,7 +18,10 @@ namespace Sharpcms.Providers.Base
 
         public new string Name
         {
-            get { return "Referrer"; }
+            get
+            {
+                return "Referrer";
+            }
         }
 
         public new void Handle(string mainEvent)

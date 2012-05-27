@@ -16,13 +16,14 @@ namespace Sharpcms.Library.Users
             {
                 string xPath = string.Format("user[{0}]", index + 1);
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
+                User user = null;
 
                 if (node != null)
                 {
-                    var user = new User(node);
-                    return user;
+                    user = new User(node);
                 }
-                return null;
+
+                return user;
             }
         }
 
@@ -33,23 +34,24 @@ namespace Sharpcms.Library.Users
                 //ToDo this is not implementet yet
                 string xPath = string.Format("user[login='{0}']", Common.Common.CleanToSafeString(name));
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
+                User user = null;
 
                 if (node != null)
                 {
-                    var user = new User(node);
-                    return user;
+                    user = new User(node);
                 }
-                return null;
+
+                return user;
             }
         }
 
         public User Create(string login)
         {
             XmlNode node = Document.CreateElement("user");
-
             ParentNode.AppendChild(node);
+            User user = new User(node) {Login = login};
 
-            return new User(node) {Login = login};
+            return user;
         }
 
         public void Remove(int index)

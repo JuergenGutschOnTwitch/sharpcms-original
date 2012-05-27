@@ -55,7 +55,7 @@ namespace Sharpcms.Providers.Base
 
         private void HandleUpdate()
         {
-            var paths = new string[2];
+            string[] paths = new string[2];
             paths[0] = Process.Settings["general/customrootcomponents"];
             paths[1] = Process.Settings["general/systemrootcomponents"];
 
@@ -67,12 +67,12 @@ namespace Sharpcms.Providers.Base
         {
             foreach (string dir in paths)
             {
-                var directoryInfo = new DirectoryInfo(dir);
+                DirectoryInfo directoryInfo = new DirectoryInfo(dir);
                 foreach (DirectoryInfo subDirectoryInfo in directoryInfo.GetDirectories())
                 {
                     if (Directory.Exists(Common.CombinePaths(subDirectoryInfo.FullName, "Plugins")))
                     {
-                        var pluginDirectoryInfo = new DirectoryInfo(Common.CombinePaths(subDirectoryInfo.FullName, "Plugins"));
+                        DirectoryInfo pluginDirectoryInfo = new DirectoryInfo(Common.CombinePaths(subDirectoryInfo.FullName, "Plugins"));
                         foreach (FileInfo fileInfo in pluginDirectoryInfo.GetFiles())
                         {
                             if (fileInfo.Extension == ".dll" || fileInfo.Extension == ".pdb")
@@ -94,7 +94,7 @@ namespace Sharpcms.Providers.Base
             string pathsnippets = Process.Settings["general/customrootcomponents"] + "\\snippets.xslt";
             // ToDo: should be more generic
 
-            var stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
             stringBuilder.AppendLine("");
             stringBuilder.AppendLine("<xsl:stylesheet");
@@ -104,15 +104,14 @@ namespace Sharpcms.Providers.Base
 
             foreach (string dir in paths)
             {
-                var directoryInfo = new DirectoryInfo(dir);
-
+                DirectoryInfo directoryInfo = new DirectoryInfo(dir);
                 foreach (DirectoryInfo subDirectoryInfo in directoryInfo.GetDirectories())
                 {
                     if (subDirectoryInfo.Name != ".svn")
                     {
                         if (Directory.Exists(Common.CombinePaths(subDirectoryInfo.FullName, "Xsl")))
                         {
-                            var xslDirectoryInfo = new DirectoryInfo(Common.CombinePaths(subDirectoryInfo.FullName, "Xsl"));
+                            DirectoryInfo xslDirectoryInfo = new DirectoryInfo(Common.CombinePaths(subDirectoryInfo.FullName, "Xsl"));
                             foreach (FileInfo fileInfo in xslDirectoryInfo.GetFiles())
                             {
                                 if ((fileInfo.Extension == ".xslt" || fileInfo.Extension == ".xsl") && fileInfo.Name[0] == '_')

@@ -23,12 +23,18 @@ namespace Sharpcms.Library.Users
 
         public UserList UserList
         {
-            get { return _userList; }
+            get
+            {
+                return _userList;
+            }
         }
 
         public GroupList GroupList
         {
-            get { return _groupList; }
+            get
+            {
+                return _groupList;
+            }
         }
 
         public void Save()

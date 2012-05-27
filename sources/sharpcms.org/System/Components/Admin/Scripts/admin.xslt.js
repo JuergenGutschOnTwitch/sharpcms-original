@@ -1,9 +1,253 @@
-﻿var baseUrl;
+﻿$(function () {
+    // Hyperlinks (Commonactions)
+    var $hlSave = $('.hlSave');
+    var $hlSaveAndShow = $('.hlSaveAndShow');
+    var $hlShow = $('.hlShow');
 
-$(function () {
-    // Common Variables
-    baseUrl = $('head base').attr('href');
+    // Hyperlinks (Pages)
+    var $hlRemoveContrainer = $('.hlRemoveContrainer');
+    var $hlRemoveElement = $('.hlRemoveElement');
+    var $hlMoveElementTop = $('.hlMoveElementTop');
+    var $hlMoveElementDown = $('.hlMoveElementDown');
+    var $hlMoveElementUp = $('.hlMoveElementUp');
+    var $hlCopyElement = $('.hlCopyElement');
+    var $hlAddPage = $('.hlAddPage');
+    var $hlThrowEvent = $('.hlThrowEvent');
 
+    // Hyperlinks (Files)
+    var $hlUploadFile = $('.hlUploadFile');
+    var $hlRemoveFile = $('.hlRemoveFile');
+    var $hlRenameFile = $('.hlRenameFile');
+    var $hlMoveFile = $('.hlMoveFile');
+    var $hlResizeFile = $('.hlResizeFile');
+    var $hlAddFolder = $('.hlAddFolder');
+    var $hlRemoveFolder = $('.hlRemoveFolder');
+    var $hlRenameFolder = $('.hlRenameFolder');
+    var $hlMoveFolder = $('.hlMoveFolder');
+    var $hlMoreFiles = $('.hlMoreFiles');
+
+    // Hyperlinks (Users/Groups)
+    var $hlAddUser = $('.hlAddUser');
+    var $hlAddGroup = $('.hlAddGroup');
+    var $hlDeleteGroup = $('.hlDeleteGroup');
+    var $hlSaveUser = $('.hlSaveUser');
+    var $hlDeleteUser = $('.hlDeleteUser');
+
+    // Hyperlinks (Choose)
+    var $hlChoosePage = $('.hlChoosePage');
+    var $hlChooseFile = $('.hlChooseFile');
+    var $hlChooseFolder = $('.hlChooseFolder');
+
+    $hlSave.live().click(function () {
+        Sharpcms.Actions.SavePage();
+    });
+
+    $hlSaveAndShow.live().click(function () {
+        Sharpcms.Actions.ThrowEvent('save', 'openwindow', '');
+    });
+
+    $hlShow.live().live().click(function () {
+        Sharpcms.Actions.ThrowEvent('', 'openwindow', '');
+    });
+
+    $hlRemoveContrainer.live().click(function () {
+        var containerId = $(this).data('containerid');
+
+        Sharpcms.Actions.RemovePageContainer(containerId);
+    });
+
+    $hlRemoveElement.live().click(function () {
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
+
+        Sharpcms.Actions.RemoveElement(containerId, elementId);
+    });
+
+    $hlMoveElementTop.live().click(function () {
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
+
+        Sharpcms.Actions.MoveElementTop(containerId, elementId);
+    });
+
+    $hlMoveElementDown.live().click(function () {
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
+
+        Sharpcms.Actions.MoveElementDown(containerId, elementId);
+    });
+
+    $hlMoveElementUp.live().click(function () {
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
+
+        Sharpcms.Actions.MoveElementUp(containerId, elementId);
+    });
+
+    $hlCopyElement.live().click(function () {
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
+
+        Sharpcms.Actions.CopyElement(containerId, elementId);
+    });
+
+    $hlAddPage.live().click(function () {
+        var pageId = $(this).data('pageid');
+
+        Sharpcms.Actions.AddPage(pageId);
+    });
+
+    $hlChoosePage.live().click(function () {
+        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters); // $id / @attribute
+        var id = attributeValue[0];
+        var attribute = attributeValue[1];
+
+        Sharpcms.Actions.ChoosePage(id, attribute);
+    });
+
+    $hlChooseFile.live().click(function () {
+        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters); // $id / @attribute
+        var id = attributeValue[0];
+        var attribute = attributeValue[1];
+
+        Sharpcms.Actions.ChooseFile(id, attribute);
+    });
+
+    $hlChooseFolder.live().click(function () {
+        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters); // $id / @attribute
+        var id = attributeValue[0];
+        var attribute = attributeValue[1];
+
+        Sharpcms.Actions.ChooseFolder(id, attribute);
+    });
+
+    $hlThrowEvent.live().click(function () {
+        var action = $(this).data('action');
+
+        Sharpcms.Actions.ThrowEvent(action, '', '');
+    });
+
+    $hlUploadFile.live().click(function () {
+        var path = $(this).data('path');
+
+        Sharpcms.Actions.UploadFile(path);
+    });
+
+    $hlRemoveFile.live().click(function () {
+        var path = $(this).data('path');
+
+        Sharpcms.Actions.RemoveFile(path);
+    });
+
+    $hlRenameFile.live().click(function () {
+        var path = $(this).data('path');
+
+        Sharpcms.Actions.RenameFile(path);
+    });
+
+    $hlMoveFile.live().click(function () {
+        var path = $(this).data('path');
+
+        Sharpcms.Actions.MoveFile(path);
+    });
+
+    $hlResizeFile.live().click(function () {
+        Sharpcms.Actions.ResizeImage();
+    });
+
+    $hlAddFolder.live().click(function () {
+        var path = $(this).data('path');
+
+        Sharpcms.Actions.AddFolder(path);
+    });
+
+    $hlRemoveFolder.live().click(function () {
+        var path = $(this).data('path');
+
+        Sharpcms.Actions.RemoveFolder(path);
+    });
+
+    $hlRenameFolder.live().click(function () {
+        var path = $(this).data('path');
+
+        Sharpcms.Actions.RenameFolder(path);
+    });
+
+    $hlMoveFolder.live().click(function () {
+        var path = $(this).data('path');
+
+        Sharpcms.Actions.MoveFolder(path);
+    });
+
+    $hlMoreFiles.live().click(function () {
+        var currentlevel = $(this).data('currentlevel');
+        var level = parseInt(currentlevel) + 1;
+
+        $('#file_' + level).show();
+        $('#showlink_' + level).hide();
+    });
+
+    $hlAddUser.live().click(function () {
+        Sharpcms.Actions.AddUser();
+    });
+
+    $hlSaveUser.live().click(function () {
+        var userName = $(this).data('username');
+
+        Sharpcms.Actions.SaveUser(userName);
+    });
+
+    $hlDeleteUser.live().click(function () {
+        var userName = $(this).data('username');
+
+        Sharpcms.Actions.DeleteUser(userName);
+    });
+
+    $hlAddGroup.live().click(function () {
+        Sharpcms.Actions.AddGroup();
+    });
+
+    $hlDeleteGroup.live().click(function () {
+        var groupName = $(this).data('groupName');
+
+        Sharpcms.Actions.DeleteGroup(groupName);
+    });
+
+    $('#adminmoreactions').change(function () {
+        var $selectedOption = $(this).find('option:selected');
+        var attributeAction = $selectedOption.data('action');
+        var attributeValue = $selectedOption.val().split(Sharpcms.Common.Splitters);
+
+        if (attributeAction == Sharpcms.ActionType.RemovePage) {
+            Sharpcms.Actions.RemovePage(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.AddPage) {
+            Sharpcms.Actions.AddPage(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.CreatePageContainer) {
+            Sharpcms.Actions.CreatePageContainer();
+        } else if (attributeAction == Sharpcms.ActionType.MovePageUp) {
+            Sharpcms.Actions.MovePageUp(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.MovePageDown) {
+            Sharpcms.Actions.MovePageDown(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.MovePageTop) {
+            Sharpcms.Actions.MovePageTop(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.MovePageBottom) {
+            Sharpcms.Actions.MovePageBottom(attributeValue[0]);
+        } else if (attributeAction == Sharpcms.ActionType.MovePage) {
+            Sharpcms.Actions.MovePage();
+        } else if (attributeAction == Sharpcms.ActionType.CopyPage) {
+            Sharpcms.Actions.CopyPage(attributeValue[0], attributeValue[1]);
+            //Sharpcms.ModalDialog.Show('admin/choose/page/', 'Sharpcms.Actions.CopyPage("' + attributeValue[0] + '","' + attributeValue[1] + '")');
+        } else if (attributeAction == Sharpcms.ActionType.SetAsStartPage) {
+            Sharpcms.Actions.SetAsStartPage();
+        }
+    });
+
+    $('.addelement').change(function () {
+        var elementType = $(this).find('option:selected').val();
+        var containerId = $(this).data('name').replace('data_container_', '');
+
+        Sharpcms.Actions.AddElement(containerId, elementType);
+    });
 
     // TinyMCE
     $('textarea.mceeditor').tinymce({
@@ -25,24 +269,42 @@ $(function () {
         content_css: '/System/Components/Admin/Styles/tiny_mce/tinystyle.css'
     });
 
+    // Dialogs
+    $('.choose').hide();
 
     // Tabs
-    $('#tabs').tabs();
-    $('#pada_body_tabs').tabs();
-    $('#fida_body_tabs').tabs();
-    $('#foda_body_tabs').tabs();
-    $('#usda_body_tabs').tabs();
-
+    $('.tabs').tabs();
 
     // Select
-    $('.container_menu select').selectmenu({ width: 598 });
     $('.pagedata_menu select').selectmenu({ width: 441 });
-
+    $('.container_menu select').selectmenu({ width: 624 });
 
     // TreeView
-    $(".filetree").treeview({
-        persist: 'location',
-        collapsed: true,
-        unique: true
-    });    
+    $('.filetree').treeview({ persist: 'location', collapsed: true, unique: false });
+
+    // Dirty Hack :-)
+    $(window).resize(function () {
+        setContentWidth();
+    });
+
+    $('.treeview li').live().click(function () {
+        setContentWidth();
+    });
+
+    function setContentWidth() {
+        var leftWidth = $('div.content div.left').width();
+        var rightWidth = $('div.content div.right').width();
+
+        $('div.header').css('min-width', parseInt(leftWidth) + parseInt(rightWidth) + 20);
+        $('div.mainnavi').css('min-width', parseInt(leftWidth) + parseInt(rightWidth) + 20);
+        $('div.content').css('min-width', parseInt(leftWidth) + parseInt(rightWidth) + 20);
+
+        if ($(document).width() <= parseInt(leftWidth) + parseInt(rightWidth) + 20) {
+            $('.messages').css('width', parseInt(leftWidth) + parseInt(rightWidth) + 20);
+        } else {
+            $('.messages').css('width', '100%');
+        }
+    }
+
+    setContentWidth();
 });

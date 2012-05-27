@@ -9,13 +9,11 @@ namespace Sharpcms.PluginInterface
 	{
 		string Name { get; }
 		Process Process { get; set; }
-
-		IPluginHost Host { get; set; }
+        IPluginHost Host { get; set; }
 
 		void Initialize();
 		void Dispose();
-
-		void Handle(string mainEvent);
+        void Handle(string mainEvent);
 		void Load(string value, string[] args, XmlNode node);
 	}
 

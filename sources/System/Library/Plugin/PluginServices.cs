@@ -45,12 +45,12 @@ namespace Sharpcms.Library.Plugin
         /// <returns>An array of results from the Plugins (only non-null values are included)</returns>
         public object[] InvokeAll(string api, string action, params object[] args)
         {
-            var results = new List<object>();
+            List<object> results = new List<object>();
 
-            List<AvailablePlugin> plugins = AvailablePlugins.FindImplementations(api);
+            IEnumerable<AvailablePlugin> plugins = AvailablePlugins.FindImplementations(api);
             foreach (AvailablePlugin plugin in plugins)
             {
-                var invokablePlugin = plugin.Instance as IPlugin2;
+                IPlugin2 invokablePlugin = plugin.Instance as IPlugin2;
                 if (invokablePlugin == null) continue;
 
                 object result = invokablePlugin.Invoke(api, action, args);
@@ -65,14 +65,14 @@ namespace Sharpcms.Library.Plugin
 
         public static object[] Flatten(object[] results)
         {
-            var flattened = new List<object>();
+            List<object> flattened = new List<object>();
             try
             {
                 foreach (object result in results)
                 {
                     if (result == null) continue;
 
-                    var partResults = result as object[];
+                    object[] partResults = result as object[];
                     if (partResults != null)
                     {
                         flattened.AddRange(partResults);
@@ -108,7 +108,7 @@ namespace Sharpcms.Library.Plugin
             //Go through all the files in the plugin directory
             foreach (string fileOn in Directory.GetFiles(path))
             {
-                var file = new FileInfo(fileOn);
+                FileInfo file = new FileInfo(fileOn);
 
                 // Preliminary check, must be .dll
                 if (file.Extension.Equals(".dll"))
@@ -157,17 +157,17 @@ namespace Sharpcms.Library.Plugin
                         if (typeInterface != null)
                         {
                             //Create a new available plugin since the type implements the IPlugin interface
-                            var newPlugin = new AvailablePlugin();
+                            AvailablePlugin newPlugin = new AvailablePlugin {
+                                //Set the filename where we found it
+                                AssemblyPath = fileName,
 
-                            //Set the filename where we found it
-                            newPlugin.AssemblyPath = fileName;
-
-                            //Create a new instance and store the instance in the collection for later use
-                            //We could change this later on to not load an instance.. we have 2 options
-                            //1- Make one instance, and use it whenever we need it.. it's always there
-                            //2- Don't make an instance, and instead make an instance whenever we use it, then close it
-                            //For now we'll just make an instance of all the plugins
-                            newPlugin.Instance = (IPlugin) Activator.CreateInstance(pluginAssembly.GetType(pluginType.ToString()));
+                                //Create a new instance and store the instance in the collection for later use
+                                //We could change this later on to not load an instance.. we have 2 options
+                                //1- Make one instance, and use it whenever we need it.. it's always there
+                                //2- Don't make an instance, and instead make an instance whenever we use it, then close it
+                                //For now we'll just make an instance of all the plugins
+                                Instance = (IPlugin) Activator.CreateInstance(pluginAssembly.GetType(pluginType.ToString()))
+                            };
 
                             //Set the Plugin's host to this class which inherited IPluginHost
                             newPlugin.Instance.Host = this;

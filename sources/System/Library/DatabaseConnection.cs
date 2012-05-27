@@ -25,11 +25,11 @@ namespace Sharpcms.Library
 
         private void GetXml(string query, XmlNode xmlNode, string tableName, string rowName = "row")
         {
-            var connection = new OleDbConnection(_connectionString);
+            OleDbConnection connection = new OleDbConnection(_connectionString);
             connection.Open();
 
-            var dataSet = new DataSet();
-            var dataAdapter = new OleDbDataAdapter(query, connection);
+            DataSet dataSet = new DataSet();
+            OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, connection);
             dataAdapter.Fill(dataSet);
 
             connection.Close();
@@ -43,12 +43,14 @@ namespace Sharpcms.Library
 
         private static string QuoteValue(string value)
         {
-            return value.Replace("'", "''");
+            string quoteValue = value.Replace("'", "''");
+
+            return quoteValue;
         }
 
         public DataTable GetDataTable(string query, params string[] values)
         {
-            var quotedValues = new object[values.Length];
+            object[] quotedValues = new object[values.Length];
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -58,22 +60,23 @@ namespace Sharpcms.Library
             string newQuery = string.Format(query, quotedValues);
 
             DataTable dataTable;
-            using (var connection = new OleDbConnection(_connectionString))
+            using (OleDbConnection connection = new OleDbConnection(_connectionString))
             {
                 connection.Open();
 
                 dataTable = new DataTable();
-                var dataAdapter = new OleDbDataAdapter(newQuery, connection);
+                OleDbDataAdapter dataAdapter = new OleDbDataAdapter(newQuery, connection);
                 dataAdapter.Fill(dataTable);
 
                 connection.Close();
             }
+
             return dataTable;
         }
 
         private object ExecuteScalar(string query, params string[] values)
         {
-            var quotedValues = new object[values.Length];
+            object[] quotedValues = new object[values.Length];
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -82,22 +85,23 @@ namespace Sharpcms.Library
 
             string newQuery = string.Format(query, quotedValues);
 
-            var connection = new OleDbConnection(_connectionString);
+            OleDbConnection connection = new OleDbConnection(_connectionString);
             connection.Open();
 
-            var command = new OleDbCommand(newQuery, connection);
+            OleDbCommand command = new OleDbCommand(newQuery, connection);
             object value = command.ExecuteScalar();
 
             connection.Close();
+
             return value;
         }
 
         private void ExecuteNonQuery(string query)
         {
-            var connection = new OleDbConnection(_connectionString);
+            OleDbConnection connection = new OleDbConnection(_connectionString);
             connection.Open();
 
-            var command = new OleDbCommand(query, connection);
+            OleDbCommand command = new OleDbCommand(query, connection);
             command.ExecuteNonQuery();
 
             connection.Close();
@@ -113,8 +117,7 @@ namespace Sharpcms.Library
                 Dictionary<string, string> values = GetValuesFromNode(columns, childNode);
 
                 // First, check to see if a record exists
-                var recordCount = (int) ExecuteScalar("SELECT COUNT(*) AS RecordCount FROM {0} WHERE {1} = '{2}'", tableName, primaryKey, values[primaryKey]);
-
+                int recordCount = (int) ExecuteScalar("SELECT COUNT(*) AS RecordCount FROM {0} WHERE {1} = '{2}'", tableName, primaryKey, values[primaryKey]);
                 if (recordCount > 0)
                 {
                     SaveXmlByUpdate(tableName, primaryKey, columns, values);
@@ -128,14 +131,16 @@ namespace Sharpcms.Library
 
         public string ConvertToSafeString(string txt)
         {
-            return txt.Replace("'", "''");
+            string safeString = txt.Replace("'", "''");
+
+            return safeString;
         }
 
         #region Helper methods for SaveXml
 
         private List<string> GetColumnsFromNode(XmlNode dataNode)
         {
-            var columns = new List<string>();
+            List<string> columns = new List<string>();
 
             // Get list of columns
             if (dataNode.ChildNodes.Count > 0)
@@ -143,12 +148,13 @@ namespace Sharpcms.Library
                 XmlNode firstChild = dataNode.FirstChild;
                 columns.AddRange(from XmlNode rowNode in firstChild.ChildNodes select rowNode.Name);
             }
+
             return columns;
         }
 
         private static Dictionary<string, string> GetValuesFromNode(IEnumerable<string> columns, XmlNode childNode)
         {
-            var values = new Dictionary<string, string>();
+            Dictionary<string, string> values = new Dictionary<string, string>();
             foreach (string column in columns)
             {
                 string value = string.Empty;
@@ -168,21 +174,17 @@ namespace Sharpcms.Library
 
                 values[column] = value;
             }
+
             return values;
         }
 
         private void SaveXmlByInsert(string tableName, List<string> columns, Dictionary<string, string> values)
         {
-            var queryBuilder = new StringBuilder();
-
+            StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.AppendFormat("INSERT INTO {0} (", tableName);
-
             queryBuilder.Append(string.Join(", ", columns.ToArray()));
-
             queryBuilder.Append(") VALUES (");
-
             queryBuilder.Append(string.Join(", ", columns.Select(column => string.Format("'{0}'", QuoteValue(values[column]))).ToArray()));
-
             queryBuilder.Append(")");
 
             ExecuteNonQuery(queryBuilder.ToString());
@@ -191,12 +193,9 @@ namespace Sharpcms.Library
         private void SaveXmlByUpdate(string tableName, string primaryKey, IEnumerable<string> columns, Dictionary<string, string> values)
         {
             // Run an UPDATE command
-            var queryBuilder = new StringBuilder();
-
+            StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.AppendFormat("UPDATE {0} SET ", tableName);
-
             queryBuilder.Append(string.Join(", ", columns.Select(column => string.Format("{0} = '{1}'", column, QuoteValue(values[column]))).ToArray()));
-
             queryBuilder.AppendFormat(" WHERE {0} = '{1}'", primaryKey, QuoteValue(values[primaryKey]));
 
             ExecuteNonQuery(queryBuilder.ToString());

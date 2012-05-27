@@ -51,7 +51,7 @@
     });
 
     $hlRemoveContrainer.live().click(function () {
-        var containerId = $(this).data('containerId');
+        var containerId = $(this).data('containerid');
 
         Sharpcms.Actions.RemovePageContainer(containerId);
     });
@@ -64,8 +64,8 @@
     });
 
     $hlMoveElementTop.live().click(function () {
-        var containerId = $(this).data('containerId');
-        var elementId = $(this).data('elementId');
+        var containerId = $(this).data('containerid');
+        var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.MoveElementTop(containerId, elementId);
     });
@@ -216,13 +216,7 @@
     $('#adminmoreactions').change(function () {
         var $selectedOption = $(this).find('option:selected');
         var attributeAction = $selectedOption.data('action');
-        var attributeValue = $selectedOption.val();
-
-        if (!attributeValue) {
-            attributeValue = attributeValue.split(Sharpcms.Common.Splitters);
-        } else {
-            attributeValue = [attributeValue];
-        }
+        var attributeValue = $selectedOption.val().split(Sharpcms.Common.Splitters);
 
         if (attributeAction == Sharpcms.ActionType.RemovePage) {
             Sharpcms.Actions.RemovePage(attributeValue[0]);

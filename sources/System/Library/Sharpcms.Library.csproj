@@ -71,7 +71,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelativePathHandling.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Counter.cs" />
     <Compile Include="Users\Group.cs" />
     <Compile Include="Users\GroupList.cs" />
     <Compile Include="Users\User.cs" />

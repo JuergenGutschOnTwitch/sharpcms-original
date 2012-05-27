@@ -16,18 +16,20 @@ namespace Sharpcms.Library.Common
             TextWriter textWriter = new StringWriter();
 
             transform.Transform(document, null, textWriter);
+
             return textWriter.ToString();
         }
 
         private static List<string> GetXslIncludes(string xsl)
         {
-            var includes = new List<string>();
+            List<string> includes = new List<string>();
 
-            var xmlDocument = new XmlDocument();
+            XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xsl);
 
-            var manager = new XmlNamespaceManager(xmlDocument.NameTable);
+            XmlNamespaceManager manager = new XmlNamespaceManager(xmlDocument.NameTable);
             manager.AddNamespace("xsl", "http://www.w3.org/1999/XSL/Transform");
+
             XmlNodeList nodeList = xmlDocument.SelectNodes("//xsl:include", manager);
             if (nodeList != null)
             {
@@ -60,11 +62,11 @@ namespace Sharpcms.Library.Common
             {
                 if (xmlNode.Name != "#text")
                 {
-                    var emptyNode = Common.StringArrayContains(uniqueIdentifiers, xmlNode.Name) 
+                    EmptyNodeHandling emptyNode = Common.StringArrayContains(uniqueIdentifiers, xmlNode.Name) 
                         ? EmptyNodeHandling.ForceCreateNew
                         : EmptyNodeHandling.CreateNew;
 
-                    var currentBaseXmlnode = GetNode(baseXmlNode, xmlNode.Name, emptyNode);
+                    XmlNode currentBaseXmlnode = GetNode(baseXmlNode, xmlNode.Name, emptyNode);
                     if (xmlNode.Attributes != null)
                     {
                         foreach (XmlAttribute xmlAttribute in xmlNode.Attributes)
@@ -80,7 +82,7 @@ namespace Sharpcms.Library.Common
                 }
                 else
                 {
-                    var textNode = baseXmlNode.SelectSingleNode("text()");
+                    XmlNode textNode = baseXmlNode.SelectSingleNode("text()");
                     if (textNode != null)
                     {
                         textNode.InnerText = xmlNode.Value;
@@ -96,7 +98,7 @@ namespace Sharpcms.Library.Common
         private static XslCompiledTransform GetTransform(string xsl, Cache cache)
         {
             string cacheKey = "transform_" + Common.CleanToSafeString(xsl);
-            var fileDependency = new FileInfo(xsl);
+            FileInfo fileDependency = new FileInfo(xsl);
 
             object cacheTransform = cache[cacheKey, fileDependency];
             if (cacheTransform != null)
@@ -104,10 +106,10 @@ namespace Sharpcms.Library.Common
                 bool useCache = true;
 
                 // Check included files
-                var includedFiles = cache[cacheKey + "_includeFiles"] as Dictionary<string, string>;
+                Dictionary<string, string> includedFiles = cache[cacheKey + "_includeFiles"] as Dictionary<string, string>;
                 if (includedFiles != null)
                 {
-                    foreach (var file in includedFiles.Keys)
+                    foreach (string file in includedFiles.Keys)
                     {
                         if (File.GetLastWriteTime(file).ToString(CultureInfo.InvariantCulture) != includedFiles[file])
                         {
@@ -123,15 +125,15 @@ namespace Sharpcms.Library.Common
             }
 
             // The file has changed or is not in memory
-            var transform = new XslCompiledTransform(true);
+            XslCompiledTransform transform = new XslCompiledTransform(true);
 
-            var xsltSettings = new XsltSettings(true, true);
+            XsltSettings xsltSettings = new XsltSettings(true, true);
             transform.Load(xsl, xsltSettings, new XmlUrlResolver());
 
             cache[cacheKey, fileDependency] = transform;
 
             List<string> includeFiles = GetXslIncludes(xsl);
-            var includeDictionary = new Dictionary<string, string>();
+            Dictionary<string, string> includeDictionary = new Dictionary<string, string>();
             foreach (string includeFile in includeFiles)
             {
                 includeDictionary[includeFile] = File.GetLastWriteTime(includeFile).ToString(CultureInfo.InvariantCulture);
@@ -149,7 +151,7 @@ namespace Sharpcms.Library.Common
                 return;
             }
 
-            var writerSettings = new XmlWriterSettings {Indent = true};
+            XmlWriterSettings writerSettings = new XmlWriterSettings {Indent = true};
             XmlWriter writer = XmlWriter.Create(filename, writerSettings);
 
             document.WriteContentTo(writer);
@@ -159,7 +161,7 @@ namespace Sharpcms.Library.Common
 
         public static string GetXPath(XmlNode node)
         {
-            var xPath = new List<string>();
+            List<string> xPath = new List<string>();
 
             XmlNode currentNode = node;
             while (node.OwnerDocument != null && currentNode != node.OwnerDocument.DocumentElement)
@@ -171,6 +173,7 @@ namespace Sharpcms.Library.Common
             }
 
             xPath.Reverse();
+
             return string.Join("/", xPath.ToArray());
         }
 
@@ -252,7 +255,9 @@ namespace Sharpcms.Library.Common
         /// <returns></returns>
         public static XmlNode GetNode(XmlDocument document, string path)
         {
-            return GetNode(document, path, EmptyNodeHandling.CreateNew);
+            XmlNode xmlNode = GetNode(document, path, EmptyNodeHandling.CreateNew);
+
+            return xmlNode;
         }
 
         /// <summary>
@@ -297,7 +302,9 @@ namespace Sharpcms.Library.Common
         /// <returns></returns>
         public static XmlNode GetNode(XmlNode fromXmlNode, string path)
         {
-            return GetNode(fromXmlNode, path, EmptyNodeHandling.CreateNew);
+            XmlNode xmlNode = GetNode(fromXmlNode, path, EmptyNodeHandling.CreateNew);
+
+            return xmlNode;
         }
 
         /// <summary>
@@ -394,17 +401,11 @@ namespace Sharpcms.Library.Common
 
         public static string RenameIntegerPath(string pathPart)
         {
-            if (pathPart == string.Empty)
-            {
-                return pathPart;
-            }
+            string renamedPathPart = pathPart == string.Empty || !char.IsDigit(pathPart[0])
+                ? pathPart
+                : string.Format("int_{0}", pathPart);
 
-            if (!char.IsDigit(pathPart[0]))
-            {
-                return pathPart;
-            }
-
-            return "int_" + pathPart;
+            return renamedPathPart;
         }
 
         #endregion

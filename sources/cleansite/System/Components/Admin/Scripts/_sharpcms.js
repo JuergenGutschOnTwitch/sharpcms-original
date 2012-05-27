@@ -1,4 +1,46 @@
-﻿function ReturnMethodTinyMceChoosePage() {
+﻿/* ModalDialog */
+var dialogBoxWindow;
+var dialogBoxInterval;
+var dialogBox = new Object;
+
+function maintainModalDialogFocus() {
+    try {
+        if (dialogBoxWindow.closed) {
+            window.clearInterval(dialogBoxInterval);
+            eval(dialogBox.eventhandler);
+            return;
+        }
+
+        dialogBoxWindow.focus();
+    }
+    catch (everything) { }
+}
+
+function resetModalDialog() {
+    dialogBox.value = '';
+    dialogBox.eventhandler = '';
+}
+
+function showModalDialog(path, eventHandler) {
+    resetModalDialog();
+    dialogBox.eventhandler = eventHandler;
+
+    var args = 'width=450,height=525,left=125,top=100,toolbar=0,location=0,status=0,menubar=0,scrollbars=1,resizable=1';
+
+    dialogBoxWindow = window.open(Sharpcms.Common.BaseUrl + path, '', args);
+    dialogBoxWindow.focus();
+    dialogBoxInterval = window.setInterval('maintainModalDialogFocus()', 5);
+}
+
+function closeModalDialog(response) {
+    window.opener.dialogBox.value = response;
+    window.close();
+}
+/* ModalDialog */
+
+
+
+function ReturnMethodTinyMceChoosePage() {
     var html = '<a href="' + Sharpcms.Common.BaseUrl + 'show/' + Sharpcms.ModalDialog.DialogBox.value + '/">{$selection}</a>';
     
     tinyMCE.execCommand('mceReplaceContent', false, html);

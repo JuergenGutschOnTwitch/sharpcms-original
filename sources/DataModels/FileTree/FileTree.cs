@@ -32,12 +32,14 @@ namespace Sharpcms.Data.FileTree
         public bool FolderExists(string path)
         {
             string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+
             return Directory.Exists(combinedPath);
         }
 
         public bool FileExists(string path)
         {
             string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+
             return File.Exists(combinedPath);
         }
 
@@ -65,6 +67,7 @@ namespace Sharpcms.Data.FileTree
         public FolderElement GetFolder(string folder)
         {
             string path = Path.Combine(_rootFilesPath, folder);
+
             return Directory.Exists(path)
                 ? new FolderElement(path)
                 : null;
@@ -73,7 +76,7 @@ namespace Sharpcms.Data.FileTree
         public void SaveUploadedFiles(string path)
         {
             int fileCount = _process.HttpPage.Request.Files.Count;
-            var files = new string[fileCount];
+            string[] files = new string[fileCount];
 
             for (int fileIndex = 0; fileIndex < fileCount; fileIndex++)
             {
@@ -93,7 +96,7 @@ namespace Sharpcms.Data.FileTree
 
                     string filename = string.Join("_", Common.CleanToSafeString(Path.GetFileName(file.FileName)).Split(' '));
                     string fullName = Common.CombinePaths(_rootFilesPath, path, prepend + filename);
-                    if (Common.PathIsInSite(fullName) && filename != "")
+                    if (Common.PathIsInSite(fullName) && filename != string.Empty)
                     {
                         file.SaveAs(fullName);
                         files[fileIndex] = fullName;
@@ -112,36 +115,35 @@ namespace Sharpcms.Data.FileTree
         {
             HttpResponse response = _process.HttpPage.Response;
 
-            var fileInfo = new FileInfo(Path.Combine(_rootFilesPath, filename));
+            FileInfo fileInfo = new FileInfo(Path.Combine(_rootFilesPath, filename));
             if (!fileInfo.FullName.StartsWith(_rootFilesPath)) return;
 
             if (fileInfo.Exists)
             {
                 response.Clear();
 
-                var currentFile = fileInfo.FullName;
+                string currentFile = fileInfo.FullName;
                 if (Common.IsValidImage(currentFile) && HasImageRenderProperties())
                 {
                     currentFile = RenderImage(fileInfo);
                 }
 
                 // Send file to browser
-                var file = new FileInfo(currentFile);
-                if (_process.QueryOther["download"] == "true")
+                FileInfo file = new FileInfo(currentFile);
+                switch (_process.QueryOther["download"])
                 {
-                    response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
-                }
-                else
-                {
-                    response.AddHeader("Content-Disposition", "filename=" + file.Name);
+                    case "true":
+                        response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+                        break;
+                    default:
+                        response.AddHeader("Content-Disposition", "filename=" + file.Name);
+                        break;
                 }
 
                 response.AddHeader("Content-Length", file.Length.ToString(CultureInfo.InvariantCulture));
                 response.AddHeader("Content-Type", Common.GetMimeType(file.Extension));
-
                 response.Cache.SetExpires(DateTime.Now + new TimeSpan(7, 0, 0, 0));
                 response.Cache.SetCacheability(HttpCacheability.Public);
-
                 response.WriteFile(currentFile);
                 response.Flush();
                 response.End();
@@ -203,7 +205,7 @@ namespace Sharpcms.Data.FileTree
                 {
                     string thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs", newFilename);
 
-                    var rerender = new DateTime(2006, 9, 25);
+                    DateTime rerender = new DateTime(2006, 9, 25);
                     FileInfo thumbInfo = null;
                     if (File.Exists(thumbnailFile))
                     {
@@ -216,7 +218,7 @@ namespace Sharpcms.Data.FileTree
                         bitmap = new Bitmap(fileInfo.FullName);
                         if (fileInfo.Extension.ToLower() == ".gif")
                         {
-                            var realBitmap = new Bitmap(bitmap.Width, bitmap.Height);
+                            Bitmap realBitmap = new Bitmap(bitmap.Width, bitmap.Height);
                             for (int x = 0; x < bitmap.Width; x++)
                             {
                                 for (int y = 0; y < bitmap.Height; y++)
@@ -244,10 +246,12 @@ namespace Sharpcms.Data.FileTree
                             Directory.CreateDirectory(fileInfo.Directory + @"\thumbs");
                         }
 
-                        var eps = new EncoderParameters(1);
-                        eps.Param[0] = new EncoderParameter(Encoder.Quality, 95L);
+                        EncoderParameters encoderParameters = new EncoderParameters(1);
+                        encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 95L);
+
                         ImageCodecInfo ici = GetEncoderInfo("image/png");
-                        bitmap.Save(thumbnailFile, ici, eps);
+
+                        bitmap.Save(thumbnailFile, ici, encoderParameters);
                         bitmap.Dispose();
 
                         return thumbnailFile;
@@ -311,20 +315,18 @@ namespace Sharpcms.Data.FileTree
 
         public void MoveFolder(string folder, string newContainingDirectory)
         {
-            Common.MoveDirectory(Common.CombinePaths(_rootFilesPath, folder),
-                                 Common.CombinePaths(_rootFilesPath, newContainingDirectory));
+            Common.MoveDirectory(Common.CombinePaths(_rootFilesPath, folder), Common.CombinePaths(_rootFilesPath, newContainingDirectory));
         }
 
         public void MoveFile(string file, string newContainingDiretory)
         {
-            Common.MoveFile(Common.CombinePaths(_rootFilesPath, file),
-                            Common.CombinePaths(_rootFilesPath, newContainingDiretory));
+            Common.MoveFile(Common.CombinePaths(_rootFilesPath, file), Common.CombinePaths(_rootFilesPath, newContainingDiretory));
         }
 
         public void RenameFile(string file, string newFileName)
         {
             string filePath = Common.CheckedCombinePaths(_rootFilesPath, file);
-            var fileInfo = new FileInfo(filePath);
+            FileInfo fileInfo = new FileInfo(filePath);
             string filePathNew = Common.CheckedCombinePaths(fileInfo.DirectoryName, newFileName);
 
             fileInfo.MoveTo(filePathNew);
@@ -334,7 +336,7 @@ namespace Sharpcms.Data.FileTree
         {
             string folderPath = Common.CheckedCombinePaths(_rootFilesPath, folder);
 
-            var folderInfo = new DirectoryInfo(folderPath);
+            DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
             if (folderInfo.Parent != null)
             {
                 string folderPathNew = Common.CheckedCombinePaths(folderInfo.Parent.FullName, newFolderName);
@@ -398,7 +400,7 @@ namespace Sharpcms.Data.FileTree
                 {
                     if (Filter(dir.Name))
                     {
-                        var folderElement = new FolderElement(dir.FullName);
+                        FolderElement folderElement = new FolderElement(dir.FullName);
                         folderElement.GetXml(folderNode, SubFolder.IncludeSubfolders);
                     }
                 }
@@ -407,7 +409,7 @@ namespace Sharpcms.Data.FileTree
 
         private void GetFileAttributes(XmlNode xmlNode, String fileName) 
         {
-            var dataSet = new DataSet();
+            DataSet dataSet = new DataSet();
             try
             {
                 dataSet.ReadXml(_directoryInfo.FullName + "\\data\\gallery.xml");
@@ -421,6 +423,7 @@ namespace Sharpcms.Data.FileTree
             }
             catch
             {
+                // Do nothing...
             }
             finally
             {

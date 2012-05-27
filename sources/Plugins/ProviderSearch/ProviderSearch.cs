@@ -24,7 +24,10 @@ namespace Sharpcms.Providers.Search
 
         public new string Name
         {
-            get { return "search"; }
+            get
+            {
+                return "search";
+            }
         }
 
         public new void Handle(string mainEvent)
@@ -51,22 +54,22 @@ namespace Sharpcms.Providers.Search
         {
             // no query test don't process
             string query = Process.QueryData["query"];
-            if (string.IsNullOrEmpty(query)) return;
-
-            var search = new Search(Process);
-            if (startAt > 0)
+            if (!string.IsNullOrEmpty(query))
             {
-                search.StartAt = startAt;
-            }
+                Search search = new Search(Process);
+                if (startAt > 0)
+                {
+                    search.StartAt = startAt;
+                }
 
-            search.HandleSearch(query);
+                search.HandleSearch(query);
+            }
         }
 
         private void HandleIndex()
         {
             string rootPath = Process.Root;
             string[] s = Process.CurrentProcess.Split('/');
-
             string baseDir = Process.Settings["search/index"];
             string rules = rootPath + @"\Custom\App_Data\rules.xml";
             string filePath = rootPath + @"\Custom\App_Data\database";
@@ -80,8 +83,9 @@ namespace Sharpcms.Providers.Search
 
             string procMessage;
 
-            var indexer = new Indexer(baseDir);
+            Indexer indexer = new Indexer(baseDir);
             indexer.LoadRules(rules);
+
             try
             {
                 indexer.AddDirectory(filePath, "*.xml");

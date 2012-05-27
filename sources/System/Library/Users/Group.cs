@@ -7,9 +7,7 @@ namespace Sharpcms.Library.Users
 {
     public class Group : DataElement
     {
-        public Group(XmlNode node) : base(node)
-        {
-        }
+        public Group(XmlNode node) : base(node) { }
 
         public string Name
         {

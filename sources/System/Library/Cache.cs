@@ -60,19 +60,27 @@ namespace Sharpcms.Library
 
         public object this[string key]
         {
-            get { return CacheTable[key]; }
-            set { CacheTable[key] = value; }
+            get
+            {
+                return CacheTable[key];
+            }
+            set
+            {
+                CacheTable[key] = value;
+            }
         }
 
         public void Clean()
         {
-            var cache = new Hashtable();
+            Hashtable cache = new Hashtable();
             _applicationState["cache"] = cache;
         }
 
         private static string FormatModifiedKey(string key)
         {
-            return string.Format("{0}_filedependency", key);
+            string modifiedKey = string.Format("{0}_filedependency", key);
+
+            return modifiedKey;
         }
     }
 }

@@ -11,6 +11,7 @@
     <div class="head folderdata_head">
       <div class="title">
         <b>
+          <xsl:text>Path: </xsl:text>
           <xsl:value-of select="@path" />
         </b>
       </div>
@@ -25,7 +26,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlRemoveFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Delete folder</xsl:text>
@@ -34,7 +35,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlRenameFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Rename folder</xsl:text>
@@ -43,7 +44,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlAddFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Add subfolder</xsl:text>
@@ -52,14 +53,14 @@
         <xsl:attribute name="class">
           <xsl:text>button hlMoveFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="name">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Move folder</xsl:text>
       </a>
     </div>
     <div class="tab-pane" id="foda_body" style="float: left;">
-      <div id="usda_body_tabs">
+      <div id="usda_body_tabs" class="tabs">
         <ul>
           <li>
             <a href="#ptabs1">
@@ -92,7 +93,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlUploadFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="@path" />
         </xsl:attribute>
         <xsl:text>Upload</xsl:text>
@@ -118,7 +119,7 @@
           <xsl:attribute name="class">
             <xsl:text>hlMoreFiles</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="data-currentlevel">
             <xsl:value-of select ="$currentlevel" />
           </xsl:attribute>
           <xsl:text>More files...</xsl:text>

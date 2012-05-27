@@ -12,14 +12,6 @@ namespace Sharpcms.PluginInterface
 	/// </summary>
 	public class PluginServices : IPluginHost
 	{
-		/// <summary>
-		/// Constructor of the Class
-		/// </summary>
-		public PluginServices()
-		{
-
-		}
-
 		private AvailablePlugins _colAvailablePlugins = new AvailablePlugins();
 
 		/// <summary>
@@ -27,8 +19,14 @@ namespace Sharpcms.PluginInterface
 		/// </summary>
 		public AvailablePlugins AvailablePlugins
 		{
-			get { return _colAvailablePlugins; }
-			set { _colAvailablePlugins = value; }
+			get
+			{
+			    return _colAvailablePlugins;
+			}
+			set
+			{
+			    _colAvailablePlugins = value;
+			}
 		}
 
 		/// <summary>
@@ -51,7 +49,7 @@ namespace Sharpcms.PluginInterface
 			//Go through all the files in the plugin directory
 			foreach (string fileOn in Directory.GetFiles(path))
 			{
-				var file = new FileInfo(fileOn);
+				FileInfo file = new FileInfo(fileOn);
 
 				//Preliminary check, must be .dll
 				if (file.Extension.Equals(".dll"))

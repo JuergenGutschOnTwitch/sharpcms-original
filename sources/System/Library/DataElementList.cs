@@ -16,31 +16,48 @@ namespace Sharpcms.Library
 
         public XmlNode ParentNode
         {
-            get { return _parentNode; }
+            get
+            {
+                return _parentNode;
+            }
         }
 
         protected XmlDocument Document
         {
-            get { return _parentNode != null ? _parentNode.OwnerDocument : null; }
+            get
+            {
+                XmlDocument xmlDocument = _parentNode != null 
+                    ? _parentNode.OwnerDocument 
+                    : null;
+
+                return xmlDocument;
+            }
         }
 
         public int Count
         {
             get
             {
-                if (_parentNode == null)
+                int count = 0;
+
+                if (_parentNode != null)
                 {
-                    return 0;
+                    XmlNodeList xmlNodeList = _parentNode.SelectNodes("*");
+                    if (xmlNodeList != null)
+                    {
+                        count = xmlNodeList.Count;
+                    }
                 }
 
-                XmlNodeList xmlNodeList = _parentNode.SelectNodes("*");
-                return xmlNodeList == null ? 0 : xmlNodeList.Count;
+                return count;
             }
         }
 
         protected XmlNode GetNode(string cleanPath, EmptyNodeHandling emptyNode)
         {
-            return CommonXml.GetNode(_parentNode, cleanPath, emptyNode);
+            XmlNode xmlNode = CommonXml.GetNode(_parentNode, cleanPath, emptyNode);
+
+            return xmlNode;
         }
     }
 }

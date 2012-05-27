@@ -6,9 +6,7 @@ namespace Sharpcms.Library.Users
 {
     public class GroupList : DataElementList
     {
-        public GroupList(XmlNode parentNode) : base(parentNode)
-        {
-        }
+        public GroupList(XmlNode parentNode) : base(parentNode) { }
 
         public Group this[int index]
         {
@@ -16,13 +14,14 @@ namespace Sharpcms.Library.Users
             {
                 string xPath = string.Format("group[{0}]", index + 1);
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
+                Group group = null;
 
                 if (node != null)
                 {
-                    var group = new Group(node);
-                    return group;
+                    group = new Group(node);
                 }
-                return null;
+
+                return group;
             }
         }
 
@@ -33,13 +32,14 @@ namespace Sharpcms.Library.Users
             {
                 string xPath = string.Format("group[@name='{0}']", Common.Common.CleanToSafeString(name));
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
+                Group group = null;
 
                 if (node != null)
                 {
-                    var group = new Group(node);
-                    return group;
+                    group = new Group(node);
                 }
-                return null;
+
+                return group;
             }
         }
 
@@ -47,7 +47,8 @@ namespace Sharpcms.Library.Users
         {
             XmlNode node = Document.CreateElement("group");
             ParentNode.AppendChild(node);
-            var group = new Group(node) {Name = name};
+            Group group = new Group(node) {Name = name};
+
             return group;
         }
 

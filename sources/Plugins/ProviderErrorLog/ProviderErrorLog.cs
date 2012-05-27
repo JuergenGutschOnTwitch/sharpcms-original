@@ -25,7 +25,10 @@ namespace Sharpcms.Providers.ErrorLog
 
         public new string Name
         {
-            get { return "ErrorLog"; }
+            get
+            {
+                return "ErrorLog";
+            }
         }
 
         public new void Handle(string mainEvent)

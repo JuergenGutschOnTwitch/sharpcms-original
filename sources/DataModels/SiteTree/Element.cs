@@ -12,9 +12,7 @@ namespace Sharpcms.Data.SiteTree
         /// Initializes a new instance of the <see cref="Element"/> class.
         /// </summary>
         /// <param name="node">The node.</param>
-        public Element(XmlNode node) : base(node)
-        {
-        }
+        public Element(XmlNode node) : base(node) { }
 
         /// <summary>
         /// Gets or sets the <see cref="System.String"/> with the specified name.
@@ -26,6 +24,7 @@ namespace Sharpcms.Data.SiteTree
             {
                 string xPath = string.Format("{0}", name);
                 XmlNode node = GetNode(xPath, EmptyNodeHandling.CreateNew);
+
                 return node.InnerText;
             }
             set

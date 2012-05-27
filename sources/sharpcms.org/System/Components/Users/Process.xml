@@ -8,6 +8,11 @@
       <load provider="User" place="navigationplace" action="groups" />
       <load provider="User" place="contentplace" action="user" />
     </user>
+    <choose>
+      <user>
+        <load provider="User" place="navigationplace" action="tree" />
+      </user>
+    </choose>
   </admin>
   <login>
     <template name="login" />

@@ -18,38 +18,58 @@ namespace Sharpcms.Library
 
         public XmlNode Node
         {
-            get { return _xmlNode; }
+            get
+            {
+                return _xmlNode;
+            }
         }
 
         public XmlDocument Document
         {
-            get { return _xmlNode != null ? _xmlNode.OwnerDocument : null; }
+            get
+            {
+                XmlDocument document = _xmlNode != null ? _xmlNode.OwnerDocument : null;
+
+                return document;
+            }
         }
 
         protected AttributeList Attributes
         {
-            get { return _attributes; }
+            get
+            {
+                return _attributes;
+            }
         }
 
         protected XmlNode GetNode(string cleanPath, EmptyNodeHandling emptyNode)
         {
-            return CommonXml.GetNode(_xmlNode, cleanPath, emptyNode);
+            XmlNode xmlNode = CommonXml.GetNode(_xmlNode, cleanPath, emptyNode);
+
+            return xmlNode;
         }
 
         private XmlNode SelectNode(string xPath)
         {
-            return _xmlNode.SelectSingleNode(xPath);
+            XmlNode xmlNode = _xmlNode.SelectSingleNode(xPath);
+
+            return xmlNode;
         }
 
         protected string GetNodeValue(string name)
         {
-            if (_xmlNode == null)
+            string nodeValue = string.Empty;
+
+            if (_xmlNode != null)
             {
-                return string.Empty;
+                XmlNode node = SelectNode(name);
+                if (node != null)
+                {
+                    nodeValue = node.InnerText;
+                }
             }
 
-            XmlNode node = SelectNode(name);
-            return node != null ? node.InnerText : string.Empty;
+            return nodeValue;
         }
     }
 }

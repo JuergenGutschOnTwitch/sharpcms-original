@@ -9,9 +9,7 @@ namespace Sharpcms.Data.SiteTree
 {
     public class ElementList : DataElementList
     {
-        public ElementList(XmlNode parentNode) : base(parentNode)
-        {
-        }
+        public ElementList(XmlNode parentNode) : base(parentNode) { }
 
         public Element this[int index]
         {
@@ -20,12 +18,7 @@ namespace Sharpcms.Data.SiteTree
                 string xPath = string.Format("element[{0}]", index + 1);
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
 
-                if (node != null)
-                {
-                    var element = new Element(node);
-                    return element;
-                }
-                return null;
+                return node != null ? new Element(node) : null;
             }
         }
 
@@ -38,7 +31,8 @@ namespace Sharpcms.Data.SiteTree
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);
-            var element = new Element(node) {Type = type};
+
+            Element element = new Element(node) {Type = type};
 
             return element;
         }
@@ -53,7 +47,12 @@ namespace Sharpcms.Data.SiteTree
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);
-            var element = new Element(node) {Type = type, Name = name, Publish = true.ToString(CultureInfo.InvariantCulture)};
+
+            Element element = new Element(node) {
+                Type = type, 
+                Name = name, 
+                Publish = true.ToString(CultureInfo.InvariantCulture)
+            };
 
             return element;
         }
@@ -69,7 +68,12 @@ namespace Sharpcms.Data.SiteTree
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);
-            var element = new Element(node) {Type = type, Name = name, Publish = publish.ToString(CultureInfo.InvariantCulture).ToLower()};
+
+            Element element = new Element(node) {
+                Type = type, 
+                Name = name, 
+                Publish = publish.ToString(CultureInfo.InvariantCulture).ToLower()
+            };
 
             return element;
         }

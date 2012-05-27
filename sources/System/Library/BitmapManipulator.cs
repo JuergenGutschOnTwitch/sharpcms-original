@@ -1,47 +1,46 @@
-/// <summary>BitmapManipulator class, provides some useful static functions which
-/// operate on .NET <code>Bitmap</code> objects in useful ways.
-/// 
-/// Some of the useful features of this class incldue:
-/// <ul>
-///   <li><code>GetBitmapFromUri</code> which downloads a bitmap from a URL, providing
-///   some useful error message elaboration logic to present users with a more meaningful
-///   error message in the event of a failure.</li>
-/// 
-///   <li><code>ConvertBitmap</code> functions, which convert a bitmap from one format
-///   to another, including optional quality and compression parameters for codecs like JPEG and
-///   TIFF, respectively.</li>
-/// 
-///   <li><code>ScaleBitmap</code> and <code>ResizeBitmap</code>, for modifying the dimensions
-///   of a bitmap (these are standard issue and boring, but nonetheless useful)</li>
-/// 
-///   <li><code>ThumbnailBitmap</code>, a very useful function that produces a thumbnail of an image
-///   that fits within a given rectangle</li>
-/// 
-///   <li><code>OverlayBitmap</code>, a useful function that overlays one bitmap atop another
-///   with a caller-defined alpha parameter.  Great for putting watermarks or logos on pictures.</li>
-/// 
-///   <li>A few other standard-issue image manipulation functions</li>
-/// </ul>
-/// 
-/// NOTE: This code includes support for GIF en/decoding, via the .NET Framework's
-/// System.Drawing classes.  However, in order to provide GIF functionality in your
-/// application, you must license the LZW encoding scheme used in GIF files from Unisys.
-/// As this is an opportunistic money-grab akin to SCO's, you are well advised to refuse
-/// to do this, and instead favor PNG whenever possible.
-/// 
-/// For more information, see http://www.microsoft.com/DEVONLY/Unisys.htm
-/// 
-/// Current Version: 1.0.0
-/// Revision History:
-/// 1.0.0 - ajn - 9/1/2003 - First release
-/// 
-/// Copyright(C) 2003 Adam J. Nelson.
-/// 
-/// This code is hereby released for unlimited non-commercial and commercial use
-/// 
-/// The author makes no guarantee regarding the fitness of this code, and hereby disclaims
-/// all liability for any damage incurred as a result of using this code.
-/// </summary>
+// BitmapManipulator class, provides some useful static functions which
+// operate on .NET <code>Bitmap</code> objects in useful ways.
+// 
+// Some of the useful features of this class incldue:
+// <ul>
+//   <li><code>GetBitmapFromUri</code> which downloads a bitmap from a URL, providing
+//   some useful error message elaboration logic to present users with a more meaningful
+//   error message in the event of a failure.</li>
+// 
+//   <li><code>ConvertBitmap</code> functions, which convert a bitmap from one format
+//   to another, including optional quality and compression parameters for codecs like JPEG and
+//   TIFF, respectively.</li>
+// 
+//   <li><code>ScaleBitmap</code> and <code>ResizeBitmap</code>, for modifying the dimensions
+//   of a bitmap (these are standard issue and boring, but nonetheless useful)</li>
+// 
+//   <li><code>ThumbnailBitmap</code>, a very useful function that produces a thumbnail of an image
+//   that fits within a given rectangle</li>
+// 
+//   <li><code>OverlayBitmap</code>, a useful function that overlays one bitmap atop another
+//   with a caller-defined alpha parameter.  Great for putting watermarks or logos on pictures.</li>
+// 
+//   <li>A few other standard-issue image manipulation functions</li>
+// </ul>
+// 
+// NOTE: This code includes support for GIF en/decoding, via the .NET Framework's
+// System.Drawing classes.  However, in order to provide GIF functionality in your
+// application, you must license the LZW encoding scheme used in GIF files from Unisys.
+// As this is an opportunistic money-grab akin to SCO's, you are well advised to refuse
+// to do this, and instead favor PNG whenever possible.
+// 
+// For more information, see http://www.microsoft.com/DEVONLY/Unisys.htm
+// 
+// Current Version: 1.0.0
+// Revision History:
+// 1.0.0 - ajn - 9/1/2003 - First release
+// 
+// Copyright(C) 2003 Adam J. Nelson.
+// 
+// This code is hereby released for unlimited non-commercial and commercial use
+// 
+// The author makes no guarantee regarding the fitness of this code, and hereby disclaims
+// all liability for any damage incurred as a result of using this code.
 
 using System;
 using System.Drawing;
@@ -69,7 +68,7 @@ namespace Sharpcms.Library
             BottomRight,
             BottomLeft,
             Center
-        } ;
+        };
 
         #endregion
 
@@ -83,7 +82,7 @@ namespace Sharpcms.Library
             RLE,
             None,
             Unspecified
-        } ;
+        };
 
         #endregion
 
@@ -94,15 +93,14 @@ namespace Sharpcms.Library
         private const String MIMEPng = "image/x-png";
         private const String MIMETiff = "image/tiff";
 
-        private static readonly String[] SupportedMimeTypes = new[]
-                                                                  {
-                                                                      MIMEGif,
-                                                                      MIMEJpeg,
-                                                                      MIMEPjpeg,
-                                                                      MIMETiff,
-                                                                      MIMEPng,
-                                                                      MIMEBmp
-                                                                  };
+        private static readonly String[] SupportedMimeTypes = new[] {
+            MIMEGif,
+            MIMEJpeg,
+            MIMEPjpeg,
+            MIMETiff,
+            MIMEPng,
+            MIMEBmp
+        };
 
         /// <summary>Attempts to download a bitmap from a given URI, then loads the bitmap into
         /// a <code>Bitmap</code> object and returns.
@@ -123,18 +121,17 @@ namespace Sharpcms.Library
             //Convert String to URI
             try
             {
-                var uriObj = new Uri(uri);
+                Uri uriObj = new Uri(uri);
 
                 return GetBitmapFromUri(uriObj);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException exception)
             {
-                throw new BitmapManipException("Parameter 'uri' is null", ex);
+                throw new BitmapManipException("Parameter 'uri' is null", exception);
             }
-            catch (UriFormatException ex)
+            catch (UriFormatException exception)
             {
-                throw new BitmapManipException(String.Format("Parameter 'uri' is malformed: {0}", ex.Message),
-                                               ex);
+                throw new BitmapManipException(String.Format("Parameter 'uri' is malformed: {0}", exception.Message), exception);
             }
         }
 
@@ -154,7 +151,9 @@ namespace Sharpcms.Library
         ///     in an exception.</returns>
         private static Bitmap GetBitmapFromUri(Uri uri)
         {
-            return GetBitmapFromUri(uri, 10*1000);
+            Bitmap bitmap = GetBitmapFromUri(uri, 10*1000);
+
+            return bitmap;
         }
 
         /// <summary>Attempts to download a bitmap from a given URI, then loads the bitmap into

@@ -10,9 +10,7 @@ namespace Sharpcms.Providers.Base
         /// <summary>
         /// Initializes a new instance of the <see cref="ProviderPlugin"/> class.
         /// </summary>
-        public ProviderPlugin()
-        {
-        }
+        public ProviderPlugin() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProviderPlugin"/> class.
@@ -31,7 +29,10 @@ namespace Sharpcms.Providers.Base
         /// <value>The name.</value>
         public new string Name
         {
-            get { return "Plugin"; }
+            get
+            {
+                return "Plugin";
+            }
         }
 
         /// <summary>
@@ -58,6 +59,7 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private static void Loadlist()
         {
+
         }
     }
 }

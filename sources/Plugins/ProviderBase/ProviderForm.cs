@@ -12,9 +12,7 @@ namespace Sharpcms.Providers.Base
 {
     public class ProviderForm : BasePlugin2, IPlugin2
     {
-        public ProviderForm()
-        {
-        }
+        public ProviderForm() { }
 
         public ProviderForm(Process process)
         {
@@ -25,7 +23,10 @@ namespace Sharpcms.Providers.Base
 
         public new string Name
         {
-            get { return "Form"; }
+            get
+            {
+                return "Form";
+            }
         }
 
         public new void Handle(string mainEvent)
@@ -48,7 +49,7 @@ namespace Sharpcms.Providers.Base
 
         private void HandleSubmitForm()
         {
-            var reply = new StringBuilder();
+            StringBuilder reply = new StringBuilder();
             for (int i = 0; i < Process.QueryData.Count; i++)
             {
                 Query current = Process.QueryData[i];
@@ -59,12 +60,12 @@ namespace Sharpcms.Providers.Base
                 }
             }
 
-            var message = new MailMessage { From = new MailAddress(Process.Settings["mail/servermail"]) };
+            MailMessage message = new MailMessage { From = new MailAddress(Process.Settings["mail/servermail"]) };
             message.To.Add(Process.Settings["mail/user"]);
             message.Subject = Process.Settings["mail/subject"];
             message.Body = reply.ToString();
 
-            var smtpClient = new SmtpClient(Process.Settings["mail/smtp"]);
+            SmtpClient smtpClient = new SmtpClient(Process.Settings["mail/smtp"]);
             if (Process.Settings["mail/smtpuser"] != string.Empty)
             {
                 smtpClient.Credentials = new NetworkCredential(Process.Settings["mail/smtpuser"], Process.Settings["mail/smtppass"]);

@@ -16,8 +16,16 @@ namespace Sharpcms.Library
 
         public string this[string name]
         {
-            get { return CommonXml.GetAttributeValue(_xmlNode, name); }
-            set { CommonXml.SetAttributeValue(_xmlNode, name, value); }
+            get
+            {
+                string attribute = CommonXml.GetAttributeValue(_xmlNode, name);
+
+                return attribute;
+            }
+            set
+            {
+                CommonXml.SetAttributeValue(_xmlNode, name, value);
+            }
         }
     }
 }

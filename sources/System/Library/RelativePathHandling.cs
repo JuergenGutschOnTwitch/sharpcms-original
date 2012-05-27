@@ -4,6 +4,7 @@ namespace Sharpcms.Library
 {
     public enum RelativePathHandling
     {
-        ConvertToAbsolute, ReturnAsIs
+        ConvertToAbsolute, 
+        ReturnAsIs
     }
 }

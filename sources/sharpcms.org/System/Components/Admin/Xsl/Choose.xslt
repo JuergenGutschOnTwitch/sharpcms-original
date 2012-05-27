@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <xsl:stylesheet
-		version="1.0"
-		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-		xmlns="http://www.w3.org/1999/xhtml">
+	version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+  <xsl:output method="html" encoding="utf-8" indent="yes" />
+
   <xsl:include href="..\..\..\..\Custom\Components\Snippets.xslt" />
 
   <xsl:template match="/">
@@ -20,13 +23,20 @@
         </title>
         <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/base.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.1.min.js">
+        <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/choose.css" />
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.7.2.min.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/treeview/jquery.treeview.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/eventhandler.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/sharpcms.js">
+          <xsl:text> </xsl:text>
+        </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/choose.xslt.js">
+          <xsl:text> </xsl:text>
+        </script>
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/_sharpcms.js">
           <xsl:text> </xsl:text>
         </script>
       </head>

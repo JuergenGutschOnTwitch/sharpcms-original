@@ -49,14 +49,14 @@ namespace Sharpcms.Library.Process
                 {
                     _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
                                     httpPage.Request.ServerVariables["SERVER_NAME"] +
-                                    httpPage.Request.ApplicationPath.TrimEnd('/') + "";
+                                    httpPage.Request.ApplicationPath.TrimEnd('/') + string.Empty;
                 }
                 else
                 {
                     _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
                                 httpPage.Request.ServerVariables["SERVER_NAME"] + ":" +
                                 httpPage.Request.ServerVariables["SERVER_PORT"] +
-                                httpPage.Request.ApplicationPath.TrimEnd('/') + "";
+                                httpPage.Request.ApplicationPath.TrimEnd('/') + string.Empty;
                 }
             }
 
@@ -73,7 +73,6 @@ namespace Sharpcms.Library.Process
             QueryOther = new XmlItemList(CommonXml.GetNode(xmlNode, "query/other", EmptyNodeHandling.CreateNew));
 
             ProcessQueries();
-
             ConfigureDebugging();
             LoginByCookie();
             
@@ -107,14 +106,17 @@ namespace Sharpcms.Library.Process
 
         public Dictionary<string, string> Variables
         {
-            get { return _variables ?? (_variables = new Dictionary<string, string>()); }
+            get
+            {
+                return _variables ?? (_variables = new Dictionary<string, string>());
+            }
         }
 
         public string RedirectUrl { get; set; }
 
         private string GetRedirectUrl()
         {
-            var redirectUrl = QueryOther["process"];
+            string redirectUrl = QueryOther["process"];
 
             if (redirectUrl.Trim().EndsWith("/"))
             {
@@ -126,7 +128,7 @@ namespace Sharpcms.Library.Process
 
         private string GetErrorUrl(string loginError)
         {
-            var redirectUrl = QueryOther["process"];
+            string redirectUrl = QueryOther["process"];
 
             if (redirectUrl.Trim().EndsWith("/"))
             {
@@ -138,8 +140,19 @@ namespace Sharpcms.Library.Process
 
         private bool DebugEnabled
         {
-            get { return (HttpPage.Session["enabledebug"] != null && HttpPage.Session["enabledebug"].ToString() == "true"); }
-            set { HttpPage.Session["enabledebug"] = value ? "true" : "false"; }
+            get
+            {
+                bool debugEnabled = (HttpPage.Session["enabledebug"] != null &&
+                                     HttpPage.Session["enabledebug"].ToString() == "true");
+
+                return debugEnabled;
+            }
+            set
+            {
+                HttpPage.Session["enabledebug"] = value 
+                    ? "true" 
+                    : "false";
+            }
         }
 
         private string BasePath
@@ -163,24 +176,34 @@ namespace Sharpcms.Library.Process
                     string tmpProcess = QueryOther["process"];
                     _currentProcess = tmpProcess != string.Empty ? tmpProcess : Settings["general/stdprocess"];
                 }
+
                 return _currentProcess;
             }
         }
 
         public string Root
         {
-            get { return HttpPage.Server.MapPath("."); }
+            get
+            {
+                return HttpPage.Server.MapPath(".");
+            }
         }
 
         public Settings Settings
         {
-            get { return _settings ?? (_settings = new Settings(this, Root)); }
+            get
+            {
+                return _settings ?? (_settings = new Settings(this, Root));
+            }
         }
 
         // >>>>> Search Mod by Kiho Chang 2008-10-05
         public object SearchContext
         {
-            set { HttpPage.Session["SearchContext"] = value; }
+            set
+            {
+                HttpPage.Session["SearchContext"] = value;
+            }
         }
 
         public string CurrentUser
@@ -214,7 +237,7 @@ namespace Sharpcms.Library.Process
 
         public void AddMessage(string message, MessageType messageType)
         {
-            AddMessage(message, messageType, "");
+            AddMessage(message, messageType, string.Empty);
         }
 
         public void AddMessage(Exception e)
@@ -246,7 +269,7 @@ namespace Sharpcms.Library.Process
             CommonXml.GetNode(userNode, "username").InnerText = CurrentUser;
             XmlNode groupNode = CommonXml.GetNode(userNode, "groups");
             object[] resultsGroups = Plugins.InvokeAll("users", "list_groups", CurrentUser);
-            var userGroups = new List<string>(Common.Common.FlattenToStrings(resultsGroups));
+            List<string> userGroups = new List<string>(Common.Common.FlattenToStrings(resultsGroups));
 
             foreach (string group in userGroups)
             {
@@ -287,7 +310,7 @@ namespace Sharpcms.Library.Process
 
         private void ProcessQueries()
         {
-            var keys = HttpPage.Request.Form.Cast<string>().ToList();
+            List<string> keys = HttpPage.Request.Form.Cast<string>().ToList();
             
             keys.AddRange(HttpPage.Request.QueryString.Cast<string>());
 
@@ -316,17 +339,21 @@ namespace Sharpcms.Library.Process
 
         public string GetUrl(string process)
         {
-            return string.Format("{0}/{1}", BasePath, process);
+            string url = string.Format("{0}/{1}", BasePath, process);
+
+            return url;
         }
 
         public string GetUrl(string process, string querystring)
         {
-            return string.Format("{0}/{1}{2}", BasePath, process, querystring);
+            string url = string.Format("{0}/{1}{2}", BasePath, process, querystring);
+
+            return url;
         }
 
         private IEnumerable<string> History()
         {
-            var history = HttpPage.Session["history"] != null 
+            List<string> history = HttpPage.Session["history"] != null 
                 ? (List<string>) HttpPage.Session["history"]
                 : new List<string>();
 
@@ -366,6 +393,8 @@ namespace Sharpcms.Library.Process
         // user login and rights part
         private bool Login(string username, string password)
         {
+            bool success = false;
+
             Logout();
             object[] results = Plugins.InvokeAll("users", "verify", username, password);
             if (results.Length > 0)
@@ -381,7 +410,7 @@ namespace Sharpcms.Library.Process
 
                 if (verified)
                 {
-                    var httpCookie = HttpPage.Response.Cookies["login_cookie"];
+                    HttpCookie httpCookie = HttpPage.Response.Cookies["login_cookie"];
                     if (httpCookie != null)
                     {
                         httpCookie.Value = string.Format("{0}{1}{2}", username, CookieSeparator, password);
@@ -390,38 +419,29 @@ namespace Sharpcms.Library.Process
 
                     HttpPage.Session["current_username"] = username;
 
-                    return true;
+                    success = true;
                 }
             }
-            return false;
+
+            return success;
         }
 
-        private bool LoginByCookie()
+        private void LoginByCookie()
         {
             if (CurrentUser == "anonymous")
             {
-                var httpCookie = HttpPage.Request.Cookies["login_cookie"];
+                HttpCookie httpCookie = HttpPage.Request.Cookies["login_cookie"];
                 if (httpCookie != null)
                 {
-                    var value = httpCookie.Value;
-                    if (value == null || !value.Contains(CookieSeparator))
+                    string value = httpCookie.Value;
+                    if (value != null && value.Contains(CookieSeparator))
                     {
-                        return false;
-                    }
+                        string[] valueParts = Common.Common.SplitByString(value, CookieSeparator);
 
-                    var valueParts = Common.Common.SplitByString(value, CookieSeparator);
-                    if (Login(valueParts[0], valueParts[1]))
-                    {
-                        return true;
+                        Login(valueParts[0], valueParts[1]);
                     }
                 }
             }
-            else
-            {
-                return true;
-            }
-
-            return false;
         }
 
         private void UpdateCookieTimeout()
@@ -436,9 +456,9 @@ namespace Sharpcms.Library.Process
         public bool CheckGroups(string groups)
         {
             object[] results = Plugins.InvokeAll("users", "list_groups", CurrentUser);
-            var userGroups = new List<string>(Common.Common.FlattenToStrings(results));
+            List<string> userGroups = new List<string>(Common.Common.FlattenToStrings(results));
 
-            if (groups != "")
+            if (groups != string.Empty)
             {
                 string[] groupList = groups.Split(',');
                 return groupList.Any(userGroups.Contains);
@@ -461,44 +481,52 @@ namespace Sharpcms.Library.Process
 
     public class ControlList : DataElementList
     {
-        public ControlList(XmlNode parentNode) : base(parentNode)
-        {
-        }
+        public ControlList(XmlNode parentNode) : base(parentNode) { }
 
         public XmlNode this[int index]
         {
             get
             {
                 string xPath = string.Format("*[{0}]", index + 1);
-                return GetNode(xPath, EmptyNodeHandling.CreateNew);
+                XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.CreateNew);
+
+                return xmlNode;
             }
         }
 
         public XmlNode this[string name]
         {
-            get { return GetControlNode(name); }
-            set { GetControlNode(name).InnerXml = value.InnerXml; }
+            get
+            {
+                XmlNode xmlNode = GetControlNode(name);
+
+                return xmlNode;
+            }
+            set
+            {
+                GetControlNode(name).InnerXml = value.InnerXml;
+            }
         }
 
         public ControlList GetSubControl(string name)
         {
-            return name != "" ? new ControlList(GetControlNode(name)) : null;
+            ControlList subControl = name != string.Empty ? new ControlList(GetControlNode(name)) : null;
+
+            return subControl;
         }
 
         private XmlNode GetControlNode(string name)
         {
             string xPath = string.Format("{0}", name);
-
             XmlNode node = CommonXml.GetNode(ParentNode, xPath);
+
             return node;
         }
     }
 
     public class XmlItemList : DataElementList
     {
-        public XmlItemList(XmlNode parentNode) : base(parentNode)
-        {
-        }
+        public XmlItemList(XmlNode parentNode) : base(parentNode) { }
 
         public Query this[int index]
         {
@@ -506,14 +534,17 @@ namespace Sharpcms.Library.Process
             {
                 string xPath = string.Format("*[{0}]", index + 1);
                 XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.CreateNew);
-                return new Query(xmlNode.Name, xmlNode.InnerText);
+                Query query = new Query(xmlNode.Name, xmlNode.InnerText);
+
+                return query;
             }
             set
             {
                 string xPath = string.Format("*[{0}]", index + 1);
                 XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.Ignore);
-                if (xmlNode == null)
-                    return;
+
+                if (xmlNode == null) return;
+
                 xmlNode.InnerText = value.Value;
             }
         }
@@ -523,11 +554,14 @@ namespace Sharpcms.Library.Process
             get
             {
                 string xPath = string.Format("{0}", name);
-                return GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText;
+                string innerText = GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText;
+
+                return innerText;
             }
             set
             {
                 string xPath = string.Format("{0}", name);
+
                 GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText = value;
             }
         }
@@ -547,6 +581,11 @@ namespace Sharpcms.Library.Process
 
     public enum MessageType
     {
-        Error, Status, Event, Warning, Message, Debug
+        Error = 0, 
+        Status = 1, 
+        Event = 2, 
+        Warning = 3, 
+        Message = 4, 
+        Debug = 5
     }
 }

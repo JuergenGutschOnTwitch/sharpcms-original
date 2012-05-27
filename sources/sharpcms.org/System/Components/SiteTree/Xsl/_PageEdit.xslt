@@ -1,6 +1,12 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sharpcms="urn:my-scripts">
+<xsl:stylesheet
+	version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+  <xsl:output method="html" encoding="utf-8" indent="yes" />
+  
   <xsl:template mode="edit" match="page">
     <input type="hidden" name="data_pageidentifier">
       <xsl:attribute name="value">
@@ -18,11 +24,6 @@
           <xsl:text>Page data - </xsl:text>
           <xsl:value-of select="attributes/menuname" />
         </b>
-        <xsl:if test="attributes/status = 'hide'">
-          <b class="red">
-            <xsl:text>[hidden]</xsl:text>
-          </b>
-        </xsl:if>
       </div>
       <div class="viewstate">
         <a id="pada_vs" class="button expand">
@@ -59,36 +60,39 @@
         <xsl:text>Show</xsl:text>
       </a>
       <select id="adminmoreactions">
-        <option value="">
+        <option data-action="" value="">
           <xsl:text>More actions...</xsl:text>
         </option>
-        <option action="removepage" value="{attributes/pageidentifier}">
-          <xsl:text>&#160;&#160;Delete page</xsl:text>
+        <option data-action="setstandardpage" value="">
+          <xsl:text>&#160;&#160;Set as Start Page</xsl:text>
         </option>
-        <option action="addpage" value="{attributes/pageidentifier}">
-          <xsl:text>&#160;&#160;Add subpage</xsl:text>
+        <option data-action="removepage" value="{attributes/pageidentifier}">
+          <xsl:text>&#160;&#160;Delete Page</xsl:text>
         </option>
-        <option action="pagecreatcontainer">
-          <xsl:text>&#160;&#160;Add container</xsl:text>
+        <option data-action="addpage" value="{attributes/pageidentifier}">
+          <xsl:text>&#160;&#160;Add Subpage</xsl:text>
+        </option>
+        <option data-action="pagecreatcontainer" value="">
+          <xsl:text>&#160;&#160;Add Container</xsl:text>
         </option>
         <option disabled="disabled" />
-        <option disabled="disabled">Move</option>
-        <option action="pagemoveup" value="{attributes/pageidentifier}">
+        <option disabled="disabled">Move / Copy</option>
+        <option data-action="pagemoveup" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move up</xsl:text>
         </option>
-        <option action="pagemovedown" value="{attributes/pageidentifier}">
+        <option data-action="pagemovedown" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move down</xsl:text>
         </option>
-        <option action="pagemovetop" value="{attributes/pageidentifier}">
+        <option data-action="pagemovetop" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move Top</xsl:text>
         </option>
-        <option action="pagemovebottom" value="{attributes/pageidentifier}">
+        <option data-action="pagemovebottom" value="{attributes/pageidentifier}">
           <xsl:text>&#160;&#160;Move Bottom</xsl:text>
         </option>
-        <option action="movepage">
+        <option data-action="pagemove" value="">
           <xsl:text>&#160;&#160;Move To</xsl:text>
         </option>
-        <option action="copypage">
+        <option data-action="pagecopyto">
           <xsl:attribute name="value">
             <xsl:value-of select="attributes/pageidentifier" />
             <xsl:text>;;</xsl:text>
@@ -96,14 +100,10 @@
           </xsl:attribute>
           <xsl:text>&#160;&#160;Copy To</xsl:text>
         </option>
-        <option disabled="disabled" />
-        <option action="setstandardpage">
-          <xsl:text>Set as default page</xsl:text>
-        </option>
       </select>
     </div>
     <div class="tab-pane" id="pada_body" style="float: left;">
-      <div id="pada_body_tabs">
+      <div id="pada_body_tabs" class="tabs">
         <ul>
           <li>
             <a href="#ptabs1">
@@ -147,7 +147,7 @@
       </div>
     </div>
     <div id="tabpagecontent" class="tab-pane" style="float: left;">
-      <div id="tabs">
+      <div class="tabs">
         <ul>
           <xsl:apply-templates mode="tab" select="containers/container" />
         </ul>
@@ -194,6 +194,18 @@
         </xsl:attribute>
         <xsl:value-of select="@name" />
       </a>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>delete hlRemoveContrainer</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="title">
+          <xsl:text>This will remove the container</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="data-containerid">
+          <xsl:number count="container" />
+        </xsl:attribute>
+        <xsl:text>X</xsl:text>
+      </a>
     </li>
   </xsl:template>
 
@@ -204,23 +216,11 @@
         <xsl:number level="any" />
       </xsl:attribute>
       <div class="menu container_menu">
-        <a>
-          <xsl:attribute name="class">
-            <xsl:text>button delete hlRemoveContrainer</xsl:text>
-          </xsl:attribute>
-          <xsl:attribute name="title">
-            <xsl:text>This will remove the container</xsl:text>
-          </xsl:attribute>
-          <xsl:attribute name="value">
-            <xsl:number count="container" />
-          </xsl:attribute>
-          <xsl:text>X</xsl:text>
-        </a>
         <select>
           <xsl:attribute name="class">
             <xsl:text>addelement</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="name">
+          <xsl:attribute name="data-name">
             <xsl:text>data_container_</xsl:text>
             <xsl:number count="container" />
           </xsl:attribute>
@@ -242,39 +242,9 @@
     </div>
   </xsl:template>
 
-  <xsl:template mode="form" match="*">
-    <xsl:call-template name="elementtop" />
-    <div>
-      <xsl:attribute name="class">
-        <xsl:text>element_body</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="id">
-        <xsl:text>element_</xsl:text>
-        <xsl:number count="container" />
-        <xsl:text>_</xsl:text>
-        <xsl:number count="element" />
-        <xsl:text>_body</xsl:text>
-      </xsl:attribute>
-      <div>
-        <xsl:attribute name="class">
-          <xsl:text>element_info</xsl:text>
-        </xsl:attribute>
-      </div>
-      <div>
-        <xsl:attribute name="class">
-          <xsl:text>element_edit</xsl:text>
-        </xsl:attribute>
-        <xsl:variable name="currentelement" select="." />
-        <xsl:variable name="type" select="@type" />
-        <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/*[name()=$type]/*">
-          <xsl:with-param name="currentelement" select="$currentelement" />
-          <xsl:with-param name="id">
-            <xsl:text>data_element_</xsl:text>
-            <xsl:number count="container" />_<xsl:number count="element" />
-          </xsl:with-param>
-        </xsl:apply-templates>
-      </div>
-    </div>
+  <xsl:template mode="form" match="element">
+    <xsl:call-template name="elementhead" />
+    <xsl:call-template name="elementbody" />
   </xsl:template>
 
   <xsl:template name="security">
@@ -401,13 +371,10 @@
               <xsl:value-of select="@height" />
               <xsl:text>px;</xsl:text>
             </xsl:if>
-            <xsl:if test="$id='data_attribute'">
-              <xsl:text>width:</xsl:text>
-              <xsl:text>634px;</xsl:text>
-            </xsl:if>
           </xsl:attribute>
         </xsl:if>
         <xsl:value-of select="$currentelement/*[name()=$attribute]" />
+        <xsl:text> </xsl:text>
       </textarea>
     </div>
   </xsl:template>
@@ -572,7 +539,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlChoosePage</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-value">
           <xsl:value-of select="$id" />
           <xsl:text>;;</xsl:text>
           <xsl:value-of select="@attribute" />
@@ -604,7 +571,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlChooseFile</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-value">
           <xsl:value-of select="$id" />
           <xsl:text>;;</xsl:text>
           <xsl:value-of select="@attribute" />
@@ -627,7 +594,7 @@
         <xsl:attribute name="class">
           <xsl:text>button hlChooseFolder</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="value">
+        <xsl:attribute name="data-value">
           <xsl:value-of select="$id" />
           <xsl:text>;;</xsl:text>
           <xsl:value-of select="@attribute" />
@@ -666,17 +633,17 @@
     </div>
   </xsl:template>
 
-  <xsl:template name="elementtop">
+  <xsl:template name="elementhead">
     <div>
+      <xsl:attribute name="class">
+        <xsl:text>menu element_head</xsl:text>
+      </xsl:attribute>
       <xsl:attribute name="id">
         <xsl:text>element_</xsl:text>
         <xsl:number count="container" />
         <xsl:text>_</xsl:text>
         <xsl:number count="element" />
         <xsl:text>_anchor</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="class">
-        <xsl:text>menu element_head</xsl:text>
       </xsl:attribute>
       <div>
         <xsl:attribute name="class">
@@ -742,9 +709,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementTop</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Top</xsl:text>
@@ -753,9 +721,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementDown</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Down</xsl:text>
@@ -764,9 +733,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlMoveElementUp</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Up</xsl:text>
@@ -775,9 +745,10 @@
           <xsl:attribute name="class">
             <xsl:text>button hlCopyElement</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>Copy</xsl:text>
@@ -789,9 +760,10 @@
           <xsl:attribute name="title">
             <xsl:text>delete the element</xsl:text>
           </xsl:attribute>
-          <xsl:attribute name="value">
+          <xsl:attribute name="data-containerid">
             <xsl:number count="container" />
-            <xsl:text>;;</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="data-elementid">
             <xsl:number count="element" />
           </xsl:attribute>
           <xsl:text>X</xsl:text>
@@ -841,6 +813,41 @@
             </xsl:attribute>
           </xsl:if>
         </input>
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="elementbody">
+    <div>
+      <xsl:attribute name="class">
+        <xsl:text>element_body</xsl:text>
+      </xsl:attribute>
+      <xsl:attribute name="id">
+        <xsl:text>element_</xsl:text>
+        <xsl:number count="container" />
+        <xsl:text>_</xsl:text>
+        <xsl:number count="element" />
+        <xsl:text>_body</xsl:text>
+      </xsl:attribute>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>element_info</xsl:text>
+        </xsl:attribute>
+        <xsl:text> </xsl:text>
+      </div>
+      <div>
+        <xsl:attribute name="class">
+          <xsl:text>element_edit</xsl:text>
+        </xsl:attribute>
+        <xsl:variable name="currentelement" select="." />
+        <xsl:variable name="type" select="@type" />
+        <xsl:apply-templates mode="formelement" select="//data/basedata/elementlist/*[name()=$type]/*">
+          <xsl:with-param name="currentelement" select="$currentelement" />
+          <xsl:with-param name="id">
+            <xsl:text>data_element_</xsl:text>
+            <xsl:number count="container" />_<xsl:number count="element" />
+          </xsl:with-param>
+        </xsl:apply-templates>
       </div>
     </div>
   </xsl:template>

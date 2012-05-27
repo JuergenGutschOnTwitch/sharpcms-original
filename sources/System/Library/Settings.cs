@@ -26,23 +26,38 @@ namespace Sharpcms.Library
 
         public string CustomFullPath
         {
-            get { return _customFullPath; }
+            get
+            {
+                return _customFullPath;
+            }
         }
 
         public string RootPath
         {
-            get { return _rootPath; }
+            get
+            {
+                return _rootPath;
+            }
         }
 
         public static Settings DefaultInstance
         {
-            get { return _defaultInstance; }
+            get
+            {
+                return _defaultInstance;
+            }
         }
 
         public string this[string path]
         {
-            get { return this[path, RelativePathHandling.ConvertToAbsolute]; }
-            set { this[path, RelativePathHandling.ConvertToAbsolute] = value; }
+            get
+            {
+                return this[path, RelativePathHandling.ConvertToAbsolute];
+            }
+            set
+            {
+                this[path, RelativePathHandling.ConvertToAbsolute] = value;
+            }
         }
 
         private string this[string path, RelativePathHandling relativePathHandling]
@@ -67,19 +82,23 @@ namespace Sharpcms.Library
 
         public XmlNode GetAsNode(string path)
         {
-            return CommonXml.GetNode(_combinedSettings.SelectSingleNode("settings"), path);
+            XmlNode xmlNode = CommonXml.GetNode(_combinedSettings.SelectSingleNode("settings"), path);
+
+            return xmlNode;
         }
 
         private string ConvertPath(string relativePath)
         {
-            if (!relativePath.StartsWith("~/"))
+            string convertedPath = relativePath;
+
+            if (relativePath.StartsWith("~/"))
             {
-                return relativePath;
+                relativePath = relativePath.Substring(2);
+
+                convertedPath = Common.Common.CombinePaths(RootPath, relativePath.Replace('/', '\\'));
             }
 
-            relativePath = relativePath.Substring(2);
-            
-            return Common.Common.CombinePaths(RootPath, relativePath.Replace('/', '\\'));
+            return convertedPath;
         }
 
         private void Save()

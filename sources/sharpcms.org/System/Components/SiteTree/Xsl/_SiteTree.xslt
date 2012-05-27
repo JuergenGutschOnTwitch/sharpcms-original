@@ -15,15 +15,15 @@
         </b>
       </div>
       <div class="viewstate">
-
+        <xsl:text> </xsl:text>
       </div>
     </div>
     <div class="menu tree_menu">
       <a>
         <xsl:attribute name="class">
-          <xsl:text>button hlAddLanguage</xsl:text>
+          <xsl:text>button hlAddPage</xsl:text>
         </xsl:attribute>
-			  <xsl:attribute name="value">
+			  <xsl:attribute name="data-pageid">
           <xsl:text>.</xsl:text>
         </xsl:attribute>
         <xsl:text>Add language</xsl:text>
@@ -55,21 +55,43 @@
           <xsl:value-of select="$current-path" />
           <xsl:text>/</xsl:text>
         </xsl:attribute>
+        <xsl:if test="@status = 'hide'">
+          <xsl:attribute name="title">
+            <xsl:text>This Page is hidden</xsl:text>
+          </xsl:attribute>
+        </xsl:if>
         <span>
           <xsl:choose>
             <xsl:when test="$isLanguage = 'true'">
               <xsl:attribute name="class">
-                <xsl:text>folder</xsl:text>
+                <xsl:choose>
+                  <xsl:when test="/data/basedata/defaultpage = $current-path">
+                    <xsl:text>home</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>folder</xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
               </xsl:attribute>
             </xsl:when>
             <xsl:otherwise>
               <xsl:attribute name="class">
-                <xsl:text>file</xsl:text>
+                <xsl:choose>
+                  <xsl:when test="/data/basedata/defaultpage = $current-path">
+                    <xsl:text>home</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>file</xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
               </xsl:attribute>
             </xsl:otherwise>
           </xsl:choose>
           <xsl:value-of select="@menuname" />
         </span>
+        <xsl:if test="@status = 'hide'">
+          <img class="icon-hiddenpage" src="/System/Components/Admin/Images/icon-hiddenpage.png" />
+        </xsl:if>
       </a>
       <xsl:if test="*">
         <ul>

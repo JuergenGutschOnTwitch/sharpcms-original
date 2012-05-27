@@ -1,13 +1,10 @@
-﻿var baseUrl;
+﻿$(function () {
+    var $pages = $("#pages");
 
-$(function () {
-    // Common Variables
-    baseUrl = $('head base').attr('href');
-    
     // TreeView (Pages)
-    $("#pages").treeview({
+    $pages.treeview({
         persist: 'location',
         collapsed: true,
-        unique: true
+        unique: false
     });
 });

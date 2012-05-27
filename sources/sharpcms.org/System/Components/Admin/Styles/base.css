@@ -36,13 +36,17 @@ html {
 }
 
 body {
-    background-color: white;
+    background-color: #f4f6f7;
     font-size: 62.5%;
 }
 
 label {
     color: #486c82;
 
+}
+
+a {
+    cursor: pointer;
 }
 
 a, p, b {
@@ -62,7 +66,7 @@ b {
     border: 1px solid #d0d9df;
     border-top: none;
     float: left;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     min-height: 40px;
     padding: 5px;
 }
@@ -134,7 +138,7 @@ b {
 /*************************************************************************/
 .head {
     background-color: #d0d9df;
-    border: 1px solid #a2b4bf;
+    border: 1px solid #b9c7cf;
     color: #486c82;
     float: left;
     padding: 2px 0 2px 2px;
@@ -204,6 +208,10 @@ a.anchor {
     color: red !Important;
 }
 
+.hidden {
+    display: none;
+}
+
 a.button {
     background-color: #d0d9df;
     border: 1px solid #b9c7cf;
@@ -229,6 +237,7 @@ a.expand {
     background-color: #748fa0;
     border-color: #486c82;
     color: #fff !Important;
+    font-weight: bold;
 }
 
 a.expand:hover {
@@ -270,7 +279,7 @@ a.expand:hover {
     background: #fff url('../images/subbg.gif' ) top left repeat-x;
     float: left;
     height: 26px;
-    min-width: 300px;
+    min-width: 320px;
     width: 100%;
 }
 
@@ -405,7 +414,7 @@ a.expand:hover {
 
 
 /*************************************************************************/
-/*                                                                    Tabs
+/*                                                               MceEditor
 /*************************************************************************/
 textarea.mceeditor {
     height: 200px;
@@ -425,6 +434,25 @@ textarea.mceeditor {
 .tab-page {
     float: left;
     width: 632px;
+}
+
+ul.ui-tabs-nav li a.delete {
+    background-color: #d0d9df;
+    border: 1px solid #b9c7cf !Important;
+    cursor: pointer !Important;
+    display: none;
+    font-weight: bold;
+    margin: 2px 2px 0 0;
+    padding: 1px 3px !Important;
+}
+
+ul.ui-tabs-nav li a.delete:hover {
+    background-color: #a2b4bf;
+    border: 1px solid #748fa0 !Important;
+}
+
+ul.ui-tabs-nav li.ui-tabs-selected a.delete {
+    display: inherit;
 }
 
 
@@ -715,50 +743,22 @@ textarea.mceeditor {
 /*                                                                 Message
 /*************************************************************************/
 .messages {
-    display: block;
     float: left;
-    width: 100%;
+    width: 100%
 }
 
-.messages ul {
-    list-style-type: none;
-    
-}
-
-.messages ul li {
-    border: 1px solid #486c82;
-    color: #486c82;
+.messages div {
     margin: 5px 5px 0 5px;
-    padding: 10px;
-    display: block;
+    padding: 6px;
 }
 
-.messages ul li.Error {
-    background-color: red;
-    border: 1px solid #486c82;
-    color: #fff;
+.messages div p {
+    font-size: 11px;
+    line-height: 16px;
 }
 
-.messages ul li.Status {
-    
-}
-
-.messages ul li.Event {
-    
-}
-
-.messages ul li.Warning {
-    background-color: orange;
-    border: 1px solid #486c82;
-    color: #fff;
-}
-
-.messages ul li.Message {
-    
-}
-
-.messages ul li.Debug {
-    
+.messages div p strong {
+    font-weight: bold;
 }
 
 
@@ -790,12 +790,12 @@ textarea.mceeditor {
 }
 
 .login table tbody tr td label {
-    font-size: 0.8em;
+    font-size: .8em;
 }
 
 .login table tbody tr td input {
-    font-size: 0.8em;
-    height: 1.5em;
+    font-size: .8em;
+    height: 1.4em;
 }
 
 .login table tbody tr td input.submit {
@@ -808,25 +808,6 @@ textarea.mceeditor {
 
 .login table tfoot {
     height: 50px;
-}
-
-
-/*************************************************************************/
-/*                                                                  Choose
-/*************************************************************************/
-.choose .header {
-    background: #486c82 url('../images/topbg.gif' ) top left repeat-x;
-    color: #fff;
-    float: left;
-    height: 39px;
-    line-height: 39px;
-    padding-left: 10px;
-    width: 100%;
-}
-
-.choose .content {
-    padding: 10px;
-    width: 100%;
 }
 
 
@@ -898,4 +879,16 @@ input.checkbox {
     cursor: pointer;
     line-height: 32px;
     padding-left: 3px;
+}
+
+
+/*************************************************************************/
+/*                                                        Hidden Page Mark
+/*************************************************************************/
+.icon-hiddenpage {
+    height: 7px;
+    margin-top: -11px;
+    margin-left: 9px;
+    position: absolute;
+    width: 7px;
 }

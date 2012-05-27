@@ -15,7 +15,7 @@
             <xsl:attribute name="class">
               <xsl:text>hlCloseDialog</xsl:text>
             </xsl:attribute>
-            <xsl:attribute name="path">
+            <xsl:attribute name="data-path">
               <xsl:text>.</xsl:text>
             </xsl:attribute>
             <span>
@@ -48,7 +48,7 @@
         <xsl:attribute name="class">
           <xsl:text>hlCloseDialog</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="path">
+        <xsl:attribute name="data-path">
           <xsl:value-of select="$current-path" />
         </xsl:attribute>
         <xsl:if test="@status = 'hide'">

@@ -49,19 +49,20 @@ namespace Sharpcms.Library.Plugin
                     break;
                 }
             }
+
             return toReturn;
         }
 
-        public List<AvailablePlugin> FindImplementations(string api)
+        public IEnumerable<AvailablePlugin> FindImplementations(string api)
         {
-            var plugins = new List<AvailablePlugin>();
+            List<AvailablePlugin> plugins = new List<AvailablePlugin>();
 
             foreach (AvailablePlugin plugin in List)
             {
-                var instance = plugin.Instance as IPlugin2;
+                IPlugin2 instance = plugin.Instance as IPlugin2;
                 if (instance != null && instance.Implements != null)
                 {
-                    var implements = new List<string>(instance.Implements);
+                    List<string> implements = new List<string>(instance.Implements);
                     if (implements.Contains(api))
                     {
                         plugins.Add(plugin);

@@ -37,7 +37,7 @@ namespace Sharpcms.PluginInterface
 			AvailablePlugin toReturn = null;
 
 			//Loop through all the plugins
-			foreach (AvailablePlugin pluginOn in this.List)
+			foreach (AvailablePlugin pluginOn in List)
 			{
 				//Find the one with the matching name or filename
 				if ((pluginOn.Instance.Name.Equals(pluginNameOrPath)) || pluginOn.AssemblyPath.Equals(pluginNameOrPath))
@@ -46,6 +46,7 @@ namespace Sharpcms.PluginInterface
 					break;
 				}
 			}
+
 			return toReturn;
 		}
 	}
@@ -58,7 +59,7 @@ namespace Sharpcms.PluginInterface
 		//This is the actual AvailablePlugin object.. 
 		//Holds an instance of the plugin to access
 		//ALso holds assembly path... not really necessary
-	    private string _assemblyPath = "";
+	    private string _assemblyPath = string.Empty;
 
 	    public AvailablePlugin()
 	    {
