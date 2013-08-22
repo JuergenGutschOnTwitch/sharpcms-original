@@ -1,6 +1,7 @@
 ﻿using Gallio.Common.Markup;
 using Gallio.Framework;
 using WatiN.Core;
+using WatiN.Core.UtilityClasses;
 
 namespace UITests.Helper
 {

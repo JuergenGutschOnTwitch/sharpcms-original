@@ -1,6 +1,7 @@
 syntax: glob
 sources/sharpcms.suo
 sources/sharpcms.sln.DotSettings.user
+sources/sharpcms.v11.suo
 syntax: regexp
 sources/_ReSharper
 /obj/

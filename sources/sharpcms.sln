@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalResources", "ExternalResources", "{A64D4D86-9DD0-4DB4-8737-EFB53C1F96A6}"
 	ProjectSection(SolutionItems) = preProject
 		resources\Highlighter.Net.dll = resources\Highlighter.Net.dll
@@ -79,6 +79,13 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "sharpcms.org", "sharpcms.or
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "53934"
 		VWDVirtualPath = "/"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0A809F1A-AA17-405E-8301-3C0CE1583068}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Global

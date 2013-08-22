@@ -9,5 +9,13 @@ namespace UITests.Helper
         {
             TestLog.WriteLine(message);
         }
+
+        public void LogDebug(string message)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool HandlesLogAction { get; private set; }
+        public bool HandlesLogDebug { get; private set; }
     }
 }
