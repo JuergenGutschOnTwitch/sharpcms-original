@@ -1,3 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<tree />
+<tree>
+  <german menuname="german" pageidentifier="german" status="hide" />
+</tree>
