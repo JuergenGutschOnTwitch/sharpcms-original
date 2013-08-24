@@ -365,6 +365,9 @@
     <div class="item">
       <textarea name="{$id}_{@attribute}">
         <xsl:if test="@height or $id='data_attribute'">
+          <xsl:attribute name="class">
+            <xsl:text>simple</xsl:text>
+          </xsl:attribute>
           <xsl:attribute name="style">
             <xsl:if test="@height and not(@height='')">
               <xsl:text>height:</xsl:text>

@@ -57,6 +57,10 @@ b {
     font-weight: bold;
 }
 
+textarea {
+    resize: vertical;
+}
+
 
 /*************************************************************************/
 /*                                                             Tree (base)
@@ -104,6 +108,15 @@ b {
     float: left;
 }
 
+.menu .name label {
+    width: 100px;
+}
+
+.menu .name input {
+    height: 25px;
+    width: 207px;
+}
+
 .menu ul {
     margin: 2px;
 }
@@ -114,10 +127,6 @@ b {
 
 .top {
     border-top: none;
-}
-
-.bottom {
-    
 }
 
 
@@ -286,7 +295,7 @@ a.expand:hover {
 .mainnavi ul {
     list-style-type: none;
     min-width: 140px;
-    padding-top: 5px;
+    padding-top: 6px;
 }
 
 .mainnavi ul li {
@@ -392,11 +401,6 @@ a.expand:hover {
     width: 4em;
 }
 
-.item textarea {
-    height: 150px;
-    width: 614px;
-}
-
 .item .button {
     line-height: 17px;
 }
@@ -410,14 +414,6 @@ a.expand:hover {
 .item .message {
     background-color: #d0d9dF;
     padding: 6px;
-}
-
-
-/*************************************************************************/
-/*                                                               MceEditor
-/*************************************************************************/
-textarea.mceeditor {
-    height: 200px;
 }
 
 
@@ -560,27 +556,11 @@ ul.ui-tabs-nav li.ui-tabs-selected a.delete {
 /*************************************************************************/
 /*                                                            Element Body
 /*************************************************************************/
-.element_body {
-
-}
-
 .tab_page_body {
     background-color: #fff;
     border: 1px solid #d0d9df;
     padding: 6px 6px 0 6px;
     width: 618px;
-}
-
-.tab_page_body textarea {
-    width: 608px !important;
-}
-
-
-/*************************************************************************/
-/*                                                     Element Body (Info)
-/*************************************************************************/
-.element_info {
-    
 }
 
 
@@ -820,13 +800,13 @@ input, textarea, select {
 }
 
 input {
-    height: 15px;
-    padding: 2px;
-    width: 200px;
+    padding: 6px;
+    width: 300px;
 }
 
 select {
-    width: 206px;
+    padding: 6px;
+    width: 300px;
     font-size: 11px;
 }
 
@@ -863,7 +843,7 @@ input.checkbox {
 
 
 /*************************************************************************/
-/*                                                         Form (checkbox)
+/*                                                     Form (upload field)
 /*************************************************************************/
 .uploadfield {
     margin-bottom: 2px;
@@ -881,6 +861,13 @@ input.checkbox {
     padding-left: 3px;
 }
 
+
+/*************************************************************************/
+/*                                                     Form (upload field)
+/*************************************************************************/
+textarea.simple {
+    width: 618px;
+}
 
 /*************************************************************************/
 /*                                                        Hidden Page Mark
