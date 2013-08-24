@@ -391,7 +391,7 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\sharpcmschooser\img\page_white_add.png" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\sharpcmschooser\img\world_link.png" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\sharpcmschooser\js\sharpcmschooser.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\sharpcmschooser\langs\en_dlg.js" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\sharpcmschooser\langs\en.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\css\content.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\editor_plugin.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\editor_plugin_src.js" />
@@ -531,7 +531,7 @@
     <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.8.18.sharpcms.css" />
     <Content Include="System\Components\Admin\Styles\jquery\selectmenu\jquery.ui.selectmenu.css" />
     <Content Include="System\Components\Admin\Styles\jquery\treeview\jquery.treeview.css" />
-    <Content Include="System\Components\Admin\Styles\tiniy_mce\tinystyle.css" />
+    <Content Include="System\Components\Admin\Styles\tiny_mce\tinystyle.css" />
     <Content Include="System\Components\Admin\Xsl\Admin.xslt" />
     <Content Include="System\Components\Admin\Xsl\Choose.xslt" />
     <Content Include="System\Components\Base\Process.xml" />
