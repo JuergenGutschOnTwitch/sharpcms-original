@@ -63,9 +63,10 @@ namespace Sharpcms.Library.Plugin
             return results.ToArray();
         }
 
-        public static object[] Flatten(object[] results)
+        public static IEnumerable<object> Flatten(IEnumerable<object> results)
         {
             List<object> flattened = new List<object>();
+
             try
             {
                 foreach (object result in results)
@@ -81,7 +82,7 @@ namespace Sharpcms.Library.Plugin
             }
             catch
             {
-                // Just ignore...
+                flattened = new List<object>();
             }
 
             return flattened.ToArray();

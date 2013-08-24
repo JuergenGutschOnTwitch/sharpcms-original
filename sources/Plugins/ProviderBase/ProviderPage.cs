@@ -677,7 +677,7 @@ namespace Sharpcms.Providers.Base
             }
             catch
             {
-                // Ignore
+                
             }
         }
 

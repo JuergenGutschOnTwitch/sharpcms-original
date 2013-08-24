@@ -595,7 +595,7 @@ namespace Sharpcms.Library
             //which will bring that dimension within the limits.
             double widthScaleFactor = maxWidth/(double) inputBmp.Size.Width;
             double heightScaleFactor = maxHeight/(double) inputBmp.Size.Height;
-            double finalScaleFactor = 0;
+            double finalScaleFactor;
 
             //Now pick the smaller scale factor
             if (widthScaleFactor < heightScaleFactor)

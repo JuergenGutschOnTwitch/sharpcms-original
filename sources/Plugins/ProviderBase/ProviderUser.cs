@@ -176,7 +176,7 @@ namespace Sharpcms.Providers.Base
             foreach (string group in userGroups)
             {
                 string xPath = string.Format("groups/item[@name='{0}']", group);
-                XmlNode node = null;
+                XmlNode node;
 
                 try
                 {
@@ -184,7 +184,7 @@ namespace Sharpcms.Providers.Base
                 }
                 catch
                 {
-                    // Ignore
+                    node = null;
                 }
 
                 if (node != null)

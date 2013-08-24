@@ -59,6 +59,7 @@ namespace Sharpcms.Providers.ErrorLog
                 foreach (XmlNode item in items)
                 {
                     bool writtenToLogFile = false;
+
                     try
                     {
                         if (CommonXml.GetAttributeValue(item, "writtenToLogFile") == "true")
@@ -68,7 +69,7 @@ namespace Sharpcms.Providers.ErrorLog
                     }
                     catch
                     {
-                        // Ignore
+                        writtenToLogFile = false;
                     }
 
                     if (writtenToLogFile)

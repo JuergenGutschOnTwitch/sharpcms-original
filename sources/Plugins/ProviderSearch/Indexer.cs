@@ -180,7 +180,7 @@ namespace Sharpcms.Providers.Search
             stringBuilder.Append("Document items:" + Environment.NewLine);
             foreach (DocItem docItem in _docItems)
             {
-                stringBuilder.Append(docItem.ToString());
+                stringBuilder.Append(docItem);
             }
 
             return stringBuilder.ToString();
@@ -206,15 +206,13 @@ namespace Sharpcms.Providers.Search
         private string _docRootDirectory;
         private string _pattern;
 
-        public Indexer(string name, bool verbose)
+        public Indexer(string name, bool verbose = false)
         {
             _ruleSets = new ArrayList();
             _verbose = verbose;
             _indexName = name;
             _messageStringBuilder = new StringBuilder();
         }
-
-        public Indexer(string name) : this(name, false) { }
 
         public string DocRootDirectory
         {

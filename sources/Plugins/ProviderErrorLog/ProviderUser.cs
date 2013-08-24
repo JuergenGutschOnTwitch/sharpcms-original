@@ -161,21 +161,20 @@ namespace Sharpcms.Providers.ErrorLog
 
         private void FrontPage()
         {
-            bool redirected = false;
             object[] results = Process.Plugins.InvokeAll("users", "list_groups", Process.CurrentUser);
             List<string> userGroups = new List<string>(Common.FlattenToStrings(results));
 
             foreach (string group in userGroups)
             {
                 string xPath = string.Format("groups/item[@name='{0}']", group);
-                XmlNode node = null;
+                XmlNode node;
                 try
                 {
                     node = Process.Settings.GetAsNode(xPath);
                 }
                 catch
                 {
-                    // Ignore
+                    node = null;
                 }
 
                 if (node == null)

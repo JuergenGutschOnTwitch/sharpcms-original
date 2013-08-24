@@ -1,6 +1,7 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Sharpcms.Library.Common
 {
     public static class Common
     {
-        public static string[] FlattenToStrings(object[] results)
+        public static IEnumerable<string> FlattenToStrings(IEnumerable<object> results)
         {
-            object[] flattened = PluginServices.Flatten(results);
+            IEnumerable<object> flattened = PluginServices.Flatten(results);
 
             return flattened.Select(result => result as string).ToArray();
         }
