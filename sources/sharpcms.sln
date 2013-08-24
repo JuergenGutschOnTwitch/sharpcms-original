@@ -88,6 +88,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0A809F
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Web", "Sharpcms.Web\Sharpcms.Web.csproj", "{06EE664B-5C4C-4455-A20E-507890D580EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Web.Cleansite", "Sharpcms.Web.Cleansite\Sharpcms.Web.Cleansite.csproj", "{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -198,6 +202,22 @@ Global
 		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{0F2183B0-ADFC-4E58-868B-EC8C779EBA79}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{06EE664B-5C4C-4455-A20E-507890D580EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06EE664B-5C4C-4455-A20E-507890D580EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06EE664B-5C4C-4455-A20E-507890D580EB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{06EE664B-5C4C-4455-A20E-507890D580EB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{06EE664B-5C4C-4455-A20E-507890D580EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06EE664B-5C4C-4455-A20E-507890D580EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06EE664B-5C4C-4455-A20E-507890D580EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{06EE664B-5C4C-4455-A20E-507890D580EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4BF58EEF-2D19-4956-A1E7-8ADC365CA2A7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -55,7 +55,7 @@ namespace Sharpcms.Library
             return success;
         }
 
-        public static void CombineProcessTree(string[] paths, Cache cache)
+        public static void CombineProcessTree(IEnumerable<string> paths, Cache cache)
         {
             string[] fileNames = GetConfigFileNames("Process.xml", paths);
             if (FilesChanged(fileNames, cache))
@@ -76,7 +76,7 @@ namespace Sharpcms.Library
             }
         }
 
-        public static void CombineSettings(string[] paths, Cache cache)
+        public static void CombineSettings(IEnumerable<string> paths, Cache cache)
         {
             string[] fileNames = GetConfigFileNames("Settings.xml", paths);
             if (FilesChanged(fileNames, cache))

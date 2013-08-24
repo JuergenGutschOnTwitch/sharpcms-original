@@ -328,7 +328,7 @@ namespace Sharpcms.Providers.Search
             switch (rule.Type)
             {
                 case "text":
-                    ludoc.Add(Field.Text(rule.Name, parseHtml(val)));
+                    ludoc.Add(Field.Text(rule.Name, ParseHtml(val)));
                     break;
                 case "keyword":
                     ludoc.Add(Field.Keyword(rule.Name, val));
@@ -488,7 +488,7 @@ namespace Sharpcms.Providers.Search
                                         XPathNodeIterator iter = clone.Select(expr);
                                         while (iter.MoveNext())
                                         {
-                                            string textVal = parseHtml(iter.Current.Value);
+                                            string textVal = ParseHtml(iter.Current.Value);
 
                                             if (_verbose)
                                             {
@@ -555,7 +555,7 @@ namespace Sharpcms.Providers.Search
         /// </summary>
         /// <param name="html">HTML document</param>
         /// <returns>Plain text.</returns>
-        private string parseHtml(string html)
+        private static string ParseHtml(string html)
         {
             html = HttpContext.Current.Server.HtmlDecode(html);
             html = HttpContext.Current.Server.HtmlDecode(html);

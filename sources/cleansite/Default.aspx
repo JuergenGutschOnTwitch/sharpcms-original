@@ -1,1 +1,1 @@
-﻿<%@ Page ValidateRequest="false" CodeFile="Default.aspx.cs" Inherits="Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Default" %>

@@ -165,7 +165,7 @@ namespace Sharpcms.Library.Process
             get { return _cache ?? (_cache = new Cache(HttpPage.Application)); }
         }
 
-        public XmlDocument XmlData { get; set; }
+        public XmlDocument XmlData { get; private set; }
 
         public string CurrentProcess
         {
@@ -215,7 +215,9 @@ namespace Sharpcms.Library.Process
                     Logout();
                 }
 
-                return HttpPage.Session["current_username"].ToString();
+                return HttpPage.Session["current_username"] != null 
+                    ? HttpPage.Session["current_username"].ToString() 
+                    : String.Empty;
             }
         }
         // <<<<< Search Mod by Kiho Chang 2008-10-05
@@ -230,12 +232,7 @@ namespace Sharpcms.Library.Process
             CommonXml.SetAttributeValue(xmlNode, "type", type);
         }
 
-        public void AddMessage(string message)
-        {
-            AddMessage(message, MessageType.Message);
-        }
-
-        public void AddMessage(string message, MessageType messageType)
+        public void AddMessage(string message, MessageType messageType = MessageType.Message)
         {
             AddMessage(message, messageType, string.Empty);
         }

@@ -2,9 +2,9 @@
 using Gallio.Model;
 using MbUnit.Framework;
 using WatiN.Core;
-using WatiN.Core.Logging;
+using WatiN.Core.Logging; 
 
-namespace UITests.Helper
+namespace Sharpcms.UI.Test.Helper
 {
     public class WatiNTestBase
     {
@@ -26,7 +26,7 @@ namespace UITests.Helper
                 Ie.Dispose();
         }
 
-        public void Login()
+        protected void Login()
         {
             using (TestLog.BeginSection("Go to sharpcms adminpage"))
             {
@@ -43,7 +43,7 @@ namespace UITests.Helper
             }
         }
 
-        public void Logout()
+        protected void Logout()
         {
             using (TestLog.BeginSection("Lgout from sharpcms adminpage"))
             {

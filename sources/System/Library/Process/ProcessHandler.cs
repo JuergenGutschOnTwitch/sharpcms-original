@@ -177,9 +177,10 @@ namespace Sharpcms.Library.Process
                             string action = CommonXml.GetAttributeValue(contentNode, "action");
                             string value = GetValue(contentNode, process);
                             string pathTrail = JoinPath(Common.Common.RemoveOne(args));
-                            if (provider is IPlugin2)
+                            var plugin2 = provider as IPlugin2;
+                            if (plugin2 != null)
                             {
-                                ((IPlugin2) provider).Load(control, action, value, pathTrail);
+                                plugin2.Load(control, action, value, pathTrail);
                             }
                             else
                             {
@@ -248,28 +249,30 @@ namespace Sharpcms.Library.Process
         private static void MailStackTrace(Process process, Exception exception)
         {
             // Try sending an email with the stack trace
-            try
+            if (process.Settings["site/stacktrace/recipient"] != string.Empty)
             {
-                if (process.Settings["site/stacktrace/recipient"] != string.Empty)
+                try
                 {
-                    MailMessage mail = new MailMessage();
+                    MailMessage mail = new MailMessage {
+                        From = new MailAddress(process.Settings["site/stacktrace/sender"]),
+                        IsBodyHtml = false,
+                        Body = FormatStackTrace(process.Settings["site/stacktrace/body"], exception, process),
+                        Subject = FormatStackTrace(process.Settings["site/stacktrace/subject"], exception, process)
+                    };
+
                     mail.To.Add(process.Settings["site/stacktrace/recipient"]);
-                    mail.From = new MailAddress(process.Settings["site/stacktrace/sender"]);
-                    mail.IsBodyHtml = false;
-                    mail.Body = FormatStackTrace(process.Settings["site/stacktrace/body"], exception, process);
-                    mail.Subject = FormatStackTrace(process.Settings["site/stacktrace/subject"], exception, process);
 
                     SmtpClient smtpClient = new SmtpClient(process.Settings["mail/smtp"]);
                     if (process.Settings["mail/smtpuser"] != string.Empty)
                     {
                         smtpClient.Credentials = new NetworkCredential(process.Settings["mail/smtpuser"], process.Settings["mail/smtppass"]);
                     }
+
                     smtpClient.Send(mail);
                 }
-            }
-            catch
-            {
-                // Ignore
+                catch
+                {
+                }
             }
         }
 

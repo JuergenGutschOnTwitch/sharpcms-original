@@ -101,30 +101,37 @@ namespace Sharpcms.PluginInterface
 						//Make sure the interface we want to use actually exists
 						if (typeInterface != null)
 						{
-							//Create a new available plugin since the type implements the IPlugin interface
-							var newPlugin = new AvailablePlugin();
+						    String pluginTypeName = pluginType.ToString();
+                            IPlugin instance = Activator.CreateInstance(pluginAssembly.GetType(pluginTypeName)) as IPlugin;
 
-							//Set the filename where we found it
-							newPlugin.AssemblyPath = fileName;
+                            if (instance != null)
+                            {
+                                instance.Host = this;
 
-							//Create a new instance and store the instance in the collection for later use
-							//We could change this later on to not load an instance.. we have 2 options
-							//1- Make one instance, and use it whenever we need it.. it's always there
-							//2- Don't make an instance, and instead make an instance whenever we use it, then close it
-							//For now we'll just make an instance of all the plugins
-							newPlugin.Instance = (IPlugin)Activator.CreateInstance(pluginAssembly.GetType(pluginType.ToString()));
+                                //Set the Plugin's process
+                                instance.Process = process;
 
-							//Set the Plugin's host to this class which inherited IPluginHost
-							newPlugin.Instance.Host = this;
+                                //Call the initialization sub of the plugin
+                                instance.Initialize();
+                                
+                                //Create a new available plugin since the type implements the IPlugin interface
+                                var newPlugin = new AvailablePlugin {
+                                    //Set the filename where we found it
+                                    AssemblyPath = fileName,
 
-							//Set the Plugin's process
-							newPlugin.Instance.Process = process;
+                                    //Create a new instance and store the instance in the collection for later use
+                                    //We could change this later on to not load an instance.. we have 2 options
+                                    //1- Make one instance, and use it whenever we need it.. it's always there
+                                    //2- Don't make an instance, and instead make an instance whenever we use it, then close it
+                                    //For now we'll just make an instance of all the plugins
 
-							//Call the initialization sub of the plugin
-							newPlugin.Instance.Initialize();
+                                    //Set the Plugin's host to this class which inherited IPluginHost
+                                    Instance = instance
+                                };
 
-							//Add the new plugin to our collection here
-							_colAvailablePlugins.Add(newPlugin);
+                                //Add the new plugin to our collection here
+                                _colAvailablePlugins.Add(newPlugin);
+                            }
 						}			
 					}
 				}

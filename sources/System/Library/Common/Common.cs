@@ -49,7 +49,7 @@ namespace Sharpcms.Library.Common
             return null;
         }
 
-        public static bool StringArrayContains(string[] args, string value)
+        public static bool StringArrayContains(IEnumerable<string> args, string value)
         {
             bool contains = args.Any(currentValue => currentValue == value);
 
@@ -63,7 +63,9 @@ namespace Sharpcms.Library.Common
 
             for (int i = 1; i < paths.Length; i++)
             {
-                combinedPath = i == 1 ? Path.Combine(paths[i - 1], paths[i]) : Path.Combine(combinedPath, paths[i]);
+                combinedPath = i == 1 
+                    ? Path.Combine(paths[i - 1], paths[i]) 
+                    : Path.Combine(combinedPath, paths[i]);
             }
 
             return combinedPath;
@@ -219,12 +221,7 @@ namespace Sharpcms.Library.Common
             return true;
         }
 
-        public static void CopyDirectory(string srcPath, string destPath)
-        {
-            CopyDirectory(srcPath, destPath, false);
-        }
-
-        public static void CopyDirectory(string srcPath, string destPath, bool recursive)
+        public static void CopyDirectory(string srcPath, string destPath, bool recursive = false)
         {
             CopyDirectory(new DirectoryInfo(CheckedCombinePath(srcPath)), new DirectoryInfo(CheckedCombinePath(destPath)), recursive);
         }

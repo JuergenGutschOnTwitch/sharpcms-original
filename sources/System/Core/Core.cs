@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.UI;
 using Sharpcms.Library;
 using Sharpcms.Library.Common;
@@ -28,6 +30,25 @@ namespace Sharpcms.Core
             if (process.RedirectUrl != null)
             {
                 httpPage.Response.Redirect(process.RedirectUrl);
+            }
+        }
+
+        public static void Request(HttpContext httpContext)
+        {
+            if (httpContext.Request.ApplicationPath != null)
+            {
+                string currentUrl = HttpContext.Current.Request.Path;
+                string file = httpContext.Server.MapPath(currentUrl.Substring(currentUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
+                if (!File.Exists(file))
+                {
+                    string path = currentUrl.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').Replace(".aspx", String.Empty);
+                    string querystring = httpContext.Request.ServerVariables["QUERY_STRING"];
+                    string rewritePath = String.IsNullOrEmpty(querystring)
+                        ? String.Format("~/default.aspx?process={0}", path)
+                        : String.Format("~/default.aspx?process={0}&{1}", path, querystring);
+
+                    httpContext.RewritePath(rewritePath);
+                }
             }
         }
 

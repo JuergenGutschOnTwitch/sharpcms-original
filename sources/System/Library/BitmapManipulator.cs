@@ -204,10 +204,8 @@ namespace Sharpcms.Library
         /// 
         /// <returns>Bitmap object from URI.  Shouldn't ever be null, as any error will be reported
         ///     in an exception.</returns>
-        public static Bitmap GetBitmapFromUri(Uri uri, int timeoutMs)
+        private static Bitmap GetBitmapFromUri(Uri uri, int timeoutMs)
         {
-            Bitmap downloadedImage;
-
             //Create a web request object for the URI, retrieve the contents,
             //then feed the results into a new Bitmap object.  Note that we 
             //are particularly sensitive to timeouts, since this all must happen
@@ -222,8 +220,7 @@ namespace Sharpcms.Library
 
                 //Check the content type of the response to make sure it is
                 //one of the formats we support
-                if (Array.IndexOf(SupportedMimeTypes,
-                                  resp.ContentType) == -1)
+                if (Array.IndexOf(SupportedMimeTypes, resp.ContentType) == -1)
                 {
                     String contentType = resp.ContentType;
                     resp.Close();
@@ -231,12 +228,11 @@ namespace Sharpcms.Library
                         String.Format(
                             "The image at the URL you provided is in an unsupported format ({0}).  Uploaded images must be in either JPEG, GIF, BMP, TIFF, PNG, or WMF formats.",
                             contentType),
-                        new NotSupportedException(String.Format("MIME type '{0}' is not a recognized image type",
-                                                                contentType)));
+                        new NotSupportedException(String.Format("MIME type '{0}' is not a recognized image type", contentType)));
                 }
 
                 //Otherwise, looks fine
-                downloadedImage = new Bitmap(resp.GetResponseStream());
+                Bitmap downloadedImage = new Bitmap(resp.GetResponseStream());
 
                 resp.Close();
 
@@ -244,9 +240,7 @@ namespace Sharpcms.Library
             }
             catch (UriFormatException exp)
             {
-                throw new BitmapManipException(
-                    "The URL you entered is not valid.  Please enter a valid URL, of the form http://servername.com/folder/image.gif",
-                    exp);
+                throw new BitmapManipException("The URL you entered is not valid.  Please enter a valid URL, of the form http://servername.com/folder/image.gif", exp);
             }
             catch (WebException exp)
             {

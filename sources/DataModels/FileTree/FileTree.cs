@@ -423,11 +423,14 @@ namespace Sharpcms.Data.FileTree
             }
             catch
             {
-                // Do nothing...
+                dataSet = null;
             }
             finally
             {
-                dataSet.Dispose();
+                if (dataSet != null)
+                {
+                    dataSet.Dispose();
+                }
             }
         }
     }

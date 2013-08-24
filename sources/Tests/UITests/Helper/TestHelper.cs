@@ -3,9 +3,9 @@ using Gallio.Framework;
 using WatiN.Core;
 using WatiN.Core.UtilityClasses;
 
-namespace UITests.Helper
+namespace Sharpcms.UI.Test.Helper
 {
-    public class TestHelper
+    public static class TestHelper
     {
 
         public static void Snapshot(IE ie, string caption)
