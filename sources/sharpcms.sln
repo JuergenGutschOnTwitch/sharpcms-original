@@ -51,9 +51,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.Search",
 		{0611BC03-6D92-429E-836D-1FACCFCD7FC1} = {0611BC03-6D92-429E-836D-1FACCFCD7FC1}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests", "Tests\UITests\UITests.csproj", "{CA492DA1-8307-4ED6-9612-7ABF41AF092A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.UI.Test", "Tests\UITests\Sharpcms.UI.Test.csproj", "{CA492DA1-8307-4ED6-9612-7ABF41AF092A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "Tests\UnitTest\UnitTest.csproj", "{9D83A13D-B5A2-4363-8B3E-9ED055BACAFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Test", "Tests\UnitTest\Sharpcms.Test.csproj", "{9D83A13D-B5A2-4363-8B3E-9ED055BACAFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpcms.Providers.Cookies", "Cookies\Sharpcms.Providers.Cookies.csproj", "{6B2512E4-8BC7-48E6-9BCE-994EAFB24ECD}"
 EndProject
