@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page>
+  <attributes>
+    <pagename>german</pagename>
+    <name>german</name>
+    <menuname>german</menuname>
+    <pageidentifier>german</pageidentifier>
+    <status>hide</status>
+    <template></template>
+    <createddate></createddate>
+    <createduser></createduser>
+    <modifieddate></modifieddate>
+    <modifieduser></modifieduser>
+    <metakeywords></metakeywords>
+    <metadescription></metadescription>
+  </attributes>
+  <containers>
+    <container name="content">
+      <elements>
+        <element type="header" name="Header" publish="false">
+          <text>Der Header 2</text>
+          <headerstyle>Header1</headerstyle>
+        </element>
+        <element type="textblock" name="Content" publish="false">
+          <text>&lt;p&gt;Der Content&lt;/p&gt;</text>
+        </element>
+      </elements>
+    </container>
+  </containers>
+</page>
