@@ -11,9 +11,9 @@ using Sharpcms.Library;
 using Sharpcms.Library.Common;
 using Sharpcms.Library.Process;
 
-namespace Sharpcms.Core
+namespace Sharpcms
 {
-    public static class Core
+    public static class Sharpcms
     {
         public static void Send(Page httpPage)
         {
@@ -33,7 +33,7 @@ namespace Sharpcms.Core
             }
         }
 
-        public static void Request(HttpContext httpContext)
+        public static void Request(HttpContext httpContext, String entryPageName)
         {
             if (httpContext.Request.ApplicationPath != null)
             {
@@ -43,9 +43,9 @@ namespace Sharpcms.Core
                 {
                     string path = currentUrl.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').Replace(".aspx", String.Empty);
                     string querystring = httpContext.Request.ServerVariables["QUERY_STRING"];
-                    string rewritePath = String.IsNullOrEmpty(querystring)
-                        ? String.Format("~/default.aspx?process={0}", path)
-                        : String.Format("~/default.aspx?process={0}&{1}", path, querystring);
+                    string rewritePath = !String.IsNullOrEmpty(querystring)
+                        ? String.Format("~/{0}.aspx?process={1}&{2}", entryPageName, path, querystring)
+                        : String.Format("~/{0}.aspx?process={1}", entryPageName, path);
 
                     httpContext.RewritePath(rewritePath);
                 }

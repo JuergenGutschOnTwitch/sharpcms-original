@@ -9,7 +9,7 @@ namespace Sharpcms.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Core.Core.Send(this);
+            Sharpcms.Send(this);
         }
     }
 }

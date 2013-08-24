@@ -8,7 +8,7 @@
     <ProjectGuid>{8D3AF0F3-3706-40E7-823E-F1B5E14D113B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sharpcms.Core</RootNamespace>
+    <RootNamespace>Sharpcms</RootNamespace>
     <AssemblyName>Sharpcms.Core</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -52,7 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core.cs" />
+    <Compile Include="Sharpcms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

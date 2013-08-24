@@ -70,7 +70,10 @@
         <a class="anchor" name="top">
           <xsl:text> </xsl:text>
         </a>
-        <form action="Default.aspx" name="systemform" method="post" encType="multipart/form-data">
+        <form name="systemform" method="post" encType="multipart/form-data">
+          <xsl:attribute name="action">
+            <xsl:value-of select="data/query/other/process" />
+          </xsl:attribute>
           <div class="page">
             <!-- Begin of primary hidden settings -->
             <input type="hidden" name="event_main" value="" />
