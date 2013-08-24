@@ -18,7 +18,7 @@
     <container name="content">
       <elements>
         <element type="header" name="Header" publish="false">
-          <text>Der Header 2</text>
+          <text>Der Header</text>
           <headerstyle>Header1</headerstyle>
         </element>
         <element type="textblock" name="Content" publish="false">

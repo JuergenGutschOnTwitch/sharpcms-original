@@ -1,7 +1,7 @@
 ﻿using Gallio.Framework;
 using WatiN.Core.Interfaces;
 
-namespace Sharpcms.UI.Test.Helper
+namespace Sharpcms.Web.Test.Helper
 {
     public class WatiNStreamLogger : ILogWriter
     {

@@ -2,9 +2,9 @@
 using Gallio.Model;
 using MbUnit.Framework;
 using WatiN.Core;
-using WatiN.Core.Logging; 
+using WatiN.Core.Logging;
 
-namespace Sharpcms.UI.Test.Helper
+namespace Sharpcms.Web.Test.Helper
 {
     public class WatiNTestBase
     {

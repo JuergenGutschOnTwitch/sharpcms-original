@@ -63,8 +63,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)cleansite\System\Components\Base\Plugins" /y
-copy "$(TargetDir)" "$(SolutionDir)cleansite\Bin" /y
-copy "$(TargetDir)" "$(SolutionDir)resources" /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

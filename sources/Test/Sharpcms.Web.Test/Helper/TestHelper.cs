@@ -3,7 +3,7 @@ using Gallio.Framework;
 using WatiN.Core;
 using WatiN.Core.UtilityClasses;
 
-namespace Sharpcms.UI.Test.Helper
+namespace Sharpcms.Web.Test.Helper
 {
     public static class TestHelper
     {

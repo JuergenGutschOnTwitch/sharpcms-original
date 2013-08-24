@@ -1,9 +1,9 @@
 ﻿using Gallio.Framework;
 using MbUnit.Framework;
-using Sharpcms.UI.Test.Helper;
+using Sharpcms.Web.Test.Helper;
 using WatiN.Core;
 
-namespace Sharpcms.UI.Test
+namespace Sharpcms.Web.Test
 {
     /// <summary>
     /// This is the Logintest to the sharpcms backend
