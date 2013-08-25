@@ -2,7 +2,7 @@
 * $Id: sharpcmschooser_src.js 201 2007-02-12 15:56:56Z spocke $
 *
 * @author Thomas Huber
-* @copyright Copyright © 2009, sharpcms.org, All rights reserved.
+* @copyright Copyright © 2013, sharpcms.org, All rights reserved.
 */
 
 (function () {
@@ -22,13 +22,33 @@
                 ModalDialogShow('admin/choose/file', 'ReturnMethodTinyMceChoosePicture()');
             });
 
-            ed.addButton('sharpcmslinkchooser', { title: 'insert Link', cmd: 'mceInsertLink', image: url + '/img/internal_link.png' });
-            ed.addButton('sharpcmsfilechooser', { title: 'insert File', cmd: 'mceInsertFileLink', image: url + '/img/page_white_add.png' });
-            ed.addButton('sharpcmsimagechooser', { title: 'insert Picture', cmd: 'mceInsertPicture', image: url + '/img/image_add.png' });
+            ed.addButton('sharpcmslinkchooser', {
+                title: 'insert Link',
+                cmd: 'mceInsertLink',
+                image: url + '/img/internal_link.png'
+            });
+            
+            ed.addButton('sharpcmsfilechooser', {
+                title: 'insert File',
+                cmd: 'mceInsertFileLink',
+                image: url + '/img/page_white_add.png'
+            });
+            
+            ed.addButton('sharpcmsimagechooser', {
+                 title: 'insert Picture', cmd: 'mceInsertPicture', image: url + '/img/image_add.png'
+            });
 
-            ed.onNodeChange.add(function (ed, cm, n) { cm.setActive('sharpcmslinkchooser', n.nodeName == 'IMG'); });
-            ed.onNodeChange.add(function (ed, cm, n) { cm.setActive('sharpcmsfilechooser', n.nodeName == 'IMG'); });
-            ed.onNodeChange.add(function (ed, cm, n) { cm.setActive('sharpcmsimagechooser', n.nodeName == 'IMG'); });
+            ed.onNodeChange.add(function(editor, cm, n) {
+                 cm.setActive('sharpcmslinkchooser', n.nodeName == 'IMG');
+            });
+            
+            ed.onNodeChange.add(function(editor, cm, n) {
+                 cm.setActive('sharpcmsfilechooser', n.nodeName == 'IMG');
+            });
+            
+            ed.onNodeChange.add(function(editor, cm, n) {
+                 cm.setActive('sharpcmsimagechooser', n.nodeName == 'IMG');
+            });
         },
 
         createControl: function (n, cm) {

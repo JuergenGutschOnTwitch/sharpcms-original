@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page>
+  <attributes>
+    <pagename>german</pagename>
+    <name>german</name>
+    <menuname>german</menuname>
+    <pageidentifier>german</pageidentifier>
+    <status>open</status>
+    <template></template>
+    <createddate></createddate>
+    <createduser></createduser>
+    <modifieddate></modifieddate>
+    <modifieduser></modifieduser>
+    <metakeywords></metakeywords>
+    <metadescription></metadescription>
+  </attributes>
+  <containers>
+    <container name="content">
+      <elements>
+        <element type="textblock" name="Content" publish="true">
+          <text></text>
+        </element>
+      </elements>
+    </container>
+  </containers>
+</page>
