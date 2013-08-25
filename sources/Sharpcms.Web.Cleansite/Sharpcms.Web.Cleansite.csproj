@@ -47,7 +47,6 @@
     <Content Include="Custom\App_Data\CombinedSettings.xml" />
     <Content Include="Custom\App_Data\CustomProcess.xml" />
     <Content Include="Custom\App_Data\CustomSettings.xml" />
-    <Content Include="Custom\App_Data\database\site\german.xml" />
     <Content Include="Custom\App_Data\database\tree.xml" />
     <Content Include="Custom\App_Data\rules.xml" />
     <Content Include="Custom\App_Data\Users.xml" />
@@ -461,6 +460,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Custom\App_Data\database\site\" />
     <Folder Include="Custom\App_Data\Files\Files\" />
   </ItemGroup>
   <PropertyGroup>

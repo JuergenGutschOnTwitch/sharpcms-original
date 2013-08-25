@@ -43,11 +43,11 @@
     });
 
     $hlSaveAndShow.live().click(function () {
-        Sharpcms.Actions.ThrowEvent('save', 'openwindow', '');
+        Sharpcms.Actions.SaveAndPreviewPage();
     });
 
-    $hlShow.live().live().click(function () {
-        Sharpcms.Actions.ThrowEvent('', 'openwindow', '');
+    $hlShow.live().click(function () {
+        Sharpcms.Actions.PreviewPage();
     });
 
     $hlRemoveContrainer.live().click(function () {
@@ -236,7 +236,6 @@
             Sharpcms.Actions.MovePage();
         } else if (attributeAction == Sharpcms.ActionType.CopyPage) {
             Sharpcms.Actions.CopyPage(attributeValue[0], attributeValue[1]);
-            //Sharpcms.ModalDialog.Show('admin/choose/page/', 'Sharpcms.Actions.CopyPage("' + attributeValue[0] + '","' + attributeValue[1] + '")');
         } else if (attributeAction == Sharpcms.ActionType.SetAsStartPage) {
             Sharpcms.Actions.SetAsStartPage();
         }
@@ -306,5 +305,19 @@
         }
     }
 
+    function preview() {
+        var param = $.url.param('preview');
+
+        if (param == 'true') {
+            var page = $("input[name=page]").val();
+
+            if (page != null) {
+                window.open('/show/' + page);
+                location.href = location.href.split("?")[0];
+            }
+        }
+    }
+
     setContentWidth();
+    preview();
 });

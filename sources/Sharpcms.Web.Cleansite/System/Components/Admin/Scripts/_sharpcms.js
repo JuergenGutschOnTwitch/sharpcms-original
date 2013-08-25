@@ -72,7 +72,7 @@ function ReturnMethodMoveFile(path) {
 }
 
 function ReturnMethodMoveFolder(path) {
-    var modalDialogValue = ModalDialog.value;
+    var modalDialogValue = Sharpcms.ModalDialog.DialogBox.value;
 
     Sharpcms.ModalDialog.Reset();
     Sharpcms.Actions.ThrowEvent('movefolder', path + '*' + modalDialogValue, '');

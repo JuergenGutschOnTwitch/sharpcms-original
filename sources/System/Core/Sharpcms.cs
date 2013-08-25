@@ -15,21 +15,21 @@ namespace Sharpcms
 {
     public static class Sharpcms
     {
-        public static void Send(Page httpPage)
+        public static void Send(Page page)
         {
-            PrepareConfiguration(httpPage);
+            PrepareConfiguration(page);
 
             ProcessHandler processHandler = new ProcessHandler();
-            Process process = processHandler.Run(httpPage);
+            Process process = processHandler.Run(page);
 
             if (!process.OutputHandledByModule && process.RedirectUrl == null)
             {
-                Parse(httpPage, process);
+                Parse(page, process);
             }
 
             if (process.RedirectUrl != null)
             {
-                httpPage.Response.Redirect(process.RedirectUrl);
+                page.Response.Redirect(process.RedirectUrl);
             }
         }
 
