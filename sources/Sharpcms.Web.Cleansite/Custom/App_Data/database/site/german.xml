@@ -20,6 +20,9 @@
         <element type="textblock" name="Content" publish="true">
           <text></text>
         </element>
+        <element type="textblock" name="Content 2" publish="true">
+          <text>&lt;p&gt;TEST 2&lt;/p&gt;</text>
+        </element>
       </elements>
     </container>
   </containers>

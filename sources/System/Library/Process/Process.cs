@@ -14,8 +14,15 @@ namespace Sharpcms.Library.Process
 {
     public class Process
     {
-        private const string CookieSeparator = "cookieseparator";
-        private readonly string _basePath;
+        private const String CookieSeparator = "cookieseparator";
+        private readonly String _basePath;
+        private Cache _cache;
+        private String _currentProcess;
+        private Settings _settings;
+        private Dictionary<String, String> _variables;
+
+        public String MainTemplate; //ToDo: this should be more logical
+        public bool OutputHandledByModule;
         public readonly Page HttpPage;
         public readonly PluginServices Plugins;
         public readonly ControlList Content;
@@ -23,15 +30,11 @@ namespace Sharpcms.Library.Process
         public readonly XmlItemList QueryData;
         public readonly XmlItemList QueryEvents;
         public readonly XmlItemList QueryOther;
-        private Cache _cache;
-        private string _currentProcess = string.Empty;
-        private Settings _settings;
-        private Dictionary<string, string> _variables;
-        public string MainTemplate; //ToDo: this should be more logical
-        public bool OutputHandledByModule;
 
         public Process(Page httpPage, PluginServices pluginServices)
         {
+            _currentProcess = String.Empty;
+
             Plugins = pluginServices;
             HttpPage = httpPage;
             XmlData = new XmlDocument();
@@ -48,25 +51,35 @@ namespace Sharpcms.Library.Process
                 if (httpPage.Request.ServerVariables["SERVER_PORT"] == "80")
                 {
                     _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
-                                    httpPage.Request.ServerVariables["SERVER_NAME"] +
-                                    httpPage.Request.ApplicationPath.TrimEnd('/') + string.Empty;
+                                httpPage.Request.ServerVariables["SERVER_NAME"] +
+                                httpPage.Request.ApplicationPath.TrimEnd('/');
                 }
                 else
                 {
                     _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
                                 httpPage.Request.ServerVariables["SERVER_NAME"] + ":" +
                                 httpPage.Request.ServerVariables["SERVER_PORT"] +
-                                httpPage.Request.ApplicationPath.TrimEnd('/') + string.Empty;
+                                httpPage.Request.ApplicationPath.TrimEnd('/');
                 }
             }
 
             Content["basepath"].InnerText = _basePath;
-            Content["referrer"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_REFERER"]);
-            Content["domain"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["SERVER_NAME"]);
-            Content["useragent"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_USER_AGENT"]);
-            Content["sessionid"].InnerText = httpPage.Server.UrlEncode(httpPage.Session.LCID.ToString(CultureInfo.InvariantCulture));
-            Content["ip"].InnerText = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["REMOTE_ADDR"]);
 
+            String referrer = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_REFERER"]);
+            Content["referrer"].InnerText = referrer ?? String.Empty;
+
+            String domain = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["SERVER_NAME"]);
+            Content["domain"].InnerText = domain ?? String.Empty;
+
+            String useragent = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_USER_AGENT"]);
+            Content["useragent"].InnerText = useragent ?? String.Empty;
+
+            String sessionid = httpPage.Server.UrlEncode(httpPage.Session.LCID.ToString(CultureInfo.InvariantCulture));
+            Content["sessionid"].InnerText = sessionid ?? String.Empty;
+
+            String ip = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["REMOTE_ADDR"]);
+            Content["ip"].InnerText = ip ?? String.Empty;
+            
             Attributes = new XmlItemList(CommonXml.GetNode(xmlNode, "attributes", EmptyNodeHandling.CreateNew));
             QueryData = new XmlItemList(CommonXml.GetNode(xmlNode, "query/data", EmptyNodeHandling.CreateNew));
             QueryEvents = new XmlItemList(CommonXml.GetNode(xmlNode, "query/events", EmptyNodeHandling.CreateNew));
@@ -75,12 +88,15 @@ namespace Sharpcms.Library.Process
             ProcessQueries();
             ConfigureDebugging();
             LoginByCookie();
-            
-            if (QueryEvents["main"] == "login")
+
+            String mainEvent = QueryEvents["main"];
+            String mainEventValue = QueryEvents["mainValue"];
+
+            if (mainEvent == "login")
             {
                 if (!Login(QueryData["login"], QueryData["password"]))
                 {
-                    if (_settings != null && _settings["messages/loginerror"] != string.Empty)
+                    if (_settings != null && _settings["messages/loginerror"] != String.Empty)
                     {
                         httpPage.Response.Redirect(GetErrorUrl(httpPage.Server.UrlEncode(_settings["messages/loginerror"])));
                     }
@@ -90,60 +106,71 @@ namespace Sharpcms.Library.Process
                     }
                 }
             }
-            else if (QueryEvents["main"] == "logout")
+            else if (mainEvent == "logout")
             {
                 Logout();
-                if (QueryEvents["mainValue"] != string.Empty)
+                if (mainEventValue != String.Empty)
                 {
-                    HttpPage.Response.Redirect(QueryEvents["mainValue"]);
+                    HttpPage.Response.Redirect(mainEventValue);
                 }
             }
+            else if (mainEvent == String.Empty)
+            {
+                if (mainEventValue != String.Empty)
+                {
+                    HttpPage.Response.Redirect("/");
+                }
+            }
+
             UpdateCookieTimeout();
 
             LoadBaseData();
             // loads new user...
         }
 
-        public Dictionary<string, string> Variables
+        public Dictionary<String, String> Variables
         {
             get
             {
-                return _variables ?? (_variables = new Dictionary<string, string>());
+                return _variables ?? (_variables = new Dictionary<String, String>());
             }
         }
 
-        public string RedirectUrl { get; set; }
+        public String RedirectUrl { get; set; }
 
-        private string GetRedirectUrl()
+        private String GetRedirectUrl()
         {
-            string redirectUrl = QueryOther["process"];
+            String process = QueryOther["process"];
 
-            if (redirectUrl.Trim().EndsWith("/"))
+            if (process.Trim().EndsWith("/"))
             {
-                redirectUrl = redirectUrl.Remove(redirectUrl.Length - 1, 1);
+                process = process.Remove(process.Length - 1, 1);
             }
 
-            return string.Format("{0}login/?redirect={1}", BasePath, redirectUrl);
+            String redirectUrl = String.Format("{0}login/?redirect={1}", BasePath, process);
+
+            return redirectUrl;
         }
 
-        private string GetErrorUrl(string loginError)
+        private String GetErrorUrl(String loginError)
         {
-            string redirectUrl = QueryOther["process"];
+            String process = QueryOther["process"];
 
-            if (redirectUrl.Trim().EndsWith("/"))
+            if (process.Trim().EndsWith("/"))
             {
-                redirectUrl = redirectUrl.Remove(redirectUrl.Length - 1, 1);
+                process = process.Remove(process.Length - 1, 1);
             }
 
-            return string.Format("{0}login/?error={1}&redirect={2}", BasePath, loginError, redirectUrl);
+            String errorUrl = String.Format("{0}login/?error={1}&redirect={2}", BasePath, loginError, process);
+
+            return errorUrl;
         }
 
         private bool DebugEnabled
         {
             get
             {
-                bool debugEnabled = (HttpPage.Session["enabledebug"] != null &&
-                                     HttpPage.Session["enabledebug"].ToString() == "true");
+                bool debugEnabled = (HttpPage.Session["enabledebug"] != null && HttpPage.Session["enabledebug"].ToString() == "true");
 
                 return debugEnabled;
             }
@@ -155,26 +182,35 @@ namespace Sharpcms.Library.Process
             }
         }
 
-        private string BasePath
+        private String BasePath
         {
-            get { return _basePath; }
+            get
+            {
+                return _basePath;
+            }
         }
 
         public Cache Cache
         {
-            get { return _cache ?? (_cache = new Cache(HttpPage.Application)); }
+            get
+            {
+                return _cache ?? (_cache = new Cache(HttpPage.Application));
+            }
         }
 
         public XmlDocument XmlData { get; private set; }
 
-        public string CurrentProcess
+        public String CurrentProcess
         {
             get
             {
-                if (_currentProcess == string.Empty)
+                if (_currentProcess == String.Empty)
                 {
-                    string tmpProcess = QueryOther["process"];
-                    _currentProcess = tmpProcess != string.Empty ? tmpProcess : Settings["general/stdprocess"];
+                    String process = QueryOther["process"];
+
+                    _currentProcess = process != String.Empty 
+                        ? process 
+                        : Settings["general/stdprocess"];
                 }
 
                 return _currentProcess;
@@ -222,7 +258,7 @@ namespace Sharpcms.Library.Process
         }
         // <<<<< Search Mod by Kiho Chang 2008-10-05
 
-        private void AddMessage(string message, MessageType messageType, string type)
+        private void AddMessage(String message, MessageType messageType, String type)
         {
             XmlNode xmlNode = CommonXml.GetNode(XmlData.DocumentElement, "messages", EmptyNodeHandling.CreateNew);
             xmlNode = CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew);
@@ -232,15 +268,16 @@ namespace Sharpcms.Library.Process
             CommonXml.SetAttributeValue(xmlNode, "type", type);
         }
 
-        public void AddMessage(string message, MessageType messageType = MessageType.Message)
+        public void AddMessage(String message, MessageType messageType = MessageType.Message)
         {
-            AddMessage(message, messageType, string.Empty);
+            AddMessage(message, messageType, String.Empty);
         }
 
         public void AddMessage(Exception e)
         {
             AddMessage(e.Message, MessageType.Error, e.GetType().ToString());
             IPlugin plugin = Plugins["ErrorLog"];
+
             if (plugin != null)
             {
                 plugin.Handle("log");
@@ -265,10 +302,10 @@ namespace Sharpcms.Library.Process
             XmlNode userNode = Content.GetSubControl("basedata")["currentuser"];
             CommonXml.GetNode(userNode, "username").InnerText = CurrentUser;
             XmlNode groupNode = CommonXml.GetNode(userNode, "groups");
-            object[] resultsGroups = Plugins.InvokeAll("users", "list_groups", CurrentUser);
-            List<string> userGroups = new List<string>(Common.Common.FlattenToStrings(resultsGroups));
+            Object[] resultsGroups = Plugins.InvokeAll("users", "list_groups", CurrentUser);
+            List<String> userGroups = new List<String>(Common.Common.FlattenToStrings(resultsGroups));
 
-            foreach (string group in userGroups)
+            foreach (String group in userGroups)
             {
                 CommonXml.GetNode(groupNode, "group", EmptyNodeHandling.ForceCreateNew).InnerText = group;
             }
@@ -278,12 +315,14 @@ namespace Sharpcms.Library.Process
             baseData["pageviewcount"].InnerText = PageViewCount().ToString(CultureInfo.InvariantCulture);
             baseData["defaultpage"].InnerText = Settings["sitetree/stdpage"];
 
-            foreach (string pageInHistory in History())
+            foreach (String pageInHistory in History())
             {
                 XmlDocument ownerDocument = baseData["history"].OwnerDocument;
+
                 if (ownerDocument != null)
                 {
                     XmlNode historyNode = ownerDocument.CreateElement("item");
+
                     historyNode.InnerText = pageInHistory;
                     baseData["history"].AppendChild(historyNode);
                 }
@@ -292,7 +331,10 @@ namespace Sharpcms.Library.Process
 
         private void ConfigureDebugging()
         {
-            if (HttpPage.Request.ServerVariables["REMOTE_ADDR"] != "127.0.0.1") return;
+            if (HttpPage.Request.ServerVariables["REMOTE_ADDR"] != "127.0.0.1")
+            {
+                return;
+            }
 
             if (HttpPage.Session["enabledebug"] == null)
             {
@@ -307,24 +349,24 @@ namespace Sharpcms.Library.Process
 
         private void ProcessQueries()
         {
-            List<string> keys = HttpPage.Request.Form.Cast<string>().ToList();
+            List<String> keys = HttpPage.Request.Form.Cast<String>().ToList();
             
-            keys.AddRange(HttpPage.Request.QueryString.Cast<string>());
+            keys.AddRange(HttpPage.Request.QueryString.Cast<String>());
 
-            foreach (string key in keys)
+            foreach (String key in keys)
             {
                 if (key != null)
                 {
-                    string[] keyParts = key.Split('_');
-                    string value = HttpPage.Request[key];
+                    String[] keyParts = key.Split('_');
+                    String value = HttpPage.Request[key];
 
                     switch (keyParts[0])
                     {
                         case "data":
-                            QueryData[string.Join("_", Common.Common.RemoveOne(keyParts))] = value;
+                            QueryData[String.Join("_", Common.Common.RemoveOne(keyParts))] = value;
                             break;
                         case "event":
-                            QueryEvents[string.Join("_", Common.Common.RemoveOne(keyParts))] = value;
+                            QueryEvents[String.Join("_", Common.Common.RemoveOne(keyParts))] = value;
                             break;
                         default:
                             QueryOther[key] = value;
@@ -334,28 +376,27 @@ namespace Sharpcms.Library.Process
             }
         }
 
-        public string GetUrl(string process)
+        public String GetUrl(String process)
         {
-            string url = string.Format("{0}/{1}", BasePath, process);
+            String url = String.Format("{0}/{1}", BasePath, process);
 
             return url;
         }
 
-        public string GetUrl(string process, string querystring)
+        public string GetUrl(String process, String querystring)
         {
-            string url = string.Format("{0}/{1}{2}", BasePath, process, querystring);
+            String url = String.Format("{0}/{1}{2}", BasePath, process, querystring);
 
             return url;
         }
 
-        private IEnumerable<string> History()
+        private IEnumerable<String> History()
         {
-            List<string> history = HttpPage.Session["history"] != null 
-                ? (List<string>) HttpPage.Session["history"]
-                : new List<string>();
+            List<String> history = HttpPage.Session["history"] != null 
+                ? (List<String>) HttpPage.Session["history"]
+                : new List<String>();
 
             history.Add(CurrentProcess);
-
             HttpPage.Session["history"] = history;
 
             return history;
@@ -363,11 +404,12 @@ namespace Sharpcms.Library.Process
 
         private int PageViewCount()
         {
-            Dictionary<string, int> pageViewCounts;
+            Dictionary<String, int> pageViewCounts;
 
             if (HttpPage.Session["pageviews"] != null)
             {
-                pageViewCounts = (Dictionary<string, int>) HttpPage.Session["pageviews"];
+                pageViewCounts = (Dictionary<String, int>) HttpPage.Session["pageviews"];
+
                 if (pageViewCounts.ContainsKey(CurrentProcess))
                 {
                     pageViewCounts[CurrentProcess] += 1;
@@ -379,24 +421,27 @@ namespace Sharpcms.Library.Process
             }
             else
             {
-                pageViewCounts = new Dictionary<string, int>();
+                pageViewCounts = new Dictionary<String, int>();
                 pageViewCounts[CurrentProcess] = 1;
             }
 
             HttpPage.Session["pageviews"] = pageViewCounts;
+
             return pageViewCounts[CurrentProcess];
         }
 
         // user login and rights part
-        private bool Login(string username, string password)
+        private bool Login(String username, String password)
         {
             bool success = false;
 
             Logout();
-            object[] results = Plugins.InvokeAll("users", "verify", username, password);
+            Object[] results = Plugins.InvokeAll("users", "verify", username, password);
+            
             if (results.Length > 0)
             {
                 bool verified = false;
+
                 foreach (object result in results)
                 {
                     if ((bool)result)
@@ -408,14 +453,14 @@ namespace Sharpcms.Library.Process
                 if (verified)
                 {
                     HttpCookie httpCookie = HttpPage.Response.Cookies["login_cookie"];
+
                     if (httpCookie != null)
                     {
-                        httpCookie.Value = string.Format("{0}{1}{2}", username, CookieSeparator, password);
+                        httpCookie.Value = String.Format("{0}{1}{2}", username, CookieSeparator, password);
                         httpCookie.Expires = DateTime.Now.AddDays(1);
                     }
 
                     HttpPage.Session["current_username"] = username;
-
                     success = true;
                 }
             }
@@ -428,12 +473,14 @@ namespace Sharpcms.Library.Process
             if (CurrentUser == "anonymous")
             {
                 HttpCookie httpCookie = HttpPage.Request.Cookies["login_cookie"];
+                
                 if (httpCookie != null)
                 {
-                    string value = httpCookie.Value;
+                    String value = httpCookie.Value;
+                    
                     if (value != null && value.Contains(CookieSeparator))
                     {
-                        string[] valueParts = Common.Common.SplitByString(value, CookieSeparator);
+                        String[] valueParts = Common.Common.SplitByString(value, CookieSeparator);
 
                         Login(valueParts[0], valueParts[1]);
                     }
@@ -450,18 +497,21 @@ namespace Sharpcms.Library.Process
                 }*/
         }
 
-        public bool CheckGroups(string groups)
+        public bool CheckGroups(String groups)
         {
-            object[] results = Plugins.InvokeAll("users", "list_groups", CurrentUser);
-            List<string> userGroups = new List<string>(Common.Common.FlattenToStrings(results));
+            bool valid = true;
 
-            if (groups != string.Empty)
+            Object[] results = Plugins.InvokeAll("users", "list_groups", CurrentUser);
+            List<String> userGroups = new List<String>(Common.Common.FlattenToStrings(results));
+
+            if (groups != String.Empty)
             {
-                string[] groupList = groups.Split(',');
-                return groupList.Any(userGroups.Contains);
+                String[] groupList = groups.Split(',');
+                
+                valid = groupList.Any(userGroups.Contains);
             }
-            
-            return true;
+
+            return valid;
         }
 
         private void Logout()
@@ -469,120 +519,11 @@ namespace Sharpcms.Library.Process
             HttpPage.Session.Clear();
             HttpPage.Session["current_username"] = "anonymous";
             HttpCookie httpCookie = HttpPage.Response.Cookies["login_cookie"];
+
             if (httpCookie != null)
             {
                 httpCookie.Expires = DateTime.Now.AddDays(-1);
             }
         }
-    }
-
-    public class ControlList : DataElementList
-    {
-        public ControlList(XmlNode parentNode) : base(parentNode) { }
-
-        public XmlNode this[int index]
-        {
-            get
-            {
-                string xPath = string.Format("*[{0}]", index + 1);
-                XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.CreateNew);
-
-                return xmlNode;
-            }
-        }
-
-        public XmlNode this[string name]
-        {
-            get
-            {
-                XmlNode xmlNode = GetControlNode(name);
-
-                return xmlNode;
-            }
-            set
-            {
-                GetControlNode(name).InnerXml = value.InnerXml;
-            }
-        }
-
-        public ControlList GetSubControl(string name)
-        {
-            ControlList subControl = name != string.Empty ? new ControlList(GetControlNode(name)) : null;
-
-            return subControl;
-        }
-
-        private XmlNode GetControlNode(string name)
-        {
-            string xPath = string.Format("{0}", name);
-            XmlNode node = CommonXml.GetNode(ParentNode, xPath);
-
-            return node;
-        }
-    }
-
-    public class XmlItemList : DataElementList
-    {
-        public XmlItemList(XmlNode parentNode) : base(parentNode) { }
-
-        public Query this[int index]
-        {
-            get
-            {
-                string xPath = string.Format("*[{0}]", index + 1);
-                XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.CreateNew);
-                Query query = new Query(xmlNode.Name, xmlNode.InnerText);
-
-                return query;
-            }
-            set
-            {
-                string xPath = string.Format("*[{0}]", index + 1);
-                XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.Ignore);
-
-                if (xmlNode == null) return;
-
-                xmlNode.InnerText = value.Value;
-            }
-        }
-
-        public string this[string name]
-        {
-            get
-            {
-                string xPath = string.Format("{0}", name);
-                string innerText = GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText;
-
-                return innerText;
-            }
-            set
-            {
-                string xPath = string.Format("{0}", name);
-
-                GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText = value;
-            }
-        }
-    }
-
-    public class Query
-    {
-        public readonly string Name;
-        public readonly string Value;
-
-        public Query(string name, string value)
-        {
-            Name = name;
-            Value = value;
-        }
-    }
-
-    public enum MessageType
-    {
-        Error = 0, 
-        Status = 1, 
-        Event = 2, 
-        Warning = 3, 
-        Message = 4, 
-        Debug = 5
     }
 }

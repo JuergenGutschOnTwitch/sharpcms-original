@@ -35,17 +35,21 @@ namespace Sharpcms
 
         public static void Request(HttpContext httpContext, String entryPageName)
         {
-            if (httpContext.Request.ApplicationPath != null)
+            HttpRequest httpRequest = httpContext.Request;
+            String applicationPath = httpRequest.ApplicationPath;
+
+            if (applicationPath != null)
             {
-                string currentUrl = HttpContext.Current.Request.Path;
-                string file = httpContext.Server.MapPath(currentUrl.Substring(currentUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
+                String currentUrl = httpRequest.Path;
+                String file = httpContext.Server.MapPath(currentUrl.Substring(currentUrl.LastIndexOf("/", StringComparison.Ordinal) + 1));
+
                 if (!File.Exists(file))
                 {
-                    string path = currentUrl.Substring(httpContext.Request.ApplicationPath.Length).TrimStart('/').Replace(".aspx", String.Empty);
-                    string querystring = httpContext.Request.ServerVariables["QUERY_STRING"];
-                    string rewritePath = !String.IsNullOrEmpty(querystring)
-                        ? String.Format("~/{0}.aspx?process={1}&{2}", entryPageName, path, querystring)
-                        : String.Format("~/{0}.aspx?process={1}", entryPageName, path);
+                    String process = currentUrl.Substring(applicationPath.Length).TrimStart('/').Replace(".aspx", String.Empty);
+                    String querystring = httpRequest.ServerVariables["QUERY_STRING"];
+                    String rewritePath = !String.IsNullOrEmpty(querystring)
+                        ? String.Format("~/{0}.aspx?process={1}&{2}", entryPageName, process, querystring)
+                        : String.Format("~/{0}.aspx?process={1}", entryPageName, process);
 
                     httpContext.RewritePath(rewritePath);
                 }
@@ -56,17 +60,17 @@ namespace Sharpcms
         {
             Cache cache = new Cache(httpPage.Application);
 
-            List<string> configurationPaths = new List<string> {
+            List<String> configurationPaths = new List<String> {
                 httpPage.Server.MapPath("~/Custom/Components"),
                 httpPage.Server.MapPath("~/System/Components")
             };
 
-            string[] settingsPaths = new string[3];
+            String[] settingsPaths = new String[3];
             configurationPaths.CopyTo(settingsPaths);
             settingsPaths[2] = httpPage.Server.MapPath("~/Custom/App_Data/CustomSettings.xml");
             Configuration.CombineSettings(settingsPaths, cache);
 
-            string[] processPaths = new string[3];
+            String[] processPaths = new String[3];
             configurationPaths.CopyTo(processPaths);
             processPaths[2] = httpPage.Server.MapPath("~/Custom/App_Data/CustomProcess.xml");
             Configuration.CombineProcessTree(processPaths, cache);
@@ -84,12 +88,12 @@ namespace Sharpcms
             {
                 if (process.MainTemplate != null)
                 {
-                    string output = CommonXml.TransformXsl(process.MainTemplate, process.XmlData, process.Cache);
+                    String output = CommonXml.TransformXsl(process.MainTemplate, process.XmlData, process.Cache);
 
                     // ToDo: dirty hack
-                    string[] badtags = { "<ul />", "<li />", "<h1 />", "<h2 />", "<h3 />", "<div />", "<p />", "<font />", "<b />", "<strong />", "<i />" };
+                    String[] badtags = { "<ul />", "<li />", "<h1 />", "<h2 />", "<h3 />", "<div />", "<p />", "<font />", "<b />", "<strong />", "<i />" };
                     
-                    output = badtags.Aggregate(output, (current, a) => current.Replace(a, string.Empty));
+                    output = badtags.Aggregate(output, (current, a) => current.Replace(a, String.Empty));
 
                     Regex regex = new Regex("(?<email>(mailto:)([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3}))", 
                         RegexOptions.IgnoreCase | 
@@ -107,9 +111,9 @@ namespace Sharpcms
             }
         }
 
-        private static string HtmlObfuscate(string text)
+        private static String HtmlObfuscate(String text)
         {
-            return text.Select(t => string.Format("&#{0};", Convert.ToString(Convert.ToInt32(t)))).Aggregate(string.Empty, (current, repl) => current + repl);
+            return text.Select(t => String.Format("&#{0};", Convert.ToString(Convert.ToInt32(t)))).Aggregate(String.Empty, (current, repl) => current + repl);
         }
     }
 }
