@@ -111,7 +111,6 @@
     <Content Include="System\Components\Admin\Images\topbg.gif" />
     <Content Include="System\Components\Admin\Process.xml" />
     <Content Include="System\Components\Admin\Scripts\admin.xslt.js" />
-    <Content Include="System\Components\Admin\Scripts\choose.xslt.js" />
     <Content Include="System\Components\Admin\Scripts\collapseexpand.js" />
     <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.7.2.min.js" />
     <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.8.18.custom.min.js" />
@@ -400,9 +399,7 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\validate.js" />
     <Content Include="System\Components\Admin\Scripts\_sharpcms.js" />
     <Content Include="System\Components\Admin\Settings.xml" />
-    <Content Include="System\Components\Admin\Styles\admin.css" />
     <Content Include="System\Components\Admin\Styles\base.css" />
-    <Content Include="System\Components\Admin\Styles\choose.css" />
     <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.8.18.custom.css" />
     <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.8.18.sharpcms.css" />
     <Content Include="System\Components\Admin\Styles\jquery\selectmenu\jquery.ui.selectmenu.css" />

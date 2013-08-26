@@ -11,15 +11,15 @@
     tinymce.create('tinymce.plugins.SharpcmsChooserPlugin', {
         init: function (ed, url) {
             ed.addCommand('mceInsertLink', function () {
-                ModalDialogShow('admin/choose/page', 'ReturnMethodTinyMceChoosePage()');
+                showModalDialog('admin/choose/page', 'ReturnMethodTinyMceChoosePage()');
             });
 
             ed.addCommand('mceInsertFileLink', function () {
-                ModalDialogShow('admin/choose/file', 'ReturnMethodTinyMceChooseFile()');
+                showModalDialog('admin/choose/file', 'ReturnMethodTinyMceChooseFile()');
             });
 
             ed.addCommand('mceInsertPicture', function () {
-                ModalDialogShow('admin/choose/file', 'ReturnMethodTinyMceChoosePicture()');
+                showModalDialog('admin/choose/file', 'ReturnMethodTinyMceChoosePicture()');
             });
 
             ed.addButton('sharpcmslinkchooser', {
@@ -36,18 +36,6 @@
             
             ed.addButton('sharpcmsimagechooser', {
                  title: 'insert Picture', cmd: 'mceInsertPicture', image: url + '/img/image_add.png'
-            });
-
-            ed.onNodeChange.add(function(editor, cm, n) {
-                 cm.setActive('sharpcmslinkchooser', n.nodeName == 'IMG');
-            });
-            
-            ed.onNodeChange.add(function(editor, cm, n) {
-                 cm.setActive('sharpcmsfilechooser', n.nodeName == 'IMG');
-            });
-            
-            ed.onNodeChange.add(function(editor, cm, n) {
-                 cm.setActive('sharpcmsimagechooser', n.nodeName == 'IMG');
             });
         },
 

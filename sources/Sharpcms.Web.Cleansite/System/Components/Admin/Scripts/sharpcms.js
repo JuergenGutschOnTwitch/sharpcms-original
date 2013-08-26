@@ -67,42 +67,90 @@
         }
 
         function movePage() {
-            $('#choosePageDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function () {
-                $('.choose').dialog('close');
+            $('#dialog').load('/admin/choose/page', function () {
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: false
+                });
 
-                var destinaltionPath = $(this).data('path');
-                throwEvent(Sharpcms.ActionType.MovePage, destinaltionPath);
+                $(this).dialog({
+                    model: true,
+                    title: 'Move Page' 
+                });
+
+                $('.hlCloseDialog').live().click(function () {
+                    $('#dialog').dialog('close');
+
+                    var destinaltionPath = $(this).data('path');
+                    throwEvent(Sharpcms.ActionType.MovePage, destinaltionPath);
+                });
             });
         }
 
         function moveFolder(sourcePath) {
-            $('#chooseFileDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function () {
-                $('.choose').dialog('close');
+            $('#dialog').load('/admin/choose/folder', function () {
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: false
+                });
 
-                var destinaltionPath = $(this).data('path');
-                throwEvent(Sharpcms.ActionType.MoveFolder, sourcePath + '*' + destinaltionPath);
+                $(this).dialog({
+                    model: true,
+                    title: 'Move Folder: ' + sourcePath
+                });
+                
+                $('.hlCloseDialog').live().click(function () {
+                    $('#dialog').dialog('close');
+
+                    var destinaltionPath = $(this).data('path');
+                    throwEvent(Sharpcms.ActionType.MoveFolder, sourcePath + '*' + destinaltionPath);
+                });
             });
         }
 
         function moveFile(sourcePath) {
-            $('#chooseFileDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function () {
-                $('.choose').dialog('close');
+            $('#dialog').load('/admin/choose/file', function () {
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: false
+                });
 
-                var destinaltionPath = $(this).data('path');
-                throwEvent(Sharpcms.ActionType.MoveFile, sourcePath + '*' + destinaltionPath);
+                $(this).dialog({
+                    model: true,
+                    title: 'Move File: ' + sourcePath
+                });
+                
+                $('.hlCloseDialog').live().click(function () {
+                    $('#dialog').dialog('close');
+
+                    var destinaltionPath = $(this).data('path');
+                    throwEvent(Sharpcms.ActionType.MoveFile, sourcePath + '*' + destinaltionPath);
+                });
             });
         }
 
         function copyPage(pageId, pageName) {
-            $('#choosePageDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function () {
-                $('.choose').dialog('close');
+            $('#dialog').load('/admin/choose/page', function () {
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: false
+                });
 
-                var destinaltionPath = $(this).data('path');
-                throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + destinaltionPath + '¤' + pageName);
+                $(this).dialog({
+                    model: true,
+                    title: 'Copy Page: ' + pageName
+                });
+                
+                $('.hlCloseDialog').click(function () {
+                    $('#dialog').dialog('close');
+
+                    var destinaltionPath = $(this).data('path');
+                    throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + destinaltionPath + '¤' + pageName);
+                });
             });
         }
 
