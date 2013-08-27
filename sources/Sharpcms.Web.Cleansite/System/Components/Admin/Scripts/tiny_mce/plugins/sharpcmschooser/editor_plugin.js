@@ -10,32 +10,40 @@
 
     tinymce.create('tinymce.plugins.SharpcmsChooserPlugin', {
         init: function (ed, url) {
-            ed.addCommand('mceInsertLink', function () {
-                showModalDialog('admin/choose/page', 'ReturnMethodTinyMceChoosePage()');
-            });
-
-            ed.addCommand('mceInsertFileLink', function () {
-                showModalDialog('admin/choose/file', 'ReturnMethodTinyMceChooseFile()');
-            });
-
-            ed.addCommand('mceInsertPicture', function () {
-                showModalDialog('admin/choose/file', 'ReturnMethodTinyMceChoosePicture()');
+            ed.addCommand('mceInsertPageLink', function () {
+                Sharpcms.Actions.ChoosePageDialog(function(path) {
+                    ed.execCommand('mceInsertContent', false, path);
+                });
             });
 
             ed.addButton('sharpcmslinkchooser', {
                 title: 'insert Link',
-                cmd: 'mceInsertLink',
+                cmd: 'mceInsertPageLink',
                 image: url + '/img/internal_link.png'
             });
-            
+
+            ed.addCommand('mceInsertFileLink', function () {
+                Sharpcms.Actions.ChooseFileDialog(function (path) {
+                    ed.execCommand('mceInsertContent', false, path);
+                });
+            });
+
             ed.addButton('sharpcmsfilechooser', {
                 title: 'insert File',
                 cmd: 'mceInsertFileLink',
                 image: url + '/img/page_white_add.png'
             });
-            
+
+            ed.addCommand('mceInsertImage', function () {
+                Sharpcms.Actions.ChooseImageDialog(function (path) {
+                    ed.execCommand('mceInsertContent', false, path);
+                });
+            });
+
             ed.addButton('sharpcmsimagechooser', {
-                 title: 'insert Picture', cmd: 'mceInsertPicture', image: url + '/img/image_add.png'
+                title: 'insert Picture',
+                cmd: 'mceInsertImage',
+                image: url + '/img/image_add.png'
             });
         },
 

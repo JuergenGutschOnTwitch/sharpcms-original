@@ -66,7 +66,25 @@
             throwEvent(Sharpcms.ActionType.SetAsStartPage);
         }
 
+        function copyPage(pageId, pageName) {
+            choosePageDialog(function (destinaltionPath) {
+                throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + destinaltionPath + '¤' + pageName);
+            });
+        }
+
         function movePage() {
+            choosePageDialog(function (destinaltionPath) {
+                throwEvent(Sharpcms.ActionType.MovePage, destinaltionPath);
+            });
+        }
+
+        function choosePage(id, attribute) {
+            choosePageDialog(function (destinaltionPath) {
+                $('[name="' + id + '_' + attribute + '"]').val(destinaltionPath);
+            });
+        }
+
+        function choosePageDialog(callback) {
             $('#dialog').load('/admin/choose/page', function () {
                 $("#pages").treeview({
                     persist: 'location',
@@ -76,41 +94,34 @@
 
                 $(this).dialog({
                     model: true,
-                    title: 'Move Page' 
+                    title: 'Choose Page'
                 });
 
-                $('.hlCloseDialog').live().click(function () {
-                    $('#dialog').dialog('close');
-
+                $('.hlCloseDialog').click(function () {
                     var destinaltionPath = $(this).data('path');
-                    throwEvent(Sharpcms.ActionType.MovePage, destinaltionPath);
-                });
-            });
-        }
 
-        function moveFolder(sourcePath) {
-            $('#dialog').load('/admin/choose/folder', function () {
-                $("#pages").treeview({
-                    persist: 'location',
-                    collapsed: true,
-                    unique: false
-                });
+                    $('#dialog').dialog('close').empty();
 
-                $(this).dialog({
-                    model: true,
-                    title: 'Move Folder: ' + sourcePath
-                });
-                
-                $('.hlCloseDialog').live().click(function () {
-                    $('#dialog').dialog('close');
-
-                    var destinaltionPath = $(this).data('path');
-                    throwEvent(Sharpcms.ActionType.MoveFolder, sourcePath + '*' + destinaltionPath);
+                    if (destinaltionPath != null && $.isFunction(callback)) {
+                        callback(destinaltionPath);
+                    }
                 });
             });
         }
 
         function moveFile(sourcePath) {
+            chooseFileDialog(function (destinaltionPath) {
+                throwEvent(Sharpcms.ActionType.MoveFile, sourcePath + '*' + destinaltionPath);
+            });
+        }
+
+        function chooseFile(id, attribute) {
+            chooseFileDialog(function (destinaltionPath) {
+                $('[name="' + id + '_' + attribute + '"]').val(destinaltionPath);
+            });
+        }
+
+        function chooseFileDialog(callback) {
             $('#dialog').load('/admin/choose/file', function () {
                 $("#pages").treeview({
                     persist: 'location',
@@ -120,20 +131,35 @@
 
                 $(this).dialog({
                     model: true,
-                    title: 'Move File: ' + sourcePath
+                    title: 'Choose Page'
                 });
-                
-                $('.hlCloseDialog').live().click(function () {
-                    $('#dialog').dialog('close');
 
+                $('.hlCloseDialog').click(function () {
                     var destinaltionPath = $(this).data('path');
-                    throwEvent(Sharpcms.ActionType.MoveFile, sourcePath + '*' + destinaltionPath);
+
+                    $('#dialog').dialog('close').empty();
+                    
+                    if (destinaltionPath != null && $.isFunction(callback)) {
+                        callback(destinaltionPath);
+                    }
                 });
             });
         }
 
-        function copyPage(pageId, pageName) {
-            $('#dialog').load('/admin/choose/page', function () {
+        function moveFolder(sourcePath) {
+            chooseFolderDialog(function (destinaltionPath) {
+                throwEvent(Sharpcms.ActionType.MoveFolder, sourcePath + '*' + destinaltionPath);
+            });
+        }
+
+        function chooseFolder(id, attribute) {
+            chooseFolderDialog(function (destinaltionPath) {
+                $('[name="' + id + '_' + attribute + '"]').val(destinaltionPath);
+            });
+        }
+
+        function chooseFolderDialog(callback) {
+            $('#dialog').load('/admin/choose/folder', function () {
                 $("#pages").treeview({
                     persist: 'location',
                     collapsed: true,
@@ -142,14 +168,48 @@
 
                 $(this).dialog({
                     model: true,
-                    title: 'Copy Page: ' + pageName
+                    title: 'Choose Page'
                 });
-                
-                $('.hlCloseDialog').click(function () {
-                    $('#dialog').dialog('close');
 
+                $('.hlCloseDialog').click(function () {
                     var destinaltionPath = $(this).data('path');
-                    throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + destinaltionPath + '¤' + pageName);
+
+                    $('#dialog').dialog('close').empty();
+
+                    if (destinaltionPath != null && $.isFunction(callback)) {
+                        callback(destinaltionPath);
+                    }
+                });
+            });
+        }
+
+        function chooseImage(id, attribute) {
+            chooseImageDialog(function (destinaltionPath) {
+                $('[name="' + id + '_' + attribute + '"]').val(destinaltionPath);
+            });
+        }
+
+        function chooseImageDialog(callback) {
+            $('#dialog').load('/admin/choose/file', function () {
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: false
+                });
+
+                $(this).dialog({
+                    model: true,
+                    title: 'Choose Page'
+                });
+
+                $('.hlCloseDialog').click(function () {
+                    var destinaltionPath = $(this).data('path');
+
+                    $('#dialog').dialog('close').empty();
+
+                    if (destinaltionPath != null && $.isFunction(callback)) {
+                        callback(destinaltionPath);
+                    }
                 });
             });
         }
@@ -274,46 +334,6 @@
             throwEventNew(Sharpcms.ActionType.RenameFile, path, 'Write the new name');
         }
 
-        function choosePage(id, attribute) {
-            $('#choosePageDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function () {
-                $('.choose').dialog('close');
-
-                var path = $(this).data('path');
-                $('[name="' + id + '_' + attribute + '"]').val(path);
-            });
-        }
-
-        function chooseFile(id, attribute) {
-            $('#chooseFileDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function () {
-                $('.choose').dialog('close');
-
-                var path = $(this).data('path');
-                $('[name="' + id + '_' + attribute + '"]').val(path);
-            });
-        }
-
-        function chooseFolder(id, attribute) {
-            $('#chooseFolderDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function () {
-                $('.choose').dialog('close');
-
-                var path = $(this).data('path');
-                $('[name="' + id + '_' + attribute + '"]').val(path);
-            });
-        }
-
-        function chooseImage(id, attribute) {
-            $('#chooseImageDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function () {
-                $('.choose').dialog('close');
-
-                var path = $(this).data('path');
-                $('[name="' + id + '_' + attribute + '"]').val(path);
-            });
-        }
-
         function openWindow(url, name) {
             var editwin = '';
             editwin += 'width=500';
@@ -349,6 +369,7 @@
             MovePageBottom: movePageBottom,
             CopyPage: copyPage,
             ChoosePage: choosePage,
+            ChoosePageDialog: choosePageDialog,
 
 
             // Container
@@ -383,6 +404,7 @@
             RenameFile: renameFile,
             MoveFile: moveFile,
             ChooseFile: chooseFile,
+            ChooseFileDialog: chooseFileDialog,
 
 
             // Folders
@@ -391,12 +413,12 @@
             RemoveFolder: removeFolder,
             MoveFolder: moveFolder,
             ChooseFolder: chooseFolder,
-
+            ChooseFolderDialog: chooseFolderDialog,
 
             // Images
             ResizeImage: resizeImage,
             ChooseImage: chooseImage,
-
+            ChooseImageDialog: chooseImageDialog,
 
             // Other
             ThrowEvent: throwEvent,

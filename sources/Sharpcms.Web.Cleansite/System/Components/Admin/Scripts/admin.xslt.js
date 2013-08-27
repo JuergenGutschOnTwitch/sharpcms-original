@@ -98,7 +98,7 @@
     });
 
     $hlChoosePage.live().click(function () {
-        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters); // $id / @attribute
+        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters);
         var id = attributeValue[0];
         var attribute = attributeValue[1];
 
@@ -106,7 +106,7 @@
     });
 
     $hlChooseFile.live().click(function () {
-        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters); // $id / @attribute
+        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters);
         var id = attributeValue[0];
         var attribute = attributeValue[1];
 
@@ -114,7 +114,7 @@
     });
 
     $hlChooseFolder.live().click(function () {
-        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters); // $id / @attribute
+        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters);
         var id = attributeValue[0];
         var attribute = attributeValue[1];
 
