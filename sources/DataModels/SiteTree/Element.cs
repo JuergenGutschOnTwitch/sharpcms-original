@@ -41,8 +41,14 @@ namespace Sharpcms.Data.SiteTree
         /// <value>The type.</value>
         public string Type
         {
-            get { return Attributes["type"]; }
-            set { Attributes["type"] = value; }
+            get
+            {
+                return Attributes["type"];
+            }
+            set
+            {
+                Attributes["type"] = value;
+            }
         }
 
         /// <summary>
@@ -51,8 +57,14 @@ namespace Sharpcms.Data.SiteTree
         /// <value>The name.</value>
         public string Name
         {
-            get { return Attributes["name"]; }
-            set { Attributes["name"] = value; }
+            get
+            {
+                return Attributes["name"];
+            }
+            set
+            {
+                Attributes["name"] = value;
+            }
         }
 
         /// <summary>
@@ -61,8 +73,14 @@ namespace Sharpcms.Data.SiteTree
         /// <value>The publish.</value>
         public string Publish
         {
-            get { return Attributes["publish"]; }
-            set { Attributes["publish"] = value; }
+            get
+            {
+                return Attributes["publish"];
+            }
+            set
+            {
+                Attributes["publish"] = value;
+            }
         }
     }
 }

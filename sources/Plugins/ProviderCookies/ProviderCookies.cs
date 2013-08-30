@@ -10,7 +10,7 @@ namespace Sharpcms.Providers.Cookies
 {
     public class ProviderCookies : BasePlugin2, IPlugin2
     {
-        public new string Name
+        public new String Name
         {
             get
             {
@@ -21,6 +21,7 @@ namespace Sharpcms.Providers.Cookies
         public ProviderCookies()
         {
         }
+
         public ProviderCookies(Process process)
         {
             Process = process;
@@ -36,7 +37,7 @@ namespace Sharpcms.Providers.Cookies
             // Do nothing
         }
 
-        public new void Handle(string mainEvent)
+        public new void Handle(String mainEvent)
         {
             switch (mainEvent)
             {
@@ -46,19 +47,7 @@ namespace Sharpcms.Providers.Cookies
             }
         }
 
-        private void HandleCookies()
-        {
-            foreach (string key in Process.HttpPage.Request.QueryString.Keys)
-            {
-                if (Process.Settings["general/cookies"].Contains("," + key + ","))
-                {
-                    HttpCookie cookie = new HttpCookie(key, Process.HttpPage.Request.QueryString[key]) { Expires = DateTime.Now.AddDays(1) };
-                    HttpContext.Current.Response.Cookies.Add(cookie);
-                }
-            }
-        }
-
-        public new void Load(ControlList control, string action, string value, string pathTrail)
+        public new void Load(ControlList control, String action, String value, String pathTrail)
         {
             switch (action)
             {
@@ -68,31 +57,42 @@ namespace Sharpcms.Providers.Cookies
             }
         }
 
+        private void HandleCookies()
+        {
+            foreach (String key in Process.HttpPage.Request.QueryString.Keys)
+            {
+                if (Process.Settings["general/cookies"].Contains("," + key + ","))
+                {
+                    HttpCookie cookie = new HttpCookie(key, Process.HttpPage.Request.QueryString[key]) { Expires = DateTime.Now.AddDays(1) };
+                    HttpContext.Current.Response.Cookies.Add(cookie);
+                }
+            }
+        }
 
         private void LoadCookies(ControlList control)
         {
             XmlItemList cookieData = new XmlItemList(CommonXml.GetNode(control.ParentNode, "items", EmptyNodeHandling.CreateNew));
 
-            foreach (string key in Process.HttpPage.Response.Cookies.Keys)
+            foreach (String key in Process.HttpPage.Response.Cookies.Keys)
             {
                 if (Process.Settings["general/cookies"].Contains("," + key + ","))
                 {
                     HttpCookie httpCookie = Process.HttpPage.Response.Cookies[key];
                     if (httpCookie != null)
                     {
-                        cookieData[key.Replace(".", string.Empty)] = HttpUtility.UrlEncode(httpCookie.Value);
+                        cookieData[key.Replace(".", String.Empty)] = HttpUtility.UrlEncode(httpCookie.Value);
                     }
                 }
             }
 
-            foreach (string key in Process.HttpPage.Request.Cookies.Keys)
+            foreach (String key in Process.HttpPage.Request.Cookies.Keys)
             {
-                if (Process.Settings["general/cookies"].Contains("," + key + ",") && string.IsNullOrEmpty(cookieData[key.Replace(".", string.Empty)]))
+                if (Process.Settings["general/cookies"].Contains("," + key + ",") && String.IsNullOrEmpty(cookieData[key.Replace(".", String.Empty)]))
                 {
                     HttpCookie httpCookie = Process.HttpPage.Request.Cookies[key];
                     if (httpCookie != null)
                     {
-                        cookieData[key.Replace(".", string.Empty)] = HttpUtility.UrlEncode(httpCookie.Value);
+                        cookieData[key.Replace(".", String.Empty)] = HttpUtility.UrlEncode(httpCookie.Value);
                     }
                 }
             }

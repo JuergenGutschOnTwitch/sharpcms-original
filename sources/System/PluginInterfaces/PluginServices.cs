@@ -41,13 +41,13 @@ namespace Sharpcms.PluginInterface
 		/// Searches the passed Path for Plugins
 		/// </summary>
 		/// <param name="path">Directory to search for Plugins in</param>
-		public void FindPlugins(string path)
+		public void FindPlugins(String path)
 		{
 			//First empty the collection, we're reloading them all
 			_colAvailablePlugins.Clear();
 
 			//Go through all the files in the plugin directory
-			foreach (string fileOn in Directory.GetFiles(path))
+			foreach (String fileOn in Directory.GetFiles(path))
 			{
 				FileInfo file = new FileInfo(fileOn);
 
@@ -83,7 +83,7 @@ namespace Sharpcms.PluginInterface
 			_colAvailablePlugins.Clear();
 		}
 
-		private void AddPlugin(string fileName, Process process)
+		private void AddPlugin(String fileName, Process process)
 		{
 			//Create a new assembly from the plugin file we're adding..
 			Assembly pluginAssembly = Assembly.LoadFrom(fileName);
@@ -115,7 +115,7 @@ namespace Sharpcms.PluginInterface
                                 instance.Initialize();
                                 
                                 //Create a new available plugin since the type implements the IPlugin interface
-                                var newPlugin = new AvailablePlugin {
+                                AvailablePlugin newPlugin = new AvailablePlugin {
                                     //Set the filename where we found it
                                     AssemblyPath = fileName,
 

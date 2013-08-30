@@ -584,6 +584,38 @@
     </div>
   </xsl:template>
 
+  <xsl:template mode="formelement" match="item[@type='chooseimage']">
+    <xsl:param name="currentelement" />
+    <xsl:param name="id" />
+    <xsl:variable select="@attribute" name="attribute" />
+    <label>
+      <xsl:value-of select="@name" />
+    </label>
+    <div class="item">
+      <input type="text">
+        <xsl:attribute name="name">
+          <xsl:value-of select="$id" />
+          <xsl:text>_</xsl:text>
+          <xsl:value-of select="@attribute" />
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:value-of select="$currentelement/*[name()=$attribute]" />
+        </xsl:attribute>
+      </input>
+      <a>
+        <xsl:attribute name="class">
+          <xsl:text>button hlChooseImage</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="data-value">
+          <xsl:value-of select="$id" />
+          <xsl:text>;;</xsl:text>
+          <xsl:value-of select="@attribute" />
+        </xsl:attribute>
+        <xsl:text>Choose</xsl:text>
+      </a>
+    </div>
+  </xsl:template>
+  
   <xsl:template mode="formelement" match="item[@type='choosefolder']">
     <xsl:param name="currentelement" />
     <xsl:param name="id" />

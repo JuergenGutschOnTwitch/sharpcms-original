@@ -8,21 +8,19 @@ namespace Sharpcms.Providers.Base
 {
     public class ProviderLoadXml : BasePlugin2, IPlugin2
     {
-        public ProviderLoadXml() { }
-
-        public ProviderLoadXml(Process process)
-        {
-            Process = process;
-        }
-
-        #region IPlugin2 Members
-
         public new string Name
         {
             get
             {
                 return "LoadXml";
             }
+        }
+
+        public ProviderLoadXml() { }
+
+        public ProviderLoadXml(Process process)
+        {
+            Process = process;
         }
 
         public new void Handle(string mainEvent)
@@ -37,16 +35,14 @@ namespace Sharpcms.Providers.Base
 
         public new void Load(ControlList control, string action, string value, string pathTrail)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Process.Settings["loadxml/" + action]);
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(Process.Settings["loadxml/" + action]);
 
-            if (doc.DocumentElement != null)
+            if (xmlDocument.DocumentElement != null)
             {
-                control[action].InnerXml = doc.DocumentElement.InnerXml;
+                control[action].InnerXml = xmlDocument.DocumentElement.InnerXml;
             }
         }
-
-        #endregion
 
         public void HandleSubmitForm()
         {

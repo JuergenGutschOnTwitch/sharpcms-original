@@ -1,5 +1,6 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -11,6 +12,14 @@ namespace Sharpcms.Providers.Base
 {
     public class ProviderAdmin : BasePlugin2, IPlugin2
     {
+        public new String Name
+        {
+            get
+            {
+                return "Admin";
+            }
+        }
+
         public ProviderAdmin()
         {
             Process = null;
@@ -21,14 +30,7 @@ namespace Sharpcms.Providers.Base
             Process = process;
         }
 
-        #region IPlugin2 Members
-
-        public new string Name
-        {
-            get { return "Admin"; }
-        }
-
-        public new void Handle(string mainEvent)
+        public new void Handle(String mainEvent)
         {
             switch (mainEvent)
             {
@@ -41,7 +43,7 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        public new void Load(ControlList control, string action, string value, string pathTrail)
+        public new void Load(ControlList control, String action, String value, String pathTrail)
         {
             switch (action)
             {
@@ -51,11 +53,9 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        #endregion
-
         private void HandleUpdate()
         {
-            string[] paths = new string[2];
+            String[] paths = new String[2];
             paths[0] = Process.Settings["general/customrootcomponents"];
             paths[1] = Process.Settings["general/systemrootcomponents"];
 
@@ -63,9 +63,9 @@ namespace Sharpcms.Providers.Base
             UpdateDlls(paths);
         }
 
-        private void UpdateDlls(IEnumerable<string> paths)
+        private void UpdateDlls(IEnumerable<String> paths)
         {
-            foreach (string dir in paths)
+            foreach (String dir in paths)
             {
                 DirectoryInfo directoryInfo = new DirectoryInfo(dir);
                 foreach (DirectoryInfo subDirectoryInfo in directoryInfo.GetDirectories())
@@ -77,7 +77,7 @@ namespace Sharpcms.Providers.Base
                         {
                             if (fileInfo.Extension == ".dll" || fileInfo.Extension == ".pdb")
                             {
-                                string destination = Common.CombinePaths(Process.Root, "Bin", fileInfo.Name);
+                                String destination = Common.CombinePaths(Process.Root, "Bin", fileInfo.Name);
                                 if (!File.Exists(destination) || fileInfo.LastWriteTime != File.GetLastWriteTime(destination))
                                 {
                                     File.Copy(fileInfo.FullName, Common.CombinePaths(Process.Root, "Bin", fileInfo.Name), true);
@@ -89,9 +89,9 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        private void UpdateSnippets(IEnumerable<string> paths)
+        private void UpdateSnippets(IEnumerable<String> paths)
         {
-            string pathsnippets = Process.Settings["general/customrootcomponents"] + "\\snippets.xslt";
+            String pathsnippets = Process.Settings["general/customrootcomponents"] + "\\snippets.xslt";
             // ToDo: should be more generic
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -102,7 +102,7 @@ namespace Sharpcms.Providers.Base
             stringBuilder.AppendLine("    xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
             stringBuilder.AppendLine("    xmlns=\"http://www.w3.org/1999/xhtml\">");
 
-            foreach (string dir in paths)
+            foreach (String dir in paths)
             {
                 DirectoryInfo directoryInfo = new DirectoryInfo(dir);
                 foreach (DirectoryInfo subDirectoryInfo in directoryInfo.GetDirectories())

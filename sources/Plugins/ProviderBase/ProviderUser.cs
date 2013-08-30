@@ -1,5 +1,6 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using Sharpcms.Library.Common;
@@ -13,14 +14,7 @@ namespace Sharpcms.Providers.Base
     {
         private Users _users;
 
-        public ProviderUser() { }
-
-        public ProviderUser(Process process)
-        {
-            Process = process;
-        }
-
-        private Users Users
+        public Users Users
         {
             get
             {
@@ -30,9 +24,7 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        #region IPlugin2 Members
-
-        public new string Name
+        public new String Name
         {
             get
             {
@@ -40,7 +32,7 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        public new string[] Implements
+        public new String[] Implements
         {
             get
             {
@@ -48,7 +40,14 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        public new void Handle(string mainEvent)
+        public ProviderUser() { }
+
+        public ProviderUser(Process process)
+        {
+            Process = process;
+        }
+
+        public new void Handle(String mainEvent)
         {
             switch (mainEvent)
             {
@@ -70,7 +69,7 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        public new void Load(ControlList control, string action, string value, string pathTrail)
+        public new void Load(ControlList control, String action, String value, String pathTrail)
         {
             switch (action)
             {
@@ -89,9 +88,9 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        public new object Invoke(string api, string action, params object[] args)
+        public new Object Invoke(String api, String action, params Object[] args)
         {
-            object objectInvoke = null;
+            Object objectInvoke = null;
 
             switch (api)
             {
@@ -102,8 +101,6 @@ namespace Sharpcms.Providers.Base
 
             return objectInvoke;
         }
-
-        #endregion
 
         private void HandleDeleteGroup()
         {
@@ -152,8 +149,8 @@ namespace Sharpcms.Providers.Base
 
             user.GroupList.Clear();
 
-            string groups = Process.QueryData["user_groups"];
-            foreach (string groupname in groups.Split(','))
+            String groups = Process.QueryData["user_groups"];
+            foreach (String groupname in groups.Split(','))
             {
                 user.GroupList.Create(groupname);
             }
@@ -170,12 +167,12 @@ namespace Sharpcms.Providers.Base
 
         private void FrontPage()
         {
-            object[] results = Process.Plugins.InvokeAll("users", "list_groups", Process.CurrentUser);
-            List<string> userGroups = new List<string>(Common.FlattenToStrings(results));
+            Object[] results = Process.Plugins.InvokeAll("users", "list_groups", Process.CurrentUser);
+            List<String> userGroups = new List<String>(Common.FlattenToStrings(results));
 
-            foreach (string group in userGroups)
+            foreach (String group in userGroups)
             {
-                string xPath = string.Format("groups/item[@name='{0}']", group);
+                String xPath = String.Format("groups/item[@name='{0}']", group);
                 XmlNode node;
 
                 try
@@ -189,8 +186,8 @@ namespace Sharpcms.Providers.Base
 
                 if (node != null)
                 {
-                    string frontPage = CommonXml.GetAttributeValue(node, "frontpage");
-                    if (!string.IsNullOrEmpty(frontPage))
+                    String frontPage = CommonXml.GetAttributeValue(node, "frontpage");
+                    if (!String.IsNullOrEmpty(frontPage))
                     {
                         Process.HttpPage.Response.Redirect(frontPage + "/");
                     }
@@ -203,7 +200,7 @@ namespace Sharpcms.Providers.Base
             control["groups"].InnerXml = Users.GroupList.ParentNode.InnerXml;
         }
 
-        private void LoadUser(ControlList control, string value)
+        private void LoadUser(ControlList control, String value)
         {
             Users users = new Users(Process);
             if (value != null && users.UserList[value] != null)
@@ -218,54 +215,62 @@ namespace Sharpcms.Providers.Base
             control["users"].InnerXml = users.UserList.ParentNode.InnerXml;
         }
 
-        private object InvokeUsers(string action, object[] args)
+        private Object InvokeUsers(String action, Object[] args)
         {
+            Object invokeUsers = null;
+
             switch (action)
             {
                 case "verify":
-                    return UsersVerify(args);
+                    invokeUsers = UsersVerify(args);
+                    break;
                 case "list_groups":
-                    return UsersGroups(args);
+                    invokeUsers = UsersGroups(args);
+                    break;
             }
 
-            return null;
+            return invokeUsers;
         }
 
-        private object UsersVerify(object[] args)
+        private Object UsersVerify(Object[] args)
         {
-            if (args == null || args.Length < 2)
+            Object usersVerify = null;
+
+            if (args != null && args.Length > 1)
             {
-                return null;
+                String username = args[0].ToString();
+                String password = args[1].ToString();
+                User user = Users.UserList[username];
+                
+                usersVerify = user != null && user.CheckPassword(password);
             }
 
-            string username = args[0].ToString();
-            string password = args[1].ToString();
-            User user = Users.UserList[username];
-
-            return user != null && user.CheckPassword(password);
+            return usersVerify;
         }
 
-        private object UsersGroups(object[] args)
+        private Object UsersGroups(Object[] args)
         {
-            if (args == null || args.Length < 1)
-            {
-                return null;
-            }
+            Object usersGroups = null;
 
-            string username = args[0].ToString();
-            List<string> groups = new List<string>();
-
-            User user = Users.UserList[username];
-            if (user != null)
+            if (args != null && args.Length > 0)
             {
-                int groupCount = user.GroupList.Count;
-                for (int i = 0; i < groupCount; i++)
+                String username = args[0].ToString();
+                List<String> groups = new List<String>();
+
+                User user = Users.UserList[username];
+                if (user != null)
                 {
-                    groups.Add(user.GroupList[i].Name);
+                    int groupCount = user.GroupList.Count;
+                    for (int i = 0; i < groupCount; i++)
+                    {
+                        groups.Add(user.GroupList[i].Name);
+                    }
                 }
+
+                usersGroups = groups.Count > 0 ? groups.ToArray() : null;
             }
 
-            return groups.Count > 0 ? groups.ToArray() : null;
+            return usersGroups;
         }
     }
 }

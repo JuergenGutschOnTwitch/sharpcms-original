@@ -1,5 +1,7 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
+
 namespace Sharpcms.PluginInterface
 {
 	/// <summary>
@@ -32,7 +34,7 @@ namespace Sharpcms.PluginInterface
 		/// </summary>
 		/// <param name="pluginNameOrPath">The name or File path of the plugin to find</param>
 		/// <returns>Available Plugin, or null if the plugin is not found</returns>
-		public AvailablePlugin Find(string pluginNameOrPath)
+		public AvailablePlugin Find(String pluginNameOrPath)
 		{
 			AvailablePlugin toReturn = null;
 
@@ -48,30 +50,6 @@ namespace Sharpcms.PluginInterface
 			}
 
 			return toReturn;
-		}
-	}
-
-	/// <summary>
-	/// Data Class for Available Plugin. Holds an instance of the loaded Plugin, as well as the Plugin's Assembly Path
-	/// </summary>
-	public class AvailablePlugin
-	{
-		//This is the actual AvailablePlugin object.. 
-		//Holds an instance of the plugin to access
-		//ALso holds assembly path... not really necessary
-	    private string _assemblyPath = string.Empty;
-
-	    public AvailablePlugin()
-	    {
-	        Instance = null;
-	    }
-
-	    public IPlugin Instance { get; set; }
-
-	    public string AssemblyPath
-		{
-			get { return _assemblyPath; }
-			set { _assemblyPath = value; }
 		}
 	}
 }

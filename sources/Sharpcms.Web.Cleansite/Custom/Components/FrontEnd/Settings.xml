@@ -20,6 +20,15 @@
       <textblock>
         <item name="Text" attribute="text" type="tinymce" height="300" />
       </textblock>
+      <page>
+        <item name="Link" attribute="text" type="choosepage" />
+      </page>
+      <file>
+        <item name="Link" attribute="text" type="choosefile" />
+      </file>
+      <image>
+        <item name="Link" attribute="text" type="chooseimage" />
+      </image>
     </elementlist>
   </sitetree>
   <general>

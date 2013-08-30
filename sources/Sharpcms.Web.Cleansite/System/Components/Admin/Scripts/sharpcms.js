@@ -131,7 +131,7 @@
 
                 $(this).dialog({
                     model: true,
-                    title: 'Choose Page'
+                    title: 'Choose File'
                 });
 
                 $('.hlCloseDialog').click(function () {
@@ -168,7 +168,7 @@
 
                 $(this).dialog({
                     model: true,
-                    title: 'Choose Page'
+                    title: 'Choose Folder'
                 });
 
                 $('.hlCloseDialog').click(function () {
@@ -199,7 +199,7 @@
 
                 $(this).dialog({
                     model: true,
-                    title: 'Choose Page'
+                    title: 'Choose Image'
                 });
 
                 $('.hlCloseDialog').click(function () {

@@ -1,14 +1,13 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Xml;
 using Sharpcms.Library;
 using Sharpcms.Library.Common;
 using Sharpcms.Library.Process;
@@ -18,7 +17,7 @@ namespace Sharpcms.Data.FileTree
     public class FileTree
     {
         private readonly Process _process;
-        private readonly string _rootFilesPath;
+        private readonly String _rootFilesPath;
 
         public FileTree(Process process)
         {
@@ -29,54 +28,58 @@ namespace Sharpcms.Data.FileTree
 
         public FolderElement RootFolder { get; private set; }
 
-        public bool FolderExists(string path)
+        public bool FolderExists(String path)
         {
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            String combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            bool isExist = Directory.Exists(combinedPath);
 
-            return Directory.Exists(combinedPath);
+            return isExist;
         }
 
-        public bool FileExists(string path)
+        public bool FileExists(String path)
         {
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            String combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            bool isExist = File.Exists(combinedPath);
 
-            return File.Exists(combinedPath);
+            return isExist;
         }
 
-        public void CreateFolder(string path, string name)
+        public void CreateFolder(String path, String name)
         {
             name = Common.CleanToSafeString(name);
             path = Common.FormatFilePath(path);
 
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path, name);
+            String combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path, name);
             Directory.CreateDirectory(combinedPath);
         }
 
-        public void DeleteFolder(string path)
+        public void DeleteFolder(String path)
         {
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            String combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
             Common.DeleteDirectory(combinedPath);
         }
 
-        public void DeleteFile(string path)
+        public void DeleteFile(String path)
         {
-            string combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
+            String combinedPath = Common.CheckedCombinePaths(_rootFilesPath, path);
             File.Delete(combinedPath);
         }
 
-        public FolderElement GetFolder(string folder)
+        public FolderElement GetFolder(String folder)
         {
-            string path = Path.Combine(_rootFilesPath, folder);
+            String path = Path.Combine(_rootFilesPath, folder);
 
-            return Directory.Exists(path)
+            FolderElement folderElement = Directory.Exists(path)
                 ? new FolderElement(path)
                 : null;
+
+            return folderElement;
         }
 
-        public void SaveUploadedFiles(string path)
+        public void SaveUploadedFiles(String path)
         {
             int fileCount = _process.HttpPage.Request.Files.Count;
-            string[] files = new string[fileCount];
+            String[] files = new String[fileCount];
 
             for (int fileIndex = 0; fileIndex < fileCount; fileIndex++)
             {
@@ -84,34 +87,29 @@ namespace Sharpcms.Data.FileTree
 
                 if (path != null && file.ContentLength > 0)
                 {
-                    string prepend = _process.QueryOther["file_prepend"];
-                    if (!string.IsNullOrEmpty(prepend))
-                    {
-                        prepend = prepend + "_";
-                    }
-                    else
-                    {
-                        prepend = string.Empty;
-                    }
+                    String prepend = _process.QueryOther["file_prepend"];
+                    prepend = !String.IsNullOrEmpty(prepend) 
+                        ? prepend + "_" 
+                        : String.Empty;
 
-                    string filename = string.Join("_", Common.CleanToSafeString(Path.GetFileName(file.FileName)).Split(' '));
-                    string fullName = Common.CombinePaths(_rootFilesPath, path, prepend + filename);
-                    if (Common.PathIsInSite(fullName) && filename != string.Empty)
+                    String filename = String.Join("_", Common.CleanToSafeString(Path.GetFileName(file.FileName)).Split(' '));
+                    String fullName = Common.CombinePaths(_rootFilesPath, path, prepend + filename);
+                    if (Common.PathIsInSite(fullName) && filename != String.Empty)
                     {
                         file.SaveAs(fullName);
                         files[fileIndex] = fullName;
                     }
                 }
-                else if (path != null && file.ContentLength == 0 && file.FileName != string.Empty)
+                else if (path != null && file.ContentLength == 0 && file.FileName != String.Empty)
                 {
                     _process.AddMessage(
-                        string.Format("The file \"{0}\" was ignored because it was empty.", file.FileName),
+                        String.Format("The file \"{0}\" was ignored because it was empty.", file.FileName),
                         MessageType.Error);
                 }
             }
         }
 
-        public void SendToBrowser(string filename)
+        public void SendToBrowser(String filename)
         {
             HttpResponse response = _process.HttpPage.Response;
 
@@ -122,7 +120,7 @@ namespace Sharpcms.Data.FileTree
             {
                 response.Clear();
 
-                string currentFile = fileInfo.FullName;
+                String currentFile = fileInfo.FullName;
                 if (Common.IsValidImage(currentFile) && HasImageRenderProperties())
                 {
                     currentFile = RenderImage(fileInfo);
@@ -155,7 +153,7 @@ namespace Sharpcms.Data.FileTree
             int borderwidth;
             bool hasBoderWidth = int.TryParse(_process.QueryOther["borderwidth"], out borderwidth);
 
-            string bordercolor;
+            String bordercolor;
             bool hasBordercolor = Common.TryParseCssColor(_process.QueryOther["bordercolor"], out bordercolor);
 
             int height;
@@ -167,10 +165,12 @@ namespace Sharpcms.Data.FileTree
             int width;
             bool hasWidth = int.TryParse(_process.QueryOther["width"], out width);
             
-            return hasBoderWidth || hasBordercolor || hasHeight || hasRadius || hasWidth;
+            bool result = hasBoderWidth || hasBordercolor || hasHeight || hasRadius || hasWidth;
+
+            return result;
         }
 
-        private string RenderImage(FileInfo fileInfo)
+        private String RenderImage(FileInfo fileInfo)
         {
             int width;
             bool hasWidth = int.TryParse(_process.QueryOther["width"], out width);
@@ -184,7 +184,7 @@ namespace Sharpcms.Data.FileTree
             int borderwidth;
             bool hasBoderWidth = int.TryParse(_process.QueryOther["borderwidth"], out borderwidth);
 
-            string bordercolor;
+            String bordercolor;
             bool hasBordercolor = Common.TryParseCssColor(_process.QueryOther["bordercolor"], out bordercolor);
 
             bool isFixed = _process.QueryOther["fixed"] == "true";
@@ -192,7 +192,7 @@ namespace Sharpcms.Data.FileTree
                 || (hasHeight && height > 0) 
                 || (hasRadius && radius >= 0))
             {
-                string newFilename = string.Format("{0}_{1}x{2}r{3}", fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height, radius);
+                String newFilename = String.Format("{0}_{1}x{2}r{3}", fileInfo.Name.TrimEnd(fileInfo.Extension.ToCharArray()), width, height, radius);
 
                 if (hasBoderWidth && hasBordercolor)
                 {
@@ -203,7 +203,7 @@ namespace Sharpcms.Data.FileTree
 
                 if (fileInfo.Directory != null)
                 {
-                    string thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs", newFilename);
+                    String thumbnailFile = Common.CombinePaths(fileInfo.Directory.FullName, "thumbs", newFilename);
 
                     DateTime rerender = new DateTime(2006, 9, 25);
                     FileInfo thumbInfo = null;
@@ -264,82 +264,95 @@ namespace Sharpcms.Data.FileTree
 
         private static Bitmap ResizeOrCropImage(Image bitmap, int width, int height, bool isFixed)
         {
+            Bitmap result;
+
             if (width >= bitmap.Width && height >= bitmap.Height && !isFixed)
             {
-                return null;
-            }
-
-            Image tmpImage = bitmap;
-
-            // Crop
-            if (width > 0 && height > 0)
-            {
-                tmpImage = isFixed 
-                    ? ImageResize.FixedSize(tmpImage, width, height, Color.White)
-                    : ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
-            }
-
-            // Resize
-            if (width > 0 && width < bitmap.Width)
-            {
-                tmpImage = ImageResize.ConstrainProportions(tmpImage, width, ImageResize.Dimensions.Width);
-            }
-            else if (height > 0 && height < bitmap.Height)
-            {
-                tmpImage = ImageResize.ConstrainProportions(tmpImage, height, ImageResize.Dimensions.Height);
-            }
-
-            return (Bitmap)tmpImage;
-        }
-
-        private static Bitmap RoundImageVertex(Bitmap bitmap, int radius, int borderWidth, string borderColor)
-        {
-            if (radius <= 0 || (radius * 2) > bitmap.Height || (radius * 2) > bitmap.Width)
-            {
-                return bitmap;
-            }
-
-            Image tmpImage = bitmap;
-
-            if (!Regex.IsMatch(borderColor, @"[#]([0-9]|[a-f]|[A-F]){6}\b") || borderWidth < 1)
-            {
-                tmpImage = ImageVertexRounding.RoundedRectangle(tmpImage, radius);
+                result = null;
             }
             else
             {
-                tmpImage = ImageVertexRounding.RoundedRectangle(tmpImage, radius, borderWidth, borderColor);
+                Image tmpImage = bitmap;
+
+                // Crop
+                if (width > 0 && height > 0)
+                {
+                    tmpImage = isFixed
+                        ? ImageResize.FixedSize(tmpImage, width, height, Color.White)
+                        : ImageResize.Crop(tmpImage, width, height, ImageResize.AnchorPosition.Center);
+                }
+
+                // Resize
+                if (width > 0 && width < bitmap.Width)
+                {
+                    tmpImage = ImageResize.ConstrainProportions(tmpImage, width, ImageResize.Dimensions.Width);
+                }
+                else if (height > 0 && height < bitmap.Height)
+                {
+                    tmpImage = ImageResize.ConstrainProportions(tmpImage, height, ImageResize.Dimensions.Height);
+                }
+
+                result = (Bitmap)tmpImage;
             }
 
-            return (Bitmap)tmpImage;
+            return result;
         }
 
-        public void MoveFolder(string folder, string newContainingDirectory)
+        private static Bitmap RoundImageVertex(Bitmap bitmap, int radius, int borderWidth, String borderColor)
+        {
+            Bitmap result;
+
+            if (radius <= 0 || (radius * 2) > bitmap.Height || (radius * 2) > bitmap.Width)
+            {
+                result = bitmap;
+            }
+            else
+            {
+                Image tmpImage = bitmap;
+
+                if (!Regex.IsMatch(borderColor, @"[#]([0-9]|[a-f]|[A-F]){6}\b") || borderWidth < 1)
+                {
+                    tmpImage = ImageVertexRounding.RoundedRectangle(tmpImage, radius);
+                }
+                else
+                {
+                    tmpImage = ImageVertexRounding.RoundedRectangle(tmpImage, radius, borderWidth, borderColor);
+                }
+
+                result = (Bitmap)tmpImage;
+            }
+
+
+            return result;
+        }
+
+        public void MoveFolder(String folder, String newContainingDirectory)
         {
             Common.MoveDirectory(Common.CombinePaths(_rootFilesPath, folder), Common.CombinePaths(_rootFilesPath, newContainingDirectory));
         }
 
-        public void MoveFile(string file, string newContainingDiretory)
+        public void MoveFile(String file, String newContainingDiretory)
         {
             Common.MoveFile(Common.CombinePaths(_rootFilesPath, file), Common.CombinePaths(_rootFilesPath, newContainingDiretory));
         }
 
-        public void RenameFile(string file, string newFileName)
+        public void RenameFile(String file, String newFileName)
         {
-            string filePath = Common.CheckedCombinePaths(_rootFilesPath, file);
+            String filePath = Common.CheckedCombinePaths(_rootFilesPath, file);
             FileInfo fileInfo = new FileInfo(filePath);
-            string filePathNew = Common.CheckedCombinePaths(fileInfo.DirectoryName, newFileName);
+            String filePathNew = Common.CheckedCombinePaths(fileInfo.DirectoryName, newFileName);
 
             fileInfo.MoveTo(filePathNew);
         }
 
-        public void RenameFolder(string folder, string newFolderName)
+        public void RenameFolder(String folder, String newFolderName)
         {
-            string folderPath = Common.CheckedCombinePaths(_rootFilesPath, folder);
+            String folderPath = Common.CheckedCombinePaths(_rootFilesPath, folder);
 
             DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
             if (folderInfo.Parent != null)
             {
-                string folderPathNew = Common.CheckedCombinePaths(folderInfo.Parent.FullName, newFolderName);
+                String folderPathNew = Common.CheckedCombinePaths(folderInfo.Parent.FullName, newFolderName);
 
                 folderInfo.MoveTo(folderPathNew);
             }
@@ -347,96 +360,10 @@ namespace Sharpcms.Data.FileTree
 
         private static ImageCodecInfo GetEncoderInfo(String mimeType)
         {
-            int j;
             ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
-            for (j = 0; j < encoders.Length; ++j)
-            {
-                if (encoders[j].MimeType == mimeType)
-                {
-                    return encoders[j];
-                }
-            }
+            ImageCodecInfo encoder = encoders.FirstOrDefault(t => t.MimeType == mimeType);
 
-            return null;
+            return encoder;
         }
-    }
-
-    public class FolderElement
-    {
-        private readonly DirectoryInfo _directoryInfo;
-
-        public FolderElement(string path)
-        {
-            _directoryInfo = new DirectoryInfo(path);
-        }
-
-        private string Name
-        {
-            get { return _directoryInfo.Name; }
-        }
-
-        private static bool Filter(string name)
-        {
-            const string illegal = "._";
-            return !illegal.Contains(name[0].ToString(CultureInfo.InvariantCulture));
-        }
-
-        public void GetXml(XmlNode xmlNode, SubFolder subFolder)
-        {
-            XmlNode folderNode = CommonXml.GetNode(xmlNode, "folder", EmptyNodeHandling.ForceCreateNew);
-            CommonXml.SetAttributeValue(folderNode, "name", Name);
-
-            foreach (FileInfo file in _directoryInfo.GetFiles())
-            {
-                XmlNode fileNode = CommonXml.GetNode(folderNode, "file", EmptyNodeHandling.ForceCreateNew);
-                CommonXml.SetAttributeValue(fileNode, "name", file.Name);
-                CommonXml.SetAttributeValue(fileNode, "extension", file.Extension);
-                GetFileAttributes(fileNode, file.Name); 
-            }
-
-            if (subFolder == SubFolder.IncludeSubfolders)
-            {
-                foreach (DirectoryInfo dir in _directoryInfo.GetDirectories())
-                {
-                    if (Filter(dir.Name))
-                    {
-                        FolderElement folderElement = new FolderElement(dir.FullName);
-                        folderElement.GetXml(folderNode, SubFolder.IncludeSubfolders);
-                    }
-                }
-            }
-        }
-
-        private void GetFileAttributes(XmlNode xmlNode, String fileName) 
-        {
-            DataSet dataSet = new DataSet();
-            try
-            {
-                dataSet.ReadXml(_directoryInfo.FullName + "\\data\\gallery.xml");
-                if (dataSet.Tables["file"] == null) return;
-
-                DataRow[] dataRows = dataSet.Tables["file"].Select("name='" + fileName + "'");
-                if (dataRows.Length == 0) return;
-
-                CommonXml.SetAttributeValue(xmlNode, "title", dataRows[0]["title"].ToString());
-                CommonXml.SetAttributeValue(xmlNode, "description", dataRows[0]["description"].ToString());
-            }
-            catch
-            {
-                dataSet = null;
-            }
-            finally
-            {
-                if (dataSet != null)
-                {
-                    dataSet.Dispose();
-                }
-            }
-        }
-    }
-
-    public enum SubFolder
-    {
-        IncludeSubfolders, OnlyThisFolder
     }
 }

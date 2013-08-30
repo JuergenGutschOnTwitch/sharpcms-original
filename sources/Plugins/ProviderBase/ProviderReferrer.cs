@@ -7,21 +7,19 @@ namespace Sharpcms.Providers.Base
 {
     public class ProvicerReferrer : BasePlugin2, IPlugin2
     {
-        public ProvicerReferrer() { }
-
-        public ProvicerReferrer(Process process)
-        {
-            Process = process;
-        }
-
-        #region IPlugin2 Members
-
         public new string Name
         {
             get
             {
                 return "Referrer";
             }
+        }
+
+        public ProvicerReferrer() { }
+
+        public ProvicerReferrer(Process process)
+        {
+            Process = process;
         }
 
         public new void Handle(string mainEvent)
@@ -43,8 +41,6 @@ namespace Sharpcms.Providers.Base
                     break;
             }
         }
-
-        #endregion
 
         private void HandleLog()
         {

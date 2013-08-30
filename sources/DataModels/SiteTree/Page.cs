@@ -1,5 +1,6 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
 using System.Xml;
 using Sharpcms.Library;
 using Sharpcms.Library.Common;
@@ -38,7 +39,7 @@ namespace Sharpcms.Data.SiteTree
             }
         }
 
-        public string Name
+        public String Name
         {
             get
             {
@@ -46,7 +47,7 @@ namespace Sharpcms.Data.SiteTree
             }
         }
 
-        public string PageIdentifier
+        public String PageIdentifier
         {
             get
             {
@@ -54,26 +55,26 @@ namespace Sharpcms.Data.SiteTree
             }
         }
 
-        public string this[string name]
+        public String this[String name]
         {
             get
             {
-                string xPath = string.Format("attributes/{0}", name);
+                String xPath = string.Format("attributes/{0}", name);
 
                 return GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText;
             }
             set
             {
-                string xPath = string.Format("attributes/{0}", name);
+                String xPath = string.Format("attributes/{0}", name);
                 GetNode(xPath, EmptyNodeHandling.CreateNew).InnerText = value;
 
                 HandleAttributeChange(name, value);
             }
         }
 
-        public XmlNode GetAttribute(string name)
+        public XmlNode GetAttribute(String name)
         {
-            string xPath = string.Format("attributes/{0}", name);
+            String xPath = string.Format("attributes/{0}", name);
             XmlNode xmlNode = GetNode(xPath, EmptyNodeHandling.CreateNew);
 
             return xmlNode;
@@ -87,7 +88,7 @@ namespace Sharpcms.Data.SiteTree
             this["status"] = CommonXml.GetAttributeValue(_treeNode, "status");
         }
 
-        private void HandleAttributeChange(string name, string value)
+        private void HandleAttributeChange(String name, String value)
         {
             switch (name)
             {

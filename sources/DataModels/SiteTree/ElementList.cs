@@ -1,5 +1,6 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
 using System.Globalization;
 using System.Xml;
 using Sharpcms.Library;
@@ -15,10 +16,13 @@ namespace Sharpcms.Data.SiteTree
         {
             get
             {
-                string xPath = string.Format("element[{0}]", index + 1);
+                String xPath = string.Format("element[{0}]", index + 1);
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
+                Element element = node != null 
+                    ? new Element(node) 
+                    : null;
 
-                return node != null ? new Element(node) : null;
+                return element;
             }
         }
 
@@ -27,11 +31,10 @@ namespace Sharpcms.Data.SiteTree
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public Element Create(string type)
+        public Element Create(String type)
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);
-
             Element element = new Element(node) {Type = type};
 
             return element;
@@ -43,7 +46,7 @@ namespace Sharpcms.Data.SiteTree
         /// <param name="type">The type.</param>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public Element Create(string type, string name)
+        public Element Create(String type, String name)
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);
@@ -64,7 +67,7 @@ namespace Sharpcms.Data.SiteTree
         /// <param name="name">The name.</param>
         /// <param name="publish">if set to <c>true</c> [publish].</param>
         /// <returns></returns>
-        public Element Create(string type, string name, bool publish)
+        public Element Create(String type, String name, bool publish)
         {
             XmlNode node = Document.CreateElement("element");
             ParentNode.AppendChild(node);

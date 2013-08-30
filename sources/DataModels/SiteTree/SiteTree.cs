@@ -10,11 +10,11 @@ namespace Sharpcms.Data.SiteTree
 {
     public class SiteTree
     {
-        private readonly string _contentFilenameFormat;
-        private readonly string _contentRoot;
+        private readonly String _contentFilenameFormat;
+        private readonly String _contentRoot;
         private readonly Process _process;
         private readonly XmlDocument _treeDocument;
-        private readonly string _treeFilename;
+        private readonly String _treeFilename;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SiteTree"/> class.
@@ -47,11 +47,12 @@ namespace Sharpcms.Data.SiteTree
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns></returns>
-        public Page GetPage(string path)
+        public Page GetPage(String path)
         {
             XmlNode pageNode = GetPageNode(path);
+            Page page = GetPage(pageNode);
 
-            return GetPage(pageNode);
+            return page;
         }
 
         /// <summary>
@@ -65,9 +66,9 @@ namespace Sharpcms.Data.SiteTree
 
             if (pageNode != null)
             {
-                string path = CommonXml.GetXPath(pageNode);
+                String path = CommonXml.GetXPath(pageNode);
 
-                string fileName = Path.Combine(_contentRoot, string.Format(_contentFilenameFormat, path));
+                String fileName = Path.Combine(_contentRoot, string.Format(_contentFilenameFormat, path));
                 if (!File.Exists(fileName))
                 {
                     PagePath pagePath = new PagePath(path);
@@ -88,7 +89,7 @@ namespace Sharpcms.Data.SiteTree
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns></returns>
-        private XmlNode GetPageNode(string path)
+        private XmlNode GetPageNode(String path)
         {
             XmlNode pageNode = CommonXml.GetNode(_treeDocument, path, EmptyNodeHandling.Ignore);
 
@@ -100,7 +101,7 @@ namespace Sharpcms.Data.SiteTree
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns></returns>
-        public bool Exists(string path)
+        public bool Exists(String path)
         {
             XmlNode pageNode = GetPageNode(path);
 
@@ -125,7 +126,7 @@ namespace Sharpcms.Data.SiteTree
         {
             if (page != null)
             {
-                string filename = GetDocumentFilename(page.TreeNode);
+                String filename = GetDocumentFilename(page.TreeNode);
                 CommonXml.SaveXmlDocument(filename, page.Node.OwnerDocument);
 
                 if (saveTree)
@@ -154,7 +155,7 @@ namespace Sharpcms.Data.SiteTree
             {
                 foreach (XmlNode pageNode in xmlNodeList)
                 {
-                    string path = CommonXml.GetXPath(pageNode);
+                    String path = CommonXml.GetXPath(pageNode);
                     Page page = GetPage(path);
                     page["pageidentifier"] = path;
 
@@ -166,12 +167,12 @@ namespace Sharpcms.Data.SiteTree
 
         #region Copy Page
 
-        public void CopyTo(string mainValue)
+        public void CopyTo(String mainValue)
         {
             string[] parts = mainValue.Split('¤');
-            string copyFromPath = parts[0];
-            string copyToPath = parts[1];
-            string name = parts[2];
+            String copyFromPath = parts[0];
+            String copyToPath = parts[1];
+            String name = parts[2];
 
             if (copyFromPath.Trim() == string.Empty || copyToPath.Trim() == string.Empty)
             {
@@ -206,7 +207,7 @@ namespace Sharpcms.Data.SiteTree
         /// <param name="name">The name.</param>
         /// <param name="menuName">Name of the menu.</param>
         /// <returns></returns>
-        public Page Create(string path, string name, string menuName)
+        public Page Create(String path, String name, String menuName)
         {
             Page page;
 
@@ -221,7 +222,7 @@ namespace Sharpcms.Data.SiteTree
             else
             {
                 // Update filesystem
-                string pathfile = path;
+                String pathfile = path;
                 if (pathfile == ".")
                 {
                     pathfile = string.Empty;
@@ -247,10 +248,10 @@ namespace Sharpcms.Data.SiteTree
         /// <param name="path">The path.</param>
         /// <param name="name">The name.</param>
         /// <param name="menuName">Name of the menu.</param>
-        private void CreateFile(string path, string name, string menuName)
+        private void CreateFile(String path, String name, String menuName)
         {
-            string fileDirectory = GetDocumentDirectory(path);
-            string filename = GetDocumentFilename(path, name);
+            String fileDirectory = GetDocumentDirectory(path);
+            String filename = GetDocumentFilename(path, name);
             Directory.CreateDirectory(fileDirectory);
             XmlDocument document = new XmlDocument();
             CommonXml.GetNode(document, "page/attributes/pagename", EmptyNodeHandling.CreateNew).InnerText = menuName;
@@ -264,7 +265,7 @@ namespace Sharpcms.Data.SiteTree
         /// <param name="name">The name.</param>
         /// <param name="menuName">Name of the menu.</param>
         /// <returns></returns>
-        private XmlNode CreateInTree(string path, string name, string menuName)
+        private XmlNode CreateInTree(String path, String name, String menuName)
         {
             XmlNode parentNode = GetPageNode(path);
             XmlNode pageNode = _treeDocument.CreateElement(name);
@@ -304,7 +305,7 @@ namespace Sharpcms.Data.SiteTree
 
         #region Delete Page
 
-        public void Delete(string path)
+        public void Delete(String path)
         {
             Delete(GetPageNode(path));
         }
@@ -325,7 +326,7 @@ namespace Sharpcms.Data.SiteTree
 
         private void DeleteFile(XmlNode pageNode)
         {
-            string path = CommonXml.GetXPath(pageNode);
+            String path = CommonXml.GetXPath(pageNode);
             PagePath pagePath = new PagePath(path);
             Common.DeleteFile(GetDocumentFilename(pagePath.Path, pagePath.Name));
             Common.DeleteDirectory(GetDocumentContainerDirectory(pagePath.Path, pagePath.Name));
@@ -343,11 +344,11 @@ namespace Sharpcms.Data.SiteTree
 
         #region Rename page
 
-        public void Rename(Page page, string renameTo)
+        public void Rename(Page page, String renameTo)
         {
-            string pageName = renameTo;
-            string newName = Common.CleanToSafeString(renameTo);
-            string oldName = page.TreeNode.Name;
+            String pageName = renameTo;
+            String newName = Common.CleanToSafeString(renameTo);
+            String oldName = page.TreeNode.Name;
 
             if (oldName != newName)
             {
@@ -361,33 +362,33 @@ namespace Sharpcms.Data.SiteTree
             }
         }
 
-        private void RenameFile(Page page, string renameTo)
+        private void RenameFile(Page page, String renameTo)
         {
-            string path = CommonXml.GetXPath(page.TreeNode);
+            String path = CommonXml.GetXPath(page.TreeNode);
             PagePath pagePath = new PagePath(path);
 
             // Rename file
-            string oldFilename = GetDocumentFilename(pagePath.Path, pagePath.Name);
-            string newFilename = GetDocumentFilename(pagePath.Path, renameTo);
+            String oldFilename = GetDocumentFilename(pagePath.Path, pagePath.Name);
+            String newFilename = GetDocumentFilename(pagePath.Path, renameTo);
             File.Move(oldFilename, newFilename);
 
             // Rename directory
-            string oldDirectory = GetDocumentContainerDirectory(pagePath.Path, pagePath.Name);
+            String oldDirectory = GetDocumentContainerDirectory(pagePath.Path, pagePath.Name);
             if (Directory.Exists(oldDirectory))
             {
-                string newDirectory = GetDocumentContainerDirectory(pagePath.Path, renameTo);
+                String newDirectory = GetDocumentContainerDirectory(pagePath.Path, renameTo);
                 Directory.Move(oldDirectory, newDirectory);
             }
         }
 
-        private void RenameInTree(Page page, string name, string pageName)
+        private void RenameInTree(Page page, String name, String pageName)
         {
             name = Common.CleanToSafeString(name);
             
             XmlNode newTreeNode = _treeDocument.CreateElement(name);
             XmlNode parentNode = page.TreeNode.ParentNode;
 
-            string newPageidentifier = string.Empty;
+            String newPageidentifier = string.Empty;
             if (parentNode != null)
             {
                 newPageidentifier = parentNode.Name;
@@ -411,7 +412,7 @@ namespace Sharpcms.Data.SiteTree
 
         #region Move up / down
 
-        public void MoveUp(string path)
+        public void MoveUp(String path)
         {
             Page page = GetPage(path);
             MoveUp(page);
@@ -423,7 +424,7 @@ namespace Sharpcms.Data.SiteTree
             Save();
         }
 
-        public void MoveDown(string path)
+        public void MoveDown(String path)
         {
             Page page = GetPage(path);
             MoveDown(page);
@@ -441,7 +442,7 @@ namespace Sharpcms.Data.SiteTree
             Save();
         }
 
-        public void MoveTop(string path)
+        public void MoveTop(String path)
         {
             Page page = GetPage(path);
             MoveTop(page);
@@ -453,7 +454,7 @@ namespace Sharpcms.Data.SiteTree
             Save();
         }
 
-        public void MoveBottom(string path)
+        public void MoveBottom(String path)
         {
             Page page = GetPage(path);
             MoveBottom(page);
@@ -463,7 +464,7 @@ namespace Sharpcms.Data.SiteTree
 
         #region Move
 
-        public void Move(string path, string newParentPath)
+        public void Move(String path, String newParentPath)
         {
             Page page = GetPage(path);
             Page newParent = GetPage(newParentPath == "." 
@@ -477,15 +478,15 @@ namespace Sharpcms.Data.SiteTree
         {
             if (page.Node != newParent.Node && !newParent.PageIdentifier.StartsWith(page.PageIdentifier))
             {
-                string sourcePath = page.PageIdentifier;
-                string newParentPath = newParent.PageIdentifier;
+                String sourcePath = page.PageIdentifier;
+                String newParentPath = newParent.PageIdentifier;
 
                 CommonXml.Move(page.TreeNode, newParent.TreeNode);
                 Save();
 
-                string newContainerDirectory = GetDocumentDirectory(newParentPath.Replace("/", @"\"));
-                string sourceDirectory = GetDocumentDirectory(sourcePath.Replace("/", @"\"));
-                string sourceFile = GetDocumentFilename(sourcePath.Replace("/", @"\"));
+                String newContainerDirectory = GetDocumentDirectory(newParentPath.Replace("/", @"\"));
+                String sourceDirectory = GetDocumentDirectory(sourcePath.Replace("/", @"\"));
+                String sourceFile = GetDocumentFilename(sourcePath.Replace("/", @"\"));
 
                 // Ensure that the container directory exists
                 Directory.CreateDirectory(newContainerDirectory);
@@ -521,38 +522,38 @@ namespace Sharpcms.Data.SiteTree
 
         #region Directory and filename handling
 
-        private static string GetDocumentContainerDirectory(string path, string name)
+        private static String GetDocumentContainerDirectory(String path, String name)
         {
             return Path.Combine(path, name);
         }
 
-        private string GetDocumentDirectory(string path)
+        private String GetDocumentDirectory(String path)
         {
-            string directory = Path.Combine(_contentRoot, path);
+            String directory = Path.Combine(_contentRoot, path);
 
             return directory;
         }
 
-        private string GetDocumentFilename(XmlNode treeNode)
+        private String GetDocumentFilename(XmlNode treeNode)
         {
-            string path = CommonXml.GetXPath(treeNode);
-            string documentFilename = GetDocumentFilename(path);
+            String path = CommonXml.GetXPath(treeNode);
+            String documentFilename = GetDocumentFilename(path);
 
             return documentFilename;
         }
 
-        private string GetDocumentFilename(string fullPath)
+        private String GetDocumentFilename(String fullPath)
         {
             PagePath pagePath = new PagePath(fullPath);
-            string documentFilename = GetDocumentFilename(pagePath.Path, pagePath.Name);
+            String documentFilename = GetDocumentFilename(pagePath.Path, pagePath.Name);
 
             return documentFilename;
         }
 
-        private string GetDocumentFilename(string path, string name)
+        private String GetDocumentFilename(String path, String name)
         {
-            string directory = GetDocumentDirectory(path);
-            string documentFilename = Path.Combine(directory, string.Format(_contentFilenameFormat, name));
+            String directory = GetDocumentDirectory(path);
+            String documentFilename = Path.Combine(directory, string.Format(_contentFilenameFormat, name));
 
             return documentFilename;
         }

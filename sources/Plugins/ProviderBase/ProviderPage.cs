@@ -12,12 +12,35 @@ using Sharpcms.Library.Users;
 
 namespace Sharpcms.Providers.Base
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class ProviderPage : BasePlugin2, IPlugin2
     {
         private SiteTree _siteTree;
+
+        /// <summary>
+        /// Gets the tree.
+        /// </summary>
+        /// <value>The tree.</value>
+        private SiteTree Tree
+        {
+            get
+            {
+                SiteTree siteTree = _siteTree ?? (_siteTree = new SiteTree(Process));
+
+                return siteTree;
+            }
+        }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public new String Name
+        {
+            get
+            {
+                return "Page";
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProviderPage"/> class.
@@ -37,38 +60,10 @@ namespace Sharpcms.Providers.Base
         }
 
         /// <summary>
-        /// Gets the tree.
-        /// </summary>
-        /// <value>The tree.</value>
-        private SiteTree Tree
-        {
-            get
-            {
-                SiteTree siteTree = _siteTree ?? (_siteTree = new SiteTree(Process));
-
-                return siteTree;
-            }
-        }
-
-        #region IPlugin2 Members
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        public new string Name
-        {
-            get
-            {
-                return "Page";
-            }
-        }
-
-        /// <summary>
         /// Handles the specified main event.
         /// </summary>
         /// <param name="mainEvent">The main event.</param>
-        public new void Handle(string mainEvent)
+        public new void Handle(String mainEvent)
         {
             switch (mainEvent)
             {
@@ -136,7 +131,7 @@ namespace Sharpcms.Providers.Base
         /// <param name="action">The action.</param>
         /// <param name="value">The value.</param>
         /// <param name="pathTrail">The path trail.</param>
-        public new void Load(ControlList control, string action, string value, string pathTrail)
+        public new void Load(ControlList control, String action, String value, String pathTrail)
         {
             switch (action)
             {
@@ -158,14 +153,12 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Handles the set standard page.
         /// </summary>
         private void HandleSetStandardPage()
         {
-            string newDefault = Process.QueryData["pageidentifier"].Trim();
+            String newDefault = Process.QueryData["pageidentifier"].Trim();
             if (newDefault.Length > 0)
             {
                 Process.Settings["sitetree/stdpage"] = newDefault;
@@ -178,7 +171,7 @@ namespace Sharpcms.Providers.Base
         private void HandlePageRemoveContainer()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string mainValueQueryEvent = Process.QueryEvents["mainvalue"];
+            String mainValueQueryEvent = Process.QueryEvents["mainvalue"];
             
             currentPage.Containers.Remove(int.Parse(mainValueQueryEvent) - 1);
             currentPage.Save();
@@ -191,7 +184,7 @@ namespace Sharpcms.Providers.Base
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
             
-            string query = Process.QueryEvents["mainvalue"];
+            String query = Process.QueryEvents["mainvalue"];
             query = Common.CleanToSafeString(query).ToLower();
 
             Container container = currentPage.Containers[query];
@@ -235,9 +228,9 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandlePageCopy()
         {
-            string mainValueQueryEvent = Process.QueryEvents["mainvalue"];
-            
+            String mainValueQueryEvent = Process.QueryEvents["mainvalue"];
             SiteTree siteTree = new SiteTree(Process);
+            
             siteTree.CopyTo(mainValueQueryEvent);
         }
 
@@ -246,10 +239,10 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandlePageMove()
         {
-            string newParentPath = Process.QueryEvents["mainvalue"];
-            string path = Process.QueryData["pageidentifier"];
-            
+            String newParentPath = Process.QueryEvents["mainvalue"];
+            String path = Process.QueryData["pageidentifier"];
             SiteTree siteTree = new SiteTree(Process);
+            
             siteTree.Move(path, newParentPath);
         }
 
@@ -258,7 +251,7 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns></returns>
-        private string GetRedirectUrl(string path)
+        private String GetRedirectUrl(String path)
         {
             return Process.GetUrl(String.Format("admin/page/edit/{0}/", path));
         }
@@ -269,9 +262,9 @@ namespace Sharpcms.Providers.Base
         private void HandleAddElement()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string query = Process.QueryEvents["mainvalue"];
-            string[] elementParts = query.Split('_');
-            string elementType = elementParts[0];
+            String query = Process.QueryEvents["mainvalue"];
+            String[] elementParts = query.Split('_');
+            String elementType = elementParts[0];
             int containerId = int.Parse(elementParts[1]);
 
             currentPage.Containers[containerId - 1].Elements.Create(elementType, String.Empty, false);
@@ -283,10 +276,10 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleAddPage()
         {
-            string mainvalue = Process.QueryEvents["mainvalue"];
-            string[] pathSplit = mainvalue.Split('*');
-            string path = pathSplit[0];
-            string pageName = pathSplit[1];
+            String mainvalue = Process.QueryEvents["mainvalue"];
+            String[] pathSplit = mainvalue.Split('*');
+            String path = pathSplit[0];
+            String pageName = pathSplit[1];
             
             SiteTree siteTree = new SiteTree(Process);
             if (!siteTree.Exists(path + "/" + pageName))
@@ -304,7 +297,7 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleRemovePage()
         {
-            string path = Process.QueryEvents["mainvalue"];
+            String path = Process.QueryEvents["mainvalue"];
 
             new SiteTree(Process).Delete(path);
         }
@@ -314,13 +307,13 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleSave()
         {
-            string elementName = String.Empty;
+            String elementName = String.Empty;
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
 
             for (int i = 0; i < Process.QueryData.Count; i++)
             {
                 Query query = Process.QueryData[i];
-                string[] queryParts = query.Name.Split('_');
+                String[] queryParts = query.Name.Split('_');
 
                 if (queryParts.Length > 1)
                 {
@@ -330,10 +323,10 @@ namespace Sharpcms.Providers.Base
                             if (queryParts[1].EndsWith("-list"))
                             {
                                 XmlNode xmlNode = currentPage.GetAttribute(queryParts[1]);
-                                xmlNode.InnerText = string.Empty;
-                                foreach (string tmpstring in query.Value.Split('\n'))
+                                xmlNode.InnerText = String.Empty;
+                                foreach (String tmpString in query.Value.Split('\n'))
                                 {
-                                    CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew).InnerText = tmpstring;
+                                    CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew).InnerText = tmpString;
                                 }
                             }
                             else
@@ -348,13 +341,13 @@ namespace Sharpcms.Providers.Base
                             {
                                 XmlNode xmlNode = CommonXml.GetNode(container.Elements[int.Parse(queryParts[2]) - 1].Node, queryParts[3]);
                                 xmlNode.InnerText = String.Empty;
-                                foreach (string tmpstring in query.Value.Split('\n'))
+                                foreach (String tmpString in query.Value.Split('\n'))
                                 {
-                                    if (tmpstring != String.Empty)
+                                    if (tmpString != String.Empty)
                                     {
                                         XmlNode tmpNode = CommonXml.GetNode(xmlNode, "item", EmptyNodeHandling.ForceCreateNew);
-                                        tmpNode.InnerText = tmpstring;
-                                        CommonXml.AppendAttribute(tmpNode, "id", Common.CleanToSafeString(tmpstring));
+                                        tmpNode.InnerText = tmpString;
+                                        CommonXml.AppendAttribute(tmpNode, "id", Common.CleanToSafeString(tmpString));
                                     }
                                 }
                             }
@@ -395,8 +388,8 @@ namespace Sharpcms.Providers.Base
         private void HandleRemoveElement()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string element = Process.QueryEvents["mainvalue"];
-            string[] elementParts = element.Split('-');
+            String element = Process.QueryEvents["mainvalue"];
+            String[] elementParts = element.Split('-');
 
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Remove(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -408,8 +401,8 @@ namespace Sharpcms.Providers.Base
         private void HandleCopyElement()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string element = Process.QueryEvents["mainvalue"];
-            string[] elementParts = element.Split('-');
+            String element = Process.QueryEvents["mainvalue"];
+            String[] elementParts = element.Split('-');
 
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.Copy(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -421,8 +414,8 @@ namespace Sharpcms.Providers.Base
         private void HandleMoveElementTop()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string element = Process.QueryEvents["mainvalue"];
-            string[] elementParts = element.Split('-');
+            String element = Process.QueryEvents["mainvalue"];
+            String[] elementParts = element.Split('-');
 
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.MoveTop(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -434,8 +427,8 @@ namespace Sharpcms.Providers.Base
         private void HandleMoveElementUp()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string element = Process.QueryEvents["mainvalue"];
-            string[] elementParts = element.Split('-');
+            String element = Process.QueryEvents["mainvalue"];
+            String[] elementParts = element.Split('-');
 
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.MoveUp(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -447,8 +440,8 @@ namespace Sharpcms.Providers.Base
         private void HandleMoveElementDown()
         {
             Page currentPage = new SiteTree(Process).GetPage(Process.QueryData["pageidentifier"]);
-            string element = Process.QueryEvents["mainvalue"];
-            string[] elementParts = element.Split('-');
+            String element = Process.QueryEvents["mainvalue"];
+            String[] elementParts = element.Split('-');
 
             currentPage.Containers[int.Parse(elementParts[1]) - 1].Elements.MoveDown(int.Parse(elementParts[2]) - 1);
             currentPage.Save();
@@ -529,27 +522,28 @@ namespace Sharpcms.Providers.Base
         /// <param name="control">The control.</param>
         /// <param name="value">The value.</param>
         /// <param name="pathTrail">The path trail.</param>
-        private void LoadPage(ControlList control, string value, string pathTrail)
+        private void LoadPage(ControlList control, String value, String pathTrail)
         {
             LoadDay(Process.Content.GetSubControl("basedata")); //ToDo: quick hack not nice
 
-            string pagePath = GetCurrentPage(GetFullPath(value, pathTrail));
+            String pagePath = GetCurrentPage(GetFullPath(value, pathTrail));
             Page page = Tree.GetPage(pagePath);
 
-            if (page == null) return;
-
-            Process.Attributes["pageroot"] = pagePath.Split('/')[0];
-            Process.Attributes["pagepath"] = pagePath;
-            
-            Plugins(page);
-
-            control["page"] = page.Node;
-
-            Process.Content["templates"] = Process.Settings.GetAsNode("templates");
-
-            if (page["template"] != string.Empty && Process.CurrentProcess.Split('/')[0].ToLower() != "admin")
+            if (page != null)
             {
-                Process.MainTemplate = Process.Settings["templates/" + page["template"]];
+                Process.Attributes["pageroot"] = pagePath.Split('/')[0];
+                Process.Attributes["pagepath"] = pagePath;
+
+                Plugins(page);
+
+                control["page"] = page.Node;
+
+                Process.Content["templates"] = Process.Settings.GetAsNode("templates");
+
+                if (page["template"] != String.Empty && Process.CurrentProcess.Split('/')[0].ToLower() != "admin")
+                {
+                    Process.MainTemplate = Process.Settings["templates/" + page["template"]];
+                }
             }
         }
 
@@ -559,10 +553,10 @@ namespace Sharpcms.Providers.Base
         /// <param name="value">The value.</param>
         /// <param name="pathTrail">The path trail.</param>
         /// <returns></returns>
-        private static string GetFullPath(string value, string pathTrail)
+        private static String GetFullPath(String value, String pathTrail)
         {
-            string fullPath;
-            if (value != string.Empty)
+            String fullPath;
+            if (value != String.Empty)
             {
                 if (value.StartsWith("!"))
                 {
@@ -571,14 +565,16 @@ namespace Sharpcms.Providers.Base
                 else
                 {
                     fullPath = value;
-                    if (pathTrail.Trim() != string.Empty)
+                    if (pathTrail.Trim() != String.Empty)
                     {
                         fullPath += "/" + pathTrail;
                     }
                 }
             }
             else
+            {
                 fullPath = pathTrail;
+            }
 
             return fullPath;
         }
@@ -594,11 +590,11 @@ namespace Sharpcms.Providers.Base
                 for (int b = 0; b < page.Containers[i].Elements.Count; b++)
                 {
                     XmlNode xmlElementNode = page.Containers[i].Elements[b].Node;
-                    string plugin = CommonXml.GetNode(xmlElementNode, "plugin").InnerText;
-                    string action = CommonXml.GetNode(xmlElementNode, "action").InnerText;
-                    if (plugin != string.Empty & action != string.Empty)
+                    String plugin = CommonXml.GetNode(xmlElementNode, "plugin").InnerText;
+                    String action = CommonXml.GetNode(xmlElementNode, "action").InnerText;
+                    if (plugin != String.Empty & action != String.Empty)
                     {
-                        string pathTrail = CommonXml.GetNode(xmlElementNode, "value").InnerText;
+                        String pathTrail = CommonXml.GetNode(xmlElementNode, "value").InnerText;
                         AvailablePlugin availablePlugin = Process.Plugins.AvailablePlugins.Find(plugin);
                         if (availablePlugin != null)
                         {
@@ -607,7 +603,7 @@ namespace Sharpcms.Providers.Base
                             {
                                 IPlugin2 iPlugin = availablePlugin.Instance as IPlugin2;
 
-                                iPlugin.Load(new ControlList(xmlElementNode), action, string.Empty, pathTrail);
+                                iPlugin.Load(new ControlList(xmlElementNode), action, String.Empty, pathTrail);
                             }
                             else
                             {
@@ -637,17 +633,17 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        private string GetCurrentPage(string value)
+        private String GetCurrentPage(String value)
         {
-            string pagePath = string.IsNullOrEmpty(value) ? Process.Settings["sitetree/stdpage"] : value;
-            string[] args = pagePath.Split('/');
+            String pagePath = String.IsNullOrEmpty(value) ? Process.Settings["sitetree/stdpage"] : value;
+            String[] args = pagePath.Split('/');
 
             while (args != null && !Tree.Exists(pagePath))
             {
                 args = Common.RemoveOneLast(args);
                 if (args != null)
                 {
-                    pagePath = string.Join("/", args);
+                    pagePath = String.Join("/", args);
                 }
             }
 
@@ -659,14 +655,14 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         /// <param name="xmlNode">The XML node.</param>
         /// <param name="pathArray">The path.</param>
-        private static void SetCurrentPage(XmlNode xmlNode, string[] pathArray)
+        private static void SetCurrentPage(XmlNode xmlNode, String[] pathArray)
         {
             try
             {
                 XmlNode currentNode = xmlNode;
                 for (int i = 0; i < pathArray.Length; i++)
                 {
-                    string path = pathArray[i];
+                    String path = pathArray[i];
                     currentNode = CommonXml.GetNode(currentNode, path, EmptyNodeHandling.Ignore);
                     CommonXml.SetAttributeValue(currentNode, "inpath", "true");
                     if (i + 1 == pathArray.Length)
@@ -687,11 +683,11 @@ namespace Sharpcms.Providers.Base
         /// <param name="control">The control.</param>
         /// <param name="value">The value.</param>
         /// <param name="pathTrail">The path trail.</param>
-        private void LoadTree(ControlList control, string value, string pathTrail)
+        private void LoadTree(ControlList control, String value, String pathTrail)
         {
             XmlNode xmlNode = Tree.TreeDocument.DocumentElement;
 
-            if (value != string.Empty)
+            if (value != String.Empty)
             {
                 HandleDifferentRoot(control, ref value, xmlNode);
             }
@@ -700,10 +696,10 @@ namespace Sharpcms.Providers.Base
                 control["sitetree"] = xmlNode;
             }
 
-            string pagePath = GetCurrentPage(GetFullPath(value, pathTrail).Replace("edit/", string.Empty));
+            String pagePath = GetCurrentPage(GetFullPath(value, pathTrail).Replace("edit/", String.Empty));
 
             // ToDo: a very dirty hack
-            if (pagePath != string.Empty)
+            if (pagePath != String.Empty)
             {
                 SetCurrentPage(control["sitetree"], pagePath.Split('/'));
             }
@@ -715,10 +711,10 @@ namespace Sharpcms.Providers.Base
         /// <param name="control">The control.</param>
         /// <param name="value">The value.</param>
         /// <param name="xmlNode">The XML node.</param>
-        private static void HandleDifferentRoot(ControlList control, ref string value, XmlNode xmlNode)
+        private static void HandleDifferentRoot(ControlList control, ref String value, XmlNode xmlNode)
         {
-            string realName;
-            string treeRootName;
+            String realName;
+            String treeRootName;
             if (value.IndexOf("|", StringComparison.Ordinal) > 0)
             {
                 treeRootName = value.Substring(0, value.IndexOf("|", StringComparison.Ordinal));
@@ -751,9 +747,9 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        private static string GetTreeRootName(string value)
+        private static String GetTreeRootName(String value)
         {
-            string treeRootName = value.Substring(value.LastIndexOf("/", StringComparison.Ordinal) + 1);
+            String treeRootName = value.Substring(value.LastIndexOf("/", StringComparison.Ordinal) + 1);
 
             return treeRootName;
         }

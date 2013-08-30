@@ -11,12 +11,18 @@ namespace Sharpcms.Data.SiteTree
 
         public string FriendlyName
         {
-            get { return GetNodeValue("friendlyname"); }
+            get
+            {
+                return GetNodeValue("friendlyname");
+            }
         }
 
         public string Description
         {
-            get { return GetNodeValue("description"); }
+            get
+            {
+                return GetNodeValue("description");
+            }
         }
     }
 }

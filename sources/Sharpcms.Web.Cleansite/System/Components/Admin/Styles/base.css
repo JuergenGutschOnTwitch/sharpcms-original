@@ -580,7 +580,7 @@ ul.ui-tabs-nav li.ui-tabs-selected a.delete {
     background-color: #fff;
     border: 1px solid #b9c7cf;
     display: inline-block;
-    padding: 1px 4px;
+    padding: 4px 8px;
     text-align: center;
 }
 

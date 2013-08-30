@@ -1,5 +1,6 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
 using System.Xml;
 using Sharpcms.Library;
 
@@ -15,41 +16,50 @@ namespace Sharpcms.Data.SiteTree
         {
             get
             {
-                string xPath = string.Format("container[{0}]", index + 1);
+                String xPath = String.Format("container[{0}]", index + 1);
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
+                Container container = node != null 
+                    ? new Container(node) 
+                    : null;
 
-                return node != null ? new Container(node) : null;
+                return container;
             }
         }
 
-        public Container this[string name]
+        public Container this[String name]
         {
             get
             {
-                string xPath = string.Format("container[@name='{0}']", name);
+                String xPath = String.Format("container[@name='{0}']", name);
                 XmlNode node = ParentNode.SelectSingleNode(xPath);
+                Container container;
+                
                 if (node != null)
                 {
-                    return new Container(node);
+                    container = new Container(node);
                 }
-
-                node = Document.CreateElement("container");
-                XmlAttribute typeAttribute = Document.CreateAttribute("name");
-                typeAttribute.Value = name;
-                if (node.Attributes != null)
+                else
                 {
-                    node.Attributes.Append(typeAttribute);
+                    node = Document.CreateElement("container");
+                    XmlAttribute typeAttribute = Document.CreateAttribute("name");
+                    typeAttribute.Value = name;
+                    if (node.Attributes != null)
+                    {
+                        node.Attributes.Append(typeAttribute);
+                    }
+
+                    ParentNode.AppendChild(node);
+
+                    container = new Container(node);
                 }
 
-                ParentNode.AppendChild(node);
-
-                return new Container(node);
+                return container;
             }
         }
 
         public void Remove(int index)
         {
-            string xPath = string.Format("container[{0}]", index + 1);
+            String xPath = String.Format("container[{0}]", index + 1);
             XmlNode node = ParentNode.SelectSingleNode(xPath);
             if(node != null)
             {
@@ -57,10 +67,10 @@ namespace Sharpcms.Data.SiteTree
             }
         }
 
-        public int Index(string containerName)
+        public int Index(String containerName)
         {
             int index = 0;
-            string xPath = string.Format("container");
+            String xPath = String.Format("container");
             XmlNodeList nodes = ParentNode.SelectNodes(xPath);
             
             if (nodes != null)

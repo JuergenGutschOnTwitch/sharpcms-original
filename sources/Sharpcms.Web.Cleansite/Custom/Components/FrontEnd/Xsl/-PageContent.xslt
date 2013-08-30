@@ -100,6 +100,35 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template mode="show" match="element[@type='page']">
+    <a>
+      <xsl:attribute name="href">
+        <xsl:text>show/</xsl:text>
+        <xsl:value-of select="text" />
+      </xsl:attribute>
+      <xsl:value-of select="text" />
+    </a>
+  </xsl:template>
+
+  <xsl:template mode="show" match="element[@type='file']">
+    <a>
+      <xsl:attribute name="href">
+        <xsl:text>show/</xsl:text>
+        <xsl:value-of select="text" />
+      </xsl:attribute>
+      <xsl:value-of select="text" />
+    </a>
+  </xsl:template>
+
+  <xsl:template mode="show" match="element[@type='image']">
+    <img>
+      <xsl:attribute name="src">
+        <xsl:text>show/</xsl:text>
+        <xsl:value-of select="text" />
+      </xsl:attribute>
+    </img>
+  </xsl:template>
+  
   <xsl:template mode="show" match="*">
       <xsl:for-each select="elements/element">
         <xsl:call-template name="edit" />

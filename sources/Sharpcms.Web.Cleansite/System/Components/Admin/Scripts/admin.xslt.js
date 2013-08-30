@@ -37,67 +37,68 @@
     var $hlChoosePage = $('.hlChoosePage');
     var $hlChooseFile = $('.hlChooseFile');
     var $hlChooseFolder = $('.hlChooseFolder');
+    var $hlChooseImage = $('.hlChooseImage');
 
-    $hlSave.live().click(function () {
+    $hlSave.click(function () {
         Sharpcms.Actions.SavePage();
     });
 
-    $hlSaveAndShow.live().click(function () {
+    $hlSaveAndShow.click(function () {
         Sharpcms.Actions.SaveAndPreviewPage();
     });
 
-    $hlShow.live().click(function () {
+    $hlShow.click(function () {
         Sharpcms.Actions.PreviewPage();
     });
 
-    $hlRemoveContrainer.live().click(function () {
+    $hlRemoveContrainer.click(function () {
         var containerId = $(this).data('containerid');
 
         Sharpcms.Actions.RemovePageContainer(containerId);
     });
 
-    $hlRemoveElement.live().click(function () {
+    $hlRemoveElement.click(function () {
         var containerId = $(this).data('containerid');
         var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.RemoveElement(containerId, elementId);
     });
 
-    $hlMoveElementTop.live().click(function () {
+    $hlMoveElementTop.click(function () {
         var containerId = $(this).data('containerid');
         var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.MoveElementTop(containerId, elementId);
     });
 
-    $hlMoveElementDown.live().click(function () {
+    $hlMoveElementDown.click(function () {
         var containerId = $(this).data('containerid');
         var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.MoveElementDown(containerId, elementId);
     });
 
-    $hlMoveElementUp.live().click(function () {
+    $hlMoveElementUp.click(function () {
         var containerId = $(this).data('containerid');
         var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.MoveElementUp(containerId, elementId);
     });
 
-    $hlCopyElement.live().click(function () {
+    $hlCopyElement.click(function () {
         var containerId = $(this).data('containerid');
         var elementId = $(this).data('elementid');
 
         Sharpcms.Actions.CopyElement(containerId, elementId);
     });
 
-    $hlAddPage.live().click(function () {
+    $hlAddPage.click(function () {
         var pageId = $(this).data('pageid');
 
         Sharpcms.Actions.AddPage(pageId);
     });
 
-    $hlChoosePage.live().click(function () {
+    $hlChoosePage.click(function () {
         var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters);
         var id = attributeValue[0];
         var attribute = attributeValue[1];
@@ -105,7 +106,7 @@
         Sharpcms.Actions.ChoosePage(id, attribute);
     });
 
-    $hlChooseFile.live().click(function () {
+    $hlChooseFile.click(function () {
         var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters);
         var id = attributeValue[0];
         var attribute = attributeValue[1];
@@ -113,7 +114,7 @@
         Sharpcms.Actions.ChooseFile(id, attribute);
     });
 
-    $hlChooseFolder.live().click(function () {
+    $hlChooseFolder.click(function () {
         var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters);
         var id = attributeValue[0];
         var attribute = attributeValue[1];
@@ -121,65 +122,73 @@
         Sharpcms.Actions.ChooseFolder(id, attribute);
     });
 
-    $hlThrowEvent.live().click(function () {
+    $hlChooseImage.click(function() {
+        var attributeValue = $(this).data('value').split(Sharpcms.Common.Splitters);
+        var id = attributeValue[0];
+        var attribute = attributeValue[1];
+
+        Sharpcms.Actions.ChooseImage(id, attribute);
+    });
+
+    $hlThrowEvent.click(function () {
         var action = $(this).data('action');
 
         Sharpcms.Actions.ThrowEvent(action, '', '');
     });
 
-    $hlUploadFile.live().click(function () {
+    $hlUploadFile.click(function () {
         var path = $(this).data('path');
 
         Sharpcms.Actions.UploadFile(path);
     });
 
-    $hlRemoveFile.live().click(function () {
+    $hlRemoveFile.click(function () {
         var path = $(this).data('path');
 
         Sharpcms.Actions.RemoveFile(path);
     });
 
-    $hlRenameFile.live().click(function () {
+    $hlRenameFile.click(function () {
         var path = $(this).data('path');
 
         Sharpcms.Actions.RenameFile(path);
     });
 
-    $hlMoveFile.live().click(function () {
+    $hlMoveFile.click(function () {
         var path = $(this).data('path');
 
         Sharpcms.Actions.MoveFile(path);
     });
 
-    $hlResizeFile.live().click(function () {
+    $hlResizeFile.click(function () {
         Sharpcms.Actions.ResizeImage();
     });
 
-    $hlAddFolder.live().click(function () {
+    $hlAddFolder.click(function () {
         var path = $(this).data('path');
 
         Sharpcms.Actions.AddFolder(path);
     });
 
-    $hlRemoveFolder.live().click(function () {
+    $hlRemoveFolder.click(function () {
         var path = $(this).data('path');
 
         Sharpcms.Actions.RemoveFolder(path);
     });
 
-    $hlRenameFolder.live().click(function () {
+    $hlRenameFolder.click(function () {
         var path = $(this).data('path');
 
         Sharpcms.Actions.RenameFolder(path);
     });
 
-    $hlMoveFolder.live().click(function () {
+    $hlMoveFolder.click(function () {
         var path = $(this).data('path');
 
         Sharpcms.Actions.MoveFolder(path);
     });
 
-    $hlMoreFiles.live().click(function () {
+    $hlMoreFiles.click(function () {
         var currentlevel = $(this).data('currentlevel');
         var level = parseInt(currentlevel) + 1;
 
@@ -187,27 +196,27 @@
         $('#showlink_' + level).hide();
     });
 
-    $hlAddUser.live().click(function () {
+    $hlAddUser.click(function () {
         Sharpcms.Actions.AddUser();
     });
 
-    $hlSaveUser.live().click(function () {
+    $hlSaveUser.click(function () {
         var userName = $(this).data('username');
 
         Sharpcms.Actions.SaveUser(userName);
     });
 
-    $hlDeleteUser.live().click(function () {
+    $hlDeleteUser.click(function () {
         var userName = $(this).data('username');
 
         Sharpcms.Actions.DeleteUser(userName);
     });
 
-    $hlAddGroup.live().click(function () {
+    $hlAddGroup.click(function () {
         Sharpcms.Actions.AddGroup();
     });
 
-    $hlDeleteGroup.live().click(function () {
+    $hlDeleteGroup.click(function () {
         var groupName = $(this).data('groupName');
 
         Sharpcms.Actions.DeleteGroup(groupName);
@@ -286,7 +295,7 @@
         setContentWidth();
     });
 
-    $('.treeview li').live().click(function () {
+    $('.treeview li').click(function () {
         setContentWidth();
     });
 

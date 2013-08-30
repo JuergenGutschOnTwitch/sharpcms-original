@@ -8,6 +8,18 @@ namespace Sharpcms.Providers.Base
     public class ProviderPlugin : BasePlugin2, IPlugin2
     {
         /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public new string Name
+        {
+            get
+            {
+                return "Plugin";
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProviderPlugin"/> class.
         /// </summary>
         public ProviderPlugin() { }
@@ -19,20 +31,6 @@ namespace Sharpcms.Providers.Base
         public ProviderPlugin(Process process)
         {
             Process = process;
-        }
-
-        #region IPlugin2 Members
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        public new string Name
-        {
-            get
-            {
-                return "Plugin";
-            }
         }
 
         /// <summary>
@@ -51,8 +49,6 @@ namespace Sharpcms.Providers.Base
                     break;
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Loadlists this instance.

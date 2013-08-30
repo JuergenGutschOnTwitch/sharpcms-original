@@ -1,5 +1,6 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
 using System.IO;
 using System.Xml;
 using Sharpcms.Data.FileTree;
@@ -14,6 +15,32 @@ namespace Sharpcms.Providers.Base
         private FileTree _fileTree;
 
         /// <summary>
+        /// Gets the tree.
+        /// </summary>
+        /// <value>The tree.</value>
+        public FileTree Tree
+        {
+            get
+            {
+                FileTree fileTree = _fileTree ?? (_fileTree = new FileTree(Process));
+
+                return fileTree;
+            }
+        }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public new string Name
+        {
+            get
+            {
+                return "File";
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ProviderFile"/> class.
         /// </summary>
         public ProviderFile() { }
@@ -25,31 +52,6 @@ namespace Sharpcms.Providers.Base
         public ProviderFile(Process process)
         {
             Process = process;
-        }
-
-        /// <summary>
-        /// Gets the tree.
-        /// </summary>
-        /// <value>The tree.</value>
-        private FileTree Tree
-        {
-            get
-            {
-                FileTree fileTree = _fileTree ?? (_fileTree = new FileTree(Process));
-
-                return fileTree;
-            }
-        }
-
-        #region IPlugin2 Members
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        public new string Name
-        {
-            get { return "File"; }
         }
 
         /// <summary>
@@ -113,18 +115,17 @@ namespace Sharpcms.Providers.Base
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Loads the download.
         /// </summary>
         /// <param name="value">The value.</param>
-        private void LoadDownload(string value)
+        private void LoadDownload(String value)
         {
-            if (string.IsNullOrEmpty(value)) return;
-
-            Process.OutputHandledByModule = true;
-            Tree.SendToBrowser(value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                Process.OutputHandledByModule = true;
+                Tree.SendToBrowser(value);
+            }
         }
 
         /// <summary>
@@ -132,7 +133,7 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleMoveFolder()
         {
-            string[] parameters = Process.QueryEvents["mainvalue"].Split('*');
+            String[] parameters = Process.QueryEvents["mainvalue"].Split('*');
             if (parameters.Length == 2 && parameters[1].Length > 0 && parameters[0].Length > 0)
             {
                 FileTree filetree = new FileTree(Process);
@@ -145,7 +146,7 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleMoveFile()
         {
-            string[] parameters = Process.QueryEvents["mainvalue"].Split('*');
+            String[] parameters = Process.QueryEvents["mainvalue"].Split('*');
             if (parameters.Length == 2 && parameters[1].Length > 0 && parameters[0].Length > 0)
             {
                 FileTree filetree = new FileTree(Process);
@@ -158,7 +159,7 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleRenameFolder()
         {
-            string[] parameters = Process.QueryEvents["mainvalue"].Split('*');
+            String[] parameters = Process.QueryEvents["mainvalue"].Split('*');
             if (parameters.Length == 2 && parameters[1].Length > 0 && parameters[0].Length > 0)
             {
                 FileTree filetree = new FileTree(Process);
@@ -171,7 +172,7 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleRenameFile()
         {
-            string[] parameters = Process.QueryEvents["mainvalue"].Split('*');
+            String[] parameters = Process.QueryEvents["mainvalue"].Split('*');
             if (parameters.Length == 2 && parameters[1].Length > 0 && parameters[0].Length > 0)
             {
                 FileTree filetree = new FileTree(Process);
@@ -184,9 +185,9 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleRemoveFolder()
         {
-            string path = Process.QueryEvents["mainvalue"];
-
+            String path = Process.QueryEvents["mainvalue"];
             FileTree filetree = new FileTree(Process);
+            
             filetree.DeleteFolder(path);
         }
 
@@ -195,9 +196,9 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleRemoveFile()
         {
-            string path = Process.QueryEvents["mainvalue"];
-
+            String path = Process.QueryEvents["mainvalue"];
             FileTree filetree = new FileTree(Process);
+            
             filetree.DeleteFile(path);
         }
 
@@ -206,10 +207,10 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleAddFolder()
         {
-            string query = Process.QueryEvents["mainvalue"];
-            string[] list = query.Split('*');
-
+            String query = Process.QueryEvents["mainvalue"];
+            String[] list = query.Split('*');
             FileTree filetree = new FileTree(Process);
+            
             filetree.CreateFolder(list[0], list[1]);
         }
 
@@ -218,9 +219,9 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         private void HandleUpload()
         {
-            string query = Process.QueryEvents["mainvalue"];
-
+            String query = Process.QueryEvents["mainvalue"];
             FileTree fileTree = new FileTree(Process);
+            
             fileTree.SaveUploadedFiles(query);
         }
 
@@ -229,19 +230,19 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="control">The control.</param>
-        private void LoadFile(string value, ControlList control)
+        private void LoadFile(String value, ControlList control)
         {
-            if (!string.IsNullOrEmpty(value))
+            if (!String.IsNullOrEmpty(value))
             {
-                string path = value;
+                String path = value;
                 if (Tree.FileExists(path))
                 {
                     XmlNode xmlNode = control["file"];
 
-                    string extension = Path.GetExtension(path);
+                    String extension = Path.GetExtension(path);
                     CommonXml.SetAttributeValue(xmlNode, "extension", extension);
 
-                    string mainMimeType = Common.GetMainMimeType(extension);
+                    String mainMimeType = Common.GetMainMimeType(extension);
                     CommonXml.SetAttributeValue(xmlNode, "mainmimetype", mainMimeType);
 
                     CommonXml.SetAttributeValue(xmlNode, "path", path);
@@ -254,11 +255,11 @@ namespace Sharpcms.Providers.Base
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="control">The control.</param>
-        private void LoadFolder(string value, ControlList control)
+        private void LoadFolder(String value, ControlList control)
         {
-            if (!string.IsNullOrEmpty(value))
+            if (!String.IsNullOrEmpty(value))
             {
-                string path = value;
+                String path = value;
                 if (Tree.FolderExists(path))
                 {
                     FolderElement folderElement = Tree.GetFolder(path);

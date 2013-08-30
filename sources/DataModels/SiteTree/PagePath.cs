@@ -1,13 +1,15 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
+
 namespace Sharpcms.Data.SiteTree
 {
     public class PagePath
     {
-        private readonly string _name;
-        private readonly string _path;
+        private readonly String _name;
+        private readonly String _path;
 
-        public PagePath(string path)
+        public PagePath(String path)
         {
             int lastPathPosition = path.LastIndexOf("/", System.StringComparison.Ordinal);
             if (lastPathPosition > 0)
@@ -22,7 +24,7 @@ namespace Sharpcms.Data.SiteTree
             }
         }
 
-        public string Path
+        public String Path
         {
             get
             {
@@ -30,7 +32,7 @@ namespace Sharpcms.Data.SiteTree
             }
         }
 
-        public string Name
+        public String Name
         {
             get
             {
