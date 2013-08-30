@@ -58,9 +58,6 @@
         <script type="text/javascript" src="/System/Components/Admin/Scripts/sessvars/sessvars.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/_sharpcms.js">
-          <xsl:text> </xsl:text>
-        </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/collapseexpand.js">
           <xsl:text> </xsl:text>
         </script>

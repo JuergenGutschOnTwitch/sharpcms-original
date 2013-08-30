@@ -397,7 +397,6 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\form_utils.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\validate.js" />
-    <Content Include="System\Components\Admin\Scripts\_sharpcms.js" />
     <Content Include="System\Components\Admin\Settings.xml" />
     <Content Include="System\Components\Admin\Styles\base.css" />
     <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.8.18.custom.css" />

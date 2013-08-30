@@ -11,8 +11,15 @@
     tinymce.create('tinymce.plugins.SharpcmsChooserPlugin', {
         init: function (ed, url) {
             ed.addCommand('mceInsertPageLink', function () {
-                Sharpcms.Actions.ChoosePageDialog(function(path) {
-                    ed.execCommand('mceInsertContent', false, path);
+                Sharpcms.Actions.ChoosePageDialog(function (path) {
+                    var selection = ed.selection.getContent({ format: 'text' });
+                    if (selection == '') {
+                        selection = path;
+                    }
+
+                    var html = '<a href="' + Sharpcms.Common.BaseUrl + 'show/' + path + '/">' + selection + '</a>';
+
+                    ed.execCommand('mceInsertContent', false, html);
                 });
             });
 
@@ -24,7 +31,14 @@
 
             ed.addCommand('mceInsertFileLink', function () {
                 Sharpcms.Actions.ChooseFileDialog(function (path) {
-                    ed.execCommand('mceInsertContent', false, path);
+                    var selection = ed.selection.getContent({ format: 'text' });
+                    if (selection == '') {
+                        selection = path;
+                    }
+                    
+                    var html = '<a href="' + Sharpcms.Common.BaseUrl + 'download/' + path + '?download=true">' + selection + '</a>';
+                    
+                    ed.execCommand('mceInsertContent', false, html);
                 });
             });
 
@@ -36,7 +50,9 @@
 
             ed.addCommand('mceInsertImage', function () {
                 Sharpcms.Actions.ChooseImageDialog(function (path) {
-                    ed.execCommand('mceInsertContent', false, path);
+                    var html = '<img src="' + Sharpcms.Common.BaseUrl + 'download/' + path + '" />';
+
+                    ed.execCommand('mceInsertContent', false, html);
                 });
             });
 
