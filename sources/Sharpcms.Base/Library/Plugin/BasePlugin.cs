@@ -10,8 +10,6 @@ namespace Sharpcms.Base.Library.Plugin
     /// </summary>
     public class BasePlugin : IPlugin
     {
-        #region IPlugin Members
-
         public string Name
         {
             get { return "BasePlugin"; }
@@ -40,29 +38,5 @@ namespace Sharpcms.Base.Library.Plugin
         {
             // Do nothing
         }
-
-        #endregion
-    }
-
-    public class BasePlugin2 : BasePlugin, IPlugin2
-    {
-        #region IPlugin2 Members
-
-        public string[] Implements
-        {
-            get { return null; }
-        }
-
-        public object Invoke(string api, string action, params object[] args)
-        {
-            return null;
-        }
-
-        public void Load(ControlList control, string action, string value, string pathTrail)
-        {
-            Load(control, action, pathTrail);
-        }
-
-        #endregion
     }
 }

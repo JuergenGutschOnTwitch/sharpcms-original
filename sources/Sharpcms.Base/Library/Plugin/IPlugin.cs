@@ -14,16 +14,4 @@ namespace Sharpcms.Base.Library.Plugin
         void Handle(string mainEvent);
         void Load(ControlList control, string action, string pathTrail);
     }
-
-    public interface IPlugin2 : IPlugin
-    {
-        string[] Implements { get; }
-        object Invoke(string api, string action, params object[] args);
-        void Load(ControlList control, string action, string value, string pathTrail);
-    }
-
-    public interface IPluginHost
-    {
-        AvailablePlugins AvailablePlugins { get; set; }
-    }
 }

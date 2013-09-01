@@ -21,9 +21,14 @@ namespace Sharpcms.Web.Test.Helper
         public void DisposeBrowser()
         {
             if (TestContext.CurrentContext.Outcome.Status == TestStatus.Failed)
+            {
                 TestHelper.Snapshot(Ie, "Final screen when failure occurred.", TestLog.Failures);
+            }
+
             if (Ie != null)
+            {
                 Ie.Dispose();
+            }
         }
 
         protected void Login()

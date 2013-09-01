@@ -7,7 +7,6 @@ namespace Sharpcms.Web.Test.Helper
 {
     public static class TestHelper
     {
-
         public static void Snapshot(IE ie, string caption)
         {
             Snapshot(ie, caption, TestLog.Default);
@@ -19,7 +18,10 @@ namespace Sharpcms.Web.Test.Helper
             {
                 logStreamWriter.Write("Url: ");
                 using (logStreamWriter.BeginMarker(Marker.Link(ie.Url)))
+                {
                     logStreamWriter.Write(ie.Url);
+                }
+
                 logStreamWriter.WriteLine();
 
                 logStreamWriter.EmbedImage(caption + ".png", new CaptureWebPage(ie).CaptureWebPageImage(false, false, 100));

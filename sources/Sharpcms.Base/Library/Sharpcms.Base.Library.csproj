@@ -65,8 +65,12 @@
     <Compile Include="DatabaseConnection.cs" />
     <Compile Include="ImageResize.cs" />
     <Compile Include="ImageVertexRoundig.cs" />
+    <Compile Include="Plugin\AvailablePlugin.cs" />
     <Compile Include="Plugin\BasePlugin.cs" />
-    <Compile Include="Plugin\PluginInterface.cs" />
+    <Compile Include="Plugin\BasePlugin2.cs" />
+    <Compile Include="Plugin\IPlugin2.cs" />
+    <Compile Include="Plugin\IPluginHost.cs" />
+    <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginServices.cs" />
     <Compile Include="Plugin\Types.cs" />
     <Compile Include="Process\ControlList.cs" />
@@ -85,4 +89,7 @@
     <Compile Include="Users\Users.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)Resources" /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

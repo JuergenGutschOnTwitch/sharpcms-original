@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalResources", "ExternalResources", "{A64D4D86-9DD0-4DB4-8737-EFB53C1F96A6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{A64D4D86-9DD0-4DB4-8737-EFB53C1F96A6}"
 	ProjectSection(SolutionItems) = preProject
 		resources\Highlighter.Net.dll = resources\Highlighter.Net.dll
 		resources\Lucene.Net.dll = resources\Lucene.Net.dll

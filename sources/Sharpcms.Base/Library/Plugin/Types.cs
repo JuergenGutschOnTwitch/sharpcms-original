@@ -37,7 +37,7 @@ namespace Sharpcms.Base.Library.Plugin
         /// <returns>Available Plugin, or null if the plugin is not found</returns>
         public AvailablePlugin Find(string pluginNameOrPath)
         {
-            AvailablePlugin toReturn = null;
+            AvailablePlugin availablePlugin = null;
 
             //Loop through all the plugins
             foreach (AvailablePlugin pluginOn in List)
@@ -45,51 +45,32 @@ namespace Sharpcms.Base.Library.Plugin
                 //Find the one with the matching name or filename
                 if ((pluginOn.Instance.Name.Equals(pluginNameOrPath)) || pluginOn.AssemblyPath.Equals(pluginNameOrPath))
                 {
-                    toReturn = pluginOn;
+                    availablePlugin = pluginOn;
                     break;
                 }
             }
 
-            return toReturn;
+            return availablePlugin;
         }
 
         public IEnumerable<AvailablePlugin> FindImplementations(string api)
         {
-            List<AvailablePlugin> plugins = new List<AvailablePlugin>();
+            List<AvailablePlugin> availablePlugins = new List<AvailablePlugin>();
 
-            foreach (AvailablePlugin plugin in List)
+            foreach (AvailablePlugin availablePlugin in List)
             {
-                IPlugin2 instance = plugin.Instance as IPlugin2;
+                IPlugin2 instance = availablePlugin.Instance as IPlugin2;
                 if (instance != null && instance.Implements != null)
                 {
                     List<string> implements = new List<string>(instance.Implements);
                     if (implements.Contains(api))
                     {
-                        plugins.Add(plugin);
+                        availablePlugins.Add(availablePlugin);
                     }
                 }
             }
 
-            return plugins;
-        }
-    }
-
-    /// <summary>
-    /// Data Class for Available Plugin. Holds an instance of the loaded Plugin, as well as the Plugin's Assembly Path
-    /// </summary>
-    public class AvailablePlugin
-    {
-        //This is the actual AvailablePlugin object.. 
-        //Holds an instance of the plugin to access
-        //ALso holds assembly path... not really necessary
-        private string _myAssemblyPath = string.Empty;
-
-        public IPlugin Instance { get; set; }
-
-        public string AssemblyPath
-        {
-            get { return _myAssemblyPath; }
-            set { _myAssemblyPath = value; }
+            return availablePlugins;
         }
     }
 }

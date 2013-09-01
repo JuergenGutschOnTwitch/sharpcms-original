@@ -152,7 +152,7 @@ namespace Sharpcms.Base.Library.Plugin
                     if (!pluginType.IsAbstract) //Only look at non-abstract types
                     {
                         //Gets a type object of the interface we need the plugins to match
-                        Type typeInterface = pluginType.GetInterface("Sharpcms.Library.Plugin.IPlugin", true);
+                        Type typeInterface = pluginType.GetInterface("Sharpcms.Base.Library.Plugin.IPlugin", true);
 
                         //Make sure the interface we want to use actually exists
                         if (typeInterface != null)

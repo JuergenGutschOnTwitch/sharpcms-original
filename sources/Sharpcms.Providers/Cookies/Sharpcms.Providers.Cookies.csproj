@@ -70,7 +70,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)Sharpcms.Web\Bin" /y
+    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)Resources" /y
+copy "$(TargetDir)" "$(SolutionDir)Sharpcms.Web\Bin" /y
 copy "$(TargetDir)" "$(SolutionDir)Sharpcms.Web.Cleansite\Bin" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>
