@@ -85,7 +85,8 @@
         }
 
         function choosePageDialog(callback) {
-            $('#dialog').load('/admin/choose/page', function () {
+            $('#pagedialog').empty();
+            $('#pagedialog').load('/admin/choose/page', function () {
                 $("#pages").treeview({
                     persist: 'location',
                     collapsed: true,
@@ -100,7 +101,7 @@
                 $('.hlCloseDialog').click(function () {
                     var destinaltionPath = $(this).data('path');
 
-                    $('#dialog').dialog('close').empty();
+                    $('#pagedialog').dialog('close').empty();
 
                     if (destinaltionPath != null && $.isFunction(callback)) {
                         callback(destinaltionPath);
@@ -122,22 +123,23 @@
         }
 
         function chooseFileDialog(callback) {
-            $('#dialog').load('/admin/choose/file', function () {
+            $('#filedialog').empty();
+            $('#filedialog').load('/admin/choose/file', function () {
+                $(this).dialog({
+                    model: true,
+                    title: 'Choose File'
+                });
+
                 $("#pages").treeview({
                     persist: 'location',
                     collapsed: true,
                     unique: false
                 });
 
-                $(this).dialog({
-                    model: true,
-                    title: 'Choose File'
-                });
-
                 $('.hlCloseDialog').click(function () {
                     var destinaltionPath = $(this).data('path');
 
-                    $('#dialog').dialog('close').empty();
+                    $('#filedialog').dialog('close').empty();
                     
                     if (destinaltionPath != null && $.isFunction(callback)) {
                         callback(destinaltionPath);
@@ -159,7 +161,8 @@
         }
 
         function chooseFolderDialog(callback) {
-            $('#dialog').load('/admin/choose/folder', function () {
+            $('#folderdialog').empty();
+            $('#folderdialog').load('/admin/choose/folder', function () {
                 $("#pages").treeview({
                     persist: 'location',
                     collapsed: true,
@@ -174,7 +177,7 @@
                 $('.hlCloseDialog').click(function () {
                     var destinaltionPath = $(this).data('path');
 
-                    $('#dialog').dialog('close').empty();
+                    $('#folderdialog').dialog('close').empty();
 
                     if (destinaltionPath != null && $.isFunction(callback)) {
                         callback(destinaltionPath);
@@ -190,11 +193,12 @@
         }
 
         function chooseImageDialog(callback) {
-            $('#dialog').load('/admin/choose/file', function () {
+            $('#imagedialog').empty();
+            $('#imagedialog').load('/admin/choose/file', function () {
                 $("#pages").treeview({
                     persist: 'location',
                     collapsed: true,
-                    unique: false
+                    unique: true
                 });
 
                 $(this).dialog({
@@ -205,7 +209,7 @@
                 $('.hlCloseDialog').click(function () {
                     var destinaltionPath = $(this).data('path');
 
-                    $('#dialog').dialog('close').empty();
+                    $('#imagedialog').dialog('close').empty();
 
                     if (destinaltionPath != null && $.isFunction(callback)) {
                         callback(destinaltionPath);

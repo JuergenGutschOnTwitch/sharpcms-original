@@ -63,7 +63,7 @@
             });
         },
 
-        createControl: function (n, cm) {
+        createControl: function () {
             return null;
         },
 

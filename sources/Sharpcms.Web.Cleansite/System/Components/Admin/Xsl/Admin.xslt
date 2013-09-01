@@ -157,7 +157,22 @@
                 <xsl:apply-templates select="data/contentplace/*" mode="edit" />
                 <xsl:text> </xsl:text>
               </div>
-              <div class="hidden" id="dialog">
+              <div class="hidden" id="pagedialog">
+                <xsl:text> </xsl:text>
+              </div>
+              <div class="hidden" id="filedialog">
+                <xsl:text> </xsl:text>
+              </div>
+              <div class="hidden" id="folgerdialog">
+                <xsl:text> </xsl:text>
+              </div>
+              <div class="hidden" id="imagedialog">
+                <xsl:text> </xsl:text>
+              </div>
+              <div class="hidden" id="userdialog">
+                <xsl:text> </xsl:text>
+              </div>
+              <div class="hidden" id="groupdialog">
                 <xsl:text> </xsl:text>
               </div>
             </div>
