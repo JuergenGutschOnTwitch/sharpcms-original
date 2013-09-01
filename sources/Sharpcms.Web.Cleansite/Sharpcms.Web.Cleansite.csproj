@@ -47,7 +47,7 @@
     <Content Include="Custom\App_Data\CombinedSettings.xml" />
     <Content Include="Custom\App_Data\CustomProcess.xml" />
     <Content Include="Custom\App_Data\CustomSettings.xml" />
-    <Content Include="Custom\App_Data\database\tree.xml" />
+    <Content Include="Custom\App_Data\Database\tree.xml" />
     <Content Include="Custom\App_Data\Rules.xml" />
     <Content Include="Custom\App_Data\Users.xml" />
     <Content Include="Custom\Components\FrontEnd\Images\slogo.gif" />
@@ -464,7 +464,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Custom\App_Data\database\site\" />
+    <Folder Include="Custom\App_Data\Database\Site\" />
     <Folder Include="Custom\App_Data\Files\Files\" />
     <Folder Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\includes\" />
@@ -482,7 +482,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>56262</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:60882/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -64,7 +64,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)Sharpcms.Web\Bin" /y
-copy "$(TargetDir)" "$(SolutionDir)Sharpcms.Web.Cleansite\Bin" /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
