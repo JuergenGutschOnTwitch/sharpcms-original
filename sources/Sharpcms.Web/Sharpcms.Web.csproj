@@ -235,10 +235,11 @@
     <Content Include="System\Components\Admin\Images\topbg.gif" />
     <Content Include="System\Components\Admin\Process.xml" />
     <Content Include="System\Components\Admin\Scripts\admin.xslt.js" />
-    <Content Include="System\Components\Admin\Scripts\choose.xslt.js" />
     <Content Include="System\Components\Admin\Scripts\collapseexpand.js" />
-    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.7.2.min.js" />
-    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.8.18.custom.min.js" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.10.2.min.js" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.9.2.bug.txt" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.9.2.custom.js" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.9.2.custom.min.js" />
     <Content Include="System\Components\Admin\Scripts\jQuery\jquery.url.packed.js" />
     <Content Include="System\Components\Admin\Scripts\jQuery\selectmenu\jquery.ui.selectmenu.js" />
     <Content Include="System\Components\Admin\Scripts\jQuery\treeview\jquery.treeview.async.js" />
@@ -277,7 +278,6 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\autoresize\editor_plugin_src.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\autosave\editor_plugin.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\autosave\editor_plugin_src.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\autosave\langs\en.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\bbcode\editor_plugin.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\bbcode\editor_plugin_src.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\contextmenu\editor_plugin.js" />
@@ -402,6 +402,7 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\style\js\props.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\style\langs\en_dlg.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\style\props.htm" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\style\readme.txt" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\tabfocus\editor_plugin.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\tabfocus\editor_plugin_src.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\table\cell.htm" />
@@ -425,6 +426,9 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\template\js\template.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\template\langs\en_dlg.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\template\template.htm" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\visualblocks\css\visualblocks.css" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\visualblocks\editor_plugin.js" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\visualblocks\editor_plugin_src.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\visualchars\editor_plugin.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\visualchars\editor_plugin_src.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\plugins\wordcount\editor_plugin.js" />
@@ -454,108 +458,34 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\editor_template.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\editor_template_src.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\image.htm" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\colorpicker.jpg" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\flash.gif" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\icons.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\iframe.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\pagebreak.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\quicktime.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\realmedia.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\shockwave.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\trans.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\video.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\img\windowsmedia.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\js\about.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\js\anchor.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\js\charmap.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\js\color_picker.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\js\image.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\js\link.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\js\source_editor.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\langs\en.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\langs\en_dlg.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\link.htm" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\shortcuts.htm" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\content.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\dialog.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\img\buttons.png" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\img\items.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\img\menu_arrow.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\img\menu_check.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\img\progress.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\img\tabs.gif" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\default\ui.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\highcontrast\content.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\highcontrast\dialog.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\highcontrast\ui.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\content.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\dialog.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\img\button_bg.png" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\img\button_bg_black.png" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\img\button_bg_silver.png" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\ui.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\ui_black.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\ui_silver.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\content.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\dialog.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\buttons.png" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\items.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\menu_arrow.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\menu_check.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\progress.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\tabs.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\ui.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\source_editor.htm" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\editor_template.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\editor_template_src.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\img\icons.gif" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\langs\en.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\skins\default\content.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\skins\default\ui.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\skins\o2k7\content.css" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\skins\o2k7\img\button_bg.png" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\skins\o2k7\ui.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\tiny_mce.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\tiny_mce_popup.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\tiny_mce_src.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\editable_selects.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\form_utils.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\mctabs.js" />
-    <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\validate.js" />
-    <Content Include="System\Components\Admin\Scripts\_sharpcms.js" />
     <Content Include="System\Components\Admin\Settings.xml" />
-    <Content Include="System\Components\Admin\Styles\admin.css" />
     <Content Include="System\Components\Admin\Styles\base.css" />
-    <Content Include="System\Components\Admin\Styles\choose.css" />
-    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.8.18.custom.css" />
-    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.8.18.sharpcms.css" />
+    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.9.2.custom.css" />
+    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.9.2.custom.min.css" />
+    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.9.2.sharpcms.css" />
     <Content Include="System\Components\Admin\Styles\jquery\selectmenu\jquery.ui.selectmenu.css" />
     <Content Include="System\Components\Admin\Styles\jquery\treeview\jquery.treeview.css" />
-    <Content Include="System\Components\Admin\Styles\tiny_mce\tinystyle.css" />
     <Content Include="System\Components\Admin\Xsl\Admin.xslt" />
     <Content Include="System\Components\Admin\Xsl\Choose.xslt" />
-    <Content Include="System\Components\Base\Process.xml" />
-    <Content Include="System\Components\Base\Settings.xml" />
-    <Content Include="System\Components\ErrorLog\Settings.xml" />
-    <Content Include="System\Components\FileTree\Process.xml" />
-    <Content Include="System\Components\FileTree\Settings.xml" />
-    <Content Include="System\Components\FileTree\Xsl\_FileEdit.xslt" />
-    <Content Include="System\Components\FileTree\Xsl\_FileTree.xslt" />
     <Content Include="System\Components\FileTree\Xsl\_FileTreeChoose.xslt" />
-    <Content Include="System\Components\FileTree\Xsl\_FolderEdit.xslt" />
-    <Content Include="System\Components\Referrer\Process.xml" />
-    <Content Include="System\Components\SiteTree\Process.xml" />
-    <Content Include="System\Components\SiteTree\Settings.xml" />
     <Content Include="System\Components\SiteTree\Xsl\_PageEdit.xslt" />
-    <Content Include="System\Components\SiteTree\Xsl\_SiteTree.xslt" />
-    <Content Include="System\Components\SiteTree\Xsl\_SiteTreeChoose.xslt" />
-    <Content Include="System\Components\Users\Process.xml" />
-    <Content Include="System\Components\Users\Settings.xml" />
-    <Content Include="System\Components\Users\Xsl\Login.xslt" />
-    <Content Include="System\Components\Users\Xsl\_GroupTree.xslt" />
-    <Content Include="System\Components\Users\Xsl\_UserEdit.xslt" />
-    <Content Include="System\Components\Users\Xsl\_UserTree.xslt" />
-    <Content Include="System\Components\Users\Xsl\_UserTreeChoose.xslt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -579,6 +509,7 @@
     <Content Include="Custom\App_Data\Index\english\_25.cfs" />
     <Content Include="Custom\App_Data\log.log" />
     <Content Include="Custom\Components\FrontEnd\yaml\navigation\images\sliding_door\gfx_sliding_door.psd" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -591,6 +522,10 @@
       <Project>{8d3af0f3-3706-40e7-823e-f1b5e14d113b}</Project>
       <Name>Sharpcms.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\classes\utils\" />
+    <Folder Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\includes\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

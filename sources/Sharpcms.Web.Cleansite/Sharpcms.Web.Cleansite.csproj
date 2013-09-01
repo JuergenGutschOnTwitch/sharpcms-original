@@ -48,7 +48,7 @@
     <Content Include="Custom\App_Data\CustomProcess.xml" />
     <Content Include="Custom\App_Data\CustomSettings.xml" />
     <Content Include="Custom\App_Data\database\tree.xml" />
-    <Content Include="Custom\App_Data\rules.xml" />
+    <Content Include="Custom\App_Data\Rules.xml" />
     <Content Include="Custom\App_Data\Users.xml" />
     <Content Include="Custom\Components\FrontEnd\Images\slogo.gif" />
     <Content Include="Custom\Components\FrontEnd\Process.xml" />

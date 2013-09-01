@@ -17,16 +17,25 @@
     }
 
     function actions() {
-        function init() {
+        function throwEvent(mainevent, mainvalue, redirect, querystring) {
+            if (mainevent != undefined) {
+                document.systemform.event_main.value = mainevent;
+            } else {
+                document.systemform.event_main.value = '';
+            }
 
-        }
+            if (mainvalue != undefined) {
+                document.systemform.event_mainvalue.value = mainvalue;
+            } else {
+                document.systemform.event_mainvalue.value = '';
+            }
 
-        function throwEvent(mainevent, mainvalue, redirect) {
-            document.systemform.event_main.value = mainevent;
-            document.systemform.event_mainvalue.value = mainvalue;
-
-            if (redirect != '') {
+            if (redirect != undefined) {
                 document.systemform.event_redirect.value = redirect;
+            }
+
+            if (querystring != undefined) {
+                document.systemform.action = document.systemform.action + querystring;
             }
 
             document.systemform.submit();
@@ -34,81 +43,195 @@
 
         function throwEventConfirm(mainevent, mainvalue, confirmtext) {
             if (confirm(confirmtext)) {
-                throwEvent(mainevent, mainvalue, '');
+                throwEvent(mainevent, mainvalue);
             }
         }
 
         function throwEventNew(mainevent, mainvalue, text, suggest) {
-            if (suggest == null) suggest = '';
+            if (suggest == null) {
+                suggest = '';
+            }
 
             var input = prompt(text, suggest);
             if (input != null) {
                 if (mainvalue != '') {
-                    throwEvent(mainevent, mainvalue + '*' + input, '');
+                    throwEvent(mainevent, mainvalue + '*' + input);
                 } else {
-                    throwEvent(mainevent, input, '');
+                    throwEvent(mainevent, input);
                 }
             }
         }
 
         function setAsStartPage() {
-            throwEvent(Sharpcms.ActionType.SetAsStartPage, '', '');
+            throwEvent(Sharpcms.ActionType.SetAsStartPage);
         }
 
-        function movePage() {
-            $('#choosePageDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function() {
-                $('.choose').dialog('close');
-
-                var destinaltionPath = $(this).data('path');
-                throwEvent(Sharpcms.ActionType.MovePage, destinaltionPath, '');
+        function copyPage(pageId, pageName) {
+            choosePageDialog(function (destinaltionPath) {
+                throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + destinaltionPath + '¤' + pageName);
             });
         }
 
-        function moveFolder(sourcePath) {
-            $('#chooseFileDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function() {
-                $('.choose').dialog('close');
+        function movePage() {
+            choosePageDialog(function (destinaltionPath) {
+                throwEvent(Sharpcms.ActionType.MovePage, destinaltionPath);
+            });
+        }
 
-                var destinaltionPath = $(this).data('path');
-                throwEvent(Sharpcms.ActionType.MoveFolder, sourcePath + '*' + destinaltionPath, '');
+        function choosePage(id, attribute) {
+            choosePageDialog(function (destinaltionPath) {
+                $('[name="' + id + '_' + attribute + '"]').val(destinaltionPath);
+            });
+        }
+
+        function choosePageDialog(callback) {
+            $('#pagedialog').empty();
+            $('#pagedialog').load('/admin/choose/page', function () {
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: false
+                });
+
+                $(this).dialog({
+                    model: true,
+                    title: 'Choose Page'
+                });
+
+                $('.hlCloseDialog').click(function () {
+                    var destinaltionPath = $(this).data('path');
+
+                    $('#pagedialog').dialog('close').empty();
+
+                    if (destinaltionPath != null && $.isFunction(callback)) {
+                        callback(destinaltionPath);
+                    }
+                });
             });
         }
 
         function moveFile(sourcePath) {
-            $('#chooseFileDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function() {
-                $('.choose').dialog('close');
-
-                var destinaltionPath = $(this).data('path');
-                throwEvent(Sharpcms.ActionType.MoveFile, sourcePath + '*' + destinaltionPath, '');
+            chooseFileDialog(function (destinaltionPath) {
+                throwEvent(Sharpcms.ActionType.MoveFile, sourcePath + '*' + destinaltionPath);
             });
         }
 
-        function copyPage(pageId, pageName) {
-            $('#choosePageDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function() {
-                $('.choose').dialog('close');
-
-                var destinaltionPath = $(this).data('path');
-                throwEvent(Sharpcms.ActionType.CopyPage, pageId + '¤' + destinaltionPath + '¤' + pageName);
+        function chooseFile(id, attribute) {
+            chooseFileDialog(function (destinaltionPath) {
+                $('[name="' + id + '_' + attribute + '"]').val(destinaltionPath);
             });
         }
-        
+
+        function chooseFileDialog(callback) {
+            $('#filedialog').empty();
+            $('#filedialog').load('/admin/choose/file', function () {
+                $(this).dialog({
+                    model: true,
+                    title: 'Choose File'
+                });
+
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: false
+                });
+
+                $('.hlCloseDialog').click(function () {
+                    var destinaltionPath = $(this).data('path');
+
+                    $('#filedialog').dialog('close').empty();
+                    
+                    if (destinaltionPath != null && $.isFunction(callback)) {
+                        callback(destinaltionPath);
+                    }
+                });
+            });
+        }
+
+        function moveFolder(sourcePath) {
+            chooseFolderDialog(function (destinaltionPath) {
+                throwEvent(Sharpcms.ActionType.MoveFolder, sourcePath + '*' + destinaltionPath);
+            });
+        }
+
+        function chooseFolder(id, attribute) {
+            chooseFolderDialog(function (destinaltionPath) {
+                $('[name="' + id + '_' + attribute + '"]').val(destinaltionPath);
+            });
+        }
+
+        function chooseFolderDialog(callback) {
+            $('#folderdialog').empty();
+            $('#folderdialog').load('/admin/choose/folder', function () {
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: false
+                });
+
+                $(this).dialog({
+                    model: true,
+                    title: 'Choose Folder'
+                });
+
+                $('.hlCloseDialog').click(function () {
+                    var destinaltionPath = $(this).data('path');
+
+                    $('#folderdialog').dialog('close').empty();
+
+                    if (destinaltionPath != null && $.isFunction(callback)) {
+                        callback(destinaltionPath);
+                    }
+                });
+            });
+        }
+
+        function chooseImage(id, attribute) {
+            chooseImageDialog(function (destinaltionPath) {
+                $('[name="' + id + '_' + attribute + '"]').val(destinaltionPath);
+            });
+        }
+
+        function chooseImageDialog(callback) {
+            $('#imagedialog').empty();
+            $('#imagedialog').load('/admin/choose/file', function () {
+                $("#pages").treeview({
+                    persist: 'location',
+                    collapsed: true,
+                    unique: true
+                });
+
+                $(this).dialog({
+                    model: true,
+                    title: 'Choose Image'
+                });
+
+                $('.hlCloseDialog').click(function () {
+                    var destinaltionPath = $(this).data('path');
+
+                    $('#imagedialog').dialog('close').empty();
+
+                    if (destinaltionPath != null && $.isFunction(callback)) {
+                        callback(destinaltionPath);
+                    }
+                });
+            });
+        }
+
         function movePageUp(pageId) {
-            throwEvent(Sharpcms.ActionType.MovePageUp, pageId, '');
+            throwEvent(Sharpcms.ActionType.MovePageUp, pageId);
         }
-        
+
         function movePageDown(pageId) {
-            throwEvent(Sharpcms.ActionType.MovePageDown, pageId, '');
+            throwEvent(Sharpcms.ActionType.MovePageDown, pageId);
         }
 
         function movePageTop(pageId) {
-            throwEvent(Sharpcms.ActionType.MovePageTop, pageId, '');
+            throwEvent(Sharpcms.ActionType.MovePageTop, pageId);
         }
 
         function movePageBottom(pageId) {
-            throwEvent(Sharpcms.ActionType.MovePageBottom, pageId, '');
+            throwEvent(Sharpcms.ActionType.MovePageBottom, pageId);
         }
 
         function createPageContainer() {
@@ -128,11 +251,19 @@
         }
 
         function savePage() {
-            throwEvent(Sharpcms.ActionType.SavePage, '', '');
+            throwEvent(Sharpcms.ActionType.SavePage);
+        }
+
+        function previewPage() {
+            throwEvent(Sharpcms.ActionType.PreviewPage, '', '', '?preview=true');
+        }
+
+        function saveAndPreviewPage() {
+            throwEvent(Sharpcms.ActionType.SaveAndPreviewPage, '', '', '?preview=true');
         }
 
         function addElement(containerId, elementType) {
-            throwEvent(Sharpcms.ActionType.AddElement, elementType + '_' + containerId, '');
+            throwEvent(Sharpcms.ActionType.AddElement, elementType + '_' + containerId);
         }
 
         function removeElement(containerId, elementId) {
@@ -140,31 +271,31 @@
         }
 
         function moveElementUp(containerId, elementId) {
-            throwEvent(Sharpcms.ActionType.MoveElementUp, 'element-' + containerId + '-' + elementId, '');
+            throwEvent(Sharpcms.ActionType.MoveElementUp, 'element-' + containerId + '-' + elementId);
         }
 
         function moveElementDown(containerId, elementId) {
-            throwEvent(Sharpcms.ActionType.MoveElementDown, 'element-' + containerId + '-' + elementId, '');
+            throwEvent(Sharpcms.ActionType.MoveElementDown, 'element-' + containerId + '-' + elementId);
         }
 
         function moveElementTop(containerId, elementId) {
-            throwEvent(Sharpcms.ActionType.MoveElementTop, 'element-' + containerId + '-' + elementId, '');
+            throwEvent(Sharpcms.ActionType.MoveElementTop, 'element-' + containerId + '-' + elementId);
         }
-        
+
         function moveElementBottom(containerId, elementId) {
-            throwEvent(Sharpcms.ActionType.MoveElementBottom, 'element-' + containerId + '-' + elementId, '');
+            throwEvent(Sharpcms.ActionType.MoveElementBottom, 'element-' + containerId + '-' + elementId);
         }
 
         function copyElement(containerId, elementId) {
-            throwEvent(Sharpcms.ActionType.CopyElement, 'element-' + containerId + '-' + elementId, '');
+            throwEvent(Sharpcms.ActionType.CopyElement, 'element-' + containerId + '-' + elementId);
         }
 
         function addUser() {
             throwEventNew(Sharpcms.ActionType.AddUser, '', 'Type the name of the new user');
         }
 
-        function saveUser(unserName) {
-            throwEvent(Sharpcms.ActionType.SaveUser, unserName, '');
+        function saveUser(userName) {
+            throwEvent(Sharpcms.ActionType.SaveUser, userName);
         }
 
         function deleteUser(userName) {
@@ -182,7 +313,7 @@
         function addFolder(path) {
             throwEventNew(Sharpcms.ActionType.AddFolder, path, 'Type the name of the new folder');
         }
-        
+
         function removeFolder(path) {
             throwEventConfirm(Sharpcms.ActionType.RemoveFolder, path, 'Do you want to delete the folder?');
         }
@@ -192,11 +323,11 @@
         }
 
         function resizeImage() {
-            throwEvent(Sharpcms.ActionType.ResizeImage, '', '');
+            throwEvent(Sharpcms.ActionType.ResizeImage);
         }
 
         function uploadFile(path) {
-            throwEvent(Sharpcms.ActionType.UploadFile, path, 'Type the name of the new folder:', '');
+            throwEvent(Sharpcms.ActionType.UploadFile, path, 'Type the name of the new folder:');
         }
 
         function removeFile(path) {
@@ -205,46 +336,6 @@
 
         function renameFile(path) {
             throwEventNew(Sharpcms.ActionType.RenameFile, path, 'Write the new name');
-        }
-        
-        function choosePage(id, attribute) {
-            $('#choosePageDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function() {
-                $('.choose').dialog('close');
-
-                var path = $(this).data('path');
-                $('[name="' + id + '_' + attribute + '"]').val(path);
-            });
-        }
-        
-        function chooseFile(id, attribute) {
-            $('#chooseFileDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function() {
-                $('.choose').dialog('close');
-
-                var path = $(this).data('path');
-                $('[name="' + id + '_' + attribute + '"]').val(path);
-            });
-        }
-        
-        function chooseFolder(id, attribute) {
-            $('#chooseFolderDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function() {
-                $('.choose').dialog('close');
-
-                var path = $(this).data('path');
-                $('[name="' + id + '_' + attribute + '"]').val(path);
-            });
-        }
-        
-        function chooseImage(id, attribute) {
-            $('#chooseImageDialog').dialog({ modal: true });
-            $('.hlCloseDialog').live().click(function() {
-                $('.choose').dialog('close');
-                
-                var path = $(this).data('path');
-                $('[name="' + id + '_' + attribute + '"]').val(path);
-            });
         }
 
         function openWindow(url, name) {
@@ -266,14 +357,14 @@
             editwinWin.opener = self;
         }
 
-        init();
-
         return {
-            
+
             // Pages
             AddPage: addPage,
             RemovePage: removePage,
             SavePage: savePage,
+            PreviewPage: previewPage,
+            SaveAndPreviewPage: saveAndPreviewPage,
             SetAsStartPage: setAsStartPage,
             MovePage: movePage,
             MovePageUp: movePageUp,
@@ -282,12 +373,13 @@
             MovePageBottom: movePageBottom,
             CopyPage: copyPage,
             ChoosePage: choosePage,
-            
+            ChoosePageDialog: choosePageDialog,
+
 
             // Container
             CreatePageContainer: createPageContainer,
             RemovePageContainer: removePageContainer,
-            
+
 
             // Elements
             AddElement: addElement,
@@ -303,7 +395,7 @@
             AddUser: addUser,
             SaveUser: saveUser,
             DeleteUser: deleteUser,
-            
+
 
             // Groups
             AddGroup: addGroup,
@@ -316,20 +408,21 @@
             RenameFile: renameFile,
             MoveFile: moveFile,
             ChooseFile: chooseFile,
-            
-            
+            ChooseFileDialog: chooseFileDialog,
+
+
             // Folders
             AddFolder: addFolder,
             RenameFolder: renameFolder,
             RemoveFolder: removeFolder,
             MoveFolder: moveFolder,
             ChooseFolder: chooseFolder,
-
+            ChooseFolderDialog: chooseFolderDialog,
 
             // Images
             ResizeImage: resizeImage,
             ChooseImage: chooseImage,
-
+            ChooseImageDialog: chooseImageDialog,
 
             // Other
             ThrowEvent: throwEvent,
@@ -344,11 +437,13 @@
             Common: common(),
             Actions: actions(),
             ActionType: {
-                
+
                 // Pages
                 AddPage: 'addpage',
                 RemovePage: 'removepage',
                 SavePage: 'save',
+                PreviewPage: '',
+                SaveAndPreviewPage: 'save',
                 SetAsStartPage: 'setstandardpage',
                 MovePage: 'pagemove',
                 MovePageUp: 'pagemoveup',
@@ -357,12 +452,12 @@
                 MovePageBottom: 'pagemovebottom',
                 CopyPage: 'pagecopyto',
                 ChoosePage: '',
-                
+
 
                 // Container
                 CreatePageContainer: 'pagecreatcontainer',
                 RemovePageContainer: 'pageremovecontainer',
-                
+
 
                 // Elements
                 AddElement: 'addelement',
@@ -372,18 +467,18 @@
                 MoveElementTop: 'movetop',
                 MoveElementBottom: 'movebottom',
                 CopyElement: 'copy',
-                
+
 
                 // User
                 AddUser: 'adduser',
                 SaveUser: 'saveuser',
                 DeleteUser: 'deleteuser',
-                
+
 
                 // Groups
                 AddGroup: 'addgroup',
                 DeleteGroup: 'deletegroup',
-                
+
 
                 // Files
                 UploadFile: 'uploadfile',
