@@ -39,7 +39,7 @@
         <a>
           <xsl:attribute name="href">
             <xsl:value-of select="/data/basepath" />
-            <xsl:text>/admin/page/edit/</xsl:text>
+            <xsl:text>admin/page/edit/</xsl:text>
             <xsl:value-of select="/data/contentplace/page/attributes/pageidentifier" />
             <xsl:text>/?c=</xsl:text>
             <xsl:number count="container" />

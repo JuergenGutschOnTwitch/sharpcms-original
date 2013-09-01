@@ -17,7 +17,6 @@
         <base>
           <xsl:attribute name="href">
             <xsl:value-of select="/data/basepath" />
-            <xsl:text>/</xsl:text>
           </xsl:attribute>
         </base>
         <title>
@@ -55,7 +54,6 @@
                 </xsl:attribute>
                 <xsl:attribute name="href">
                   <xsl:value-of select="/data/basepath" />
-                  <xsl:text>/</xsl:text>
                 </xsl:attribute>
                 <img>
                   <xsl:attribute name="src">
@@ -74,11 +72,10 @@
                     </xsl:attribute>
                     <xsl:attribute name="href">
                       <xsl:value-of select="/data/basepath" />
-                      <xsl:text>/login/</xsl:text>
+                      <xsl:text>login/</xsl:text>
                       <xsl:if test="/data/attributes/pagepath != ''">
                         <xsl:text>?redirect=show/</xsl:text>
                         <xsl:value-of select="/data/attributes/pagepath" />
-                        <xsl:text>/</xsl:text>
                       </xsl:if>
                     </xsl:attribute>
                     <span>Log in</span>

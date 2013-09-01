@@ -1,27 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <page>
   <attributes>
-    <pagename>test</pagename>
+    <pagename>About</pagename>
     <name>about</name>
-    <menuname>about</menuname>
+    <menuname>About</menuname>
     <pageidentifier>german/about</pageidentifier>
-    <status>open</status>
-    <template></template>
-    <createddate></createddate>
-    <createduser></createduser>
-    <modifieddate></modifieddate>
-    <modifieduser></modifieduser>
-    <metakeywords></metakeywords>
-    <metadescription></metadescription>
+    <status>hide</status>
   </attributes>
   <containers>
     <container name="content">
-      <elements>
-        <element type="header" name="" publish="false">
-          <text>TEST 1234</text>
-          <headerstyle>Header1</headerstyle>
-        </element>
-      </elements>
+      <elements />
     </container>
   </containers>
 </page>

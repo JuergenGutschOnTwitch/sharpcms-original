@@ -13,7 +13,6 @@
         <base >
           <xsl:attribute name="href">
             <xsl:value-of select="/data/basepath" />
-            <xsl:text>/</xsl:text>
           </xsl:attribute>
         </base>
         <title>

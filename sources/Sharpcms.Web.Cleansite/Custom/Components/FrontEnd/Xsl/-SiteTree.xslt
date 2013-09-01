@@ -41,7 +41,7 @@
               </xsl:if>                
               <xsl:attribute name="href">
                 <xsl:value-of select="/data/basepath" />
-                <xsl:text>/admin/</xsl:text>
+                <xsl:text>admin/</xsl:text>
               </xsl:attribute>
               <span>Administation</span>
             </a>

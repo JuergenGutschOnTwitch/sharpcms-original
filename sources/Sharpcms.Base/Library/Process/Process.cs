@@ -20,7 +20,6 @@ namespace Sharpcms.Base.Library.Process
         private String _currentProcess;
         private Settings _settings;
         private Dictionary<String, String> _variables;
-
         public String MainTemplate; //ToDo: this should be more logical
         public bool OutputHandledByModule;
         public readonly Page HttpPage;
@@ -46,23 +45,7 @@ namespace Sharpcms.Base.Library.Process
 
             Content = new ControlList(xmlNode);
 
-            if (httpPage.Request.ApplicationPath != null)
-            {
-                if (httpPage.Request.ServerVariables["SERVER_PORT"] == "80")
-                {
-                    _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
-                                httpPage.Request.ServerVariables["SERVER_NAME"] +
-                                httpPage.Request.ApplicationPath.TrimEnd('/');
-                }
-                else
-                {
-                    _basePath = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower() + "://" +
-                                httpPage.Request.ServerVariables["SERVER_NAME"] + ":" +
-                                httpPage.Request.ServerVariables["SERVER_PORT"] +
-                                httpPage.Request.ApplicationPath.TrimEnd('/');
-                }
-            }
-
+            _basePath = GetBasePath(httpPage);
             Content["basepath"].InnerText = _basePath;
 
             String referrer = httpPage.Server.UrlEncode(httpPage.Request.ServerVariables["HTTP_REFERER"]);
@@ -166,6 +149,33 @@ namespace Sharpcms.Base.Library.Process
             return errorUrl;
         }
 
+        private String GetBasePath(Page httpPage)
+        {
+            String basePath = String.Empty;
+
+            if (httpPage.Request.ApplicationPath != null)
+            {
+                String serverProtocol = httpPage.Request.ServerVariables["SERVER_PROTOCOL"].Split('/')[0].ToLower();
+                String serverName = httpPage.Request.ServerVariables["SERVER_NAME"];
+                String serverPort = httpPage.Request.ServerVariables["SERVER_PORT"];
+                String applicationPath = httpPage.Request.ApplicationPath.TrimEnd('/');
+
+                basePath = String.Format("{0}://{1}", serverProtocol, serverName);
+
+                if (!String.IsNullOrEmpty(serverPort) && serverPort != "80")
+                {
+                    basePath += String.Format(":{0}", serverPort);
+                }
+
+                Uri baseUri = new Uri(basePath);
+                Uri applicationBaseUri = new Uri(baseUri, applicationPath);
+
+                basePath = applicationBaseUri.AbsoluteUri;
+            }
+
+            return basePath;
+        }
+
         private bool DebugEnabled
         {
             get
@@ -217,7 +227,7 @@ namespace Sharpcms.Base.Library.Process
             }
         }
 
-        public string Root
+        public String Root
         {
             get
             {
@@ -233,8 +243,7 @@ namespace Sharpcms.Base.Library.Process
             }
         }
 
-        // >>>>> Search Mod by Kiho Chang 2008-10-05
-        public object SearchContext
+        public Object SearchContext
         {
             set
             {
@@ -242,7 +251,7 @@ namespace Sharpcms.Base.Library.Process
             }
         }
 
-        public string CurrentUser
+        public String CurrentUser
         {
             get
             {
@@ -256,7 +265,6 @@ namespace Sharpcms.Base.Library.Process
                     : String.Empty;
             }
         }
-        // <<<<< Search Mod by Kiho Chang 2008-10-05
 
         private void AddMessage(String message, MessageType messageType, String type)
         {
@@ -284,12 +292,12 @@ namespace Sharpcms.Base.Library.Process
             }
         }
 
-        public void DebugMessage(object message)
+        public void DebugMessage(Object message)
         {
             DebugMessage(message.ToString());
         }
 
-        private void DebugMessage(string message)
+        private void DebugMessage(String message)
         {
             if (DebugEnabled)
             {
@@ -376,18 +384,12 @@ namespace Sharpcms.Base.Library.Process
             }
         }
 
-        public String GetUrl(String process)
+        public String GetUrl(String process, String querystring = null)
         {
-            String url = String.Format("{0}/{1}", BasePath, process);
+            Uri baseUri = new Uri(BasePath);
+            Uri uri = new Uri(baseUri, String.Format("{0}{1}", process, querystring));
 
-            return url;
-        }
-
-        public string GetUrl(String process, String querystring)
-        {
-            String url = String.Format("{0}/{1}{2}", BasePath, process, querystring);
-
-            return url;
+            return uri.AbsoluteUri;
         }
 
         private IEnumerable<String> History()
@@ -430,7 +432,6 @@ namespace Sharpcms.Base.Library.Process
             return pageViewCounts[CurrentProcess];
         }
 
-        // user login and rights part
         private bool Login(String username, String password)
         {
             bool success = false;
@@ -442,7 +443,7 @@ namespace Sharpcms.Base.Library.Process
             {
                 bool verified = false;
 
-                foreach (object result in results)
+                foreach (Object result in results)
                 {
                     if ((bool)result)
                     {

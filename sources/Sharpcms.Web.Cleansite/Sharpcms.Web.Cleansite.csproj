@@ -449,6 +449,7 @@
   <ItemGroup>
     <Content Include="Custom\App_Data\log.log" />
     <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.10.2.min.map" />
+    <None Include="Properties\PublishProfiles\cleansite.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -484,7 +485,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56262</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60882/</IISUrl>
+          <IISUrl>http://localhost:60882</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
