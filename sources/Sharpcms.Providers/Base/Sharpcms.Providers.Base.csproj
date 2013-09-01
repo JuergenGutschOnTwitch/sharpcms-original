@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2CD5AE1B-2592-4278-AED1-47F68467E849}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sharpcms.Providers.Base</RootNamespace>
+    <AssemblyName>Sharpcms.Providers.Base</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ProviderReferrer.cs" />
+    <Compile Include="ProviderLoadXml.cs" />
+    <Compile Include="ProviderAdmin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProviderFile.cs" />
+    <Compile Include="ProviderForm.cs" />
+    <Compile Include="ProviderPage.cs" />
+    <Compile Include="ProviderPlugin.cs" />
+    <Compile Include="ProviderUser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sharpcms.Base\Library\Sharpcms.Base.Library.csproj">
+      <Project>{033fd7d2-d3f9-4ea7-81e7-efa959753107}</Project>
+      <Name>Sharpcms.Base.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sharpcms.Data\FileTree\Sharpcms.Data.FileTree.csproj">
+      <Project>{0611bc03-6d92-429e-836d-1faccfcd7fc1}</Project>
+      <Name>Sharpcms.Data.FileTree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sharpcms.Data\SiteTree\Sharpcms.Data.SiteTree.csproj">
+      <Project>{1e4424ff-3b6f-42d4-90c3-44348fb5af47}</Project>
+      <Name>Sharpcms.Data.SiteTree</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)" "$(SolutionDir)Sharpcms.Web\Bin" /y
+copy "$(TargetDir)" "$(SolutionDir)Sharpcms.Web.Cleansite\Bin" /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,7 +1,7 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
 using System.Xml;
-using Sharpcms.Library;
+using Sharpcms.Base.Library;
 
 namespace Sharpcms.Data.SiteTree
 {

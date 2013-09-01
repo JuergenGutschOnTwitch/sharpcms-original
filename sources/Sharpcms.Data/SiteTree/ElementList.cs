@@ -3,8 +3,8 @@
 using System;
 using System.Globalization;
 using System.Xml;
-using Sharpcms.Library;
-using Sharpcms.Library.Common;
+using Sharpcms.Base.Library;
+using Sharpcms.Base.Library.Common;
 
 namespace Sharpcms.Data.SiteTree
 {

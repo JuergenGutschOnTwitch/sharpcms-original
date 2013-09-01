@@ -458,16 +458,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\System\Core\Sharpcms.Core.csproj">
-      <Project>{8d3af0f3-3706-40e7-823e-f1b5e14d113b}</Project>
-      <Name>Sharpcms.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Custom\App_Data\Database\Site\" />
     <Folder Include="Custom\App_Data\Files\Files\" />
     <Folder Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\classes\utils\" />
     <Folder Include="System\Components\Admin\Scripts\tiny_mce\plugins\spellchecker\includes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sharpcms.Base\Core\Sharpcms.Base.Core.csproj">
+      <Project>{8d3af0f3-3706-40e7-823e-f1b5e14d113b}</Project>
+      <Name>Sharpcms.Base.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -2,7 +2,7 @@
 
 using System;
 using System.Xml;
-using Sharpcms.Library;
+using Sharpcms.Base.Library;
 
 namespace Sharpcms.Data.SiteTree
 {
