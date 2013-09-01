@@ -42,7 +42,6 @@ body {
 
 label {
     color: #486c82;
-
 }
 
 a {
@@ -414,41 +413,6 @@ a.expand:hover {
 .item .message {
     background-color: #d0d9dF;
     padding: 6px;
-}
-
-
-/*************************************************************************/
-/*                                                                    Tabs
-/*************************************************************************/
-.tab-pane {
-    float: left;
-    margin-top: 6px;
-    margin-bottom: 5px;
-    width: 650px;
-}
-
-.tab-page {
-    float: left;
-    width: 632px;
-}
-
-ul.ui-tabs-nav li a.delete {
-    background-color: #d0d9df;
-    border: 1px solid #b9c7cf !Important;
-    cursor: pointer !Important;
-    display: none;
-    font-weight: bold;
-    margin: 2px 2px 0 0;
-    padding: 1px 3px !Important;
-}
-
-ul.ui-tabs-nav li a.delete:hover {
-    background-color: #a2b4bf;
-    border: 1px solid #748fa0 !Important;
-}
-
-ul.ui-tabs-nav li.ui-tabs-selected a.delete {
-    display: inherit;
 }
 
 

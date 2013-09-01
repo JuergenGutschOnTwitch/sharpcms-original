@@ -260,7 +260,6 @@
     // TinyMCE
     $('textarea.mceeditor').tinymce({
         script_url: '/System/Components/Admin/Scripts/tiny_mce/tiny_mce.js',
-
         theme: 'advanced',
         plugins: 'sharpcmschooser,fullscreen,spellchecker,safari,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template',
         skin: 'sharpcms',
@@ -272,16 +271,12 @@
         theme_advanced_toolbar_align: 'left',
         theme_advanced_statusbar_location: 'bottom',
         theme_advanced_resizing: false,
-
         relative_urls: false,
         content_css: '/System/Components/Admin/Styles/tiny_mce/tinystyle.css'
     });
 
     // Dialogs
     $('.choose').hide();
-
-    // Tabs
-    $('.tabs').tabs();
 
     // Select
     $('.pagedata_menu select').selectmenu({ width: 441 });
@@ -290,6 +285,9 @@
     // TreeView
     $('.filetree').treeview({ persist: 'location', collapsed: true, unique: false });
 
+    // Tabs
+    $('.tabs').tabs();
+    
     // Dirty Hack :-)
     $(window).resize(function () {
         setContentWidth();

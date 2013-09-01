@@ -112,8 +112,10 @@
     <Content Include="System\Components\Admin\Process.xml" />
     <Content Include="System\Components\Admin\Scripts\admin.xslt.js" />
     <Content Include="System\Components\Admin\Scripts\collapseexpand.js" />
-    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.7.2.min.js" />
-    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.8.18.custom.min.js" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.10.2.min.js" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.9.2.bug.txt" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.9.2.custom.js" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-ui-1.9.2.custom.min.js" />
     <Content Include="System\Components\Admin\Scripts\jQuery\jquery.url.packed.js" />
     <Content Include="System\Components\Admin\Scripts\jQuery\selectmenu\jquery.ui.selectmenu.js" />
     <Content Include="System\Components\Admin\Scripts\jQuery\treeview\jquery.treeview.async.js" />
@@ -374,6 +376,15 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\ui.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\ui_black.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\o2k7\ui_silver.css" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\content.css" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\dialog.css" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\buttons.png" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\items.gif" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\menu_arrow.gif" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\menu_check.gif" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\progress.gif" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\img\tabs.gif" />
+    <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\skins\sharpcms\ui.css" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\advanced\source_editor.htm" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\editor_template.js" />
     <Content Include="System\Components\Admin\Scripts\tiny_mce\themes\simple\editor_template_src.js" />
@@ -393,8 +404,9 @@
     <Content Include="System\Components\Admin\Scripts\tiny_mce\utils\validate.js" />
     <Content Include="System\Components\Admin\Settings.xml" />
     <Content Include="System\Components\Admin\Styles\base.css" />
-    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.8.18.custom.css" />
-    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.8.18.sharpcms.css" />
+    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.9.2.custom.css" />
+    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.9.2.custom.min.css" />
+    <Content Include="System\Components\Admin\Styles\jquery\jquery-ui-1.9.2.sharpcms.css" />
     <Content Include="System\Components\Admin\Styles\jquery\selectmenu\jquery.ui.selectmenu.css" />
     <Content Include="System\Components\Admin\Styles\jquery\treeview\jquery.treeview.css" />
     <Content Include="System\Components\Admin\Styles\tiny_mce\tinystyle.css" />
@@ -436,6 +448,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Custom\App_Data\log.log" />
+    <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

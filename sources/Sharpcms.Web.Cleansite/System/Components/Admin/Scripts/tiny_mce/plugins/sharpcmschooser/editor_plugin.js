@@ -36,7 +36,7 @@
                         selection = path;
                     }
                     
-                    var html = '<a href="' + Sharpcms.Common.BaseUrl + 'download/' + path + '?download=true">' + selection + '</a>';
+                    var html = '<a href="' + Sharpcms.Common.BaseUrl + 'download/' + path + '/?download=true">' + selection + '</a>';
                     
                     ed.execCommand('mceInsertContent', false, html);
                 });
@@ -50,7 +50,7 @@
 
             ed.addCommand('mceInsertImage', function () {
                 Sharpcms.Actions.ChooseImageDialog(function (path) {
-                    var html = '<img src="' + Sharpcms.Common.BaseUrl + 'download/' + path + '" />';
+                    var html = '<img src="' + Sharpcms.Common.BaseUrl + 'download/' + path + '/" />';
 
                     ed.execCommand('mceInsertContent', false, html);
                 });
