@@ -63,12 +63,12 @@
     <Compile Include="ProviderUser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataModels\FileTree\Sharpcms.Data.FileTree.csproj">
-      <Project>{0611BC03-6D92-429E-836D-1FACCFCD7FC1}</Project>
+    <ProjectReference Include="..\..\Sharpcms.Data\FileTree\Sharpcms.Data.FileTree.csproj">
+      <Project>{0611bc03-6d92-429e-836d-1faccfcd7fc1}</Project>
       <Name>Sharpcms.Data.FileTree</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataModels\SiteTree\Sharpcms.Data.SiteTree.csproj">
-      <Project>{1E4424FF-3B6F-42D4-90C3-44348FB5AF47}</Project>
+    <ProjectReference Include="..\..\Sharpcms.Data\SiteTree\Sharpcms.Data.SiteTree.csproj">
+      <Project>{1e4424ff-3b6f-42d4-90c3-44348fb5af47}</Project>
       <Name>Sharpcms.Data.SiteTree</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\System\Library\Sharpcms.Library.csproj">

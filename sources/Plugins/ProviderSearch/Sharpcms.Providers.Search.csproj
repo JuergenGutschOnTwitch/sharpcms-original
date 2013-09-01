@@ -70,6 +70,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\resources\Lucene.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Sharpcms.Data.SiteTree">
+      <HintPath>..\..\Sharpcms.Web\Bin\Sharpcms.Data.SiteTree.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -81,10 +84,6 @@
     <Compile Include="Search.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataModels\SiteTree\Sharpcms.Data.SiteTree.csproj">
-      <Project>{1E4424FF-3B6F-42D4-90C3-44348FB5AF47}</Project>
-      <Name>Sharpcms.Data.SiteTree</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\System\Library\Sharpcms.Library.csproj">
       <Project>{033FD7D2-D3F9-4EA7-81E7-EFA959753107}</Project>
       <Name>Sharpcms.Library</Name>
