@@ -48,7 +48,7 @@ namespace Sharpcms.Base.Library.Users
         {
             String pwd1 = CommonXml.GetNode(Node, "password").InnerText;
             String pwd2 = Common.Common.CleanToSafeString(password).GetHashCode().ToString(CultureInfo.InvariantCulture);
-            bool isValid = true;// pwd1.Equals(pwd2);
+            bool isValid = pwd1.Equals(pwd2);
 
             return isValid;
         }
