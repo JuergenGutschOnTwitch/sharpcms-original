@@ -274,6 +274,12 @@ namespace Sharpcms.Base.Library.Process
 
             CommonXml.SetAttributeValue(xmlNode, "messagetype", messageType.ToString());
             CommonXml.SetAttributeValue(xmlNode, "type", type);
+
+            IPlugin plugin = Plugins["ErrorLog"];
+            if (plugin != null)
+            {
+                plugin.Handle("log");
+            }
         }
 
         public void AddMessage(String message, MessageType messageType = MessageType.Message)
@@ -281,15 +287,9 @@ namespace Sharpcms.Base.Library.Process
             AddMessage(message, messageType, String.Empty);
         }
 
-        public void AddMessage(Exception e)
+        public void AddMessage(Exception exception)
         {
-            AddMessage(e.Message, MessageType.Error, e.GetType().ToString());
-            IPlugin plugin = Plugins["ErrorLog"];
-
-            if (plugin != null)
-            {
-                plugin.Handle("log");
-            }
+            AddMessage(exception.Message, MessageType.Error, exception.GetType().ToString());
         }
 
         public void DebugMessage(Object message)

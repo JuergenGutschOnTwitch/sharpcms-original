@@ -21,9 +21,7 @@ namespace Sharpcms.Providers.ErrorLog
             Process = process;
         }
 
-        #region IPlugin2 Members
-
-        public new string Name
+        public new String Name
         {
             get
             {
@@ -31,7 +29,7 @@ namespace Sharpcms.Providers.ErrorLog
             }
         }
 
-        public new void Handle(string mainEvent)
+        public new void Handle(String mainEvent)
         {
             switch (mainEvent)
             {
@@ -41,8 +39,6 @@ namespace Sharpcms.Providers.ErrorLog
             }
         }
 
-        #endregion
-
         private void HandleLog()
         {
             XmlNode messagesNode = CommonXml.GetNode(Process.XmlData, "messages", EmptyNodeHandling.Ignore);
@@ -51,7 +47,7 @@ namespace Sharpcms.Providers.ErrorLog
                 return;
             }
 
-            string logFileName = Process.Settings["errorlog/logpath"];
+            String logFileName = Process.Settings["errorlog/logpath"];
 
             XmlNodeList items = messagesNode.SelectNodes("item");
             if (items != null)
@@ -82,9 +78,9 @@ namespace Sharpcms.Providers.ErrorLog
                         continue;
                     }
 
-                    string errorType = CommonXml.GetAttributeValue(item, "type");
-                    string message = item.InnerText;
-                    File.AppendAllText(logFileName, string.Format("{0};{1};{2}\r\n", DateTime.Now.ToUniversalTime(), errorType, message));
+                    String errorType = CommonXml.GetAttributeValue(item, "type");
+                    String message = item.InnerText;
+                    File.AppendAllText(logFileName, String.Format("{0};{1};{2}\r\n", DateTime.Now.ToUniversalTime(), errorType, message));
                     CommonXml.SetAttributeValue(item, "writtenToLogFile", "true");
                 }
             }

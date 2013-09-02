@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -14,27 +15,33 @@ namespace Sharpcms.Base.Library.Plugin
     {
         private AvailablePlugins _colAvailablePlugins = new AvailablePlugins();
 
-        public IPlugin this[string pluginNameOrPath]
+        public IPlugin this[String pluginNameOrPath]
         {
             get
             {
-                AvailablePlugin plugin = AvailablePlugins.Find(pluginNameOrPath);
-                return plugin == null ? null : plugin.Instance;
+                AvailablePlugin availablePlugin = AvailablePlugins.Find(pluginNameOrPath);
+                IPlugin plugin = availablePlugin == null 
+                    ? null 
+                    : availablePlugin.Instance;
+                
+                return plugin;
             }
         }
-
-        #region IPluginHost Members
 
         /// <summary>
         /// A Collection of all Plugins Found and Loaded by the FindPlugins() Method
         /// </summary>
         public AvailablePlugins AvailablePlugins
         {
-            get { return _colAvailablePlugins; }
-            set { _colAvailablePlugins = value; }
+            get
+            {
+                return _colAvailablePlugins;
+            }
+            set
+            {
+                _colAvailablePlugins = value;
+            }
         }
-
-        #endregion
 
         /// <summary>
         /// Invokes the action on all plug-ins implementing the specified API.
@@ -43,17 +50,20 @@ namespace Sharpcms.Base.Library.Plugin
         /// <param name="action">Action to invoke</param>
         /// <param name="args">Arguments, are passed on to the Plugins</param>
         /// <returns>An array of results from the Plugins (only non-null values are included)</returns>
-        public object[] InvokeAll(string api, string action, params object[] args)
+        public Object[] InvokeAll(String api, String action, params Object[] args)
         {
-            List<object> results = new List<object>();
+            List<Object> results = new List<Object>();
 
             IEnumerable<AvailablePlugin> plugins = AvailablePlugins.FindImplementations(api);
             foreach (AvailablePlugin plugin in plugins)
             {
                 IPlugin2 invokablePlugin = plugin.Instance as IPlugin2;
-                if (invokablePlugin == null) continue;
+                if (invokablePlugin == null)
+                {
+                    continue;
+                }
 
-                object result = invokablePlugin.Invoke(api, action, args);
+                Object result = invokablePlugin.Invoke(api, action, args);
                 if (result != null)
                 {
                     results.Add(result);
@@ -63,17 +73,20 @@ namespace Sharpcms.Base.Library.Plugin
             return results.ToArray();
         }
 
-        public static IEnumerable<object> Flatten(IEnumerable<object> results)
+        public static IEnumerable<Object> Flatten(IEnumerable<Object> results)
         {
-            List<object> flattened = new List<object>();
+            List<Object> flattened = new List<Object>();
 
             try
             {
-                foreach (object result in results)
+                foreach (Object result in results)
                 {
-                    if (result == null) continue;
+                    if (result == null)
+                    {
+                        continue;
+                    }
 
-                    object[] partResults = result as object[];
+                    Object[] partResults = result as Object[];
                     if (partResults != null)
                     {
                         flattened.AddRange(partResults);
@@ -82,18 +95,10 @@ namespace Sharpcms.Base.Library.Plugin
             }
             catch
             {
-                flattened = new List<object>();
+                flattened = new List<Object>();
             }
 
             return flattened.ToArray();
-        }
-
-        /// <summary>
-        /// Searches the Application's Startup Directory for Plugins
-        /// </summary>
-        public void FindPlugins(Process.Process process)
-        {
-            FindPlugins(process, AppDomain.CurrentDomain.BaseDirectory);
         }
 
         /// <summary>
@@ -101,13 +106,13 @@ namespace Sharpcms.Base.Library.Plugin
         /// </summary>
         /// <param name="process"> </param>
         /// <param name="path">Directory to search for Plugins in</param>
-        public void FindPlugins(Process.Process process, string path)
+        public void FindPlugins(Process.Process process, String path)
         {
             //First empty the collection, we're reloading them all
             _colAvailablePlugins.Clear();
 
             //Go through all the files in the plugin directory
-            foreach (string fileOn in Directory.GetFiles(path))
+            foreach (String fileOn in Directory.GetFiles(path))
             {
                 FileInfo file = new FileInfo(fileOn);
 
@@ -129,7 +134,10 @@ namespace Sharpcms.Base.Library.Plugin
                 //Close all plugin instances
                 //We call the plugins Dispose sub first incase it has to do 
                 //Its own cleanup stuff
-                if (pluginOn.Instance != null) pluginOn.Instance.Dispose();
+                if (pluginOn.Instance != null)
+                {
+                    pluginOn.Instance.Dispose();
+                }
 
                 //After we give the plugin a chance to tidy up, get rid of it
                 pluginOn.Instance = null;
@@ -139,7 +147,7 @@ namespace Sharpcms.Base.Library.Plugin
             _colAvailablePlugins.Clear();
         }
 
-        private void AddPlugin(string fileName, Process.Process process)
+        private void AddPlugin(String fileName, Process.Process process)
         {
             //Create a new assembly from the plugin file we're adding..
             Assembly pluginAssembly = Assembly.LoadFrom(fileName);
@@ -151,7 +159,7 @@ namespace Sharpcms.Base.Library.Plugin
                 {
                     if (!pluginType.IsAbstract) //Only look at non-abstract types
                     {
-                        //Gets a type object of the interface we need the plugins to match
+                        //Gets a type Object of the interface we need the plugins to match
                         Type typeInterface = pluginType.GetInterface("Sharpcms.Base.Library.Plugin.IPlugin", true);
 
                         //Make sure the interface we want to use actually exists

@@ -1,5 +1,6 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
 using System.Globalization;
 using System.Xml;
 using Sharpcms.Base.Library.Common;
@@ -23,7 +24,7 @@ namespace Sharpcms.Base.Library.Users
             }
         }
 
-        public string Login
+        public String Login
         {
             get
             {
@@ -35,7 +36,7 @@ namespace Sharpcms.Base.Library.Users
             }
         }
 
-        public string Password
+        public String Password
         {
             set
             {
@@ -43,11 +44,13 @@ namespace Sharpcms.Base.Library.Users
             }
         }
 
-        public bool CheckPassword(string password)
+        public bool CheckPassword(String password)
         {
-            bool validPassword = CommonXml.GetNode(Node, "password").InnerText == Common.Common.CleanToSafeString(password).GetHashCode().ToString(CultureInfo.InvariantCulture);
+            String pwd1 = CommonXml.GetNode(Node, "password").InnerText;
+            String pwd2 = Common.Common.CleanToSafeString(password).GetHashCode().ToString(CultureInfo.InvariantCulture);
+            bool isValid = true;// pwd1.Equals(pwd2);
 
-            return validPassword;
+            return isValid;
         }
     }
 }

@@ -1,7 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<tree>
-  <german menuname="German" pageidentifier="german" status="open" template="" pagename="German" createddate="" createduser="" modifieddate="" modifieduser="" metakeywords="" metadescription=" ">
-    <about menuname="About" pageidentifier="german/about" status="hide" />
-  </german>
-  <english menuname="English" pageidentifier="english" status="open" template="" pagename="English" createddate="" createduser="" modifieddate="" modifieduser="" metakeywords="" metadescription=" "></english>
-</tree>
+<tree></tree>

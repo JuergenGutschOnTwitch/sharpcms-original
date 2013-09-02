@@ -1,5 +1,6 @@
 // sharpcms is licensed under the open source license GPL - GNU General Public License.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -35,7 +36,7 @@ namespace Sharpcms.Base.Library.Plugin
         /// </summary>
         /// <param name="pluginNameOrPath">The name or File path of the plugin to find</param>
         /// <returns>Available Plugin, or null if the plugin is not found</returns>
-        public AvailablePlugin Find(string pluginNameOrPath)
+        public AvailablePlugin Find(String pluginNameOrPath)
         {
             AvailablePlugin availablePlugin = null;
 
@@ -53,7 +54,7 @@ namespace Sharpcms.Base.Library.Plugin
             return availablePlugin;
         }
 
-        public IEnumerable<AvailablePlugin> FindImplementations(string api)
+        public IEnumerable<AvailablePlugin> FindImplementations(String api)
         {
             List<AvailablePlugin> availablePlugins = new List<AvailablePlugin>();
 
@@ -62,7 +63,7 @@ namespace Sharpcms.Base.Library.Plugin
                 IPlugin2 instance = availablePlugin.Instance as IPlugin2;
                 if (instance != null && instance.Implements != null)
                 {
-                    List<string> implements = new List<string>(instance.Implements);
+                    List<String> implements = new List<String>(instance.Implements);
                     if (implements.Contains(api))
                     {
                         availablePlugins.Add(availablePlugin);

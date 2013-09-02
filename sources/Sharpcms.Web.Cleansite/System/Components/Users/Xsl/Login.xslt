@@ -16,12 +16,9 @@
           </xsl:attribute>
         </base>
         <title>
-          <xsl:text>Admin - Sharpcms.net</xsl:text>
+          <xsl:text>Admin - sharpcms</xsl:text>
         </title>
         <link type="text/css" rel="stylesheet" href="System/Components/Admin/Styles/base.css" />
-        <script type="text/javascript" src="System/Components/Admin/Scripts/eventhandler.js">
-          <xsl:text> </xsl:text>
-        </script>
       </head>
       <body onLoad="document.systemform.data_login.focus()">
         <div class="login">
