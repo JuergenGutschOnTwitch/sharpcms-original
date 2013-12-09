@@ -231,7 +231,7 @@ namespace Sharpcms.Base.Library.Process
         {
             get
             {
-                return HttpPage.Server.MapPath(".");
+                return HttpPage.Server.MapPath("");
             }
         }
 
@@ -376,11 +376,26 @@ namespace Sharpcms.Base.Library.Process
                         case "event":
                             QueryEvents[String.Join("_", Common.Common.RemoveOne(keyParts))] = value;
                             break;
+                        case "process":
+                            QueryOther[key] = CleanUpProcess(value);
+                            break;
                         default:
                             QueryOther[key] = value;
                             break;
                     }
                 }
+            }
+        }
+
+        private String CleanUpProcess(String value)
+        {
+            if (value.Length > 0 && value.Substring(0, 1) == ",")
+            {
+                return value.Substring(1, value.Length - 1);
+            }
+            else
+            {
+                return value;
             }
         }
 
@@ -491,11 +506,11 @@ namespace Sharpcms.Base.Library.Process
 
         private void UpdateCookieTimeout()
         {
-            /*    if (HttpPage.Response.Cookies["login_cookie"] != null)
-                {
-                    HttpPage.Request.Cookies["login_cookie"].Value = HttpPage.Request.Cookies["login_cookie"].Value;
-                    HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(1);
-                }*/
+            //if (HttpPage.Response.Cookies["login_cookie"] != null)
+            //{
+            //    HttpPage.Request.Cookies["login_cookie"].Value = HttpPage.Request.Cookies["login_cookie"].Value;
+            //    HttpPage.Response.Cookies["login_cookie"].Expires = DateTime.Now.AddDays(1);
+            //}
         }
 
         public bool CheckGroups(String groups)

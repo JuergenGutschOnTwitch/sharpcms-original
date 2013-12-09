@@ -18,7 +18,6 @@ namespace Sharpcms
         public static void Send(Page page)
         {
             PrepareConfiguration(page);
-
             ProcessHandler processHandler = new ProcessHandler();
             Process process = processHandler.Run(page);
 

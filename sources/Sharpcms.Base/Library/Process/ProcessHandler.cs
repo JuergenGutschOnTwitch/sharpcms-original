@@ -50,6 +50,7 @@ namespace Sharpcms.Base.Library.Process
             if (args[0] != string.Empty)
             {
                 args[0] = CommonXml.RenameIntegerPath(args[0]);
+
                 xmlNode = xmlNode.SelectSingleNode(args[0]);
 
                 if (xmlNode != null)
