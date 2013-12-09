@@ -112,6 +112,7 @@
     <Content Include="Custom\App_Data\Files\Files\Pictures\screendump.gif" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\solutionexplorer.gif" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\gutsch-online_de_scree_150x0r0_False.png" />
+    <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\gutsch-online_de_scree_400x400r0_False.png" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\hvilketeuropa_scree_150x0r0_False.png" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\juttahoop_scree_150x0r0_False.png" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\karakter_scree_150x0r0_False.png" />
@@ -122,6 +123,7 @@
     <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\odensesymfoni_scree_150x0r0_False.png" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\psl_li_scree_150x0r0_False.png" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\pttrading_scree_150x0r0_False.png" />
+    <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\solutionexplorer_400x400r0_False.png" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\thumbs\yoga_150x0r0_False.png" />
     <Content Include="Custom\App_Data\Files\Files\Pictures\yoga.png" />
     <Content Include="Custom\App_Data\rules.xml" />
@@ -588,7 +590,6 @@
     <Content Include="Custom\App_Data\log.log" />
     <Content Include="Custom\Components\FrontEnd\yaml\navigation\images\sliding_door\gfx_sliding_door.psd" />
     <Content Include="System\Components\Admin\Scripts\jQuery\jquery-1.10.2.min.map" />
-    <None Include="Properties\PublishProfiles\Sharpcms.Web.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

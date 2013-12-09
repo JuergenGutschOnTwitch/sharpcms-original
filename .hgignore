@@ -4,6 +4,15 @@ sources/sharpcms.sln.DotSettings.user
 sources/sharpcms.v11.suo
 sources/Sharpcms.v11.suo
 sources/Sharpcms.sln.DotSettings.user
+sources/Sharpcms.Base/Core/Sharpcms.Base.Core.csproj.user
+sources/Sharpcms.Base/Library/Sharpcms.Base.Library.csproj.user
+sources/Sharpcms.Base/PluginInterfaces/Sharpcms.Base.PluginInterface.csproj.user
+sources/Sharpcms.Data/FileTree/Sharpcms.Data.FileTree.csproj.user
+sources/Sharpcms.Data/SiteTree/Sharpcms.Data.SiteTree.csproj.user
+sources/Sharpcms.Providers/Base/Sharpcms.Providers.Base.csproj.user
+sources/Sharpcms.Providers/Cookies/Sharpcms.Providers.Cookies.csproj.user
+sources/Sharpcms.Providers/ErrorLog/Sharpcms.Providers.ErrorLog.csproj.user
+sources/Sharpcms.Providers/Search/Sharpcms.Providers.Search.csproj.user
 syntax: regexp
 sources/_ReSharper
 /obj/
