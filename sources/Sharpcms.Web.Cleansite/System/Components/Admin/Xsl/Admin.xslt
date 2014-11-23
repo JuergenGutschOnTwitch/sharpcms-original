@@ -26,14 +26,16 @@
           </xsl:if>
         </title>
         <link type="text/css" rel="stylesheet" href="/System/Components/Admin/Styles/base.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.9.2.custom.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui.min.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui.structure.min.css" />
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui.theme.min.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/selectmenu/jquery.ui.selectmenu.css" />
         <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/treeview/jquery.treeview.css" />
-        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui-1.9.2.sharpcms.css" />
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-1.10.2.min.js">
+        <link type="text/css" rel="StyleSheet" href="/System/Components/Admin/Styles/jquery/jquery-ui.sharpcms.css" />
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-2.1.1.min.js">
           <xsl:text> </xsl:text>
         </script>
-        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-ui-1.9.2.custom.js">
+        <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery-ui.min.js">
           <xsl:text> </xsl:text>
         </script>
         <script type="text/javascript" src="/System/Components/Admin/Scripts/jquery/jquery.url.packed.js">
