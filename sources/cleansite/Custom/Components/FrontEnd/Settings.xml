@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<settings>
+  <templates>
+    <show>~/Custom/Components/FrontEnd/Xsl/Show.xslt</show>
+  </templates>
+  <sitetree>
+    <containers>
+      <item>content</item>
+    </containers>
+    <elementlist>
+      <header>
+        <item name="Text" attribute="text" type="text" />
+        <item name="Header type" attribute="headerstyle" type="list">
+          <item>Header1</item>
+          <item>Header2</item>
+          <item>Header3</item>
+        </item>
+      </header>
+      <textblock>
+        <item name="Text" attribute="text" type="tinymce" height="300" />
+      </textblock>
+    </elementlist>
+  </sitetree>
+  <general>
+    <stdprocess>show</stdprocess>
+  </general>
+</settings>

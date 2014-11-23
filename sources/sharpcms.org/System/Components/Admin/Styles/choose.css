@@ -1,0 +1,22 @@
+﻿/*************************************************************************/
+/*                                                                  Choose
+/*************************************************************************/
+/*.choose .header {
+    background: #486c82 url('../images/topbg.gif' ) top left repeat-x;
+    color: #fff;
+    float: left;
+    height: 39px;
+    line-height: 39px;
+    padding-left: 10px;
+}*/ /* TODOthu: Wir nicht mehr benötigt, wenn PopUp = jQuery Ui Modal verwendet wird! */
+
+.choose .content {
+    padding: 10px;
+}
+
+/*************************************************************************/
+/*                                                                TreeView
+/*************************************************************************/
+.treeview ul {
+    background-color: #f4f6f7;
+}
